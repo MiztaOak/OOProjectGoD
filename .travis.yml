@@ -3,7 +3,7 @@ dist: trusty
 install: true
 
 before_install:
- - chmod +x gradlew
+ - chmod +x ./KahIT/gradlew
 
 script:
     - ./KahIT/gradlew build --scan -s
