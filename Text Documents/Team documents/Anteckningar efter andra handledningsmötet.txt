@@ -1,0 +1,21 @@
+
+Hur ska vi göra Domän modellen?
+ska servern finnas med i modellen?
+Bara modellen för frågorna och spelet, en bra guideline är att låtsas att vi har en icke-teknisk kunnig kund som vi ska presentera inför.
+Ta en printscreen när vi har en första modell och skicka den till vår handledare för feedback
+
+Hur gör vi med att multiplayer inte fungerar i en emulator?
+Vet inte hur man kommer att testa android appar.
+Prova att bygga en .apk, och ge dem den.
+Börja med att ett hotseat läge, men tala även om att vår app inte fungerar i emulator
+fråga Alex om hur android appar kommer att testas
+
+finns en undergräns för vad som är godkänt
+Runt 10st klasser för godkänt
+försök att inte ha fler än 15
+Exklusive parsers, handlers, connections och views!
+
+"Torrköra" en user story
+Antingen kör man bara GUI:t och låter bara navigering fungera
+eller så kör man det på papper
+
