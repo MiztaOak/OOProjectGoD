@@ -3,7 +3,7 @@ dist: trusty
 install: true
 
 script:
-    - ./gradlew build --scan -s
+    - ./KahIT/gradlew build --scan -s
 
 android:
   components:
