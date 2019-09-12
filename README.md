@@ -14,7 +14,7 @@ TDA367 - Objektsorienterat programmeringsprojekt
 
 #### Medverkande
 - Anas Alkoutli, @anasqw
-- Oussama Anadani
+- Oussama Anadani, @ousama123
 - Mats Cedervall, @maatss
 - Johan Ek, @MiztaOak
 - Jakob Ewerstrand, @JakobEwerstrand
