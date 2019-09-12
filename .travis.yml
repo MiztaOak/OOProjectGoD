@@ -2,6 +2,9 @@ language: android
 dist: trusty
 install: true
 
+before_install:
+ - chmod +x gradlew
+
 script:
     - ./KahIT/gradlew build --scan -s
 
