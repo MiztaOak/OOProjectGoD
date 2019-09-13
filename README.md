@@ -1,16 +1,36 @@
 # OOProjectGoD
-TDA367 - Objektsorienterat programmeringsprojekt
+<p align="center">
+  KahIT
+  TDA367 - Objektsorienterat programmeringsprojekt
+</p>
 
-#### Build status
-[](https://github.com/MiztaOak/OOProjectGoD/releases) [![Github (pre-)release](https://img.shields.io/github/release/MiztaOak/OOProjectGoD)](https://github.com/MiztaOak/OOProjectGoD/releases)
+<p align="center">
+  <a href="../../wiki">
+		<img src="https://img.shields.io/badge/documentation-Wiki-yellow.svg?style=flat" />
+  </a>
+  <img src="https://travis-ci.org/MiztaOak/OOProjectGoD.svg?branch=master"/>
+  <!-- <img src="https://img.shields.io/travis/com/MiztaOak/OOProjectGoD/master.svg?logo=travis&label=travis:master" /> -->
+  <a href="../../releases">
+    <img src="https://img.shields.io/github/release/MiztaOak/OOProjectGoD"/>
+  </a>
+</p>
 
-[](https://github.com/MiztaOak/OOProjectGoD/issues) [![Github (pre-)release](https://img.shields.io/github/issues/MiztaOak/OOProjectGoD)](https://github.com/MiztaOak/OOProjectGoD/issues)
+<p align="center">
+  <a href="../../issues">
+    <img src="https://img.shields.io/github/issues/MiztaOak/OOProjectGoD"/>
+  </a>
+  <a href="../../pulls">
+    <img src="https://img.shields.io/github/issues-pr/MiztaOak/OOProjectGoD"/>
+  </a>
+  <a href="../../pulls">
+    <img src="https://img.shields.io/github/issues-pr-closed/MiztaOak/OOProjectGoD"/>
+  </a>
+</p>
 
-[](https://github.com/MiztaOak/OOProjectGoD/pulls) [![Github (pre-)release](https://img.shields.io/github/issues-pr/MiztaOak/OOProjectGoD)](https://github.com/MiztaOak/OOProjectGoD/pulls)
+#### Om projektet
+To be continued..
 
-[](https://github.com/MiztaOak/OOProjectGoD/pulls) [![Github (pre-)release](https://img.shields.io/github/issues-pr-closed/MiztaOak/OOProjectGoD)](https://github.com/MiztaOak/OOProjectGoD/pulls)
 
-[](https://github.com/MiztaOak/OOProjectGoD/issues) [![Build Status](https://travis-ci.org/MiztaOak/OOProjectGoD.svg?branch=master)](https://travis-ci.org/MiztaOak/OOProjectGoD)
 
 #### Medverkande
 - Anas Alkoutli, @anasqw
