@@ -1,4 +1,4 @@
-# OOProjectGoD
+## OOProjectGoD
 <p align="center">
   KahIT
   TDA367 - Objektsorienterat programmeringsprojekt
@@ -29,8 +29,6 @@
 
 #### Om projektet
 To be continued..
-
-
 
 #### Medverkande
 - Anas Alkoutli, @anasqw
