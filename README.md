@@ -1,7 +1,6 @@
-## OOProjectGoD
+### OOProjectGoD TDA367 - Objektsorienterat programmeringsprojekt
 <p align="center">
-  KahIT
-  TDA367 - Objektsorienterat programmeringsprojekt
+	<img src="https://raw.githubusercontent.com/MiztaOak/OOProjectGoD/master/Resources/KahIT-logo-vanligSmurf.png" alt="Harmony" width="512" />
 </p>
 
 <p align="center">
@@ -27,7 +26,7 @@
   </a>
 </p>
 
-#### Om projektet
+#### About
 To be continued..
 
 #### Medverkande
