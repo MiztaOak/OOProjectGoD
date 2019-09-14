@@ -15,6 +15,10 @@ buildscript {
     }
 }
 
+checkstyle {
+	toolVersion "7.6.1"
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '4.1'
 }
