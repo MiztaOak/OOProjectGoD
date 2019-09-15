@@ -1,16 +1,15 @@
-package com.god.kahit.model;
+package com.god.kahit.controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.god.kahit.R;
 
-public class teamArrangementClass extends AppCompatActivity {
-
+public class questionClass extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.team_arrangement_activity);
+        setContentView(R.layout.question_activity);
     }
 }

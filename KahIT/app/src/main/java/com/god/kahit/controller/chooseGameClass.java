@@ -1,15 +1,15 @@
-package com.god.kahit.model;
+package com.god.kahit.controller;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import com.god.kahit.R;
 
-public class joinRoomClass extends AppCompatActivity {
+public class chooseGameClass extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.join_room_activity);
+        setContentView(R.layout.choose_game_activity);
     }
 }
