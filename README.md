@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/dev?label=build%20master"/>
+	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/master?label=build%20master"/>
 	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/dev?label=build%20dev"/>
 </p>
 
