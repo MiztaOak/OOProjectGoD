@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="../../issues">
-    <img src="https://img.shields.io/github/issues/MiztaOak/OOProjectGoD/">
+    <img src="https://img.shields.io/github/issues/MiztaOak/OOProjectGoD"/>
   </a>
   <a href="../../pulls">
     <img src="https://img.shields.io/github/issues-pr/MiztaOak/OOProjectGoD"/>
@@ -26,8 +26,8 @@
 </p>
 
 <p align="center">
-	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/dev?label=Build%20Master"/>
-	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/dev?label=Build%20Dev"/>
+	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/dev?label=build%20master"/>
+	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/dev?label=build%20dev"/>
 </p>
 
 #### About
