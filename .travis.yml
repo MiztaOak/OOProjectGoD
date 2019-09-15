@@ -13,9 +13,9 @@ env:
     - TOOLS=${ANDROID_HOME}/tools
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
   matrix:
-    - API=21
-    - API=22
-    - API=23
+#    - API=21 #minsdkAPI is set to 24, so dont bother to check for now
+#    - API=22 #minsdkAPI is set to 24, so dont bother to check for now
+#    - API=23 #minsdkAPI is set to 24, so dont bother to check for now
     - API=24 #The one we're really interesed in
     - API=25
 
