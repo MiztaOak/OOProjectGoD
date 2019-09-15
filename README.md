@@ -4,16 +4,6 @@
 </p>
 
 <p align="center">
-  <a href="../../wiki">
-		<img src="https://img.shields.io/badge/documentation-Wiki-yellow.svg?style=flat" />
-  </a>
-  <!-- <img src="https://img.shields.io/travis/com/MiztaOak/OOProjectGoD/master.svg?logo=travis&label=travis:master" /> -->
-  <a href="../../releases">
-    <img src="https://img.shields.io/github/release/MiztaOak/OOProjectGoD"/>
-  </a>
-</p>
-
-<p align="center">
   <a href="../../issues">
     <img src="https://img.shields.io/github/issues/MiztaOak/OOProjectGoD"/>
   </a>
@@ -28,6 +18,12 @@
 <p align="center">
 	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/master?label=build%20master"/>
 	<img src="https://img.shields.io/travis/MiztaOak/OOProjectGoD/dev?label=build%20dev"/>
+</p>
+
+<p align="center">
+  <a href="../../releases">
+    <img src="https://img.shields.io/github/release/MiztaOak/OOProjectGoD"/>
+  </a>
 </p>
 
 #### About
