@@ -11,5 +11,7 @@ public class chooseGameClass extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_game_activity);
+
+        
     }
 }
