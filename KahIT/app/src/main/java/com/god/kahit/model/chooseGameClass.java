@@ -1,7 +1,9 @@
-package com.god.kahit;
+package com.god.kahit.model;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.god.kahit.R;
 
 public class chooseGameClass extends AppCompatActivity {
 
