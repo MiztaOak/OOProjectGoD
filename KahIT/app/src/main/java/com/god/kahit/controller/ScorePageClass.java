@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.god.kahit.R;
 
-public class scorePageClass extends AppCompatActivity {
+public class ScorePageClass extends AppCompatActivity {
 
 
     @Override

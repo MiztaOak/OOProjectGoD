@@ -5,11 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.god.kahit.R;
 
-public class questionClass extends AppCompatActivity {
+public class TeamArrangementClass extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.question_activity);
+        setContentView(R.layout.team_arrangement_activity);
     }
 }
