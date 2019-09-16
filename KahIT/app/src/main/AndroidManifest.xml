@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.god.kahit">
 
     <application
@@ -8,7 +9,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".controller.MainActivityClass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,13 +23,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.god.kahit.controller.ChooseGameClass"/>
         </activity>
-        <activity android:name=".controller.HostCreateRoomClass"></activity>
-        <activity android:name=".controller.HotSwapAddPlayersClass"></activity>
-        <activity android:name=".controller.HotSwapGameModeClass"></activity>
-        <activity android:name=".controller.JoinRoomClass"></activity>
-        <activity android:name=".controller.QuestionClass"></activity>
-        <activity android:name=".controller.ScorePageClass"></activity>
-        <activity android:name=".controller.TeamArrangementClass"></activity>
+        <activity android:name=".controller.HostCreateRoomClass" />
+        <activity android:name=".controller.HotSwapAddPlayersClass" />
+        <activity android:name=".controller.HotSwapGameModeClass" />
+        <activity android:name=".controller.JoinRoomClass" />
+        <activity android:name=".controller.QuestionClass" />
+        <activity android:name=".controller.ScorePageClass" />
+        <activity android:name=".controller.TeamArrangementClass"/>
     </application>
 
 </manifest>
