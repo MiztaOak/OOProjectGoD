@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.god.kahit.R;
 
-public class hostCreateRoomClass extends AppCompatActivity {
+public class JoinRoomClass extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.host_create_room_activity);
+        setContentView(R.layout.join_room_activity);
     }
 }

@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.god.kahit.R;
 
-public class joinRoomClass extends AppCompatActivity {
+public class HotSwapGameModeClass extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.join_room_activity);
+        setContentView(R.layout.hotswap_game_mode);
     }
 }

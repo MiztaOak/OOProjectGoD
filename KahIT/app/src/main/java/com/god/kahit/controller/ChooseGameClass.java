@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.god.kahit.R;
 
-public class chooseGameClass extends AppCompatActivity {
+public class ChooseGameClass extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
