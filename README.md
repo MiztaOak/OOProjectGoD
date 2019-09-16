@@ -7,7 +7,7 @@
   <a href="../../wiki">
 		<img src="https://img.shields.io/badge/documentation-Wiki-yellow.svg?style=flat" />
   </a>
-  <img src="https://travis-ci.org/MiztaOak/OOProjectGoD.svg?branch=dev"/>
+  <img src="https://travis-ci.org/MiztaOak/OOProjectGoD.svg?branch=master"/>
   <!-- <img src="https://img.shields.io/travis/com/MiztaOak/OOProjectGoD/master.svg?logo=travis&label=travis:master" /> -->
   <a href="../../releases">
     <img src="https://img.shields.io/github/release/MiztaOak/OOProjectGoD"/>
