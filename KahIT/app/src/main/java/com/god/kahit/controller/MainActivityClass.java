@@ -9,6 +9,8 @@ import android.view.View;
 import com.god.kahit.R;
 
 public class MainActivityClass extends AppCompatActivity {
+
+
     private static final String LOG_TAG = MainActivityClass.class.getSimpleName();
 
     @Override
