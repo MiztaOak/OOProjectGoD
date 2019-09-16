@@ -9,13 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".controller.MainActivityClass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".controller.ChooseGameClass"></activity>
+        <activity android:name=".controller.HostCreateRoomClass"></activity>
+        <activity android:name=".controller.HotSwapAddPlayersClass"></activity>
+        <activity android:name=".controller.HotSwapGameModeClass"></activity>
+        <activity android:name=".controller.JoinRoomClass"></activity>
+        <activity android:name=".controller.QuestionClass"></activity>
+        <activity android:name=".controller.ScorePageClass"></activity>
+        <activity android:name=".controller.TeamArrangementClass"></activity>
     </application>
 
 </manifest>
