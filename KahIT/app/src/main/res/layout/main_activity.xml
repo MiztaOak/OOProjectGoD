@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivityClass">
+    tools:context=".controller.MainActivityClass">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mainActivity"
@@ -62,6 +62,7 @@
             android:id="@+id/mPlayButton"
             android:layout_width="150dp"
             android:layout_height="70dp"
+            android:onClick="launchChooseGameClass"
             android:text="PLAY"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
