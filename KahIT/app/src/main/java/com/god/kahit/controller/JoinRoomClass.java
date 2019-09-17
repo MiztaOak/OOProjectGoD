@@ -26,4 +26,12 @@ public class JoinRoomClass extends AppCompatActivity {
 
     }
 
+    public void launchQuestionClass (View view){
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, QuestionClass.class);
+        startActivity(intent);
+
+    }
+
+
 }

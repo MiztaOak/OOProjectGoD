@@ -24,4 +24,11 @@ public class HostCreateRoomClass extends AppCompatActivity {
             startActivity(intent);
 
     }
+
+    public void launchQuestionClass (View view){
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, QuestionClass.class);
+        startActivity(intent);
+
+    }
 }
