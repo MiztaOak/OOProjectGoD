@@ -23,13 +23,48 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.god.kahit.controller.ChooseGameClass"/>
         </activity>
-        <activity android:name=".controller.HostCreateRoomClass" />
-        <activity android:name=".controller.HotSwapAddPlayersClass" />
-        <activity android:name=".controller.HotSwapGameModeClass" />
-        <activity android:name=".controller.JoinRoomClass" />
-        <activity android:name=".controller.QuestionClass" />
-        <activity android:name=".controller.ScorePageClass" />
-        <activity android:name=".controller.TeamArrangementClass"/>
+        <activity android:name=".controller.HostCreateRoomClass"
+            android:parentActivityName=".controller.ChooseGameClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.controller.HostCreateRoomClass"/>
+        </activity>
+        <activity android:name=".controller.HotSwapAddPlayersClass"
+            android:parentActivityName=".controller.HotSwapGameModeClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.controller.HotSwapGameModeClass"/>
+        </activity>
+        <activity android:name=".controller.HotSwapGameModeClass"
+            android:parentActivityName=".controller.ChooseGameClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.controller.ChooseGameClass"/>
+        </activity>
+        <activity android:name=".controller.JoinRoomClass"
+            android:parentActivityName=".controller.ChooseGameClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.controller.HostCreateRoomClass"/>
+        </activity>
+        <activity android:name=".controller.QuestionClass"
+            android:parentActivityName=".controller.MainActivityClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.controller.ChooseGameClass"/>
+        </activity>
+        <activity android:name=".controller.ScorePageClass"
+            android:parentActivityName=".controller.MainActivityClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.controller.ChooseGameClass"/>
+        </activity>
+        <activity android:name=".controller.TeamArrangementClass"
+            android:parentActivityName=".controller.MainActivityClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.controller.ChooseGameClass"/>
+        </activity>
     </application>
 
 </manifest>
