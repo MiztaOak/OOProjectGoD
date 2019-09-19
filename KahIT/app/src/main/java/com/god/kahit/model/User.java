@@ -5,9 +5,9 @@ import java.util.List;
 public class User {
     private String name;
     private int score;
-    private List<Buyable> items;
+    private List<BuyableItems> items;
 
-    public User(String name, int score, List<Buyable> items) {
+    public User(String name, int score, List<BuyableItems> items) {
         this.name = name;
         this.score = score;
         this.items = items;
@@ -21,7 +21,7 @@ public class User {
         return score;
     }
 
-    public List<Buyable> getItems() {
+    public List<BuyableItems> getItems() {
         return items;
     }
 }
