@@ -1,5 +1,5 @@
 package com.god.kahit.model;
 
-public class BuyableItems {
+public class BuyableItem {
     private int price;
 }

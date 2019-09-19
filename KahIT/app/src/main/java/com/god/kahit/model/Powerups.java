@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-public class Powerups extends BuyableItems {
+public class Powerups extends BuyableItem {
     private int scoreMultiplier;
     private int timeMultiplier;
     private int timeHeadstart;

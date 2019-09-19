@@ -3,9 +3,18 @@ package com.god.kahit.model;
 import java.util.List;
 
 public class Store {
-    List<BuyableItems> storeItems;
+    private List<BuyableItem> storeItems;
 
-    void buy(){
+    void buy(BuyableItem item, User user){
 
+    }
+
+
+    public List<BuyableItem> getStoreItems() {
+        return storeItems;
+    }
+
+    public void setStoreItems(List<BuyableItem> storeItems) {
+        this.storeItems = storeItems;
     }
 }
