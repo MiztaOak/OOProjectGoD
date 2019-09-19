@@ -43,15 +43,15 @@ class QuestionDataLoader {
         Cursor resultSet = mDB.rawQuery("SELECT * from test",null);
         resultSet.moveToFirst();
         List<Question> questions = new ArrayList<>();
-        for(int i = 0; i < resultSet.getCount(); i++){
+        do {
             List<String> alts = new ArrayList<>();
             alts.add(resultSet.getString(3));
             alts.add(resultSet.getString(4));
             alts.add(resultSet.getString(5));
             alts.add(resultSet.getString(6));
-            Question q = new Question(category,resultSet.getString(1),resultSet.getString(3),alts,resultSet.getInt(2));
+            Question q = new Question(category, resultSet.getString(1), resultSet.getString(3), alts, resultSet.getInt(2));
             questions.add(q);
-        }
+        }while (resultSet.move(1)); //move moves relative to the current position and returns false if it cant reach that pos
         resultSet.close();
         return questions;
     }
