@@ -84,7 +84,7 @@
             android:id="@+id/storeButton"
             android:layout_width="150dp"
             android:layout_height="70dp"
-            android:onClick="launchHotSwapGameModeClass"
+            android:onClick="launchStore"
             android:text="Store"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
