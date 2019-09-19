@@ -8,24 +8,34 @@ import java.util.Scanner;
 
 class QuestionDataLoader {
     private Scanner in;
-
-    QuestionDataLoader(){
+    QuestionDataLoader(String fileName){
         try{
-            in = new Scanner(new FileReader("questionDataBase.txt"));
-        }catch (FileNotFoundException e){
+            in = new Scanner(new FileReader(fileName));
+        }catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    Question getQuestion(){
-        String s;
+    Question getQuestion(Category category){
+        String s = "";
         if(in.hasNext()){
             s = in.next();
         }else{
             in.close();
         }
-        String q,a;
-        int t;
-        List<String> alts = new ArrayList<>();
+        int index = 0;
+        List<String> data = new ArrayList<>();
+        for(int i = 0; i < s.length(); i++){
+            if(s.charAt(i) == ';'){
+                data.add(s.substring(index,i));
+                index = i+2;
+            }
+        }
+        String q = data.get(0),a = data.get(2);
+        int t = Integer.parseInt(data.get(0));
+        List<String> alts = data.subList(2,data.size()-1);
+
+        Question question = new Question(category,q,a,alts,t);
+        return question;
     }
 }

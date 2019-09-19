@@ -1,5 +1,5 @@
 package com.god.kahit.model;
 
-enum Category {
+public enum Category {
     Science, History, Nature
 }

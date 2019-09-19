@@ -10,11 +10,13 @@ public class Question {
     private int time;
     private boolean hasBeenAnswered;
 
-    public Question(Category category,String question, String answer, List<String> alternatives){
+    public Question(Category category,String question, String answer, List<String> alternatives,int time){
         this.category = category;
         this.question = question;
         this.answer = answer;
         this.alternatives = alternatives;
+        this.time = time;
+        this.hasBeenAnswered = false;
     }
 
     public Category getCategory() {
