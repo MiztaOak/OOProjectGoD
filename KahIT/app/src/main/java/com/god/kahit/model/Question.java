@@ -1,16 +1,20 @@
 package com.god.kahit.model;
 
+import java.util.List;
+
 public class Question {
     private final Category category;
     private final String question;
     private final String answer;
-    private final String[] options;
+    private final List<String> alternatives;
+    private int time;
+    private boolean hasBeenAnswered;
 
-    public Question(Category category,String question, String answer, String[] options){
+    public Question(Category category,String question, String answer, List<String> alternatives){
         this.category = category;
         this.question = question;
         this.answer = answer;
-        this.options = options;
+        this.alternatives = alternatives;
     }
 
     public Category getCategory() {
@@ -25,7 +29,15 @@ public class Question {
         return answer;
     }
 
-    public String[] getOptions() {
-        return options;
+    public List<String> getAlternatives() {
+        return alternatives;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public boolean isHasBeenAnswered() {
+        return hasBeenAnswered;
     }
 }
