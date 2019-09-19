@@ -1,5 +1,7 @@
 package com.god.kahit.model;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,24 +19,11 @@ public class QuestionFactory {
      */
     public static Map<Category, List<Question>> getQuestionMap(Category[] categories){
         Map<Category,List<Question>> questions = new HashMap<>();
-
+        QuestionDataLoader dataLoader = new QuestionDataLoader();
         for(int i = 0; i < categories.length; i++){
-            questions.put(categories[i],getQuestionList(categories[i]));
+            questions.put(categories[i],dataLoader.getQuestion(categories[i]));
         }
 
         return questions;
-    }
-
-    /**
-     * Method that creates a list of question based on a given category
-     * @param category the category that the list will focus on
-     * @return the list of questions
-     */
-    private static List<Question> getQuestionList(Category category){
-        List<Question> questionList = new ArrayList<>();
-        QuestionDataLoader dataLoader = new QuestionDataLoader("testQuestionDataBase.txt");
-
-        questionList.add(dataLoader.getQuestion(category));
-        return questionList;
     }
 }

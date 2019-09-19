@@ -1,41 +1,58 @@
 package com.god.kahit.model;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.god.kahit.controller.MainActivityClass;
+import com.god.kahit.database.DatabaseHelper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
+/**
+ * A class that acts as a adapter between the rest of the model and the database implementation
+ */
 class QuestionDataLoader {
-    private Scanner in;
-    QuestionDataLoader(String fileName){
+    DatabaseHelper mDBHelper;
+    SQLiteDatabase mDB;
+
+    QuestionDataLoader(){
+        mDBHelper = new DatabaseHelper(MainActivityClass.getContext());
+
         try{
-            in = new Scanner(new FileReader(fileName));
-        }catch (FileNotFoundException e) {
-            e.printStackTrace();
+            mDBHelper.updateDataBase();
+        }catch (IOException e){
+            throw new Error("UnableToUpdateDatabase");
+        }
+
+        try {
+            mDB = mDBHelper.getWritableDatabase();
+        }catch (SQLException e){
+            throw e;
         }
     }
 
-    Question getQuestion(Category category){
-        String s = "";
-        if(in.hasNext()){
-            s = in.next();
-        }else{
-            in.close();
+    /**
+     * Method that loads all questions from a given table from the database
+     * @param category the category that decides from which table the questions are pulled from
+     * @return the list with all of the questions
+     */
+    List<Question> getQuestion(Category category){
+        Cursor resultSet = mDB.rawQuery("SELECT * from test",null);
+        resultSet.moveToFirst();
+        List<Question> questions = new ArrayList<>();
+        for(int i = 0; i < resultSet.getCount(); i++){
+            List<String> alts = new ArrayList<>();
+            alts.add(resultSet.getString(3));
+            alts.add(resultSet.getString(4));
+            alts.add(resultSet.getString(5));
+            alts.add(resultSet.getString(6));
+            Question q = new Question(category,resultSet.getString(1),resultSet.getString(3),alts,resultSet.getInt(2));
+            questions.add(q);
         }
-        int index = 0;
-        List<String> data = new ArrayList<>();
-        for(int i = 0; i < s.length(); i++){
-            if(s.charAt(i) == ';'){
-                data.add(s.substring(index,i));
-                index = i+2;
-            }
-        }
-        String q = data.get(0),a = data.get(2);
-        int t = Integer.parseInt(data.get(0));
-        List<String> alts = data.subList(2,data.size()-1);
-
-        Question question = new Question(category,q,a,alts,t);
-        return question;
+        resultSet.close();
+        return questions;
     }
 }
