@@ -17,9 +17,9 @@ public class QuestionFactory {
      * @param categories A array of the categories that will be inside the map
      * @return The map with category as the key and a list of questions as the values
      */
-    public static Map<Category, List<Question>> getQuestionMap(Category[] categories){
+    public static Map<Category, List<Question>> getQuestionMap(Category[] categories, Context context){
         Map<Category,List<Question>> questions = new HashMap<>();
-        QuestionDataLoader dataLoader = new QuestionDataLoader();
+        QuestionDataLoader dataLoader = new QuestionDataLoader(context);
         for(int i = 0; i < categories.length; i++){
             questions.put(categories[i],dataLoader.getQuestion(categories[i]));
         }

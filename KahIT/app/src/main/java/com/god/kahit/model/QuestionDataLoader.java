@@ -1,10 +1,9 @@
 package com.god.kahit.model;
 
+import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.god.kahit.controller.MainActivityClass;
 import com.god.kahit.database.DatabaseHelper;
 
 import java.io.IOException;
@@ -15,23 +14,17 @@ import java.util.List;
  * A class that acts as a adapter between the rest of the model and the database implementation
  */
 class QuestionDataLoader {
-    DatabaseHelper mDBHelper;
-    SQLiteDatabase mDB;
+    private DatabaseHelper mDBHelper;
+    private SQLiteDatabase mDB;
 
-    QuestionDataLoader(){
-        mDBHelper = new DatabaseHelper(MainActivityClass.getContext());
-
-        try{
+    QuestionDataLoader(Context context){
+        mDBHelper = new DatabaseHelper(context);
+        try {
             mDBHelper.updateDataBase();
         }catch (IOException e){
-            throw new Error("UnableToUpdateDatabase");
+            e.printStackTrace();
         }
-
-        try {
-            mDB = mDBHelper.getWritableDatabase();
-        }catch (SQLException e){
-            throw e;
-        }
+        mDB = mDBHelper.getReadableDatabase();
     }
 
     /**
@@ -43,6 +36,7 @@ class QuestionDataLoader {
         Cursor resultSet = mDB.rawQuery("SELECT * from test",null);
         resultSet.moveToFirst();
         List<Question> questions = new ArrayList<>();
+
         do {
             List<String> alts = new ArrayList<>();
             alts.add(resultSet.getString(3));

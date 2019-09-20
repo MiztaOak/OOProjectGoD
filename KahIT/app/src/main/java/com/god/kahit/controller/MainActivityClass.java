@@ -17,19 +17,14 @@ import com.god.kahit.database.DatabaseHelper;
 import java.io.IOException;
 
 public class MainActivityClass extends AppCompatActivity {
-    private static Context context;
     private static final String LOG_TAG = MainActivityClass.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
-        context = getApplicationContext();
-    }
-
-    public static Context getContext(){
-        return context;
+        DatabaseHelper dbh = new DatabaseHelper(getApplicationContext());
+        SQLiteDatabase db = dbh.getReadableDatabase();
     }
 
     public void launchChooseGameClass(View view){

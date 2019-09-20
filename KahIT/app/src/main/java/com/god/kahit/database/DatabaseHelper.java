@@ -36,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void updateDataBase() throws IOException{
-        if(mNeedUpdate){
+        //if(mNeedUpdate){  //TODO this should not be commented out
             File dbFile = new File(DB_PATH + DB_NAME);
             if(dbFile.exists()){
                 dbFile.delete();
@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             copyDataBase();
 
             mNeedUpdate = false;
-        }
+        //}
     }
 
     private boolean checkDataBase(){
