@@ -1,5 +1,22 @@
 package com.god.kahit.model;
 
 public enum Category {
-    Science, History , test //TODO Remove test when done with development
+    Science{
+        public String toString(){
+            return "science";
+        }
+    }, History{
+        public String toString(){
+            return "history";
+        }
+    } ,
+    Nature{
+        public String toString(){
+            return "nature";
+        }
+    }, Test{
+        public String toString(){
+            return "test";
+        }
+    }
 }

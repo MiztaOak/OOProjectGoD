@@ -33,7 +33,7 @@ class QuestionDataLoader {
      * @return the list with all of the questions
      */
     List<Question> getQuestion(Category category){
-        Cursor resultSet = mDB.rawQuery("SELECT * from test",null);
+        Cursor resultSet = mDB.rawQuery("SELECT * from " + category.toString(),null); //Gets all data from the given table
         resultSet.moveToFirst();
         List<Question> questions = new ArrayList<>();
 

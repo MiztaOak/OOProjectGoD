@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase mDataBase;
     private final Context mContext;
     private boolean mNeedUpdate = false;
+    private static boolean hasCheckedForNewData = false;
 
     public DatabaseHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -36,16 +37,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void updateDataBase() throws IOException{
-        //if(mNeedUpdate){  //TODO this should not be commented out
+        if(mNeedUpdate || !hasCheckedForNewData){
             File dbFile = new File(DB_PATH + DB_NAME);
             if(dbFile.exists()){
                 dbFile.delete();
             }
 
             copyDataBase();
-
+            hasCheckedForNewData = true;
             mNeedUpdate = false;
-        //}
+        }
     }
 
     private boolean checkDataBase(){
