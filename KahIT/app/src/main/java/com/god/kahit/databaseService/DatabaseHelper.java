@@ -1,4 +1,4 @@
-package com.god.kahit.database;
+package com.god.kahit.databaseService;
 
 import android.content.Context;
 import android.database.SQLException;

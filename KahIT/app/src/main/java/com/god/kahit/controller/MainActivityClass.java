@@ -1,20 +1,14 @@
 package com.god.kahit.controller;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.AsyncPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.god.kahit.R;
-import com.god.kahit.database.DatabaseHelper;
-
-import java.io.IOException;
+import com.god.kahit.databaseService.DatabaseHelper;
 
 public class MainActivityClass extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityClass.class.getSimpleName();

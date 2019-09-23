@@ -2,6 +2,7 @@ package com.god.kahit;
 
 import android.support.test.InstrumentationRegistry;
 
+import com.god.kahit.databaseService.QuestionDataLoaderDB;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
@@ -20,7 +21,9 @@ public class QuestionFactoryTest {
     public void testQuestionDataLoader(){
         Map<Category, List<Question>> qMap;
         Category[] categories = {Category.Test};
-        qMap = QuestionFactory.getQuestionMap(categories, InstrumentationRegistry.getInstrumentation().getTargetContext());
+        Assert.assertEquals(QuestionFactory.getQuestionMap(categories),null);
+        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        qMap = QuestionFactory.getQuestionMap(categories);
         for(int i = 0; i < categories.length; i++){
             List<Question> list = qMap.get(categories[i]);
             Assert.assertNotEquals(list.size(),0);
@@ -42,7 +45,8 @@ public class QuestionFactoryTest {
     public void testQuestionFactory(){
         Map<Category, List<Question>> qMap;
         Category[] categories = {Category.History, Category.Science, Category.Nature, Category.Test};
-        qMap = QuestionFactory.getQuestionMap(categories, InstrumentationRegistry.getInstrumentation().getTargetContext());
+        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        qMap = QuestionFactory.getQuestionMap(categories);
         Assert.assertTrue(qMap.containsKey(Category.History)); //These test assert that all asked for categories are present and that they are not empty
         Assert.assertTrue(qMap.containsKey(Category.Nature));
         Assert.assertTrue(qMap.containsKey(Category.Test));
