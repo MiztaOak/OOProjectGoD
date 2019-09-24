@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">KahIT</string>
     <string name="textview">TextView</string>
-<<<<<<< HEAD
     <string name="item_icon">item icon</string>
-=======
->>>>>>> storeBranch
 </resources>
