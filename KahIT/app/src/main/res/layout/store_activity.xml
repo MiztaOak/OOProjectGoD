@@ -14,4 +14,48 @@
         android:text="@string/textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/itemIcon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="172dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/double_score"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="172dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/double_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="464dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/time_headstart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="464dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/strong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

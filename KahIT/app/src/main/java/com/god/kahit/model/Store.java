@@ -1,14 +1,11 @@
 package com.god.kahit.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Store {
     private List<BuyableItem> storeItems;
     public Store() {
-       this.storeItems = ItemFactory.createStoreItems(1);
-        System.out.println(storeItems.get(0).getName() + ".....................................-.-.-..-.-.-.....................................-.-.-..-.-.-.....................................-.-.-..-.-.-.....................................-.-.-..-.-.-.....................................-.-.-..-.-.-.");
-
+       this.storeItems = ItemFactory.createStoreItems(3);
     }
 
     void buy(BuyableItem item, User user){
