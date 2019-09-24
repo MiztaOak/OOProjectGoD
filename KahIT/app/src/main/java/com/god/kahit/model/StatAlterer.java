@@ -1,11 +1,19 @@
 package com.god.kahit.model;
 
-public class Powerups extends BuyableItem {
+public class StatAlterer extends BuyableItem {
     private int scoreMultiplier;
     private int timeMultiplier;
     private int timeHeadstart;
     private int amountOfAlternatives;
-    private User choosenUser;
+
+
+    public StatAlterer(int price, String type, String name, String imageSource, int scoreMultiplier, int timeMultiplier, int timeHeadstart, int amountOfAlternatives){
+        super(price, type, name, imageSource);
+        this.scoreMultiplier = scoreMultiplier;
+        this.timeMultiplier = timeMultiplier;
+        this.timeHeadstart = timeHeadstart;
+        this.amountOfAlternatives= amountOfAlternatives;
+    }
 
     public int getScoreMultiplier() {
         return scoreMultiplier;
@@ -37,13 +45,5 @@ public class Powerups extends BuyableItem {
 
     public void setAmountOfAlternatives(int amountOfAlternatives) {
         this.amountOfAlternatives = amountOfAlternatives;
-    }
-
-    public User getChoosenUser() {
-        return choosenUser;
-    }
-
-    public void setChoosenUser(User choosenUser) {
-        this.choosenUser = choosenUser;
     }
 }
