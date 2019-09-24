@@ -43,7 +43,6 @@ public class QuestionFactory {
     /**
      * Method that sets which implementation of the questionDataLoader is used by the factory. Basically
      * a implementation of dependency injection.
-     *
      * @param dataLoader the implementation of questionDataLoader that is used by the factory
      *                   determines how the question data is loader and from where.
      */
