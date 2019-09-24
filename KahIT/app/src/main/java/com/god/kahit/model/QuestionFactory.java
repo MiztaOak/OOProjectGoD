@@ -16,6 +16,7 @@ public class QuestionFactory {
      * Variable that hold the implementation of the dataLoader
      */
     private static IQuestionDataLoader dataLoader;
+
     /**
      * A method that creates Map of questions with category as the key and a list of questions as the values
      * @param categories A array of the categories that will be inside the map
@@ -30,6 +31,11 @@ public class QuestionFactory {
         }
 
         return questions;
+    }
+
+    static Map<Category, List<Question>> getFullQuestionMap(){
+        Category[] categories = {Category.Science, Category.History, Category.Nature};
+        return getQuestionMap(categories);
     }
 
     public static void setDataLoader(IQuestionDataLoader dataLoader) {
