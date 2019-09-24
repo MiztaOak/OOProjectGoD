@@ -31,7 +31,6 @@ public class QuestionDataLoaderDB implements IQuestionDataLoader {
 
     /**
      * Method that loads all questions from a given table from the database
-     *
      * @param category the category that decides from which table the questions are pulled from
      * @return the list with all of the questions
      */
@@ -49,9 +48,8 @@ public class QuestionDataLoaderDB implements IQuestionDataLoader {
 
     /**
      * Method that uses the values of a given cursor to create a single question
-     *
      * @param resultSet the cursor that is pointing at the data
-     * @param category  the category of the question
+     * @param category the category of the question
      * @return the created question
      */
     private Question getQuestion(Cursor resultSet, Category category) {
