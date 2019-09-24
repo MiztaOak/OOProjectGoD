@@ -1,9 +1,5 @@
 package com.god.kahit.model;
 
-import android.content.Context;
-
-import com.god.kahit.databaseService.QuestionDataLoaderDB;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

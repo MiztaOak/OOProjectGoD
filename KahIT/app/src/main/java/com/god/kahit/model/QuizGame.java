@@ -6,7 +6,6 @@ import com.god.kahit.databaseService.QuestionDataLoaderDB;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
@@ -141,5 +140,6 @@ public class QuizGame {
 
     public void setNumOfQuestions(int numOfQuestions) {
         this.numOfQuestions = numOfQuestions;
+
     }
 }
