@@ -1,13 +1,13 @@
 package com.god.kahit.model;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemFactory {
-    static String[][] items = {{"50", "Buff", "Double Score", "strong", "2", "1", "0", "0"}
-    , {"50", "Buff", "Double Time", "source", "1", "2", "0", "0"}
-    , {"50", "Buff", "Time Headstart", "source", "1", "1", "10", "0"}};
+    static String[][] items = {{"50", "Buff", "Double Score", "double_score", "2", "1", "0", "0"}
+    , {"50", "Buff", "Double Time", "double_time", "1", "2", "0", "0"}
+    , {"50", "Buff", "Time Headstart", "time_headstart", "1", "1", "10", "0"}
+    , {"50", "Buff", "  ", "time_headstart", "1", "1", "10", "0"}};
 
     static public List<BuyableItem> createStoreItems(int size){
 

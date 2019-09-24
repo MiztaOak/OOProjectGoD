@@ -15,22 +15,23 @@ public class StoreControllerClass extends AppCompatActivity {
     private static final String LOG_TAG = StoreControllerClass.class.getSimpleName();
     private Store storeModel= new Store();
     private TextView storeText;
-    private ImageButton itemIcon;
+    private ImageButton[] itemIcons = new ImageButton[4];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store_activity);
         storeText = findViewById(R.id.storeText);
-        itemIcon = findViewById(R.id.itemIcon);
-        int resId = getResources().getIdentifier(storeModel.getStoreItems().get(0).getImageSource() , "drawable", getPackageName());
+        itemIcons[0]= findViewById(R.id.itemIcon);
+        itemIcons[1]= findViewById(R.id.itemIcon2);
+        itemIcons[2]= findViewById(R.id.itemIcon3);
+        itemIcons[3]= findViewById(R.id.itemIcon4);
         String text = "";
         for (int i = 0; i < storeModel.getStoreItems().size(); i++) {
             text += storeModel.getStoreItems().get(i).getName() + "\n";
-
+            int resId = getResources().getIdentifier(storeModel.getStoreItems().get(i).getImageSource() , "drawable", getPackageName());
+            itemIcons[i].setImageResource(resId);
         }
-        System.out.println(resId + "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         storeText.setText(text);
-        itemIcon.setImageResource(resId);
     }
 
     public void launchStore(View view){

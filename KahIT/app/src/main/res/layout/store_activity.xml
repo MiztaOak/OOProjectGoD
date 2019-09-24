@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/itemIcon2"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="272dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/itemIcon4"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="272dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/itemIcon3"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="72dp"
