@@ -44,4 +44,10 @@ public class ChooseGameClass extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void launchStore(View view){
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, StoreControllerClass.class);
+        startActivity(intent);
+    }
 }
