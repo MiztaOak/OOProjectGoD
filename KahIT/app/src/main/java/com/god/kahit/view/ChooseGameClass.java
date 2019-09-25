@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import com.god.kahit.R;
 public class ChooseGameClass extends AppCompatActivity {
 
     private static final String LOG_TAG = ChooseGameClass.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

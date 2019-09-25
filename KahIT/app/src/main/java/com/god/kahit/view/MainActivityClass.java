@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;

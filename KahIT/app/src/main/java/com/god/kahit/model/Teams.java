@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Teams {
-    private final List<User> teamMembers;
+    private final List<Player> teamMembers;
     private int teamScore;
+    private int teamName;
 
-    public Teams(List<User> teamMembers, int teamScore) {
+
+    public Teams(List<Player> teamMembers, int teamScore, int teamName) {
         this.teamMembers = teamMembers;
         this.teamScore = teamScore;
+        this.teamName = teamName;
     }
 
-    public List<User> getTeamMembers() {
+    public List<Player> getTeamMembers() {
         return teamMembers;
     }
 
@@ -22,5 +25,17 @@ public class Teams {
 
     public void setTeamScore(int teamScore) {
         this.teamScore = teamScore;
+    }
+
+    public  void setTeamName(int teamName){
+        this.teamName = teamName;
+    }
+
+    public void addPlayer (Player player){
+        teamMembers.add(player);
+    }
+
+    public void removePlayer(Player player){
+        teamMembers.remove(player);
     }
 }
