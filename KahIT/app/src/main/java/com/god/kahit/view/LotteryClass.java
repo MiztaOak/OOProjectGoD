@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.god.kahit.R;
+import com.god.kahit.model.BuyableItem;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Lottery;
 import com.god.kahit.model.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -26,10 +28,11 @@ public class LotteryClass extends AppCompatActivity {
     private Lottery lottery;
 
     private List<Player> lotteryPlayers;
-
+    private List<BuyableItem> items =  ItemFactory.createStoreItems(3);
     private List<ImageView> imagePlayerList = new ArrayList<>();
     private List<TextView> textPlayerList= new ArrayList<>();
     private List<ImageView> itemPlayerList = new ArrayList<>();
+    int resId;
 
     final Handler handler = new Handler();
     public boolean active = false;
@@ -52,7 +55,7 @@ public class LotteryClass extends AppCompatActivity {
                 populatePlayerImage();
                 populatePlayerName();
                 drawItem();
-              //  populateBuffsDebuffs();
+               populateBuffsDebuffs();
 
             }
         });
@@ -60,34 +63,39 @@ public class LotteryClass extends AppCompatActivity {
     }
 
 
-
     public void drawItem() {
-        while(active) {
-            final int rand = random.nextInt(ItemFactory.getItems().length); // todo double check if its right
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // todo something after 0.25s = 250ms
-                    // todo show random items from String [][]
-                  String randItem = ItemFactory.getCertainItem(rand,rand); // todo double check if its right
-                  // todo get pic of the item //ask Anas
-                    
+                     int rand = random.nextInt(3);
+                    //Gets the id of an item's image
+                     resId = getResources().getIdentifier(items.get(rand).getImageSource(),"drawable", getPackageName());
+                     populateBuffsDebuffs();
+                     // rerun handler
+                    handler.postDelayed(this,250);
                 }
-            }, 250); //dragningen sker 4 ggr sekunden + den tiden det tar för koden att köra.
-        }
+            }, 250); // 4 times per second
+
     }
 
     private void populateBuffsDebuffs() {
         //todo
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
-        // itemPlayerList.get(0).setImageResource(lotteryPool.get(0).getImageSource());
+        itemPlayerList.get(0).setImageResource(resId);
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem1ImageView));
+        itemPlayerList.get(1).setImageResource(resId);
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem2ImageView));
+        itemPlayerList.get(2).setImageResource(resId);
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem3ImageView));
+        itemPlayerList.get(3).setImageResource(resId);
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem4ImageView));
+        itemPlayerList.get(4).setImageResource(resId);
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem5ImageView));
+        itemPlayerList.get(5).setImageResource(resId);
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem6ImageView));
+        itemPlayerList.get(6).setImageResource(resId);
         itemPlayerList.add((ImageView) findViewById(R.id.lPlayerItem7ImageView));
+        itemPlayerList.get(7).setImageResource(resId);
 
     }
 

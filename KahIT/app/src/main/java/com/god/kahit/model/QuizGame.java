@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class QuizGame {
     private final List<Teams> teams;
-    private final List<User> users;
+    private final List<Player> users;
     private Map<Category,List<Question>> questionMap;
     private Map<Category,List<Integer>> indexMap;
 
@@ -27,7 +27,7 @@ public class QuizGame {
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
-    private User currentUser;
+    private Player currentUser;
 
     private Store store;
     private Lottery lottery;
