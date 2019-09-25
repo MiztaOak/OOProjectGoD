@@ -42,4 +42,8 @@ public class Question {
     public boolean isHasBeenAnswered() {
         return hasBeenAnswered;
     }
+
+    public boolean isCorrectAnswer(String givenAnswer){
+        return givenAnswer.equals(answer);
+    }
 }

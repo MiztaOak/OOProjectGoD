@@ -24,4 +24,8 @@ public class User {
     public List<BuyableItem> getItems() {
         return items;
     }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }

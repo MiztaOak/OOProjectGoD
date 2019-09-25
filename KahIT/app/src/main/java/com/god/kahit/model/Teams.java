@@ -23,4 +23,8 @@ public class Teams {
     public void setTeamScore(int teamScore) {
         this.teamScore = teamScore;
     }
+
+    boolean isPartOfTeam(User user){
+        return teamMembers.contains(user);
+    }
 }
