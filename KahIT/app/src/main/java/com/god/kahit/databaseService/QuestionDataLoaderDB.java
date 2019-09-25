@@ -49,7 +49,7 @@ public class QuestionDataLoaderDB implements IQuestionDataLoader {
 
     /**
      * Method that uses the values of a given cursor to create a single question
-     * @param resultSet the cursor that i pointing at the data
+     * @param resultSet the cursor that is pointing at the data
      * @param category the category of the question
      * @return the created question
      */
