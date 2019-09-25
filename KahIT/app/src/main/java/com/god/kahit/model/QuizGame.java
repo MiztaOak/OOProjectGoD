@@ -6,6 +6,8 @@ import com.god.kahit.databaseService.QuestionDataLoaderDB;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ public class QuizGame {
     private final List<Teams> teams;
     private final List<User> users;
     private Map<Category,List<Question>> questionMap;
+    private Map<Category,List<Integer>> indexMap;
 
     private Deque<Question> roundQuestions;
     private int numOfQuestions;
@@ -42,6 +45,8 @@ public class QuizGame {
 
         store = new Store();
         lottery = new Lottery();
+
+        setupGame(); //TODO remove this since the method should be called external when the game is started
     }
 
     /**
@@ -49,12 +54,51 @@ public class QuizGame {
      */
     public void setupGame(){
         currentCategory = Category.Mix;
+        loadIndexMap();
         startRound();
     }
 
-    public void startRound(){
-        roundQuestions = new ArrayDeque<>();
+    private void loadIndexMap(){
+        for(Category category:questionMap.keySet()){
+            loadIndexList(category);
+        }
+    }
 
+    private void loadIndexList(Category category){
+        List<Integer> indexes = new ArrayList<>();
+        for(int i = 0; i < questionMap.get(category).size(); i++){
+            indexes.add(i);
+        }
+        Collections.shuffle(indexes);
+        indexMap.put(category,indexes);
+    }
+
+    public void startRound() {
+        roundQuestions = new ArrayDeque<>();
+        if (currentCategory != Category.Mix){
+            for (int i = 0; i < numOfQuestions; i++) {
+                addQuestion(currentCategory);
+            }
+        }else {
+            int i = 0;
+            while (i < numOfQuestions){
+                for(Category category: questionMap.keySet()){
+                    addQuestion(category);
+                    i++;
+                    if(i == numOfQuestions){
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void addQuestion(Category category){
+        if (indexMap.get(category).size() == 0) {
+            loadIndexList(category);
+        }
+        roundQuestions.add(questionMap.get(category).get(indexMap.get(category).get(0))); //TODO make nice
+        indexMap.get(category).remove(0);
     }
 
     public void nextQuestion(){
