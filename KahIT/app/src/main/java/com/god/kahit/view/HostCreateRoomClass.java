@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,21 +8,20 @@ import android.view.View;
 
 import com.god.kahit.R;
 
-public class JoinRoomClass extends AppCompatActivity {
+public class HostCreateRoomClass extends AppCompatActivity {
 
-
-    private static final String LOG_TAG = JoinRoomClass.class.getSimpleName();
+    private static final String LOG_TAG = HostCreateRoomClass.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.join_room_activity);
-    }
+        setContentView(R.layout.host_create_room_activity);
 
-    public void launchBackChooseGameClass (View view){
-        Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, ChooseGameClass.class);
-        startActivity(intent);
+    }
+        public void launchBackChooseGameClass (View view){
+            Log.d(LOG_TAG, "Button clicked!");
+            Intent intent = new Intent(this, ChooseGameClass.class);
+            startActivity(intent);
 
     }
 
@@ -32,6 +31,4 @@ public class JoinRoomClass extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-
 }
