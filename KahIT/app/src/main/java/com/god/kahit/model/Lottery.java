@@ -24,7 +24,7 @@ public class Lottery {
 
     //public Handler getHandler() {
     //    return handler;
-   // }
+    // }
 
     public Random getRandom() {
         return random;

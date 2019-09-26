@@ -14,6 +14,15 @@ import java.util.Collections;
 
 /**
  * Lottery page that shows up players' name, selfie and the randomized item(Buff or Debuff) that they've got  the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
  */
 /** the concept of "items" mean which Buffs or Debuffs that the player got */
 /** Debuffs are the items that player can send to other players and negatively effect them */
@@ -26,7 +35,8 @@ public class LotteryClass extends AppCompatActivity {
     int count = 0;
     int maxCount = 10;
 
-    int rand ;
+    int rand;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,38 +47,43 @@ public class LotteryClass extends AppCompatActivity {
         drawItem();
     }
 
-    private void incCouunter(){
+    private void incCounter() {
         count++;
     }
 
-    private boolean isDone(){
+    private boolean isDone() {
         return count >= maxCount;
     }
 
     public void drawItem() {
-        int i;
         /** Handler object is used to iterate some code/message in X ms. And here is used to iterate a random item */
 
-            handler.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isDone()) {
+                    incCounter();
 
-                @Override
-                public void run() {
-                    if ( !isDone()) {
-                        incCouunter();
+                    //Create random item image for each player
+//                    for (int i = 0; i < lottery.getImagePlayerList().size(); i++) {
+                    for (int i = 0; i < 8; i++) {
                         rand = lottery.getRandom().nextInt(lottery.getItems().size());
                         /** getting a random image id, which is the item */
                         int imgId = getImageId(rand);
-                        populateBuffsDebuffs(imgId);
-                        /** redo handler */
-
-                        handler.postDelayed(this, lottery.getDelay());
+                        populateBuffsDebuffs(i, imgId);
                     }
-                    else{
-                        int imgId = getImageId(1);
-                        populateBuffsDebuffs(imgId);
+
+                    //When each player has been updated, run this thread again after set delay
+                    handler.postDelayed(this, lottery.getDelay());
+                } else {
+                    //Create pre-calculated won item image for each player
+                    for (int i = 0; i < lottery.getImagePlayerList().size(); i++) {
+                        int imgId = getImageId(getWonItemPlayer(1));
+                        populateBuffsDebuffs(i, imgId);
                     }
                 }
-            }, lottery.getDelay());
+            }
+        }, lottery.getDelay());
 
     }
 
@@ -76,9 +91,42 @@ public class LotteryClass extends AppCompatActivity {
         return getResources().getIdentifier(lottery.getItems().get(id).getImageSource(), "drawable", getPackageName());
     }
 
-    private void populateBuffsDebuffs(int imgId) {
+    private void populateBuffsDebuffs(int playerIndex, int imgId) {
         //todo
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
+        switch (playerIndex) {
+            case (0):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
+                break;
+            case (1):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem1ImageView));
+                break;
+            case (2):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem2ImageView));
+                break;
+            case (3):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem3ImageView));
+                break;
+            case (4):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem4ImageView));
+                break;
+            case (5):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem5ImageView));
+                break;
+            case (6):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem6ImageView));
+                break;
+            case (7):
+                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem7ImageView));
+                break;
+        }
+
+        lottery.getItemPlayerList().get(playerIndex).setImageResource(imgId);
+
+
+//        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
+//        lottery.getItemPlayerList().get(playerIndex).setImageResource(imgId);
+
+        /*lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
         lottery.getItemPlayerList().get(0).setImageResource(imgId);
         Collections.shuffle(lottery.getItemPlayerList());
         lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem1ImageView));
@@ -101,7 +149,7 @@ public class LotteryClass extends AppCompatActivity {
         Collections.shuffle(lottery.getItemPlayerList());
         lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem7ImageView));
         lottery.getItemPlayerList().get(7).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
+        Collections.shuffle(lottery.getItemPlayerList());*/
     }
 
     public void populatePlayerImage() {
