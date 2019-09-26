@@ -16,7 +16,7 @@ public class Question {
         this.category = category;
         this.question = question;
         this.answer = answer;
-        this.alternatives = alternatives;
+        this.alternatives = scrambleAlternatives(alternatives);
         this.time = time;
         this.hasBeenAnswered = false;
     }
