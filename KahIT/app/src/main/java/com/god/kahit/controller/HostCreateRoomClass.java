@@ -21,6 +21,7 @@ public class HostCreateRoomClass extends AppCompatActivity {
         public void launchBackChooseGameClass (View view){
             Log.d(LOG_TAG, "Button clicked!");
             Intent intent = new Intent(this, ChooseGameClass.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
     }

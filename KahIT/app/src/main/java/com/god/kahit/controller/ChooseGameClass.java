@@ -27,6 +27,7 @@ public class ChooseGameClass extends AppCompatActivity {
     public void launchBackMainActivityClass (View view){
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityClass.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
 
     }
