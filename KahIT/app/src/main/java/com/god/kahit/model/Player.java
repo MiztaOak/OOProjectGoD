@@ -25,7 +25,6 @@ public class Player {
         if (currentEffcts.equals("double score")){
             updateScore(newScore);
         }
-
     }
 
     public void setName(String name) {
