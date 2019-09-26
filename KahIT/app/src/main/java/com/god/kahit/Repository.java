@@ -11,7 +11,6 @@ public class Repository {
     EventBus eventBus = EventBus.getDefault();
 
     private Repository() {
-        quizGame = new QuizGame();
         registerOnEventBus();
     }
     public static Repository getInstance() {

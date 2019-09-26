@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;

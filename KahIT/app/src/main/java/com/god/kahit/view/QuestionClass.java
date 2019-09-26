@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

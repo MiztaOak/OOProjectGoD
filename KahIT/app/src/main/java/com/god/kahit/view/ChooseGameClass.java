@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import com.god.kahit.R;
 public class ChooseGameClass extends AppCompatActivity {
 
     private static final String LOG_TAG = ChooseGameClass.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +45,11 @@ public class ChooseGameClass extends AppCompatActivity {
         Intent intent = new Intent(this, HotSwapGameModeClass.class);
         startActivity(intent);
 
+    }
+
+    public void launchStore(View view){
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, StoreControllerClass.class);
+        startActivity(intent);
     }
 }

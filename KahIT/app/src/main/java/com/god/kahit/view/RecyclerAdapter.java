@@ -1,5 +1,4 @@
-package com.god.kahit.controller;
-
+package com.god.kahit.view;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.graphics.drawable.Drawable;

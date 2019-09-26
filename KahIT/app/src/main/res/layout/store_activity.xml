@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/storeText"
+        android:layout_width="216dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="89dp"
+        android:layout_marginTop="311dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/itemIcon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="172dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/strong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/itemIcon2"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="172dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/strong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/itemIcon4"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="464dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/strong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/itemIcon3"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="464dp"
+        android:contentDescription="@string/item_icon"
+        android:src="@drawable/strong"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

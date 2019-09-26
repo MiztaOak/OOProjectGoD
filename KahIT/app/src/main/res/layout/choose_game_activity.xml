@@ -79,6 +79,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hsGmWhateverButton"
             app:layout_constraintVertical_bias="0.100000024" />
+
+        <Button
+            android:id="@+id/storeButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:onClick="launchStore"
+            android:text="Store"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hsGmWhateverButton"
+            app:layout_constraintVertical_bias="0.473" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

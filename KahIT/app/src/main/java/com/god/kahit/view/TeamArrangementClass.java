@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

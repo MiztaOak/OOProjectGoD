@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,28 +8,28 @@ import android.view.View;
 
 import com.god.kahit.R;
 
-public class ScorePageClass extends AppCompatActivity {
+public class HotSwapGameModeClass extends AppCompatActivity {
 
-
-    private static final String LOG_TAG = ScorePageClass.class.getSimpleName();
+    private static final String LOG_TAG = HotSwapGameModeClass.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.score_activity);
+        setContentView(R.layout.hotswap_game_mode);
     }
 
-    public void launchBackMainActivityClass (View view){
+    public void launchHotSwapAddPlayerClass(View view){
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, MainActivityClass.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(this, HotSwapAddPlayersClass.class);
         startActivity(intent);
+
     }
 
-    public void onBackPressed(){
+    public void launchBackChooseGameClass (View view){
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, MainActivityClass.class);
+        Intent intent = new Intent(this, ChooseGameClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+
     }
 }
