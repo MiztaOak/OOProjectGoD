@@ -3,9 +3,12 @@ package com.god.kahit.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.god.kahit.R;
+import com.god.kahit.ViewModel.QuestionViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,19 +39,38 @@ public class QuestionClass extends AppCompatActivity {
     private ArrayList<TextView> answers = new ArrayList<>();
     //TODO TO:
 
+    private QuestionViewModel model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
 
-        final ProgressBar progressBar = findViewById(R.id.qProgressBar);
+        model = ViewModelProviders.of(this).get(QuestionViewModel.class);
+
+        final Observer<String> questionTextObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                populateQuestionTextView(s);
+            }
+        };
+        model.getQuestionText().observe(this,questionTextObserver);
+
+        final Observer<List<String>> questionAltsObserver = new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> strings) {
+                populateAnswerTextViews(strings);
+            }
+        };
+        model.getQuestionAlts().observe(this,questionAltsObserver);
+
+        final ProgressBar progressBar =(ProgressBar)findViewById(R.id.qProgressBar);
 
         initAnswerTextViews();
         populateQuestionNum(n);
         populateTotalNumQuestions(k);
-        populateQuestionTextView(q1);
         populatePlayerName(p1);
-        populateAnswerTextViews(an);
+        model.nextQuestion();
         startTimer(progressBar, eTime);
     }
 
@@ -90,9 +113,15 @@ public class QuestionClass extends AppCompatActivity {
     /**
      * sets a new backgroundColor for the non-selected answers.
      */
-    public void greyOutAnswersTextView() {
-        for (int i = 0; i < answers.size(); i++) {
+    void greyOutAnswersTextView() {
+        for(int i = 0; i < answers.size(); i++) {
             answers.get(i).setBackgroundResource(R.color.lightgrey);
+        }
+    }
+
+    void resetColorOfTextView(){
+        for(int i = 0; i < answers.size(); i++){
+            answers.get(i).setBackgroundResource(R.color.colorPrimary);
         }
     }
 
@@ -100,10 +129,8 @@ public class QuestionClass extends AppCompatActivity {
      * specifies what happens when an answer has been clicked.
      */
     public void OnAnswerClicked(View view) {
-        animation.cancel();
-        timeLeft = animation.getDuration();
         greyOutAnswersTextView();
-        view.setBackgroundResource(R.color.green);
+        model.onAnswerClicked(view,animation,answers.get(answers.indexOf(view)).getText().toString());
     }
 
     /**
@@ -164,18 +191,22 @@ public class QuestionClass extends AppCompatActivity {
      * @param progressBar the ProgressBar the timer acts on.
      * @param timer       The total amount of time a question allows in seconds.
      */
-    public void startTimer(ProgressBar progressBar, int timer) {
+    public void startTimer(ProgressBar progressBar, final int timer) {
         progressBar.setMax(10000);
         animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progressBar.getMax());
         animation.setDuration(timer * 1000);
         animation.setInterpolator(new LinearInterpolator());
         animation.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationEnd(Animator animation) {
+            public void onAnimationEnd(final Animator animation)
+            {
                 h1.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        launchScorePageClass();
+                        //launchScorePageClass();
+                        model.nextQuestion();
+                        resetColorOfTextView();
+                        animation.start();
                     }
                 }, 1000);
             }
