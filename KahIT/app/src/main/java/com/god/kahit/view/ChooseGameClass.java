@@ -51,4 +51,10 @@ public class ChooseGameClass extends AppCompatActivity {
         Intent intent = new Intent(this, StoreControllerClass.class);
         startActivity(intent);
     }
+
+    public void launchSidenavTest (View view){
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, Sidenav_store.class);
+        startActivity(intent);
+    }
 }

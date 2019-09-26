@@ -1,8 +1,6 @@
 package com.god.kahit.model;
 
-import android.media.Image;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -10,11 +8,11 @@ public class Player {
     private String name;
     private ImageButton selfie;
     private int score;
-    private List<BuyableItem> items;
-    private StatAlterer currentEffcts;
+    private List<Item> items;
+    private Modifier currentEffcts;
 
 
-    public Player(String name, int score, List<BuyableItem> items) {
+    public Player(String name, int score, List<Item> items) {
         this.name = name;
         this.score = score;
         this.items = items;
@@ -49,19 +47,19 @@ public class Player {
         return score;
     }
 
-    public List<BuyableItem> getListItems() {
+    public List<Item> getListItems() {
         return items;
     }
 
-    public void addItem(BuyableItem item){
+    public void addItem(Item item){
         items.add(item);
     }
 
-    public void addItemByIndex(int index, BuyableItem item){
+    public void addItemByIndex(int index, Item item){
         items.add(index,item);
     }
 
-    public void removeItemByName(BuyableItem item){
+    public void removeItemByName(Item item){
         items.remove(item);
     }
 

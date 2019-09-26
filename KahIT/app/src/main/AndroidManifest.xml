@@ -79,6 +79,13 @@
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
         <activity android:name=".view.StoreControllerClass"></activity>
+        <activity
+            android:name=".view.Sidenav_store"
+            android:parentActivityName=".view.MainActivityClass">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.view.ChooseGameClass" />
+        </activity>
     </application>
 
 </manifest>

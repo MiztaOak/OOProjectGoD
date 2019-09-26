@@ -10,13 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.model.BuyableItem;
+import com.god.kahit.model.Item;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Lottery;
 import com.god.kahit.model.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -28,7 +27,7 @@ public class LotteryClass extends AppCompatActivity {
     private Lottery lottery;
 
     private List<Player> lotteryPlayers;
-    private List<BuyableItem> items =  ItemFactory.createStoreItems(3);
+    private List<Item> items =  ItemFactory.createStoreItems(3);
     private List<ImageView> imagePlayerList = new ArrayList<>();
     private List<TextView> textPlayerList= new ArrayList<>();
     private List<ImageView> itemPlayerList = new ArrayList<>();
