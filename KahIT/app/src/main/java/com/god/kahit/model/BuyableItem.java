@@ -1,7 +1,5 @@
 package com.god.kahit.model;
 
-import java.security.PrivateKey;
-
 public class BuyableItem {
     private int price;
     private String type;
@@ -9,7 +7,7 @@ public class BuyableItem {
     private String name;
     private String imageSource;
 
-    public BuyableItem(int price, String type, String name, String imageSource){
+    public BuyableItem(int price, String type, String name, String imageSource) {
         this.price = price;
         this.type = type;
         this.name = name;

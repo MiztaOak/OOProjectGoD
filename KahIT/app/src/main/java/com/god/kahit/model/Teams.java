@@ -1,6 +1,5 @@
 package com.god.kahit.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Teams {
@@ -27,15 +26,15 @@ public class Teams {
         this.teamScore = teamScore;
     }
 
-    public  void setTeamName(int teamName){
+    public void setTeamName(int teamName) {
         this.teamName = teamName;
     }
 
-    public void addPlayer (Player player){
+    public void addPlayer(Player player) {
         teamMembers.add(player);
     }
 
-    public void removePlayer(Player player){
+    public void removePlayer(Player player) {
         teamMembers.remove(player);
     }
 }

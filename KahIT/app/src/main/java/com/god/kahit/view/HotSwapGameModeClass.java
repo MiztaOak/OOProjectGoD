@@ -18,14 +18,14 @@ public class HotSwapGameModeClass extends AppCompatActivity {
         setContentView(R.layout.hotswap_game_mode);
     }
 
-    public void launchHotSwapAddPlayerClass(View view){
+    public void launchHotSwapAddPlayerClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, HotSwapAddPlayersClass.class);
         startActivity(intent);
 
     }
 
-    public void launchBackChooseGameClass (View view){
+    public void launchBackChooseGameClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, ChooseGameClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

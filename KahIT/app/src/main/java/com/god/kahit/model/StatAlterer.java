@@ -7,12 +7,12 @@ public class StatAlterer extends BuyableItem {
     private int amountOfAlternatives;
 
 
-    public StatAlterer(int price, String type, String name, String imageSource, int scoreMultiplier, int timeMultiplier, int timeHeadstart, int amountOfAlternatives){
+    public StatAlterer(int price, String type, String name, String imageSource, int scoreMultiplier, int timeMultiplier, int timeHeadstart, int amountOfAlternatives) {
         super(price, type, name, imageSource);
         this.scoreMultiplier = scoreMultiplier;
         this.timeMultiplier = timeMultiplier;
         this.timeHeadstart = timeHeadstart;
-        this.amountOfAlternatives= amountOfAlternatives;
+        this.amountOfAlternatives = amountOfAlternatives;
     }
 
     public int getScoreMultiplier() {

@@ -1,31 +1,62 @@
 package com.god.kahit.model;
 
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-
-import com.god.kahit.R;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 
 public class Lottery {
 
-    Random random = new Random();
-    private  List<Player> players;
-    //  Map<Player,BuyableItem> newList;
+    final int delay = 500;
 
-    public void drawLottery(List<Player> lotteryPlayers, List<BuyableItem> lotteryPool){
+    //inal private Handler handler = new Handler();
+    private List<BuyableItem> items = ItemFactory.createStoreItems(3);
+    private List<ImageView> imagePlayerList = new ArrayList<>();
+    private List<TextView> textPlayerList = new ArrayList<>();
+    private List<ImageView> itemPlayerList = new ArrayList<>();
+    private Random random = new Random();
+    //Map<Player,BuyableItem> newList;
 
-       // /** getting a random item of lotteryPool */
-      //  Buyable item = lotteryPool.get(random.nextInt(lotteryPool.size()));
-   }
+    //public Handler getHandler() {
+    //    return handler;
+   // }
 
+    public Random getRandom() {
+        return random;
+    }
+
+    public List<BuyableItem> getItems() {
+        return items;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public List<ImageView> getImagePlayerList() {
+        return imagePlayerList;
+    }
+
+    public List<ImageView> getItemPlayerList() {
+        return itemPlayerList;
+    }
+
+    public List<TextView> getTextPlayerList() {
+        return textPlayerList;
+    }
+
+    public void delaySeconds(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

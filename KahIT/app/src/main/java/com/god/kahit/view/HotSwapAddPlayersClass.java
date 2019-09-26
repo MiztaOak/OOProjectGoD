@@ -1,4 +1,5 @@
 package com.god.kahit.view;
+
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -13,8 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import com.god.kahit.R;
 import com.god.kahit.ViewModel.HotSwapAddPlayerViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +27,10 @@ import static java.lang.String.valueOf;
 public class HotSwapAddPlayersClass extends AppCompatActivity {
 
     private static final String LOG_TAG = HotSwapAddPlayersClass.class.getSimpleName();
-
+    MutableLiveData<Map<Integer, String>> playerMap;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
-    MutableLiveData<Map<Integer,String>> playerMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
 
         HotSwapAddPlayerViewModel hotSwapAddPlayerViewModel = ViewModelProviders.of(this).get(HotSwapAddPlayerViewModel.class);
         playerMap = hotSwapAddPlayerViewModel.getPlayerMap();
-        hotSwapAddPlayerViewModel.getPlayerMap().observe(this, new Observer<Map<Integer,String>>() {
+        hotSwapAddPlayerViewModel.getPlayerMap().observe(this, new Observer<Map<Integer, String>>() {
 
             @Override
             public void onChanged(@Nullable Map<Integer, String> integerStringMap) {
@@ -66,21 +67,21 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
         });
     }
 
-    public void launchBackHotSwapGameModeClass(View view){
+    public void launchBackHotSwapGameModeClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, HotSwapGameModeClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    public void launchQuestionClass(View view){
+    public void launchQuestionClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, QuestionClass.class);
         startActivity(intent);
     }
 
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        recyclerView = findViewById(R.id.hsApPlayersRecyclerView);
         recyclerAdapter = new RecyclerAdapter(this, playerMap);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
@@ -94,7 +95,7 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
         String newPlayer = "Player " + stringValueOfInsertIndex;
         Map<Integer, String> map = playerMap.getValue();
 
-        if(map != null && index < 9) {
+        if (map != null && index < 9) {
             map.put(insertIndex, newPlayer);
 
             playerMap.setValue(map);
@@ -104,17 +105,17 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
 
     public void removeOnePlayer() {
         int index = recyclerAdapter.getItemCount();
-        if(index > 1 && playerMap.getValue() != null) {
+        if (index > 1 && playerMap.getValue() != null) {
             playerMap.getValue().remove(index);
             recyclerView.removeAllViews();
             recyclerAdapter.notifyDataSetChanged();
         }
     }
 
-    public List<Drawable> getDrawables(){
+    public List<Drawable> getDrawables() {
         List<Drawable> drawableList = new ArrayList<>();
 
-        Drawable drawable = ContextCompat.getDrawable(this,R.drawable.player1);
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.player1);
 
         drawableList.add(drawable);
 
