@@ -22,20 +22,18 @@ import com.god.kahit.ViewModel.QuestionViewModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class QuestionClass extends AppCompatActivity {
 
     private static final String LOG_TAG = QuestionClass.class.getSimpleName();
     private final Handler h1 = new Handler();
     //TODO FOLLOWING is ALL TEMPORARY and will be replaced by variables from Question.class. FROM:
-    int eTime = 20; //The total time the player1 has to answer.
+    int qTime = 20; //The total time the player1 has to answer.
     int n = 5;  //The number of the question if in a sequence.
     int k = 11; //The total number of questions if in a sequence.
-    String q1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit?"; //This is the question to be asked.
     String p1 = "The man with no name"; //The players name.
-    List<String> an = Arrays.asList("HELLO", "WORLD", "LOVE", "ZORAN"); //Answers as a list.
     private ObjectAnimator animation;
-    private long timeLeft;
     private ArrayList<TextView> answers = new ArrayList<>();
     //TODO TO:
 
@@ -64,14 +62,24 @@ public class QuestionClass extends AppCompatActivity {
         };
         model.getQuestionAlts().observe(this,questionAltsObserver);
 
-        final ProgressBar progressBar =(ProgressBar)findViewById(R.id.qProgressBar);
+        final Observer<Integer> questionTimeObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                if(integer != null){
+                    qTime = integer;
+                }
+            }
+        };
+        model.getQuestionTime().observe(this,questionTimeObserver);
+
+        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.qProgressBar);
 
         initAnswerTextViews();
         populateQuestionNum(n);
         populateTotalNumQuestions(k);
         populatePlayerName(p1);
         model.nextQuestion();
-        startTimer(progressBar, eTime);
+        startTimer(progressBar, qTime);
     }
 
     /**
@@ -110,15 +118,6 @@ public class QuestionClass extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * sets a new backgroundColor for the non-selected answers.
-     */
-    void greyOutAnswersTextView() {
-        for(int i = 0; i < answers.size(); i++) {
-            answers.get(i).setBackgroundResource(R.color.lightgrey);
-        }
-    }
-
     void resetColorOfTextView(){
         for(int i = 0; i < answers.size(); i++){
             answers.get(i).setBackgroundResource(R.color.colorPrimary);
@@ -129,8 +128,7 @@ public class QuestionClass extends AppCompatActivity {
      * specifies what happens when an answer has been clicked.
      */
     public void OnAnswerClicked(View view) {
-        greyOutAnswersTextView();
-        model.onAnswerClicked(view,animation,answers.get(answers.indexOf(view)).getText().toString());
+        model.onAnswerClicked(view,animation,answers);
     }
 
     /**
@@ -198,12 +196,23 @@ public class QuestionClass extends AppCompatActivity {
         animation.setInterpolator(new LinearInterpolator());
         animation.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationEnd(final Animator animation)
-            {
+            public void onAnimationCancel(final Animator animation) {
                 h1.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //launchScorePageClass();
+                        model.nextQuestion();
+                        resetColorOfTextView();
+                        animation.start();
+                    }
+                }, 1000);
+            }
+            @Override
+            public void onAnimationEnd(final Animator animation)
+            {
+                model.greyOutAnswersTextView(answers);
+                h1.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
                         model.nextQuestion();
                         resetColorOfTextView();
                         animation.start();
