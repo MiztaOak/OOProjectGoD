@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.view.View;
+import android.widget.TextView;
 
 import com.god.kahit.R;
 import com.god.kahit.Repository;
@@ -19,7 +20,11 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
 
     private MutableLiveData<String> questionText;
     private MutableLiveData<List<String>> questionAlts;
+    private MutableLiveData<Integer> questionTime;
     private Question currentQuestion;
+    private boolean isQuestionAnswered;
+
+    private boolean correctAnswerWasGiven = false;
 
     public QuestionViewModel() {
         Repository.getInstance().addQuizListener(this);
@@ -40,6 +45,13 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         return questionAlts;
     }
 
+    public MutableLiveData<Integer> getQuestionTime(){
+        if(questionTime == null){
+            questionTime = new MutableLiveData<>();
+        }
+        return questionTime;
+    }
+
     public void nextQuestion(){
         Repository.getInstance().nextQuestion();
     }
@@ -47,14 +59,38 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     @Override
     public void receiveQuestion(Question q) {
         currentQuestion = q;
+        isQuestionAnswered = false;
         questionText.setValue(q.getQuestion());
         questionAlts.setValue(q.getAlternatives());
+        questionTime.setValue(currentQuestion.getTime());
     }
 
-    public void onAnswerClicked(View view, ObjectAnimator animation, String alternative){
-        animation.cancel();
-        long timeLeft = animation.getDuration();
-        view.setBackgroundResource(R.color.green);
-        Repository.getInstance().sendAnswer(alternative,currentQuestion,timeLeft);
+    public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers){
+        if(!isQuestionAnswered) {
+            animation.cancel();
+            String alternative = answers.get(answers.indexOf(view)).getText().toString();
+            long timeLeft = animation.getDuration();
+            greyOutAnswersTextView(answers);
+            if (currentQuestion.isCorrectAnswer(alternative)) {
+                view.setBackgroundResource(R.color.green);
+            } else {
+                view.setBackgroundResource(R.color.red);
+            }
+            Repository.getInstance().sendAnswer(alternative, currentQuestion, timeLeft);
+            isQuestionAnswered = true;
+        }
+    }
+
+    /**
+     * sets a new backgroundColor for the non-selected answers.
+     */
+    public void greyOutAnswersTextView( List<TextView> answers) {
+        for(int i = 0; i < answers.size(); i++) {
+            answers.get(i).setBackgroundResource(R.color.lightgrey);
+        }
+    }
+
+    public boolean isQuestionAnswered() {
+        return isQuestionAnswered;
     }
 }
