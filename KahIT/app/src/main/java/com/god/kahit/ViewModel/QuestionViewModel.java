@@ -52,10 +52,17 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         return questionTime;
     }
 
+    /**
+     * Method that request a new question from model
+     */
     public void nextQuestion(){
         Repository.getInstance().nextQuestion();
     }
 
+    /**
+     * Method that receives a question from the model using the quizListener interface
+     * @param q - the question that is being received
+     */
     @Override
     public void receiveQuestion(Question q) {
         currentQuestion = q;
@@ -65,6 +72,12 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         questionTime.setValue(currentQuestion.getTime());
     }
 
+    /**
+     * Method that is run when the user presses one of the alternatives in the questionActivity
+     * @param view - the view that the user pressed
+     * @param animation - the animation of the progressbar
+     * @param answers - a list with all of the alternative buttons
+     */
     public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers){
         if(!isQuestionAnswered) {
             animation.cancel();
