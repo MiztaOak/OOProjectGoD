@@ -21,6 +21,9 @@ public class Question {
         this.hasBeenAnswered = false;
     }
 
+    //  public Question(Category category, String s, String s1, List<String> stringList) {
+    //  }
+
     public Category getCategory() {
         return category;
     }

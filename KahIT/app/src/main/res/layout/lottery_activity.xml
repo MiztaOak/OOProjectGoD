@@ -172,7 +172,7 @@
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
     <ImageView
-        android:id="@+id/lPlayerItem4ImageView"
+        android:id="@+id/lpPlayerWonItem"
         android:layout_width="53dp"
         android:layout_height="41dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -184,7 +184,7 @@
         app:srcCompat="@android:drawable/ic_lock_lock" />
 
     <ImageView
-        android:id="@+id/lPlayerPic7ImageView"
+        android:id="@+id/lpPlayerPic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -200,7 +200,7 @@
         app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/lPlayerName7TextView"
+        android:id="@+id/lpPlayerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbarSize="4sp"
@@ -208,7 +208,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.134"
+        app:layout_constraintHorizontal_bias="0.092"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.638" />

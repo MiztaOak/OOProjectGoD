@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.HotSwapAddPlayerViewModel;
+import com.god.kahit.viewModel.HotSwapAddPlayerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

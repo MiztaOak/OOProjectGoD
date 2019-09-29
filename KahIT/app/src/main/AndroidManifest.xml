@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.categoryClass"></activity>
+        <activity android:name=".view.lotteryItemClass"></activity>
+        <activity android:name=".view.lotteryTestClass"></activity>
+        <activity android:name=".view.categoryClass" />
         <activity
             android:name=".view.LotteryClass"
             android:exported="true" />
@@ -78,7 +80,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
-        <activity android:name=".view.StoreControllerClass"></activity>
+        <activity android:name=".view.StoreControllerClass" />
     </application>
 
 </manifest>

@@ -4,47 +4,142 @@ package com.god.kahit.view;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.animation.Animation;
+import android.widget.RelativeLayout;
 
 import com.god.kahit.R;
 import com.god.kahit.model.Lottery;
+import com.god.kahit.model.lotteryPlayerMap;
 
-import java.util.Collections;
+import java.util.Objects;
 
 /**
- * Lottery page that shows up players' name, selfie and the randomized item(Buff or Debuff) that they've got  the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
- * the concept of "items" mean which Buffs or Debuffs that the player got  Debuffs are the items that player can send to other players and negatively effect them
+ * Lottery page that shows up players' name, selfie and the randomized item(Buff or Debuff) that they get *
+ * the concept of "items" means which Buffs or Debuffs that the player gets *
+ * Debuffs are the items that player can send to other players and negatively effect them *
+ * Buffs are the items that players positively can effect themselves *
  */
-/** the concept of "items" mean which Buffs or Debuffs that the player got */
-/** Debuffs are the items that player can send to other players and negatively effect them */
-
-/** Buffs are the items that players positively can effect themselves */
 public class LotteryClass extends AppCompatActivity {
 
     final private Handler handler = new Handler();
-    Lottery lottery = new Lottery();
     int count = 0;
     int maxCount = 10;
-
     int rand;
+
+    Lottery lottery = new Lottery();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lottery_activity);
+        setContentView(R.layout.lottery_test);
 
-        populatePlayerImage();
-        populatePlayerName();
-        drawItem();
+
+        // populatePlayerImage();
+        // populatePlayerName();
+        // drawItem();
+        for (int i = 0; i < 8; i++) {
+            createLotteryMapItems(i);
+        }
+
+        setPositionOfMapItems();
+
+
+
+    }
+
+
+    public void createLotteryMapItems(int i) {
+        lottery.getMap().put(i, new lotteryPlayerMap());
+        addItemsToMap(i);
+    }
+
+
+    public void addItemsToMap(int indexOfPlayer) { // adding players
+
+        switch (indexOfPlayer) {
+            default:
+                //todo add player name and wonItem
+                break;
+            case (0):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test1);
+                break;
+            case (1):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test2);
+                break;
+            case (2):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test4);
+                break;
+            case (3):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test5);
+                break;
+            case (4):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test6);
+                break;
+            case (5):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test7);
+                break;
+            case (6):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test8);
+                break;
+            case (7):
+                //todo add player name and wonItem
+                Objects.requireNonNull(lottery.getMap().get(indexOfPlayer)).getPlayerImage().setImageResource(R.drawable.test9);
+                break;
+
+        }
+
+
+    }
+
+    public void setPositionOfMapItems() {
+        int numOfMapItems = lottery.getMap().size(); //number of players
+        switch (numOfMapItems) {
+            default:
+                //todo no Players Found!
+                break;
+            case (1):
+                //todo 1 Players Found
+
+                break;
+            case (2):
+                //todo 2 Players Found
+                break;
+            case (3):
+                //todo 3 Players Found
+                break;
+            case (4):
+                //todo 4 Players Found
+                break;
+            case (5):
+                //todo 5 Players Found
+                break;
+            case (6):
+                //todo 6 Players Found
+                break;
+            case (7):
+                //todo 7 Players Found
+                break;
+            case (8):
+                //todo 8 Players Found
+                RelativeLayout r1 = findViewById(R.id.lotteryLayout);
+                RelativeLayout map = findViewById(R.id.lotteryPlayerMap);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
+                params.leftMargin = 50;
+                params.topMargin = 60;
+                r1.addView(map, params);
+
+                break;
+
+        }
+
     }
 
     private void incCounter() {
@@ -64,22 +159,19 @@ public class LotteryClass extends AppCompatActivity {
                 if (!isDone()) {
                     incCounter();
 
-                    //Create random item image for each player
-//                    for (int i = 0; i < lottery.getImagePlayerList().size(); i++) {
-                    for (int i = 0; i < 8; i++) {
-                        rand = lottery.getRandom().nextInt(lottery.getItems().size());
-                        /** getting a random image id, which is the item */
-                        int imgId = getImageId(rand);
-                        populateBuffsDebuffs(i, imgId);
+                    for (int i = 0; i < 8; i++) {  //Create random item image for each player
+                        rand = lottery.getRandom().nextInt(lottery.getBuffDebuffItems().size());
+                        int imgId = getImageId(rand); //getting a random image id, which is the item
+                        //  populateBuffsDebuffs(i, imgId);
                     }
 
                     //When each player has been updated, run this thread again after set delay
                     handler.postDelayed(this, lottery.getDelay());
                 } else {
                     //Create pre-calculated won item image for each player
-                    for (int i = 0; i < lottery.getImagePlayerList().size(); i++) {
-                        int imgId = getImageId(getWonItemPlayer(1));
-                        populateBuffsDebuffs(i, imgId);
+                    for (int i = 0; i < 8; i++) {
+                        int imgId = getImageId(i);  // todo instead : getWonItemPlayer(1));
+                        // populateBuffsDebuffs(i, imgId);
                     }
                 }
             }
@@ -88,108 +180,12 @@ public class LotteryClass extends AppCompatActivity {
     }
 
     public int getImageId(int id) {
-        return getResources().getIdentifier(lottery.getItems().get(id).getImageSource(), "drawable", getPackageName());
+        return getResources().getIdentifier(lottery.getBuffDebuffItems().get(id).getImageSource(), "drawable", getPackageName());
     }
 
-    private void populateBuffsDebuffs(int playerIndex, int imgId) {
-        //todo
-        switch (playerIndex) {
-            case (0):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
-                break;
-            case (1):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem1ImageView));
-                break;
-            case (2):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem2ImageView));
-                break;
-            case (3):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem3ImageView));
-                break;
-            case (4):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem4ImageView));
-                break;
-            case (5):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem5ImageView));
-                break;
-            case (6):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem6ImageView));
-                break;
-            case (7):
-                lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem7ImageView));
-                break;
-        }
 
-        lottery.getItemPlayerList().get(playerIndex).setImageResource(imgId);
-
-
-//        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
-//        lottery.getItemPlayerList().get(playerIndex).setImageResource(imgId);
-
-        /*lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem0ImageView));
-        lottery.getItemPlayerList().get(0).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem1ImageView));
-        lottery.getItemPlayerList().get(1).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem2ImageView));
-        lottery.getItemPlayerList().get(2).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem3ImageView));
-        lottery.getItemPlayerList().get(3).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem4ImageView));
-        lottery.getItemPlayerList().get(4).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem5ImageView));
-        lottery.getItemPlayerList().get(5).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem6ImageView));
-        lottery.getItemPlayerList().get(6).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());
-        lottery.getItemPlayerList().add((ImageView) findViewById(R.id.lPlayerItem7ImageView));
-        lottery.getItemPlayerList().get(7).setImageResource(imgId);
-        Collections.shuffle(lottery.getItemPlayerList());*/
-    }
-
-    public void populatePlayerImage() {
-        // todo (values from player's selfie)
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic0ImageView));
-        lottery.getImagePlayerList().get(0).setImageResource(R.drawable.test1);
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic1ImageView));
-        lottery.getImagePlayerList().get(1).setImageResource(R.drawable.test2);
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic2ImageView));
-        lottery.getImagePlayerList().get(2).setImageResource(R.drawable.test3);
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic3ImageView));
-        lottery.getImagePlayerList().get(3).setImageResource(R.drawable.test4);
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic4ImageView));
-        lottery.getImagePlayerList().get(4).setImageResource(R.drawable.test5);
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic5ImageView));
-        lottery.getImagePlayerList().get(5).setImageResource(R.drawable.test6);
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic6ImageView));
-        lottery.getImagePlayerList().get(6).setImageResource(R.drawable.test7);
-        lottery.getImagePlayerList().add((ImageView) findViewById(R.id.lPlayerPic7ImageView));
-        lottery.getImagePlayerList().get(7).setImageResource(R.drawable.test8);
-    }
-
-    public void populatePlayerName() {
-        // todo (values from players name in GameObject (or teams?))
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName0TextView));
-        lottery.getTextPlayerList().get(0).setText("Oussama");
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName1TextView));
-        lottery.getTextPlayerList().get(1).setText("Mats");
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName2TextView));
-        lottery.getTextPlayerList().get(2).setText("Anas");
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName3TextView));
-        lottery.getTextPlayerList().get(3).setText("Jakob");
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName4TextView));
-        lottery.getTextPlayerList().get(4).setText("Johan");
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName5TextView));
-        lottery.getTextPlayerList().get(5).setText("Blah");
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName6TextView));
-        lottery.getTextPlayerList().get(6).setText("Bingo");
-        lottery.getTextPlayerList().add((TextView) findViewById(R.id.lPlayerName7TextView));
-        lottery.getTextPlayerList().get(7).setText("Bajs");
+    public void populateItemAnimation() {
+        Animation popup;
 
     }
 

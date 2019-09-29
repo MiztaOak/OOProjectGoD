@@ -24,7 +24,9 @@ public class MainActivityClass extends AppCompatActivity {
     public void launchChooseGameClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
 //        Intent intent = new Intent(this, ChooseGameClass.class);
-        Intent intent = new Intent(this, LotteryClass.class);
+        Intent intent = new Intent(this, lotteryTestClass.class);
         startActivity(intent);
     }
+
+
 }
