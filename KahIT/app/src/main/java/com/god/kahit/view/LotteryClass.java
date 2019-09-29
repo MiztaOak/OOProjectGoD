@@ -9,9 +9,10 @@ import android.widget.RelativeLayout;
 
 import com.god.kahit.R;
 import com.god.kahit.model.Lottery;
-import com.god.kahit.model.lotteryPlayerMap;
+import com.god.kahit.model.lotteryItem;
 
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Lottery page that shows up players' name, selfie and the randomized item(Buff or Debuff) that they get *
@@ -21,18 +22,18 @@ import java.util.Objects;
  */
 public class LotteryClass extends AppCompatActivity {
 
-    final private Handler handler = new Handler();
-    int count = 0;
-    int maxCount = 10;
-    int rand;
-
-    Lottery lottery = new Lottery();
-
+    private final int delay = 500;
+    private final Handler handler = new Handler();
+    private int count = 0;
+    private int maxCount = 10;
+    private int rand;
+    private Lottery lottery = new Lottery();
+    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lottery_test);
+        setContentView(R.layout.lottery_activity);
 
 
         // populatePlayerImage();
@@ -41,16 +42,12 @@ public class LotteryClass extends AppCompatActivity {
         for (int i = 0; i < 8; i++) {
             createLotteryMapItems(i);
         }
-
         setPositionOfMapItems();
-
-
-
     }
 
 
     public void createLotteryMapItems(int i) {
-        lottery.getMap().put(i, new lotteryPlayerMap());
+        lottery.getMap().put(i, new lotteryItem());
         addItemsToMap(i);
     }
 
@@ -95,8 +92,6 @@ public class LotteryClass extends AppCompatActivity {
                 break;
 
         }
-
-
     }
 
     public void setPositionOfMapItems() {
@@ -129,8 +124,8 @@ public class LotteryClass extends AppCompatActivity {
                 break;
             case (8):
                 //todo 8 Players Found
-                RelativeLayout r1 = findViewById(R.id.lotteryLayout);
-                RelativeLayout map = findViewById(R.id.lotteryPlayerMap);
+                RelativeLayout r1 = findViewById(R.id.lotteryActivity);
+                RelativeLayout map = findViewById(R.id.lotteryItem);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
                 params.leftMargin = 50;
                 params.topMargin = 60;
@@ -160,13 +155,13 @@ public class LotteryClass extends AppCompatActivity {
                     incCounter();
 
                     for (int i = 0; i < 8; i++) {  //Create random item image for each player
-                        rand = lottery.getRandom().nextInt(lottery.getBuffDebuffItems().size());
+                        rand = random.nextInt(lottery.getBuffDebuffItems().size());
                         int imgId = getImageId(rand); //getting a random image id, which is the item
                         //  populateBuffsDebuffs(i, imgId);
                     }
 
                     //When each player has been updated, run this thread again after set delay
-                    handler.postDelayed(this, lottery.getDelay());
+                    handler.postDelayed(this, delay);
                 } else {
                     //Create pre-calculated won item image for each player
                     for (int i = 0; i < 8; i++) {
@@ -175,7 +170,7 @@ public class LotteryClass extends AppCompatActivity {
                     }
                 }
             }
-        }, lottery.getDelay());
+        }, delay);
 
     }
 

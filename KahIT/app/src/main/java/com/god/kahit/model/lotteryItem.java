@@ -2,20 +2,12 @@ package com.god.kahit.model;
 
 import android.widget.ImageView;
 
-public class lotteryPlayerMap {
-
+public class lotteryItem {
 
     private BuyableItem playerWonItem; // buff or debuff
     private ImageView playerPic;
     private String playerName;
 
-
-
-  /* public lotteryPlayerMap(ImageView playerPic, ImageView playerWonItem, TextView playerName){
-        this.playerName = playerName;
-        this.playerPic = playerPic;
-        this.playerWonItem = playerWonItem;
-    }*/
 
     public BuyableItem getPlayerWonItem() {
         return playerWonItem;

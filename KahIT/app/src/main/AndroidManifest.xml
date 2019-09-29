@@ -12,7 +12,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".view.lotteryItemClass"></activity>
-        <activity android:name=".view.lotteryTestClass"></activity>
         <activity android:name=".view.categoryClass" />
         <activity
             android:name=".view.LotteryClass"
