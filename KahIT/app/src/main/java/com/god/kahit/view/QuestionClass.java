@@ -66,6 +66,7 @@ public class QuestionClass extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Integer integer) {
                 if(integer != null){
+                    animation.setDuration(integer * 1000);
                     qTime = integer;
                 }
             }
@@ -116,12 +117,6 @@ public class QuestionClass extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivityClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
-
-    void resetColorOfTextView(){
-        for(int i = 0; i < answers.size(); i++){
-            answers.get(i).setBackgroundResource(R.color.colorPrimary);
-        }
     }
 
     /**
@@ -196,33 +191,15 @@ public class QuestionClass extends AppCompatActivity {
         animation.setInterpolator(new LinearInterpolator());
         animation.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationCancel(final Animator animation) {
-                h1.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        model.nextQuestion();
-                        resetColorOfTextView();
-                        animation.start();
-                    }
-                }, 1000);
-            }
-            @Override
             public void onAnimationEnd(final Animator animation)
             {
-                model.greyOutAnswersTextView(answers);
-                h1.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        model.nextQuestion();
-                        resetColorOfTextView();
-                        animation.start();
-                    }
-                }, 1000);
+                model.updateViewForBeginingOfAnimation(animation,answers,h1);
             }
         });
         animation.start();
 
     }
+
 
 }
 

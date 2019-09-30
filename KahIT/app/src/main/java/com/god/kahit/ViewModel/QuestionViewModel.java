@@ -1,5 +1,6 @@
 package com.god.kahit.ViewModel;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.MutableLiveData;
@@ -14,6 +15,7 @@ import com.god.kahit.model.QuizListener;
 import com.god.kahit.view.QuestionClass;
 
 import java.util.List;
+import android.os.Handler;
 
 public class QuestionViewModel extends ViewModel implements LifecycleObserver, QuizListener {
     private static final String TAG = QuestionClass.class.getSimpleName();
@@ -24,6 +26,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     private Question currentQuestion;
     private boolean isQuestionAnswered;
 
+    private int indexOfClickedView = -1;
     private boolean correctAnswerWasGiven = false;
 
     public QuestionViewModel() {
@@ -67,6 +70,8 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     public void receiveQuestion(Question q) {
         currentQuestion = q;
         isQuestionAnswered = false;
+        correctAnswerWasGiven = false;
+        indexOfClickedView = -1;
         questionText.setValue(q.getQuestion());
         questionAlts.setValue(q.getAlternatives());
         questionTime.setValue(currentQuestion.getTime());
@@ -80,14 +85,13 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
      */
     public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers){
         if(!isQuestionAnswered) {
-            animation.cancel();
             String alternative = answers.get(answers.indexOf(view)).getText().toString();
             long timeLeft = animation.getDuration();
             greyOutAnswersTextView(answers);
+            indexOfClickedView = answers.indexOf(view);
+            answers.get(indexOfClickedView).setBackgroundResource(R.color.blue);
             if (currentQuestion.isCorrectAnswer(alternative)) {
-                view.setBackgroundResource(R.color.green);
-            } else {
-                view.setBackgroundResource(R.color.red);
+                correctAnswerWasGiven = true;
             }
             Repository.getInstance().sendAnswer(alternative, currentQuestion, timeLeft);
             isQuestionAnswered = true;
@@ -97,13 +101,35 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     /**
      * sets a new backgroundColor for the non-selected answers.
      */
-    public void greyOutAnswersTextView( List<TextView> answers) {
+    private void greyOutAnswersTextView( List<TextView> answers) {
         for(int i = 0; i < answers.size(); i++) {
             answers.get(i).setBackgroundResource(R.color.lightgrey);
         }
     }
 
-    public boolean isQuestionAnswered() {
-        return isQuestionAnswered;
+    public void updateViewForBeginingOfAnimation(final Animator animation, final List<TextView> answers, Handler h1){
+        greyOutAnswersTextView(answers);
+        if(indexOfClickedView >= 0){
+            if(correctAnswerWasGiven){
+                answers.get(indexOfClickedView).setBackgroundResource(R.color.green);
+            }
+            else{
+                answers.get(indexOfClickedView).setBackgroundResource(R.color.red);
+            }
+        }
+        h1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                nextQuestion();
+                resetColorOfTextView(answers);
+                animation.start();
+            }
+        }, 1000);
+    }
+
+    private void resetColorOfTextView(List<TextView> answers){
+        for(int i = 0; i < answers.size(); i++){
+            answers.get(i).setBackgroundResource(R.color.colorPrimary);
+        }
     }
 }
