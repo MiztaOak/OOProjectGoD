@@ -32,10 +32,22 @@ public class QuestionFactoryTest {
                 Assert.assertEquals(list.get(0).getQuestion(),"Hur många ostar har Johan hemma?");
                 Assert.assertEquals(list.get(1).getQuestion(),"Test");
                 Assert.assertEquals(list.get(1).getAnswer(),"Test1");
-                Assert.assertEquals(list.get(1).getAlternatives().get(0),"Test1");
-                Assert.assertEquals(list.get(1).getAlternatives().get(1),"Test2");
-                Assert.assertEquals(list.get(1).getAlternatives().get(2),"Test3");
-                Assert.assertEquals(list.get(1).getAlternatives().get(3),"Test4");
+                Boolean[] tests = {false,false,false,false};
+                for (String alt:list.get(1).getAlternatives()) {
+                    if(alt.equals("Test1")){
+                        tests[0] = true;
+                    }else if(alt.equals("Test2")){
+                        tests[1] = true;
+                    }else if(alt.equals("Test3")){
+                        tests[2] = true;
+                    }else if(alt.equals("Test4")){
+                        tests[3] = true;
+                    }
+
+                }
+                for (Boolean t:tests) {
+                    Assert.assertTrue(t);
+                }
             }
         }
 
