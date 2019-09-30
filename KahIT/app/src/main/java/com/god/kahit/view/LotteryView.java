@@ -194,12 +194,12 @@ public class LotteryView extends AppCompatActivity {
         }
 
 
-        RelativeLayout r1 = findViewById(R.id.lotteryLayout);
-        RelativeLayout map = findViewById(R.id.lotteryPlayerMap);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
-        params.leftMargin = 50;
-        params.topMargin = 60;
-        r1.addView(map, params);
+        //RelativeLayout r1 = findViewById(R.id.lotteryLayout);
+        //RelativeLayout map = findViewById(R.id.lotteryPlayerMap);
+        //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
+       // params.leftMargin = 50;
+       // params.topMargin = 60;
+       // r1.addView(map, params);
 
 
     }
