@@ -8,14 +8,7 @@
     tools:context=".view.MainActivityClass"
     android:id="@+id/Drawer_layout"
     android:fitsSystemWindows="true">
-    <!--
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <include
-        layout="@layout/toolbar_layout"/>
-</LinearLayout><!-->
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -33,44 +26,65 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/navigationView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/navigationView"
-        android:layout_gravity="end"
-    >
+        android:layout_gravity="end">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/pointsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="100dp"
+                android:text="TextView"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/itemType1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="200dp"
+                android:text="TextView"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/itemType2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="356dp"
+                android:text="TextView"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/itemType3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="512dp"
+                android:text="TextView"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageButton
                 android:id="@+id/itemIcon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="172dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon2"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="180dp"
-                android:layout_marginTop="172dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon4"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="180dp"
-                android:layout_marginTop="464dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="260dp"
                 android:contentDescription="@string/item_icon"
                 android:src="@drawable/strong"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,22 +94,90 @@
                 android:id="@+id/itemIcon3"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="464dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="260dp"
                 android:contentDescription="@string/item_icon"
                 android:src="@drawable/strong"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/storeText"
-                android:layout_width="216dp"
-                android:layout_height="82dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="311dp"
-                android:text="welcome to store"
+            <ImageButton
+                android:id="@+id/itemIcon4"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="420dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/itemIcon5"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="420dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/itemIcon6"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="420dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/itemIcon7"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="580dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/itemIcon8"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="580dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/itemIcon9"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="580dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/itemIcon2"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="260dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
     </android.support.design.widget.NavigationView>

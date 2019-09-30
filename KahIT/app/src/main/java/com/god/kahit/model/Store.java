@@ -6,11 +6,10 @@ public class Store {
     private List<Item> storeItems;
 
     public Store() {
-       this.storeItems = ItemFactory.createStoreItems(3);
+       this.storeItems = ItemFactory.createStoreItems(4);
     }
 
-    void buy(Item item, Player player){
-        player.addItem(item);
+    public void buy(Item item){
         storeItems.remove(item);
     }
 
