@@ -15,7 +15,7 @@
         <activity android:name=".view.lotteryTestClass"></activity>
         <activity android:name=".view.categoryClass" />
         <activity
-            android:name=".view.LotteryClass"
+            android:name=".view.LotteryView"
             android:exported="true" />
         <activity android:name=".view.MainActivityClass">
             <intent-filter>

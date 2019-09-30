@@ -80,6 +80,9 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Sets up the RecyclerView with the helperClass RecyclerAdapter.
+     */
     private void setupRecyclerView() {
         recyclerView = findViewById(R.id.hsApPlayersRecyclerView);
         recyclerAdapter = new RecyclerAdapter(this, playerMap);
@@ -88,7 +91,10 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
     }
 
-    public void addOnePlayer() {
+    /**
+     * Adds one player in the view and the ViewModel gets notified.
+     */
+    private void addOnePlayer() {
         int index = (recyclerAdapter.getItemCount());
         int insertIndex = index + 1;
         String stringValueOfInsertIndex = valueOf(insertIndex);
@@ -103,7 +109,10 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
         }
     }
 
-    public void removeOnePlayer() {
+    /**
+     * Removes one player in the view and the ViewModel gets notified.
+     */
+    private void removeOnePlayer() {
         int index = recyclerAdapter.getItemCount();
         if (index > 1 && playerMap.getValue() != null) {
             playerMap.getValue().remove(index);
@@ -112,13 +121,12 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
         }
     }
 
-    public List<Drawable> getDrawables() {
+    private List<Drawable> getDrawables() {
         List<Drawable> drawableList = new ArrayList<>();
 
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.player1);
 
         drawableList.add(drawable);
-
 
         return drawableList;
     }
