@@ -4,6 +4,7 @@ import com.god.kahit.model.QuizGame;
 
 import org.greenrobot.eventbus.EventBus;
 
+
 public class Repository {
 
     private QuizGame quizGame;

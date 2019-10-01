@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-public class StatAlterer extends BuyableItem {
+public class StatAlterer extends Item {
     private int scoreMultiplier;
     private int timeMultiplier;
     private int timeHeadstart;

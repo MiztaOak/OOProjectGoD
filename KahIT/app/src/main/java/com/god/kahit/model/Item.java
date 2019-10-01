@@ -1,13 +1,13 @@
 package com.god.kahit.model;
 
-public class BuyableItem {
+public class Item {
     private int price;
     private String type;
     private Player player;
     private String name;
     private String imageSource;
 
-    public BuyableItem(int price, String type, String name, String imageSource) {
+    public Item(int price, String type, String name, String imageSource) {
         this.price = price;
         this.type = type;
         this.name = name;

@@ -4,23 +4,25 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
+import android.widget.ImageView;
 
-import com.god.kahit.model.BuyableItem;
+import com.god.kahit.model.Item;
 import com.god.kahit.model.Lottery;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = LotteryViewModel.class.getSimpleName();
-    private Random rand;
-
     Lottery lottery;
 
+    private Random rand;
     private MutableLiveData<Map<Integer, String>> playerMap;
-    private MutableLiveData<Map<Integer, BuyableItem>> lotteryItemMap;
+    private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
 
     public LotteryViewModel() {
         lottery = new Lottery();
@@ -34,7 +36,11 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
         return playerMap;
     }
 
-    public MutableLiveData<Map<Integer, BuyableItem>> getLotteryItemMap() {
+    public Lottery getLottery(){
+        return lottery;
+    }
+
+    public MutableLiveData<Map<Integer, Item>> getLotteryItemMap() {
         if (lotteryItemMap == null) {
             lotteryItemMap = new MutableLiveData<>();
             loadItemMap();
@@ -44,9 +50,9 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private void loadItemMap() {
         int i;
-        Map<Integer, BuyableItem> map = new HashMap<>();
-        for(i=0; i < lottery.getBuffDebuffItems().size(); i++) {
-            map.put(i,lottery.getBuffDebuffItems().get(i));
+        Map<Integer, Item> map = new HashMap<>();
+        for (i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
+            map.put(i, lottery.getBuffDebuffItems().get(i));
         }
         lotteryItemMap.setValue(map);
     }
@@ -69,5 +75,12 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     protected void onCleared() {
         super.onCleared();
         Log.d(TAG, "on cleared called");
+    }
+
+
+    public Item getWonItem(List<Item> items){
+        Item wonItem = items.get(items.size()-1);
+        Collections.shuffle(items);
+      return wonItem;
     }
 }

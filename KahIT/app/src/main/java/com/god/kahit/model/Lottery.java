@@ -1,41 +1,37 @@
 package com.god.kahit.model;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Lottery {
 
-    private BuyableItem item;
-    private Map<Integer, BuyableItem> lotteryItemMap;
-    private List<BuyableItem> buffDebuffItems;
+
+    private List<Item> buffDebuffItems;
+    private List<Player> players;
 
     public Lottery() {
-        this.lotteryItemMap = new HashMap<>();
         this.buffDebuffItems = ItemFactory.createStoreItems(3);
     }
 
-    public BuyableItem getItem() {
-        return item;
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setItem(BuyableItem item) {
-        this.item = item;
+
+    //todo 8 players
+    public void setPlayersName(int numOfPlayers) {
+        for (int i = 0; i < numOfPlayers; i++) {
+            players.get(i).setName("yo" + i);
+        }
     }
 
-    public Map<Integer, BuyableItem> getLotteryItemMap() {
-        return lotteryItemMap;
-    }
 
-    public void setLotteryItemMap(Map<Integer, BuyableItem> lotteryItemMap) {
-        this.lotteryItemMap = lotteryItemMap;
-    }
 
-    public List<BuyableItem> getBuffDebuffItems() {
+    public List<Item> getBuffDebuffItems() {
         return buffDebuffItems;
     }
 
-    public void setBuffDebuffItems(List<BuyableItem> buffDebuffItems) {
+    public void setBuffDebuffItems(List<Item> buffDebuffItems) {
         this.buffDebuffItems = buffDebuffItems;
     }
 }

@@ -8,14 +8,13 @@ public class Player {
     private String name;
     private ImageButton selfie;
     private int score;
-    private List<BuyableItem> items;
+    private Item wonItem;
     private StatAlterer currentEffcts;
 
 
-    public Player(String name, int score, List<BuyableItem> items) {
+    public Player(String name, int score) {
         this.name = name;
         this.score = score;
-        this.items = items;
     }
 
     public void calculateNewScore(int newScore) {
@@ -46,23 +45,15 @@ public class Player {
         this.score = score;
     }
 
-    public List<BuyableItem> getListItems() {
-        return items;
+    public Item getListItems() {
+        return wonItem;
     }
 
-    public void addItem(BuyableItem item) {
-        items.add(item);
-    }
-
-    public void addItemByIndex(int index, BuyableItem item) {
-        items.add(index, item);
-    }
-
-    public void removeItemByName(BuyableItem item) {
-        items.remove(item);
-    }
-
-    public void removeItemByIndex(int item) {
-        items.remove(item);
+    public void setWonItem(Item wonItem) {
+        this.wonItem = wonItem;
     }
 }
+
+
+
+
