@@ -107,6 +107,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
+        <activity android:name=".view.AfterQuestionScorePageView"
+            android:parentActivityName=".view.QuestionClass"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.god.kahit.view.QuestionClass" />
+        </activity>
     </application>
 
 </manifest>
