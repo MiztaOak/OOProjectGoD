@@ -20,9 +20,7 @@ import com.god.kahit.R;
 import com.god.kahit.ViewModel.QuestionViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class QuestionClass extends AppCompatActivity {
 
@@ -105,7 +103,14 @@ public class QuestionClass extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchBackMainActivityClass(View view) {
+    public void launchAfterQuestionScorePageClass (){
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, AfterQuestionScorePageView.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void launchBackMainActivityClass(View view){
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -193,7 +198,13 @@ public class QuestionClass extends AppCompatActivity {
             @Override
             public void onAnimationEnd(final Animator animation)
             {
-                model.updateViewForBeginingOfAnimation(animation,answers,h1);
+                model.updateViewForBeginningOfAnimation(animation,answers);
+                h1.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        launchAfterQuestionScorePageClass();
+                    }
+                }, 1000);
             }
         });
         animation.start();

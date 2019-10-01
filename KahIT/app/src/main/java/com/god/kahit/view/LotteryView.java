@@ -18,7 +18,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.viewModel.LotteryViewModel;
+import com.god.kahit.ViewModel.LotteryViewModel;
 import com.god.kahit.model.Item;
 
 

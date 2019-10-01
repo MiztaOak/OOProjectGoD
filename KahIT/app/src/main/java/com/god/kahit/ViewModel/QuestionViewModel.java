@@ -107,7 +107,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         }
     }
 
-    public void updateViewForBeginingOfAnimation(final Animator animation, final List<TextView> answers, Handler h1){
+    public void updateViewForBeginningOfAnimation(final Animator animation, final List<TextView> answers){
         greyOutAnswersTextView(answers);
         if(indexOfClickedView >= 0){
             if(correctAnswerWasGiven){
@@ -117,14 +117,6 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
                 answers.get(indexOfClickedView).setBackgroundResource(R.color.red);
             }
         }
-        h1.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                nextQuestion();
-                resetColorOfTextView(answers);
-                animation.start();
-            }
-        }, 1000);
     }
 
     private void resetColorOfTextView(List<TextView> answers){
