@@ -20,8 +20,6 @@ import android.widget.TextView;
 import com.god.kahit.R;
 import com.god.kahit.ViewModel.LotteryViewModel;
 import com.god.kahit.model.Item;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,23 +27,24 @@ import java.util.Map;
 /**
  * Lottery page that shows up players' name, selfie and the randomized item(Buff or Debuff) that they get *
  * the concept of "items" means which Buffs or Debuffs that the player gets *
- * Debuffs are the items that player can send to other players and negatively effect them *
- * Buffs are the items that players positively can effect themselves *
+ * Debuffs are the items that player can send to other players and negatively affect them *
+ * Buffs are the items that players positively can affect themselves *
  */
 public class LotteryView extends AppCompatActivity {
 
     LotteryViewModel lotteryViewModel;
 
     ConstraintLayout constraintLayout;
+    // View view = findViewById(R.id.lotteryItem);
     ConstraintLayout.LayoutParams layoutParams;
-
-    private Handler handler;
+    List<TextView> textViewList;
+    List<ImageView> imageViewList;
+    private Handler handler = new Handler();
     private int count = 0;
     private int maxCount = 10;
     private int randomNumber;
-
-    List<TextView> textViewList;
-    List<ImageView> imageViewList;
+    private ImageView icon;
+    private List<ImageView> imageTest = new ArrayList<>();
 
     private MutableLiveData<Map<Integer, String>> playerMap;
     private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
@@ -56,6 +55,9 @@ public class LotteryView extends AppCompatActivity {
         setContentView(R.layout.relative_layout);
 
         lotteryViewModel = ViewModelProviders.of(this).get(LotteryViewModel.class);
+        constraintLayout = findViewById(R.id.constraintLayoutId);
+
+
 
         playerMap = lotteryViewModel.getPlayerMap();
         lotteryViewModel.getPlayerMap().observe(this, new Observer<Map<Integer, String>>() {
@@ -63,7 +65,6 @@ public class LotteryView extends AppCompatActivity {
             public void onChanged(@Nullable Map<Integer, String> integerStringMap) {
                 //TODO
             }
-
         });
 
         lotteryItemMap = lotteryViewModel.getLotteryItemMap();
@@ -71,18 +72,19 @@ public class LotteryView extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Map<Integer, Item> integerBuyableItemMap) {
 
-                //TODO
 
+
+
+                //TODO
             }
         });
+        populateLayoutViewDynamically();
+        displayLottery();
 
         //TODO
+        //setPositionOfMapItems();
         //populatePlayerImage();
         // populatePlayerName();
-        // drawItem();
-
-        populateLayoutViewDynamically();
-        //setPositionOfMapItems();
 
     }
 
@@ -91,46 +93,49 @@ public class LotteryView extends AppCompatActivity {
      * Populates the Layout with playerNames and PlayerImages in a circle.
      */
     private void populateLayoutViewDynamically() {
-        constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayoutId);
-
-        textViewList = setupPlayerTextViews();
-        imageViewList = setupPlayerImageViews();
 
         int childId = getCenterChildId();
-
-        int i;
         int angle;
-        int iNumberOfButtons = 8; //TODO Size of list with player names, change to something else < 8 for demonstration.
+        int numOfPlayers = 8;
+        textViewList = setupPlayerTextViews();
+        imageViewList = setupPlayerImageViews();
+        for (int i = 0; i < numOfPlayers; i++) {
+            angle = i * (360 / numOfPlayers);
+            setUpImageViewList(i, angle, childId);
 
-        for(i = 0; i < iNumberOfButtons; i++) {
-            angle = i * (360/iNumberOfButtons);
-
-            layoutParams = new ConstraintLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT
-            );
-
-            layoutParams.width = 200;
-            layoutParams.height = 200;
-            layoutParams.circleRadius = 400; //radius of circle
-            layoutParams.circleConstraint = childId;
-            layoutParams.circleAngle = angle;
-
-            imageViewList.get(i).setLayoutParams(layoutParams);
-            layoutParams.topToBottom = i;
-
-            textViewList.get(i).setLayoutParams(layoutParams);
-
-
-            constraintLayout.addView(imageViewList.get(i));
-            constraintLayout.addView(textViewList.get(i));
-
-            //layout_toBottomOf
         }
     }
 
+    public void setUpImageViewList(int i, int angle, int childId) {
+        layoutParams = new ConstraintLayout.LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.width = 150;
+        layoutParams.height = 200;
+        layoutParams.circleRadius = 400;
+        layoutParams.circleConstraint = childId;
+        layoutParams.circleAngle = angle;
+        imageViewList.get(i).setLayoutParams(layoutParams);
+        constraintLayout.addView(imageViewList.get(i));
+        int x = (int) imageViewList.get(i).getX();
+        int y = (int) imageViewList.get(i).getY();
+        setUpTextViewList(i, x, y);
+    }
+
+
+    public void setUpTextViewList(int i, int xPicCoordinates, int yPicCoordinates) {
+        layoutParams = (ConstraintLayout.LayoutParams) imageViewList.get(i).getLayoutParams();
+        textViewList.get(i).setX(xPicCoordinates + 10);
+        textViewList.get(i).setY(yPicCoordinates + 200);
+        textViewList.get(i).setLayoutParams(layoutParams);
+        constraintLayout.addView(textViewList.get(i));
+    }
+
+
     /**
      * Gets the id for the invisible ImageView in the center of the layout.
+     *
      * @return id as an int.
      */
     private int getCenterChildId() {
@@ -147,18 +152,16 @@ public class LotteryView extends AppCompatActivity {
 
     /**
      * Initiates all TextViews.
+     *
      * @return list of TextViews.
      */
     private List<TextView> setupPlayerTextViews() {
         List<TextView> playerNameTxtViews = new ArrayList<>();
-
-        int i;
-
-        for(i = 0; i < 8; i++) { //TODO Size of list with player names
+        for (int i = 0; i < 8; i++) { //TODO Size of list with player names
             TextView textView = new TextView(this);
-            if(playerMap.getValue() != null) {
+            if (playerMap.getValue() != null) {
                 textView.setText(playerMap.getValue().get(i));
-                textView.setId(i);
+                //textView.setId(i);
                 playerNameTxtViews.add(textView);
             }
         }
@@ -168,39 +171,76 @@ public class LotteryView extends AppCompatActivity {
 
     /**
      * Initiates all imageViewList.
+     *
      * @return
      */
     private List<ImageView> setupPlayerImageViews() {
 
-        List<ImageView> playerImageViews = new ArrayList<>();
-        int i;
-        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.player1); //TODO more pictures.
-
-        for(i = 0; i < 8; i++) { //TODO Size of list with player names
+       // List<ImageView> playerImageViews = new ArrayList<>();
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.test5); //TODO more pictures.
+        for (int i = 0; i < 8; i++) { //TODO Size of list with players
             ImageView imageView = new ImageView(this);
             imageView.setImageDrawable(drawable);
             imageView.setId(i);
-
-            playerImageViews.add(imageView);
+            imageTest.add(imageView);
         }
-        return playerImageViews;
+        return imageTest;
     }
+
+
+    private void incCounter() {
+        count++;
+    }
+
+    private boolean isDone() {
+        return count >= maxCount;
+    }
+
+    public int getImageId(int id) {
+        if (lotteryItemMap.getValue() != null) {
+            return getResources().getIdentifier(lotteryItemMap.getValue().get(id).getImageSource(), "drawable", getPackageName());
+        } else {
+            return 0;
+        }
+    }
+
+
+    public void displayLottery() {
+       final int delay = 200;
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               if (!isDone()) {
+                    incCounter();
+
+                    for (int i = 0; i < 8; i++) {  //TODO Size of list with player names
+                        randomNumber = lotteryViewModel.getRandom().nextInt(lotteryItemMap.getValue().size()-1);
+                        int imgId = getImageId(randomNumber);
+                        imageTest.get(i).setImageResource(imgId);
+                    }
+                    //When each player has been updated, run this thread again after set delay
+                    handler.postDelayed(this, delay);
+                }
+               else {
+
+                    //Create pre-calculated won item image for each player
+                    for (int i = 0; i < 8; i++) {
+                      //  int imgId = getImageId(getWonItemPlayer(1));  // todo instead : getWonItemPlayer(1));
+
+                      //  lotteryViewModel.getLottery().getPlayers().get(i).setWonItem(lotteryViewModel.getWonItem(lotteryViewModel.getLottery().getBuffDebuffItems()));
+
+                    }
+                }
+            }
+        }, delay);
+    }
+
 
     private void populateViewWithPlayers() {
         int numOfPlayers;
         if (playerMap.getValue() != null) {
             numOfPlayers = playerMap.getValue().size();
         }
-
-
-        //RelativeLayout r1 = findViewById(R.id.lotteryLayout);
-        //RelativeLayout map = findViewById(R.id.lotteryPlayerMap);
-        //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
-       // params.leftMargin = 50;
-       // params.topMargin = 60;
-       // r1.addView(map, params);
-
-
     }
 
     /*public void addItemsToMap(int indexOfPlayer) { // adding players
@@ -289,52 +329,6 @@ public class LotteryView extends AppCompatActivity {
         }
 
     }*/
-
-    private void incCounter() {
-        count++;
-    }
-
-    private boolean isDone() {
-        return count >= maxCount;
-    }
-
-    public void drawItem() {
-
-
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!isDone()) {
-                    incCounter();
-
-                    for (int i = 0; i < 8; i++) {  //TODO Size of list with player names
-                        randomNumber = lotteryViewModel.getRandom().nextInt(lotteryItemMap.getValue().size());
-                        int imgId = getImageId(randomNumber);
-
-                    }
-
-                    //When each player has been updated, run this thread again after set delay
-                    handler.postDelayed(this, 500);
-                } else {
-                    //Create pre-calculated won item image for each player
-                    for (int i = 0; i < 8; i++) {
-                        int imgId = getImageId(i);  // todo instead : getWonItemPlayer(1));
-                        // populateBuffsDebuffs(i, imgId);
-                    }
-                }
-            }
-        }, 500);
-
-    }
-
-    public int getImageId(int id) {
-        if (lotteryItemMap.getValue() != null) {
-            return getResources().getIdentifier(lotteryItemMap.getValue().get(id).getImageSource(), "drawable", getPackageName());
-        } else {
-            return 0;
-        }
-    }
 
 
     public void populateItemAnimation() {

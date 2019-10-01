@@ -3,26 +3,26 @@ package com.god.kahit.ViewModel;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Lottery;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = LotteryViewModel.class.getSimpleName();
-    private Random rand;
-
     Lottery lottery;
-
+    private Random rand = new Random();
     private MutableLiveData<Map<Integer, String>> playerMap;
     private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
 
     public LotteryViewModel() {
+
         lottery = new Lottery();
     }
 
@@ -32,6 +32,20 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
             loadPlayerMap();
         }
         return playerMap;
+    }
+
+    private void loadPlayerMap() {
+        Map<Integer, String> map = new HashMap<>();
+        for ( int i = 0; i < 8; i++) { //TODO Size of list with player names
+            String player = "Player"; //TODO get player names as list.
+            map.put(i, player + i);
+        }
+        playerMap.setValue(map);
+    }
+
+
+    public Lottery getLottery() {
+        return lottery;
     }
 
     public MutableLiveData<Map<Integer, Item>> getLotteryItemMap() {
@@ -45,29 +59,26 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     private void loadItemMap() {
         int i;
         Map<Integer, Item> map = new HashMap<>();
-        for(i=0; i < lottery.getBuffDebuffItems().size(); i++) {
-            map.put(i,lottery.getBuffDebuffItems().get(i));
+        for (i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
+            map.put(i, lottery.getBuffDebuffItems().get(i));
+
+            for (i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
+                map.put(i, lottery.getBuffDebuffItems().get(i));
+
+            }
+            lotteryItemMap.setValue(map);
         }
-        lotteryItemMap.setValue(map);
+
     }
 
-    private void loadPlayerMap() {
-        int i;
-        Map<Integer, String> map = new HashMap<>();
-        for (i = 0; i < 8; i++) { //TODO Size of list with player names
-            String player = "Player"; //TODO get player names as list.
-            map.put(i, player + i);
+        public Item getWonItem(List<Item> items){
+            Item wonItem = items.get(items.size() - 1);
+            Collections.shuffle(items);
+            return wonItem;
         }
-        playerMap.setValue(map);
-    }
+
 
     public Random getRandom() {
         return rand = new Random();
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        Log.d(TAG, "on cleared called");
     }
 }

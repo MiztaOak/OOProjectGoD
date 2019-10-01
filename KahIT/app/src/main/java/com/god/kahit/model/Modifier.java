@@ -1,6 +1,8 @@
 package com.god.kahit.model;
 
+
 public class Modifier extends Item {
+
     private int scoreMultiplier;
     private int timeMultiplier;
     private int timeHeadstart;

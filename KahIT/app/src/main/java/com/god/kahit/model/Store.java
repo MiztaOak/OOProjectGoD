@@ -9,9 +9,11 @@ public class Store {
        this.storeItems = ItemFactory.createStoreItems(4);
     }
 
+
     public void buy(Item item){
         storeItems.remove(item);
     }
+
     public List<Item> getStoreItems() {
         return storeItems;
     }

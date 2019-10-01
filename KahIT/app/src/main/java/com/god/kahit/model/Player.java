@@ -1,16 +1,15 @@
 package com.god.kahit.model;
 
-import android.widget.ImageButton;
 
 import java.util.List;
 
 public class Player {
     private String name;
-    private ImageButton selfie;
     private Integer score;
     private List<Item> items;
     private Modifier currentEffcts;
     private boolean playerReady;
+    private Item wonItem;
 
 
     public Player(String name, int score, List<Item> items) {
@@ -18,6 +17,13 @@ public class Player {
         this.score = score;
         this.items = items;
         this.playerReady = false;
+
+    }
+
+    public Player(String name, Integer score) {
+        this.name = name;
+        this.score = score;
+
     }
 
     public void calculateNewScore(int newScore) {
@@ -47,6 +53,7 @@ public class Player {
         this.score = score;
     }
 
+
     public List<Item> getListItems() {
         return items;
     }
@@ -54,6 +61,15 @@ public class Player {
     public void addItem(Item item) {
         items.add(item);
     }
+
+    public Item getWonItem() {
+        return wonItem;
+    }
+
+    public void setWonItem(Item wonItem) {
+        this.wonItem = wonItem;
+    }
+
 
     public void addItemByIndex(int index, Item item) {
         items.add(index, item);
@@ -63,7 +79,6 @@ public class Player {
         items.remove(item);
     }
 
-    public void removeItemByIndex(int item) {
-        items.remove(item);
-    }
 }
+
+

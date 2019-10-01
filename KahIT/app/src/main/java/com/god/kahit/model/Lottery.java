@@ -1,34 +1,29 @@
 package com.god.kahit.model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Lottery {
 
-    private Item item;
-    private Map<Integer, Item> lotteryItemMap;
+
     private List<Item> buffDebuffItems;
+    private List<Player> players = new ArrayList<>();
+
 
     public Lottery() {
-        this.lotteryItemMap = new HashMap<>();
         this.buffDebuffItems = ItemFactory.createStoreItems(3);
     }
 
-    public Item getItem() {
-        return item;
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
 
-    public Map<Integer, Item> getLotteryItemMap() {
-        return lotteryItemMap;
-    }
-
-    public void setLotteryItemMap(Map<Integer, Item> lotteryItemMap) {
-        this.lotteryItemMap = lotteryItemMap;
+    //todo 8 players
+    public void setPlayersName(int numOfPlayers) {
+        for (int i = 0; i < numOfPlayers; i++) {
+            players.get(i).setName("yo" + i);
+        }
     }
 
     public List<Item> getBuffDebuffItems() {
