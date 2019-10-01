@@ -11,9 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.categoryClass"></activity>
+        <activity android:name=".view.lotteryItemClass"></activity>
+        <activity android:name=".view.categoryClass" />
         <activity
-            android:name=".view.LotteryClass"
+            android:name=".view.LotteryView"
             android:exported="true" />
         <activity android:name=".view.MainActivityClass">
             <intent-filter>

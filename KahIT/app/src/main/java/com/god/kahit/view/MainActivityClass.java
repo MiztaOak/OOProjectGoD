@@ -21,9 +21,12 @@ public class MainActivityClass extends AppCompatActivity {
         SQLiteDatabase db = dbh.getReadableDatabase();
     }
 
-    public void launchChooseGameClass(View view){
+    public void launchChooseGameClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, ChooseGameClass.class);
+//        Intent intent = new Intent(this, ChooseGameClass.class);
+        Intent intent = new Intent(this, LotteryView.class);
         startActivity(intent);
     }
+
+
 }

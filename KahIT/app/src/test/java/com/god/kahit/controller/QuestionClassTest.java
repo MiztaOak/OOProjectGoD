@@ -1,6 +1,7 @@
 package com.god.kahit.controller;
 
 import com.god.kahit.R;
+import com.god.kahit.view.QuestionClass;
 
 
 import org.junit.Before;
