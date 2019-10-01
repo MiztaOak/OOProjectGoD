@@ -11,25 +11,19 @@ public class Player {
     private boolean playerReady;
     private Item wonItem;
 
-
-
     public Player(String name, int score, List<Item> items) {
-
         this.name = name;
         this.score = score;
         this.items = items;
         this.playerReady = false;
-
     }
 
     public Player(String name, Integer score) {
         this.name = name;
         this.score = score;
-
     }
 
     public Player() {
-
     }
 
     public String getWonItemName() {

@@ -18,14 +18,18 @@ public enum Category {
         public String toString() {
             return "test";
         }
-    }, Mix{
-        public String toString(){return "mix";}
-    }, Celebrities{
-        public String toString(){return "celebrities";}
+    }, Mix {
+        public String toString() {
+            return "mix";
+        }
+    }, Celebrities {
+        public String toString() {
+            return "celebrities";
+        }
     };
 
-    public static Category getCategoryByIndex(int i){
-        switch (i){
+    public static Category getCategoryByIndex(int i) {
+        switch (i) {
             case 0:
                 return Science;
             case 1:

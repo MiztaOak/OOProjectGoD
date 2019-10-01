@@ -3,13 +3,9 @@ package com.god.kahit.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -21,6 +17,11 @@ import com.god.kahit.ViewModel.QuestionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class QuestionClass extends AppCompatActivity {
 
@@ -50,7 +51,7 @@ public class QuestionClass extends AppCompatActivity {
                 populateQuestionTextView(s);
             }
         };
-        model.getQuestionText().observe(this,questionTextObserver);
+        model.getQuestionText().observe(this, questionTextObserver);
 
         final Observer<List<String>> questionAltsObserver = new Observer<List<String>>() {
             @Override
@@ -58,20 +59,20 @@ public class QuestionClass extends AppCompatActivity {
                 populateAnswerTextViews(strings);
             }
         };
-        model.getQuestionAlts().observe(this,questionAltsObserver);
+        model.getQuestionAlts().observe(this, questionAltsObserver);
 
         final Observer<Integer> questionTimeObserver = new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                if(integer != null){
+                if (integer != null) {
                     animation.setDuration(integer * 1000);
                     qTime = integer;
                 }
             }
         };
-        model.getQuestionTime().observe(this,questionTimeObserver);
+        model.getQuestionTime().observe(this, questionTimeObserver);
 
-        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.qProgressBar);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.qProgressBar);
 
         initAnswerTextViews();
         populateQuestionNum(n);
@@ -103,14 +104,14 @@ public class QuestionClass extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchAfterQuestionScorePageClass (){
+    public void launchAfterQuestionScorePageClass() {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, AfterQuestionScorePageView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    public void launchBackMainActivityClass(View view){
+    public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -128,7 +129,7 @@ public class QuestionClass extends AppCompatActivity {
      * specifies what happens when an answer has been clicked.
      */
     public void OnAnswerClicked(View view) {
-        model.onAnswerClicked(view,animation,answers);
+        model.onAnswerClicked(view, animation, answers);
     }
 
     /**
@@ -196,9 +197,8 @@ public class QuestionClass extends AppCompatActivity {
         animation.setInterpolator(new LinearInterpolator());
         animation.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationEnd(final Animator animation)
-            {
-                model.updateViewForBeginningOfAnimation(animation,answers);
+            public void onAnimationEnd(final Animator animation) {
+                model.updateViewForBeginningOfAnimation(animation, answers);
                 h1.postDelayed(new Runnable() {
                     @Override
                     public void run() {

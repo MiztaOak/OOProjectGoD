@@ -1,11 +1,10 @@
 package com.god.kahit.ViewModel;
 
-import android.arch.lifecycle.MutableLiveData;
-
-import com.god.kahit.Repository;
 import com.god.kahit.model.Lobby;
 
 import java.util.List;
+
+import androidx.lifecycle.MutableLiveData;
 
 import static com.god.kahit.model.Lobby.BUS;
 

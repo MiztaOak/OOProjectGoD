@@ -7,64 +7,62 @@ import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
-import com.god.kahit.model.Tuple;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class Repository {
 
-    private QuizGame quizGame;
     private static Repository instance;
+    private QuizGame quizGame;
 
     private Repository() {
         //registerOnEventBus();
     }
+
     public static Repository getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Repository();
         }
         return instance;
     }
 
-    public void startNewGameInstance(Context context){
+    public void startNewGameInstance(Context context) {
         quizGame = new QuizGame(context.getApplicationContext());
     }
 
-    public void addQuizListener(QuizListener quizListener){
+    public void addQuizListener(QuizListener quizListener) {
         quizGame.addListener(quizListener);
     }
 
-    public void startGame(){
+    public void startGame() {
         quizGame.startRound();
     }
 
-    public void nextQuestion(){
+    public void nextQuestion() {
         quizGame.nextQuestion();
     }
 
-    public void sendAnswer(String givenAnswer, Question question, long timeLeft){
-        quizGame.receiveAnswer(givenAnswer,question, timeLeft);
+    public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
+        quizGame.receiveAnswer(givenAnswer, question, timeLeft);
     }
 
-    public void registerOnEventBus(){
-    //    eventBus.register(this);
+    public void registerOnEventBus() {
+        //    eventBus.register(this);
     }
 
-    public List<Player> getPlayers(){
+    public List<Player> getPlayers() {
         return quizGame.getPlayers();
     }
 
-    public boolean isRoundOver(){
+    public boolean isRoundOver() {
         return quizGame.isRoundOver();
     }
 
-    public Category getCurrentCategory(){
+    public Category getCurrentCategory() {
         return quizGame.getCurrentCategory();
     }
 
-    public void setCurrentCategory(Category currentCategory){
+    public void setCurrentCategory(Category currentCategory) {
         quizGame.setCurrentCategory(currentCategory);
     }
 }

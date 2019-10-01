@@ -1,21 +1,17 @@
 package com.god.kahit.controller;
 
-import com.god.kahit.R;
 import com.god.kahit.view.QuestionClass;
-
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.anyString;
-
 import static org.mockito.Mockito.doNothing;
 
-public class QuestionClassTest{
+public class QuestionClassTest {
 
     @InjectMocks
     private QuestionClass questionClass;
@@ -24,7 +20,7 @@ public class QuestionClassTest{
     private QuestionClass questionClassMock;
 
     @Before
-    public void init(){
+    public void init() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -45,10 +41,7 @@ public class QuestionClassTest{
     public void testPopulateQuestionTextView() throws Exception {
         //QuestionClass  mockWorld = mock(QuestionClass.class);
         final String expected = "HELLO";
-
-
         doNothing().when(questionClassMock).populateQuestionTextView(anyString());
-
     }
 
     @Test

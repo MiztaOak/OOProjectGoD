@@ -1,7 +1,5 @@
 package com.god.kahit.model;
 
-
-
 public class Item {
     private int price;
     private String type;
@@ -9,15 +7,11 @@ public class Item {
     private String name;
     private String imageSource;
 
-
-
     public Item(int price, String type, String name, String imageSource) {
-
         this.price = price;
         this.type = type;
         this.name = name;
         this.imageSource = imageSource;
-
     }
 
     public String getName() {

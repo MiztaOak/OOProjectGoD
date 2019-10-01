@@ -1,12 +1,13 @@
 package com.god.kahit.ViewModel;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 
 public class HotSwapAddPlayerViewModel extends ViewModel implements LifecycleObserver {

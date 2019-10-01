@@ -11,11 +11,9 @@ import java.util.List;
  * Temporary class but someone introduced context in Quizgame so i'm not going to bother - Jakob
  */
 public class Lobby {
-
+    public static final EventBus BUS = new EventBus();
     private final List<Team> teamList;
     private final List<Player> users;
-
-    public static final EventBus BUS = new EventBus();
 
     public Lobby() {
         teamList = new ArrayList<>();
@@ -24,14 +22,14 @@ public class Lobby {
 
     public void getNewTeam() {
         List<Player> players = new ArrayList<>();
-        Team team = new Team(players,0, "Team " + (getAmountOfTeams() +1));
+        Team team = new Team(players, 0, "Team " + (getAmountOfTeams() + 1));
         teamList.add(team);
 
         BUS.post(new TeamChangeEvent(teamList));
     }
 
     public void deleteTeam(int teamId) {
-        if(teamId > 1) {
+        if (teamId > 1) {
             getTeamList().remove(teamId - 1);
             BUS.post(new TeamChangeEvent(teamList));
         }
@@ -52,7 +50,7 @@ public class Lobby {
 
 
     public void addPlayerToTeam(Player player, int index) {
-        if(getAmountOfTeams() < 8 || getTotalAmountOfPlayers() < 8) {
+        if (getAmountOfTeams() < 8 || getTotalAmountOfPlayers() < 8) {
             getNewTeam(); //TODO maybe you don't want to join a new team, maybe you want to join a already existing team.
             getTeamList().get(index).addPlayer(player);
             BUS.post(new TeamChangeEvent(teamList));
@@ -84,7 +82,7 @@ public class Lobby {
 
     private int getTotalAmountOfPlayers() {
         int numOfPlayers = 0;
-        for(int i=0; i < getAmountOfTeams(); i++) {
+        for (int i = 0; i < getAmountOfTeams(); i++) {
             numOfPlayers += getTeamList().get(i).getTeamMembers().size();
         }
         return numOfPlayers + 1;

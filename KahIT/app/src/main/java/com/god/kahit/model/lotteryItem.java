@@ -3,11 +3,9 @@ package com.god.kahit.model;
 import android.widget.ImageView;
 
 public class lotteryItem {
-
     private Item playerWonItem; // buff or debuff
     private ImageView playerPic;
     private String playerName;
-
 
     public Item getPlayerWonItem() {
         return playerWonItem;

@@ -1,10 +1,6 @@
 package com.god.kahit.ViewModel;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.util.Log;
-
 
 import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.model.Lobby;
@@ -13,6 +9,10 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.model.Lobby.BUS;
 

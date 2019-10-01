@@ -1,38 +1,35 @@
 package com.god.kahit.view;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.god.kahit.R;
-
 import com.god.kahit.ViewModel.HotSwapAddPlayersViewModel;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class HotSwapAddPlayersView extends AppCompatActivity {
 
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
-
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
-
     MutableLiveData<List<String>> playerMap;
     HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +83,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity {
      * Sets up the recyclerView with it's adaptor HotSwapRecyclerAdapter.
      */
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        recyclerView = findViewById(R.id.hsApPlayersRecyclerView);
         recyclerAdapter = new HotSwapRecyclerAdapter(this, playerMap);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
@@ -97,9 +94,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity {
         List<Drawable> drawableList = new ArrayList<>();
 
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.player1);
-
         drawableList.add(drawable);
-
 
         return drawableList;
     }

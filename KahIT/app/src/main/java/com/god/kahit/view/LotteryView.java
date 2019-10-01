@@ -1,20 +1,11 @@
 package com.god.kahit.view;
 
-
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -23,11 +14,21 @@ import android.widget.TextView;
 import com.god.kahit.R;
 import com.god.kahit.ViewModel.LotteryViewModel;
 import com.god.kahit.model.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Lottery page that shows up players' name and the randomized item(Buff or Debuff) that they get *
@@ -36,7 +37,6 @@ import java.util.Random;
  * Buffs are the items that players positively can affect themselves *
  */
 public class LotteryView extends AppCompatActivity {
-
     LotteryViewModel lotteryViewModel = new LotteryViewModel();
     ConstraintLayout constraintLayout;
 
@@ -61,7 +61,6 @@ public class LotteryView extends AppCompatActivity {
         initLottery();
     }
 
-
     private void initLottery() {
         initLiveData();
         populateLayoutViewDynamically();
@@ -81,8 +80,6 @@ public class LotteryView extends AppCompatActivity {
         lotteryViewModel.getLotteryItemMap().observe(this, new Observer<Map<Integer, Item>>() {
             @Override
             public void onChanged(@Nullable Map<Integer, Item> integerBuyableItemMap) {
-
-
 
 
                 //TODO
@@ -208,7 +205,7 @@ public class LotteryView extends AppCompatActivity {
         final Handler handler = new Handler();
         final int delay = 200;
         handler.postDelayed(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            @RequiresApi(api = Build.VERSION_CODES.O) //todo Hmm..? Results in crash with api 24?
             @Override
             public void run() {
                 // checks if the lottery is done after maxCount times

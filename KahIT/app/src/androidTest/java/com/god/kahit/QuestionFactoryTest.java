@@ -1,7 +1,5 @@
 package com.god.kahit;
 
-import android.support.test.InstrumentationRegistry;
-
 import com.god.kahit.databaseService.QuestionDataLoaderDB;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
@@ -9,13 +7,18 @@ import com.god.kahit.model.QuestionFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 import java.util.Map;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
+
 /**
  * A test class testing QuestionFactory and its helper class QuestionDataLoader
  */
+@RunWith(AndroidJUnit4.class)
 public class QuestionFactoryTest {
     @Test
     public void testQuestionDataLoader() {
@@ -43,14 +46,12 @@ public class QuestionFactoryTest {
                     } else if (alt.equals("Test4")) {
                         tests[3] = true;
                     }
-
                 }
                 for (Boolean t : tests) {
                     Assert.assertTrue(t);
                 }
             }
         }
-
     }
 
     @Test

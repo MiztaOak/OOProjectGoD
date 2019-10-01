@@ -1,16 +1,7 @@
 package com.god.kahit.view;
 
-import android.app.Activity;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -23,14 +14,19 @@ import com.god.kahit.ViewModel.StoreViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
+
 /**
  * StoreView a class for the view of the store where players can buy items
  * The items that are in the store will be the same for all players
  */
 public class StoreView extends AppCompatActivity {
-
     private StoreViewModel storeViewModel = new StoreViewModel();
-    private TextView  pointsText, itemType1, itemType2, itemType3;
+    private TextView pointsText, itemType1, itemType2, itemType3;
     private ArrayList<ImageView> itemsIcons = new ArrayList<>();  //Array list of imageButton
     private MutableLiveData<Integer> points;
     private Button itemButton1;
@@ -49,7 +45,8 @@ public class StoreView extends AppCompatActivity {
         storeImage = findViewById(R.id.storeImage);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(@NonNull View view, float v) {}
+            public void onDrawerSlide(@NonNull View view, float v) {
+            }
 
             @Override
             public void onDrawerOpened(@NonNull View view) {
@@ -58,11 +55,12 @@ public class StoreView extends AppCompatActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View view) {
-                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels-190);
+                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
             }
 
             @Override
-            public void onDrawerStateChanged(int i) {}
+            public void onDrawerStateChanged(int i) {
+            }
         });
         storeImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,10 +68,9 @@ public class StoreView extends AppCompatActivity {
                 drawerLayout.openDrawer(Gravity.END);
             }
         });
-
     }
 
-    public void initializeStoreView(){
+    public void initializeStoreView() {
         pointsText = findViewById(R.id.pointsText);
         storeViewModel.setPoints(500);
         findItemTypes();
@@ -83,23 +80,22 @@ public class StoreView extends AppCompatActivity {
         setPointsText();
         setItemTypes();
         addActionsToTheButtons();
-
     }
 
-    public void populateItemIcons(){
+    public void populateItemIcons() {
         for (int i = 0; i < storeViewModel.getStoreItems().size(); i++) { // iterate through the list of items and get their names and their image source to set them correctly in the view
-            int resId = getResources().getIdentifier(storeViewModel.getStoreItems().get(i).getImageSource() , "drawable", getPackageName()); //Gets the id of an item's image
+            int resId = getResources().getIdentifier(storeViewModel.getStoreItems().get(i).getImageSource(), "drawable", getPackageName()); //Gets the id of an item's image
             itemsIcons.get(i).setImageResource(resId); //Sets the image of the imageButton to the image of the item
         }
     }
 
-    public void findItemTypes(){
+    public void findItemTypes() {
         itemType1 = findViewById(R.id.itemType1);
         itemType2 = findViewById(R.id.itemType2);
         itemType3 = findViewById(R.id.itemType3);
     }
 
-    public void findItemIcons(){
+    public void findItemIcons() {
 
         itemsIcons.add((ImageView) findViewById(R.id.itemIcon)); // Add each imageButton in the view to the array list
         itemsIcons.add((ImageView) findViewById(R.id.itemIcon2));
@@ -112,7 +108,8 @@ public class StoreView extends AppCompatActivity {
         itemsIcons.add((ImageView) findViewById(R.id.itemIcon9));
 
     }
-    public void findItemButtons(){
+
+    public void findItemButtons() {
 
         itemButtons.add((Button) findViewById(R.id.itemButton)); // Add each imageButton in the view to the array list
         itemButtons.add((Button) findViewById(R.id.itemButton2));
@@ -126,23 +123,23 @@ public class StoreView extends AppCompatActivity {
 
     }
 
-    public void setPointsText(){
+    public void setPointsText() {
         pointsText.setText("Points:" + storeViewModel.getPoints().getValue());
     }
 
-    public void setItemTypes(){
+    public void setItemTypes() {
         itemType1.setText(storeViewModel.getStoreItems().get(0).getType());
         itemType2.setText(storeViewModel.getStoreItems().get(1).getType());
         itemType3.setText(storeViewModel.getStoreItems().get(2).getType());
     }
 
-    public void addActionsToTheButtons(){
+    public void addActionsToTheButtons() {
 
-        for ( final Button itemButton: itemButtons){
+        for (final Button itemButton : itemButtons) {
             itemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (itemButtons.indexOf(itemButton) < 4){
+                    if (itemButtons.indexOf(itemButton) < 4) {
                         storeViewModel.buy(itemButtons.indexOf(itemButton));
                     }
                     itemButton.setEnabled(false);

@@ -1,9 +1,5 @@
 package com.god.kahit.ViewModel;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
-
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Lottery;
 
@@ -13,26 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = LotteryViewModel.class.getSimpleName();
-
-    private Random rand = new Random();
     Lottery lottery;
-
-
-
-
+    private Random rand = new Random();
     private MutableLiveData<Map<Integer, String>> playerMap;
     private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
 
-
-
     public LotteryViewModel() {
-
         lottery = new Lottery();
         lottery.initPlayers(8);
-
     }
 
     public MutableLiveData<Map<Integer, String>> getPlayerMap() {
@@ -45,13 +36,12 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private void loadPlayerMap() {
         Map<Integer, String> map = new HashMap<>();
-        for ( int i = 0; i < 8; i++) { //TODO Size of list with player names
+        for (int i = 0; i < 8; i++) { //TODO Size of list with player names
             String player = "Player"; //TODO get player names as list.
             map.put(i, player + i);
         }
         playerMap.setValue(map);
     }
-
 
     public Lottery getLottery() {
         return lottery;
@@ -79,20 +69,17 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
         }
     }
 
-
-        public Item getWonItem(List<Item> items){
-            Item wonItem = items.get(items.size() - 1);
-            Collections.shuffle(items);
-            return wonItem;
-        }
-
-
+    public Item getWonItem(List<Item> items) {
+        Item wonItem = items.get(items.size() - 1);
+        Collections.shuffle(items);
+        return wonItem;
+    }
 
     public Random getRandom() {
         return rand = new Random();
     }
 
-    public void setWonItem(Item wonItem, int playerIndex){
+    public void setWonItem(Item wonItem, int playerIndex) {
         lottery.getPlayers().get(playerIndex).setWonItem(wonItem);
 
     }

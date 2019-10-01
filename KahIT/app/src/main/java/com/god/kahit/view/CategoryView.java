@@ -1,8 +1,6 @@
 package com.god.kahit.view;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,10 +8,12 @@ import android.widget.ImageButton;
 
 import com.god.kahit.R;
 import com.god.kahit.ViewModel.CategoryViewModel;
-import com.god.kahit.ViewModel.QuestionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 public class CategoryView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
@@ -36,16 +36,16 @@ public class CategoryView extends AppCompatActivity {
         addPicturesToButton();
     }
 
-    private void addPicturesToButton(){
-        for(int i = 0; i < buttons.size(); i++){
-            int resId = getResources().getIdentifier(model.getCategories().get(i).toString()+"icon","drawable", getApplicationInfo().packageName);
+    private void addPicturesToButton() {
+        for (int i = 0; i < buttons.size(); i++) {
+            int resId = getResources().getIdentifier(model.getCategories().get(i).toString() + "icon", "drawable", getApplicationInfo().packageName);
             buttons.get(i).setImageResource(resId);
         }
     }
 
-    public void onCategoryClick(View view){
+    public void onCategoryClick(View view) {
         int i = 0;
-        if(view instanceof ImageButton) {
+        if (view instanceof ImageButton) {
             i = buttons.indexOf(view);
         }
 

@@ -22,16 +22,15 @@ public class Team {
         return teamScore;
     }
 
-    public String getTeamName() {
-        return this.teamName;
-    }
-
     public void setTeamScore(int teamScore) {
         this.teamScore = teamScore;
     }
 
+    public String getTeamName() {
+        return this.teamName;
+    }
 
-    public  void setTeamName(String teamName){
+    public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
 

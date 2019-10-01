@@ -3,18 +3,19 @@ package com.god.kahit.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.god.kahit.R;
 import com.god.kahit.ViewModel.AfterQuestionScorePageViewModel;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AfterQuestionScorePageView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
@@ -31,15 +32,13 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         setContentView(R.layout.after_question_score_page_activity);
 
         model = ViewModelProviders.of(this).get(AfterQuestionScorePageViewModel.class);
-
         final ProgressBar progressBar = findViewById(R.id.aqspProgressbar);
 
         setupRecycler();
-
         startTimer(progressBar);
     }
 
-    private void setupRecycler(){
+    private void setupRecycler() {
         recyclerView = findViewById(R.id.aqspScoreView);
         recyclerView.setHasFixedSize(true);
 
@@ -73,12 +72,11 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                if(model.isRoundOver()) {
+                if (model.isRoundOver()) {
                     launchCategoryView();
-                }else{
+                } else {
                     launchQuestionClass();
                 }
-
             }
         });
         animator.start();
