@@ -6,9 +6,10 @@ import com.god.kahit.databaseService.QuestionDataLoaderDB;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class QuizGame {
     private Map<Category,List<Integer>> indexMap;
 
     private Deque<Question> roundQuestions;
-    private int numOfQuestions;
+    private int numOfQuestions = 3;
     private Category currentCategory;
 
     private List<QuizListener> listeners;
@@ -39,14 +40,16 @@ public class QuizGame {
         users = new ArrayList<>();
 
         listeners = new ArrayList<>();
+        currentUser = new Player("local",0,new ArrayList<BuyableItem>());
 
         QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context));
         questionMap = QuestionFactory.getFullQuestionMap();
+        indexMap = new HashMap<>();
 
         store = new Store();
         lottery = new Lottery();
 
-        setupGame(); //TODO remove this since the method should be called external when the game is started
+        //setupGame(); //TODO remove this since the method should be called external when the game is started
     }
 
     /**
@@ -81,8 +84,10 @@ public class QuizGame {
             }
         }else {
             int i = 0;
+            List<Category> categories = new ArrayList<>(questionMap.keySet());
+            Collections.shuffle(categories);
             while (i < numOfQuestions){
-                for(Category category: questionMap.keySet()){
+                for(Category category: categories){
                     addQuestion(category);
                     i++;
                     if(i == numOfQuestions){
@@ -119,7 +124,7 @@ public class QuizGame {
         listeners.add(quizListener);
     }
 
-    public void receiveAnswer(String givenAnswer,Question question){
+    public void receiveAnswer(String givenAnswer,Question question, long timeLeft){
         if(question.isCorrectAnswer(givenAnswer)){
             currentUser.setScore(currentUser.getScore() + scorePerQuestion);
             //TODO if hotswap change currentUser
@@ -141,5 +146,6 @@ public class QuizGame {
 
     public void setNumOfQuestions(int numOfQuestions) {
         this.numOfQuestions = numOfQuestions;
+
     }
 }
