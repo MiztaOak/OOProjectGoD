@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".view.lotteryItemClass"></activity>
-        <activity android:name=".view.categoryClass"
+        <activity android:name=".view.CategoryView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity

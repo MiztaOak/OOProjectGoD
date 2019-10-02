@@ -1,4 +1,4 @@
-package com.god.kahit.viewModel;
+package com.god.kahit.ViewModel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;

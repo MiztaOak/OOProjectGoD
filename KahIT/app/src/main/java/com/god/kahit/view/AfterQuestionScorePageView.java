@@ -57,6 +57,14 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void launchCategoryView() {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, CategoryView.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+
     private void startTimer(ProgressBar progressBar) {
         progressBar.setMax(10000);
         animator = ObjectAnimator.ofInt(progressBar, "progress", 0, progressBar.getMax());
@@ -65,8 +73,12 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
+                if(model.isRoundOver()) {
+                    launchCategoryView();
+                }else{
+                    launchQuestionClass();
+                }
 
-                launchQuestionClass();
             }
         });
         animator.start();

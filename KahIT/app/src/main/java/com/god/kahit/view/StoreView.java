@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.viewModel.StoreViewModel;
+import com.god.kahit.ViewModel.StoreViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

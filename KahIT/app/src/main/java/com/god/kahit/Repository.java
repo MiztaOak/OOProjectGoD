@@ -2,6 +2,7 @@ package com.god.kahit;
 
 import android.content.Context;
 
+import com.god.kahit.model.Category;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuizGame;
@@ -54,4 +55,15 @@ public class Repository {
         return quizGame.getPlayers();
     }
 
+    public boolean isRoundOver(){
+        return quizGame.isRoundOver();
+    }
+
+    public Category getCurrentCategory(){
+        return quizGame.getCurrentCategory();
+    }
+
+    public void setCurrentCategory(Category currentCategory){
+        quizGame.setCurrentCategory(currentCategory);
+    }
 }
