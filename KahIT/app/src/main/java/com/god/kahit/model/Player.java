@@ -2,8 +2,6 @@ package com.god.kahit.model;
 
 import android.widget.ImageButton;
 
-import java.util.List;
-
 public class Player {
     private String name;
     private ImageButton selfie;
@@ -11,10 +9,25 @@ public class Player {
     private Item wonItem;
     private StatAlterer currentEffcts;
 
-
     public Player(String name, int score) {
         this.name = name;
         this.score = score;
+    }
+
+    public Player() {
+
+    }
+
+    public String getWonItemName() {
+        return wonItem.getName();
+    }
+
+    public Item getWonItem() {
+        return wonItem;
+    }
+
+    public void setWonItem(Item wonItem) {
+        this.wonItem = wonItem;
     }
 
     public void calculateNewScore(int newScore) {
@@ -47,10 +60,6 @@ public class Player {
 
     public Item getListItems() {
         return wonItem;
-    }
-
-    public void setWonItem(Item wonItem) {
-        this.wonItem = wonItem;
     }
 }
 

@@ -18,14 +18,19 @@ import java.util.Random;
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = LotteryViewModel.class.getSimpleName();
-    Lottery lottery;
 
-    private Random rand;
+    Lottery lottery = new Lottery();
+
+
+
     private MutableLiveData<Map<Integer, String>> playerMap;
     private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
 
+
+
     public LotteryViewModel() {
-        lottery = new Lottery();
+        lottery.initPlayers(8);
+
     }
 
     public MutableLiveData<Map<Integer, String>> getPlayerMap() {
@@ -49,27 +54,23 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     private void loadItemMap() {
-        int i;
         Map<Integer, Item> map = new HashMap<>();
-        for (i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
+        for ( int i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
             map.put(i, lottery.getBuffDebuffItems().get(i));
         }
         lotteryItemMap.setValue(map);
     }
 
     private void loadPlayerMap() {
-        int i;
         Map<Integer, String> map = new HashMap<>();
-        for (i = 0; i < 8; i++) { //TODO Size of list with player names
+        for (int i = 0; i < 8; i++) { //TODO Size of list with player names
             String player = "Player"; //TODO get player names as list.
             map.put(i, player + i);
         }
         playerMap.setValue(map);
     }
 
-    public Random getRandom() {
-        return rand = new Random();
-    }
+
 
     @Override
     protected void onCleared() {
@@ -78,9 +79,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     }
 
 
-    public Item getWonItem(List<Item> items){
-        Item wonItem = items.get(items.size()-1);
-        Collections.shuffle(items);
-      return wonItem;
+    public void setWonItem(Item wonItem, int playerIndex){
+        lottery.getPlayers().get(playerIndex).setWonItem(wonItem);
     }
 }
