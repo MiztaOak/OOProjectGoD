@@ -14,13 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.LotteryViewModel;
-import com.god.kahit.model.BuyableItem;
+import com.god.kahit.viewModel.LotteryViewModel;
+import com.god.kahit.model.Item;
 
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class LotteryView extends AppCompatActivity {
     List<ImageView> imageViewList;
 
     private MutableLiveData<Map<Integer, String>> playerMap;
-    private MutableLiveData<Map<Integer, BuyableItem>> lotteryItemMap;
+    private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +67,9 @@ public class LotteryView extends AppCompatActivity {
         });
 
         lotteryItemMap = lotteryViewModel.getLotteryItemMap();
-        lotteryViewModel.getLotteryItemMap().observe(this, new Observer<Map<Integer, BuyableItem>>() {
+        lotteryViewModel.getLotteryItemMap().observe(this, new Observer<Map<Integer, Item>>() {
             @Override
-            public void onChanged(@Nullable Map<Integer, BuyableItem> integerBuyableItemMap) {
+            public void onChanged(@Nullable Map<Integer, Item> integerBuyableItemMap) {
 
                 //TODO
 

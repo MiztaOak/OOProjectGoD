@@ -6,36 +6,36 @@ import java.util.Map;
 
 public class Lottery {
 
-    private BuyableItem item;
-    private Map<Integer, BuyableItem> lotteryItemMap;
-    private List<BuyableItem> buffDebuffItems;
+    private Item item;
+    private Map<Integer, Item> lotteryItemMap;
+    private List<Item> buffDebuffItems;
 
     public Lottery() {
         this.lotteryItemMap = new HashMap<>();
         this.buffDebuffItems = ItemFactory.createStoreItems(3);
     }
 
-    public BuyableItem getItem() {
+    public Item getItem() {
         return item;
     }
 
-    public void setItem(BuyableItem item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
-    public Map<Integer, BuyableItem> getLotteryItemMap() {
+    public Map<Integer, Item> getLotteryItemMap() {
         return lotteryItemMap;
     }
 
-    public void setLotteryItemMap(Map<Integer, BuyableItem> lotteryItemMap) {
+    public void setLotteryItemMap(Map<Integer, Item> lotteryItemMap) {
         this.lotteryItemMap = lotteryItemMap;
     }
 
-    public List<BuyableItem> getBuffDebuffItems() {
+    public List<Item> getBuffDebuffItems() {
         return buffDebuffItems;
     }
 
-    public void setBuffDebuffItems(List<BuyableItem> buffDebuffItems) {
+    public void setBuffDebuffItems(List<Item> buffDebuffItems) {
         this.buffDebuffItems = buffDebuffItems;
     }
 }

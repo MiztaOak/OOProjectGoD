@@ -4,16 +4,16 @@ import android.widget.ImageView;
 
 public class lotteryItem {
 
-    private BuyableItem playerWonItem; // buff or debuff
+    private Item playerWonItem; // buff or debuff
     private ImageView playerPic;
     private String playerName;
 
 
-    public BuyableItem getPlayerWonItem() {
+    public Item getPlayerWonItem() {
         return playerWonItem;
     }
 
-    public void setPlayerWonItem(BuyableItem playerWonItem) {
+    public void setPlayerWonItem(Item playerWonItem) {
         this.playerWonItem = playerWonItem;
     }
 

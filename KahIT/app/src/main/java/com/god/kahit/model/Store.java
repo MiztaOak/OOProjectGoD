@@ -12,8 +12,6 @@ public class Store {
     public void buy(Item item){
         storeItems.remove(item);
     }
-
-
     public List<Item> getStoreItems() {
         return storeItems;
     }

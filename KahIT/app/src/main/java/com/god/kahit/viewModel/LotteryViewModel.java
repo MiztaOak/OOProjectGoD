@@ -1,11 +1,11 @@
-package com.god.kahit.ViewModel;
+package com.god.kahit.viewModel;
 
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
-import com.god.kahit.model.BuyableItem;
+import com.god.kahit.model.Item;
 import com.god.kahit.model.Lottery;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     Lottery lottery;
 
     private MutableLiveData<Map<Integer, String>> playerMap;
-    private MutableLiveData<Map<Integer, BuyableItem>> lotteryItemMap;
+    private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
 
     public LotteryViewModel() {
         lottery = new Lottery();
@@ -34,7 +34,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
         return playerMap;
     }
 
-    public MutableLiveData<Map<Integer, BuyableItem>> getLotteryItemMap() {
+    public MutableLiveData<Map<Integer, Item>> getLotteryItemMap() {
         if (lotteryItemMap == null) {
             lotteryItemMap = new MutableLiveData<>();
             loadItemMap();
@@ -44,7 +44,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private void loadItemMap() {
         int i;
-        Map<Integer, BuyableItem> map = new HashMap<>();
+        Map<Integer, Item> map = new HashMap<>();
         for(i=0; i < lottery.getBuffDebuffItems().size(); i++) {
             map.put(i,lottery.getBuffDebuffItems().get(i));
         }

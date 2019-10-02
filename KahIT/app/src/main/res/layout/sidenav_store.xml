@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivityClass"
-    android:id="@+id/Drawer_layout"
+    android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true">
 
     <android.support.constraint.ConstraintLayout
@@ -23,6 +23,16 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/storeImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="344dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/shoppingcart" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
@@ -32,6 +42,7 @@
         android:layout_gravity="end">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -40,9 +51,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="80dp"
                 android:text="TextView"
                 android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/itemType3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="440dp"
+                android:text="TextView"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="128dp"
                 android:text="TextView"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,117 +84,193 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="356dp"
+                android:layout_marginTop="284dp"
                 android:text="TextView"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/itemType3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="512dp"
-                android:text="TextView"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
+            <ImageView
                 android:id="@+id/itemIcon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="260dp"
+                android:layout_marginTop="164dp"
                 android:contentDescription="@string/item_icon"
                 android:src="@drawable/strong"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/itemIcon3"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="212dp"
-                android:layout_marginTop="260dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon4"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="420dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon5"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="116dp"
-                android:layout_marginTop="420dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon6"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="212dp"
-                android:layout_marginTop="420dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon7"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="580dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon8"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="116dp"
-                android:layout_marginTop="580dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/itemIcon9"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="212dp"
-                android:layout_marginTop="580dp"
-                android:contentDescription="@string/item_icon"
-                android:src="@drawable/strong"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
+            <ImageView
                 android:id="@+id/itemIcon2"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="116dp"
-                android:layout_marginTop="260dp"
+                android:layout_marginTop="164dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/itemIcon3"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="164dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/itemIcon7"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="488dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/itemIcon8"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="488dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/itemIcon9"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="488dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/itemButton"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton2"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="116dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton3"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="212dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton4"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="168dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton5"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="168dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton6"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="168dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton7"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="324dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton8"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="324dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <Button
+                android:id="@+id/itemButton9"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="324dp"
+                android:text="Buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
+
+            <ImageView
+                android:id="@+id/itemIcon4"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="332dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/itemIcon6"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="212dp"
+                android:layout_marginTop="332dp"
+                android:contentDescription="@string/item_icon"
+                android:src="@drawable/strong"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/itemIcon5"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="332dp"
                 android:contentDescription="@string/item_icon"
                 android:src="@drawable/strong"
                 app:layout_constraintStart_toStartOf="parent"

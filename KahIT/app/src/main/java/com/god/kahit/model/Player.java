@@ -7,7 +7,7 @@ import java.util.List;
 public class Player {
     private String name;
     private ImageButton selfie;
-    private int score;
+    private Integer score;
     private List<Item> items;
     private Modifier currentEffcts;
 
@@ -46,19 +46,19 @@ public class Player {
         this.score = score;
     }
 
-    public List<BuyableItem> getListItems() {
+    public List<Item> getListItems() {
         return items;
     }
 
-    public void addItem(BuyableItem item) {
+    public void addItem(Item item) {
         items.add(item);
     }
 
-    public void addItemByIndex(int index, BuyableItem item) {
+    public void addItemByIndex(int index, Item item) {
         items.add(index, item);
     }
 
-    public void removeItemByName(BuyableItem item) {
+    public void removeItemByName(Item item) {
         items.remove(item);
     }
 
