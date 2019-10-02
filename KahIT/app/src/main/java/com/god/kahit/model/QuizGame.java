@@ -19,7 +19,7 @@ public class QuizGame {
     private Map<Category,List<Integer>> indexMap;
 
     private Deque<Question> roundQuestions;
-    private int numOfQuestions = 3;
+    private int numOfQuestions = 1;
     private Category currentCategory;
 
     private List<QuizListener> listeners;
@@ -44,22 +44,15 @@ public class QuizGame {
         QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context));
         questionMap = QuestionFactory.getFullQuestionMap();
         indexMap = new HashMap<>();
+        currentCategory = Category.Mix;
+        loadIndexMap();
 
         store = new Store();
         lottery = new Lottery();
 
-        //setupGame(); //TODO remove this since the method should be called external when the game is started
-    }
-
-    /**
-     * Method that deals with the setup of a game
-     */
-    public void setupGame() {
         currentCategory = Category.Mix;
         loadIndexMap();
-        startRound();
     }
-
 
     /**
      * Method that fills the map of questionIndexes that is used to determine the order in which questions
