@@ -1,4 +1,4 @@
-package com.god.kahit.controller;
+package com.god.kahit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,21 +19,17 @@ public class ScorePageClass extends AppCompatActivity {
         setContentView(R.layout.score_activity);
     }
 
-    public void launchBackQuestionClass (View view){
+    public void launchBackMainActivityClass (View view){
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, QuestionClass.class);
+        Intent intent = new Intent(this, MainActivityClass.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-
     }
 
-    public void launchChooseGameClass (View view){
+    public void onBackPressed(){
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, ChooseGameClass.class);
+        Intent intent = new Intent(this, MainActivityClass.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-
     }
-
-
-
-
 }
