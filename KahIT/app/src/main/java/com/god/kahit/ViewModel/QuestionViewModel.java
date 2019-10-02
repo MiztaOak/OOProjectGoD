@@ -31,7 +31,9 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
 
     public QuestionViewModel() {
         Repository.getInstance().addQuizListener(this);
-        Repository.getInstance().startGame();
+        if(Repository.getInstance().isRoundOver()){
+            Repository.getInstance().startGame();
+        }
     }
 
     public MutableLiveData<String> getQuestionText(){

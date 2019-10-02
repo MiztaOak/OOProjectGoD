@@ -169,12 +169,19 @@ public class QuizGame {
      *
      * @return if the questions stack is empty
      */
-    public boolean isRoundOver() {
+    public boolean isRoundOver(){
+        if(roundQuestions == null){
+            return true;
+        }
         return roundQuestions.isEmpty();
     }
 
     public void setCurrentCategory(Category currentCategory) {
         this.currentCategory = currentCategory;
+    }
+
+    public Category getCurrentCategory() {
+        return currentCategory;
     }
 
     public void setNumOfQuestions(int numOfQuestions) {

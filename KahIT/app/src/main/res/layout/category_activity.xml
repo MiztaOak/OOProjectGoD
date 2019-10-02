@@ -36,22 +36,24 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/cHistoryImageButton"
+                android:id="@+id/cButton1"
                 android:layout_width="196dp"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"
+                android:onClick="onCategoryClick"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/historyicon" />
 
             <ImageButton
-                android:id="@+id/cNatureImageButton"
+                android:id="@+id/cButton2"
                 android:layout_width="210dp"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"
+                android:onClick="onCategoryClick"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/natureicon" />
         </LinearLayout>
@@ -62,22 +64,24 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/cTestImageButton"
+                android:id="@+id/cButton3"
                 android:layout_width="197dp"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"
+                android:onClick="onCategoryClick"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/testicon" />
 
             <ImageButton
-                android:id="@+id/cScienceImageButton"
+                android:id="@+id/cButton4"
                 android:layout_width="212dp"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"
+                android:onClick="onCategoryClick"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/sciencecon" />
         </LinearLayout>

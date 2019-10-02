@@ -20,4 +20,8 @@ public class AfterQuestionScorePageViewModel extends ViewModel implements Lifecy
         }
         return tupleList;
     }
+
+    public boolean isRoundOver(){
+        return Repository.getInstance().isRoundOver();
+    }
 }
