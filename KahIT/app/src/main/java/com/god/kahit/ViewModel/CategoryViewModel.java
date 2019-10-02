@@ -23,7 +23,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver{
         for(int i = 0; i < 4; i++){
             Category category;
             do{
-                category = Category.getCategoryByIndex(r.nextInt(Category.values().length)-1);
+                category = Category.getCategoryByIndex(r.nextInt(5)); //TODO REPLACE WITH SMART WAY
             }while(category == currentCategory || listContainsCategory(categories,category));
             categories.add(category);
         }
