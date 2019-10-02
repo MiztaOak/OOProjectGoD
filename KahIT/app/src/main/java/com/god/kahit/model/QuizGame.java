@@ -19,7 +19,7 @@ public class QuizGame {
     private Map<Category,List<Integer>> indexMap;
 
     private Deque<Question> roundQuestions;
-    private int numOfQuestions = 1;
+    private int numOfQuestions = 3;
     private Category currentCategory;
 
     private List<QuizListener> listeners;
