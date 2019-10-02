@@ -12,17 +12,18 @@ public class Lottery {
 
     public Lottery() {
         this.buffDebuffItems = ItemFactory.createStoreItems(3);
-    }
 
+
+    }
     public List<Player> getPlayers() {
         return players;
     }
 
 
-    //todo 8 players
-    public void setPlayersName(int numOfPlayers) {
-        for (int i = 0; i < numOfPlayers; i++) {
-            players.get(i).setName("yo" + i);
+    //todo later, 8 players
+    public void initPlayers(int numOfPlayers) {
+        for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
+            players.add(new Player());
         }
     }
 
@@ -30,9 +31,6 @@ public class Lottery {
         return buffDebuffItems;
     }
 
-    public void setBuffDebuffItems(List<Item> buffDebuffItems) {
-        this.buffDebuffItems = buffDebuffItems;
-    }
 }
 
 

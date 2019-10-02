@@ -12,7 +12,9 @@ public class Player {
     private Item wonItem;
 
 
+
     public Player(String name, int score, List<Item> items) {
+
         this.name = name;
         this.score = score;
         this.items = items;
@@ -24,6 +26,22 @@ public class Player {
         this.name = name;
         this.score = score;
 
+    }
+
+    public Player() {
+
+    }
+
+    public String getWonItemName() {
+        return wonItem.getName();
+    }
+
+    public Item getWonItem() {
+        return wonItem;
+    }
+
+    public void setWonItem(Item wonItem) {
+        this.wonItem = wonItem;
     }
 
     public void calculateNewScore(int newScore) {
@@ -61,15 +79,6 @@ public class Player {
     public void addItem(Item item) {
         items.add(item);
     }
-
-    public Item getWonItem() {
-        return wonItem;
-    }
-
-    public void setWonItem(Item wonItem) {
-        this.wonItem = wonItem;
-    }
-
 
     public void addItemByIndex(int index, Item item) {
         items.add(index, item);
