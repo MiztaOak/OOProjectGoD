@@ -23,13 +23,26 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver{
         for(int i = 0; i < 4; i++){
             Category category;
             do{
-                category = Category.getCategoryByIndex(r.nextInt(4));
-            }while(category == currentCategory && categories.contains(category));
+                category = Category.getCategoryByIndex(r.nextInt(Category.values().length)-1);
+            }while(category == currentCategory || listContainsCategory(categories,category));
             categories.add(category);
         }
     }
 
+    private boolean listContainsCategory(List<Category> list, Category category){
+        for(Category listItem: list){
+            if(listItem.toString().equals(category.toString())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setCategory (int index){
         Repository.getInstance().setCurrentCategory(categories.get(index));
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 }

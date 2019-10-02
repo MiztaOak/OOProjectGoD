@@ -33,6 +33,14 @@ public class CategoryView extends AppCompatActivity {
         buttons.add((ImageButton) findViewById(R.id.cButton3));
         buttons.add((ImageButton) findViewById(R.id.cButton4));
 
+        addPicturesToButton();
+    }
+
+    private void addPicturesToButton(){
+        for(int i = 0; i < buttons.size(); i++){
+            int resId = getResources().getIdentifier(model.getCategories().get(i).toString()+"icon","drawable", getApplicationInfo().packageName);
+            buttons.get(i).setImageResource(resId);
+        }
     }
 
     public void onCategoryClick(View view){

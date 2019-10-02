@@ -83,7 +83,7 @@
                 android:maxHeight="100dp"
                 android:onClick="onCategoryClick"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/sciencecon" />
+                app:srcCompat="@drawable/scienceicon" />
         </LinearLayout>
     </LinearLayout>
 

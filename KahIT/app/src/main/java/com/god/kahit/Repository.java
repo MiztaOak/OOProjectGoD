@@ -36,7 +36,7 @@ public class Repository {
     }
 
     public void startGame(){
-        quizGame.setupGame();
+        quizGame.startRound();
     }
 
     public void nextQuestion(){

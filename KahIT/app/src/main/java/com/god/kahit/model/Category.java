@@ -18,7 +18,11 @@ public enum Category {
         public String toString() {
             return "test";
         }
-    }, Mix;
+    }, Mix{
+        public String toString(){return "mix";}
+    }, Celebrities{
+        public String toString(){return "celebrities";}
+    };
 
     public static Category getCategoryByIndex(int i){
         switch (i){
@@ -30,6 +34,8 @@ public enum Category {
                 return Nature;
             case 3:
                 return Mix;
+            case 4:
+                return Celebrities;
         }
         return null;
     }
