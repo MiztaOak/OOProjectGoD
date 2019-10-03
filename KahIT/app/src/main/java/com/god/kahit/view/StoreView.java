@@ -1,10 +1,16 @@
 package com.god.kahit.view;
 
+import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -41,12 +47,27 @@ public class StoreView extends AppCompatActivity {
         itemButton1 = findViewById(R.id.itemButton);
         drawerLayout = findViewById(R.id.drawer_layout);
         storeImage = findViewById(R.id.storeImage);
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {}
 
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+                storeImage.setX(0);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels-190);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {}
+        });
         storeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(Gravity.END);
-                storeImage.setX(drawerLayout.getX());
             }
         });
 
