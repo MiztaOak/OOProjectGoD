@@ -55,7 +55,7 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
     }
 
     public void removeOnePlayer() {
-        lobby.deleteTeam(lobby.getTeamList().size()); //TODO removes one team not a player.
+        lobby.deleteTeam(lobby.getTeamList().size()); //TODO remove one player not a team.
     }
 
     @Override

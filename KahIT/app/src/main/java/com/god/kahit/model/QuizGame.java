@@ -38,14 +38,14 @@ public class QuizGame {
 
        private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
-    public QuizGame(Context context) { //TODO CONTEXT SHOULD NOT BE IN MODEL
+    public QuizGame(Context context) {
         teams = new ArrayList<>();
         players = new ArrayList<>();
         listeners = new ArrayList<>();
         currentUser = new Player("local",0,new ArrayList<Item>());
         players.add(currentUser);
 
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context)); //TODO CONTEXT!!!
+        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context));
         questionMap = QuestionFactory.getFullQuestionMap();
         indexMap = new HashMap<>();
         currentCategory = Category.Mix;
