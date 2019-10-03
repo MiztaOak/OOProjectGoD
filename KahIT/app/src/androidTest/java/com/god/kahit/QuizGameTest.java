@@ -22,7 +22,7 @@ public class QuizGameTest implements QuizListener {
     @Test
     public void testStartRound(){
         quizGame.setCurrentCategory(Category.History);
-        quizGame.setupGame();
+        quizGame.startRound();
         do {
             quizGame.nextQuestion();
         }while (!quizGame.isRoundOver());
