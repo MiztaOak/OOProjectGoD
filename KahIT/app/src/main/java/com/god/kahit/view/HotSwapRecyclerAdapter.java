@@ -70,10 +70,11 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
     public HotSwapRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.player_row, parent, false);
+        View view;
         if (viewType == 0) {
-
+            view = inflater.inflate(R.layout.player_row, parent, false);
         } else {
+            view = inflater.inflate(R.layout.player_row, parent, false);
             view.findViewById(R.id.add_button).setVisibility(View.VISIBLE);
             view.setBackgroundResource(R.drawable.dotted);
             view.findViewById(R.id.player_image).setVisibility(View.INVISIBLE);
