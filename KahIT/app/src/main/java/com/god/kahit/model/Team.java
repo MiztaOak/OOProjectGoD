@@ -2,13 +2,13 @@ package com.god.kahit.model;
 
 import java.util.List;
 
-public class Teams {
+public class Team {
     private final List<Player> teamMembers;
     private int teamScore;
-    private int teamName;
+    private String teamName;
 
 
-    public Teams(List<Player> teamMembers, int teamScore, int teamName) {
+    public Team(List<Player> teamMembers, int teamScore, String teamName) {
         this.teamMembers = teamMembers;
         this.teamScore = teamScore;
         this.teamName = teamName;
@@ -22,11 +22,16 @@ public class Teams {
         return teamScore;
     }
 
+    public String getTeamName() {
+        return this.teamName;
+    }
+
     public void setTeamScore(int teamScore) {
         this.teamScore = teamScore;
     }
 
-    public void setTeamName(int teamName) {
+
+    public  void setTeamName(String teamName){
         this.teamName = teamName;
     }
 

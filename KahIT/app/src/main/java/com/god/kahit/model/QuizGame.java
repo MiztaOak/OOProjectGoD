@@ -2,7 +2,10 @@ package com.god.kahit.model;
 
 import android.content.Context;
 
+import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.databaseService.QuestionDataLoaderDB;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -13,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class QuizGame {
-    private final List<Teams> teams;
+
+    private final List<Team> teams;
     private final List<Player> players;
     private Map<Category,List<Question>> questionMap;
     private Map<Category,List<Integer>> indexMap;
@@ -32,16 +36,16 @@ public class QuizGame {
     private Store store;
     private Lottery lottery;
 
-    private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
+       private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
-    public QuizGame(Context context) {
+    public QuizGame(Context context) { //TODO CONTEXT SHOULD NOT BE IN MODEL
         teams = new ArrayList<>();
         players = new ArrayList<>();
         listeners = new ArrayList<>();
         currentUser = new Player("local",0,new ArrayList<Item>());
         players.add(currentUser);
 
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context));
+        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context)); //TODO CONTEXT!!!
         questionMap = QuestionFactory.getFullQuestionMap();
         indexMap = new HashMap<>();
         currentCategory = Category.Mix;
@@ -182,6 +186,14 @@ public class QuizGame {
     }
 
     public List<Player> getPlayers() {
+        return players;
+    }
+
+    public List<Team> getTeamList() {
+        return teams;
+    }
+
+    public List<Player> getplayers() {
         return players;
     }
 }

@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.god.kahit.R;
 
-public class TeamArrangementClass extends AppCompatActivity {
+public class TeamArrangementView extends AppCompatActivity {
 
 
     @Override
