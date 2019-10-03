@@ -10,12 +10,14 @@ public class Player {
     private Integer score;
     private List<Item> items;
     private Modifier currentEffcts;
+    private boolean playerReady;
 
 
     public Player(String name, int score, List<Item> items) {
         this.name = name;
         this.score = score;
         this.items = items;
+        this.playerReady = false;
     }
 
     public void calculateNewScore(int newScore) {

@@ -16,36 +16,36 @@ import android.view.View;
 import android.widget.Button;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.HotSwapAddPlayerViewModel;
+import com.god.kahit.ViewModel.HotSwapAddPlayersViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import static java.lang.String.valueOf;
+public class HotSwapAddPlayersView extends AppCompatActivity {
 
-public class HotSwapAddPlayersClass extends AppCompatActivity {
+    private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
 
-    private static final String LOG_TAG = HotSwapAddPlayersClass.class.getSimpleName();
-    MutableLiveData<Map<Integer, String>> playerMap;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView.LayoutManager layoutManager;
+
+    MutableLiveData<List<String>> playerMap;
+    HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hotswap_add_players);
 
-        HotSwapAddPlayerViewModel hotSwapAddPlayerViewModel = ViewModelProviders.of(this).get(HotSwapAddPlayerViewModel.class);
-        playerMap = hotSwapAddPlayerViewModel.getPlayerMap();
-        hotSwapAddPlayerViewModel.getPlayerMap().observe(this, new Observer<Map<Integer, String>>() {
+        hotSwapAddPlayersViewModel = ViewModelProviders.of(this).get(HotSwapAddPlayersViewModel.class);
+        playerMap = hotSwapAddPlayersViewModel.getPlayerMap();
+        hotSwapAddPlayersViewModel.getPlayerMap().observe(this, new Observer<List<String>>() {
 
             @Override
-            public void onChanged(@Nullable Map<Integer, String> integerStringMap) {
-                //TODO
+            public void onChanged(@Nullable List<String> integerStringMap) {
+                recyclerView.removeAllViews();
+                recyclerAdapter.notifyDataSetChanged();
             }
-
         });
 
         setupRecyclerView();
@@ -56,20 +56,20 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
         addTeamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addOnePlayer();
+                hotSwapAddPlayersViewModel.addOnePlayer();
             }
         });
         removeTeamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeOnePlayer();
+                hotSwapAddPlayersViewModel.removeOnePlayer();
             }
         });
     }
 
     public void launchBackHotSwapGameModeClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, HotSwapGameModeClass.class);
+        Intent intent = new Intent(this, HotSwapGameModeView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -81,52 +81,23 @@ public class HotSwapAddPlayersClass extends AppCompatActivity {
     }
 
     /**
-     * Sets up the RecyclerView with the helperClass RecyclerAdapter.
+     * Sets up the recyclerView with it's adaptor HotSwapRecyclerAdapter.
      */
     private void setupRecyclerView() {
-        recyclerView = findViewById(R.id.hsApPlayersRecyclerView);
-        recyclerAdapter = new RecyclerAdapter(this, playerMap);
+        recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        recyclerAdapter = new HotSwapRecyclerAdapter(this, playerMap);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
     }
 
-    /**
-     * Adds one player in the view and the ViewModel gets notified.
-     */
-    private void addOnePlayer() {
-        int index = (recyclerAdapter.getItemCount());
-        int insertIndex = index + 1;
-        String stringValueOfInsertIndex = valueOf(insertIndex);
-        String newPlayer = "Player " + stringValueOfInsertIndex;
-        Map<Integer, String> map = playerMap.getValue();
-
-        if (map != null && index < 9) {
-            map.put(insertIndex, newPlayer);
-
-            playerMap.setValue(map);
-            recyclerAdapter.notifyItemInserted(insertIndex);
-        }
-    }
-
-    /**
-     * Removes one player in the view and the ViewModel gets notified.
-     */
-    private void removeOnePlayer() {
-        int index = recyclerAdapter.getItemCount();
-        if (index > 1 && playerMap.getValue() != null) {
-            playerMap.getValue().remove(index);
-            recyclerView.removeAllViews();
-            recyclerAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private List<Drawable> getDrawables() {
+    public List<Drawable> getDrawables() { //TODO this is supposed to be a method for loading in the player-drawables since we can't do that in viewModel.
         List<Drawable> drawableList = new ArrayList<>();
 
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.player1);
 
         drawableList.add(drawable);
+
 
         return drawableList;
     }

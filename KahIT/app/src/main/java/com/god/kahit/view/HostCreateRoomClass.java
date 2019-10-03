@@ -33,4 +33,10 @@ public class HostCreateRoomClass extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void launchTeamArrangementView (View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, TeamArrangementView.class);
+        startActivity(intent);
+    }
 }

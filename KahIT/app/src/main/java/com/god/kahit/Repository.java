@@ -28,7 +28,7 @@ public class Repository {
     }
 
     public void startNewGameInstance(Context context){
-        quizGame = new QuizGame(context);
+        quizGame = new QuizGame(context.getApplicationContext());
     }
 
     public void addQuizListener(QuizListener quizListener){

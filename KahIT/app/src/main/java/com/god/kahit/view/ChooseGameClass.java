@@ -42,9 +42,8 @@ public class ChooseGameClass extends AppCompatActivity {
 
     public void launchHotSwapGameModeClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, HotSwapGameModeClass.class);
+        Intent intent = new Intent(this, HotSwapGameModeView.class);
         startActivity(intent);
-
     }
 
 
