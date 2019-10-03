@@ -31,7 +31,6 @@ public class TeamArrangementViewModel {
     }
 
     public void addOnePlayer() {
-        Repository.getInstance().
         lobby.addPlayerToTeam(lobby.createNewPlayer(), lobby.getTeamList().size());
     }
 
