@@ -2,18 +2,20 @@ package com.god.kahit;
 
 import android.content.Context;
 
+import com.god.kahit.model.Category;
+import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
+import com.god.kahit.model.Tuple;
 
-import org.greenrobot.eventbus.EventBus;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Repository {
 
     private QuizGame quizGame;
     private static Repository instance;
-    EventBus eventBus = EventBus.getDefault();
-    Context context;
 
     private Repository() {
         //registerOnEventBus();
@@ -26,7 +28,7 @@ public class Repository {
     }
 
     public void startNewGameInstance(Context context){
-        quizGame = new QuizGame(context);
+        quizGame = new QuizGame(context.getApplicationContext());
     }
 
     public void addQuizListener(QuizListener quizListener){
@@ -34,7 +36,7 @@ public class Repository {
     }
 
     public void startGame(){
-        quizGame.setupGame();
+        quizGame.startRound();
     }
 
     public void nextQuestion(){
@@ -46,7 +48,22 @@ public class Repository {
     }
 
     public void registerOnEventBus(){
-        eventBus.register(this);
+    //    eventBus.register(this);
     }
 
+    public List<Player> getPlayers(){
+        return quizGame.getPlayers();
+    }
+
+    public boolean isRoundOver(){
+        return quizGame.isRoundOver();
+    }
+
+    public Category getCurrentCategory(){
+        return quizGame.getCurrentCategory();
+    }
+
+    public void setCurrentCategory(Category currentCategory){
+        quizGame.setCurrentCategory(currentCategory);
+    }
 }

@@ -3,23 +3,20 @@ package com.god.kahit.model;
 import java.util.List;
 
 public class Store {
-    private List<BuyableItem> storeItems;
+    private List<Item> storeItems;
 
     public Store() {
-       this.storeItems = ItemFactory.createStoreItems(3);
+       this.storeItems = ItemFactory.createStoreItems(4);
     }
 
-    void buy(BuyableItem item, Player player){
-        player.addItem(item);
+    public void buy(Item item){
         storeItems.remove(item);
     }
-
-
-    public List<BuyableItem> getStoreItems() {
+    public List<Item> getStoreItems() {
         return storeItems;
     }
 
-    public void setStoreItems(List<BuyableItem> storeItems) {
+    public void setStoreItems(List<Item> storeItems) {
         this.storeItems = storeItems;
     }
 }

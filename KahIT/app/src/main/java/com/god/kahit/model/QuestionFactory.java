@@ -15,15 +15,16 @@ public class QuestionFactory {
 
     /**
      * A method that creates Map of questions with category as the key and a list of questions as the values
+     *
      * @param categories A array of the categories that will be inside the map
      * @return The map with category as the key and a list of questions as the values
      */
-    public static Map<Category, List<Question>> getQuestionMap(Category[] categories){
-        if(dataLoader == null)
+    public static Map<Category, List<Question>> getQuestionMap(Category[] categories) {
+        if (dataLoader == null)
             return null;
-        Map<Category,List<Question>> questions = new HashMap<>();
-        for(int i = 0; i < categories.length; i++){
-            questions.put(categories[i],dataLoader.getQuestionList(categories[i]));
+        Map<Category, List<Question>> questions = new HashMap<>();
+        for (int i = 0; i < categories.length; i++) {
+            questions.put(categories[i], dataLoader.getQuestionList(categories[i]));
         }
 
         return questions;
@@ -31,10 +32,11 @@ public class QuestionFactory {
 
     /**
      * Method that gets a map containing all possible categories
+     *
      * @return The map with category as the key and a list of questions as the values
      */
     static Map<Category, List<Question>> getFullQuestionMap(){
-        Category[] categories = {Category.Science, Category.History, Category.Nature};
+        Category[] categories = {Category.Science, Category.History, Category.Nature, Category.Celebrities}; //TODO replace with a scalable solution
         return getQuestionMap(categories);
     }
 
