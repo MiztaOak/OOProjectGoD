@@ -98,4 +98,12 @@ public class HotSwapAddPlayersView extends AppCompatActivity {
 
         return drawableList;
     }
+
+    public void onClickAddTeam(View view) {
+        Log.d(LOG_TAG, "Button add-team clicked!");
+    }
+
+    public void onClickRemoveTeam(View view) {
+        Log.d(LOG_TAG, "Button add-team clicked!");
+    }
 }
