@@ -7,7 +7,7 @@
     tools:ignore="MissingDefaultResource">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/chooseGameActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,106 +15,84 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Button
+            android:id="@+id/cgBackButton"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="back"
+            android:onClick="launchBackMainActivityClass"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
         <ImageView
             android:id="@+id/hsGmLogo"
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:scaleType="centerInside"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/kahit" />
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@mipmap/ic_launcher" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
+        <Button
+            android:id="@+id/hsGmYouBetterRunButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:text="host"
+            android:onClick="launchHostCreateRoomClass"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@+id/hsGmWhateverButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <Button
+            android:id="@+id/hsGmWhateverButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:text="join"
+            android:textSize="17sp"
+            android:onClick="launchJoinRoomClass"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:dividerPadding="45dp"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/hsGmWhateverButton"
-                    android:layout_width="150dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="30dp"
-                    android:onClick="launchJoinRoomClass"
-                    android:text="join"
-                    android:textSize="17sp" />
-
-                <Button
-                    android:id="@+id/hsGmYouBetterRunButton"
-                    android:layout_width="150dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="30dp"
-                    android:onClick="launchHostCreateRoomClass"
-                    android:text="host"
-                    android:textSize="17sp" />
-
-                <Button
-                    android:id="@+id/storeButton"
-                    android:layout_width="150dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="30dp"
-                    android:onClick="launchHotSwapGameModeClass"
-                    android:text="hot swap"
-                    android:textSize="17sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/hsGmWaitWhatButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:text="hot swap"
+            android:onClick="launchHotSwapGameModeClass"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hsGmWhateverButton"
+            app:layout_constraintVertical_bias="0.100000024" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/sideNavButton"
-                        android:layout_width="150dp"
-                        android:layout_height="70dp"
-                        android:layout_marginRight="15dp"
-                        android:onClick="launchSidenavTest"
-                        android:text="sidenav store" />
-
-                    <Button
-                        android:id="@+id/hsGmWaitWhatButton"
-                        android:layout_width="150dp"
-                        android:layout_height="70dp"
-                        android:onClick="launchHotSwapGameModeClass"
-                        android:text="hot swap"
-                        android:textSize="17sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </android.support.constraint.ConstraintLayout>
-
+        <Button
+            android:id="@+id/storeButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:onClick="launchStore"
+            android:text="Store"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hsGmWhateverButton"
+            app:layout_constraintVertical_bias="0.473" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -17,7 +17,7 @@ public class QuestionTest {
         stringList.add("WORLD");
         stringList.add("SCRAMBLE");
         stringList.add("JOKE");
-        Question question = new Question(category, "2", "3", stringList,10);
+        Question question = new Question(category, "2", "3", stringList);
         List<String> scram = question.scrambleAlternatives(stringList);
         assertNotEquals(scram, stringList);
     }

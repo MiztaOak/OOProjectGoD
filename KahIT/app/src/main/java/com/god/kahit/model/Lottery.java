@@ -1,44 +1,31 @@
 package com.god.kahit.model;
 
-import java.util.HashMap;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import com.god.kahit.R;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Lottery {
 
-    private Item item;
-    private Map<Integer, Item> lotteryItemMap;
-    private List<Item> buffDebuffItems;
+    Random random = new Random();
+    private  List<Player> players;
+    //  Map<Player,BuyableItem> newList;
 
-    public Lottery() {
-        this.lotteryItemMap = new HashMap<>();
-        this.buffDebuffItems = ItemFactory.createStoreItems(3);
-    }
+    public void drawLottery(List<Player> lotteryPlayers, List<BuyableItem> lotteryPool){
 
-    public Item getItem() {
-        return item;
-    }
+       // /** getting a random item of lotteryPool */
+      //  Buyable item = lotteryPool.get(random.nextInt(lotteryPool.size()));
+   }
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
 
-    public Map<Integer, Item> getLotteryItemMap() {
-        return lotteryItemMap;
-    }
 
-    public void setLotteryItemMap(Map<Integer, Item> lotteryItemMap) {
-        this.lotteryItemMap = lotteryItemMap;
-    }
-
-    public List<Item> getBuffDebuffItems() {
-        return buffDebuffItems;
-    }
-
-    public void setBuffDebuffItems(List<Item> buffDebuffItems) {
-        this.buffDebuffItems = buffDebuffItems;
-    }
 }
-
-
-

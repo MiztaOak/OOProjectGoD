@@ -19,18 +19,16 @@
             android:id="@+id/mLogoImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="5sp"
             android:longClickable="false"
             android:nestedScrollingEnabled="false"
-            android:scaleType="centerInside"
             android:scrollbarSize="5sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
-            app:srcCompat="@drawable/kahit" />
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
 
         <Button
             android:id="@+id/mAboutButton"
@@ -62,17 +60,11 @@
 
         <Button
             android:id="@+id/mPlayButton"
-            android:layout_width="275dp"
-            android:layout_height="90dp"
-            android:background="#00CBF8"
-            android:lineSpacingExtra="8sp"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
             android:onClick="launchChooseGameClass"
             android:text="PLAY"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            android:typeface="normal"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

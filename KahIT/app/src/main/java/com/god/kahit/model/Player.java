@@ -1,69 +1,70 @@
 package com.god.kahit.model;
 
+import android.media.Image;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.util.List;
 
 public class Player {
     private String name;
     private ImageButton selfie;
-    private Integer score;
-    private List<Item> items;
-    private Modifier currentEffcts;
-    private boolean playerReady;
+    private int score;
+    private List<BuyableItem> items;
+    private StatAlterer currentEffcts;
 
 
-    public Player(String name, int score, List<Item> items) {
+    public Player(String name, int score, List<BuyableItem> items) {
         this.name = name;
         this.score = score;
         this.items = items;
-        this.playerReady = false;
     }
 
-    public void calculateNewScore(int newScore) {
+    public void calculateNewScore( int newScore){
         // todo switch instead
-        if (currentEffcts.equals("double score")) {
+        if (currentEffcts.equals("double score")){
             updateScore(newScore);
         }
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void updateScore(int points) {
-        this.score += score;
+       this.score += score;
+    }
+
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public List<Item> getListItems() {
+    public List<BuyableItem> getListItems() {
         return items;
     }
 
-    public void addItem(Item item) {
+    public void addItem(BuyableItem item){
         items.add(item);
     }
 
-    public void addItemByIndex(int index, Item item) {
-        items.add(index, item);
+    public void addItemByIndex(int index, BuyableItem item){
+        items.add(index,item);
     }
 
-    public void removeItemByName(Item item) {
+    public void removeItemByName(BuyableItem item){
         items.remove(item);
     }
 
-    public void removeItemByIndex(int item) {
+    public void removeItemByIndex(int item){
         items.remove(item);
     }
 }

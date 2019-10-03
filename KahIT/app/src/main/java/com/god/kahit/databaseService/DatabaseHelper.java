@@ -17,19 +17,20 @@ import java.io.OutputStream;
  * the correct location as well as manage it.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final int DB_VERSION = 1;
     private static String DB_NAME = "questions.db";
     private static String DB_PATH = "";
-    private static boolean hasCheckedForNewData = false;
-    private final Context mContext;
-    private SQLiteDatabase mDataBase;
-    private boolean mNeedUpdate = false;
+    private static final int DB_VERSION = 1;
 
-    public DatabaseHelper(Context context) {
+    private SQLiteDatabase mDataBase;
+    private final Context mContext;
+    private boolean mNeedUpdate = false;
+    private static boolean hasCheckedForNewData = false;
+
+    public DatabaseHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
-        if (Build.VERSION.SDK_INT >= 17) {
+        if(Build.VERSION.SDK_INT >= 17){
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
-        } else {
+        }else{
             DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
         }
         this.mContext = context;
@@ -41,13 +42,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Method that updates the database using the copyDataBase() method
-     *
      * @throws IOException
      */
-    public void updateDataBase() throws IOException {
-        if (mNeedUpdate || !hasCheckedForNewData) {
+    public void updateDataBase() throws IOException{
+        if(mNeedUpdate || !hasCheckedForNewData){
             File dbFile = new File(DB_PATH + DB_NAME);
-            if (dbFile.exists()) {
+            if(dbFile.exists()){
                 dbFile.delete();
             }
 
@@ -57,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private boolean checkDataBase() {
+    private boolean checkDataBase(){
         File dbFile = new File(DB_PATH + DB_NAME);
         return dbFile.exists();
     }
@@ -66,13 +66,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Method that copies the database from the assets folder to the appropriate folder for androids
      * structure
      */
-    private void copyDataBase() {
-        if (!checkDataBase()) {
+    private void copyDataBase(){
+        if(!checkDataBase()){
             this.getReadableDatabase();
             this.close();
             try {
                 copyDBFile();
-            } catch (IOException mIOException) {
+            }catch (IOException mIOException){
                 throw new Error("ErrorCopyingDataBase");
             }
         }
@@ -80,15 +80,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Method that copies the database file from the assets folder
-     *
      * @throws IOException
      */
-    private void copyDBFile() throws IOException {
+    private void copyDBFile() throws IOException{
         InputStream mInput = mContext.getAssets().open(DB_NAME);
         OutputStream mOutput = new FileOutputStream(DB_PATH + DB_NAME);
         byte[] mBuffer = new byte[1024];
         int mLength;
-        while ((mLength = mInput.read(mBuffer)) > 0) {
+        while((mLength = mInput.read(mBuffer)) > 0){
             mOutput.write(mBuffer, 0, mLength);
         }
         mOutput.flush();
@@ -98,7 +97,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Method that opens the database
-     *
      * @return returns true if the database was opened
      * @throws SQLException
      */
@@ -111,20 +109,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Method that closes the database
      */
     @Override
-    public synchronized void close() {
-        if (mDataBase != null) {
+    public synchronized void close(){
+        if(mDataBase != null){
             mDataBase.close();
         }
         super.close();
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-    }
-
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {}
+    
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int newVersion, int oldVersion) {
-        if (newVersion > oldVersion) {
+        if(newVersion > oldVersion){
             mNeedUpdate = true;
         }
     }

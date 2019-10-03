@@ -19,9 +19,8 @@ public class MainActivityClass extends AppCompatActivity {
         Repository.getInstance().startNewGameInstance(getApplicationContext());
     }
 
-    public void launchChooseGameClass(View view) {
+    public void launchChooseGameClass(View view){
         Log.d(LOG_TAG, "Button clicked!");
-//        Intent intent = new Intent(this, ChooseGameClass.class);
         Intent intent = new Intent(this, ChooseGameClass.class);
         startActivity(intent);
     }

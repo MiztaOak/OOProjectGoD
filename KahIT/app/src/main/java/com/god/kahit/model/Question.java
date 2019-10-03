@@ -12,7 +12,7 @@ public class Question {
     private int time;
     private boolean hasBeenAnswered;
 
-    public Question(Category category, String question, String answer, List<String> alternatives, int time) {
+    public Question(Category category,String question, String answer, List<String> alternatives,int time){
         this.category = category;
         this.question = question;
         this.answer = answer;
@@ -20,9 +20,6 @@ public class Question {
         this.time = time;
         this.hasBeenAnswered = false;
     }
-
-    //  public Question(Category category, String s, String s1, List<String> stringList) {
-    //  }
 
     public Category getCategory() {
         return category;
@@ -50,7 +47,6 @@ public class Question {
 
     /**
      * Scrambles alternatives so that they don't have to appear on the same place in the list.
-     *
      * @param alt is a list Strings with of alternatives.
      * @return altCopy is a scrambled copy of alt.
      */
@@ -60,7 +56,7 @@ public class Question {
         return altCopy;
     }
 
-    public boolean isCorrectAnswer(String givenAnswer) {
+    public boolean isCorrectAnswer(String givenAnswer){
         return givenAnswer.equals(answer);
     }
 }

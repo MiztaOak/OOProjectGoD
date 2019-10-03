@@ -19,14 +19,14 @@ public class JoinRoomClass extends AppCompatActivity {
         setContentView(R.layout.join_room_activity);
     }
 
-    public void launchBackChooseGameClass(View view) {
+    public void launchBackChooseGameClass (View view){
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, ChooseGameClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    public void launchQuestionClass(View view) {
+    public void launchQuestionClass (View view){
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, QuestionClass.class);
         startActivity(intent);
