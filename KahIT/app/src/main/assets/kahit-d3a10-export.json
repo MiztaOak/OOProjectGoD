@@ -1,0 +1,114 @@
+{
+  "questions" : {
+    "history" : {
+      "q0" : {
+        "alts" : [
+          "Egyptian",
+          "Babylonian",
+          "Chinese"
+        ],
+        "answer" : "Mesopotamian",
+        "question" : "Which culture invented the plow?",
+        "time" : 7
+      },
+      "q1" : {
+        "alts" : [
+          "6 April 1453",
+          "14 October 1066",
+          "30 April 1450"
+        ],
+        "answer" : "29 May 1453",
+        "question" : "When was the city of Constatinople (Istanbul) conqured by Sultan Mehmed II?",
+        "time" : 12
+      }
+    },
+    "nature" : {
+      "q0" : {
+        "alts":[
+          "Pineapple",
+          "Papaya",
+          "Kiwi"
+        ],
+        "answer" : "Mango",
+        "question" : "Poison ivy belongs to a diverse botanical family that also includes the cashew and what tropical fruit?",
+        "time" : 12
+      }
+    },
+    "science" : {
+      "q0" : {
+        "alts":[
+          "Venus",
+          "Jupiter",
+          "Earth"
+        ],
+        "answer" : "Mars",
+        "question" : "Which planet is the 4th from the sun?",
+        "time" : 7
+      }
+    },
+    "celebrities" : {
+      "q0" : {
+        "alts":[
+          "Ryan Reynolds",
+          "Leonardo DiCaprio",
+          "Johnny Depp"
+        ],
+        "answer" : "Nicholas Cage",
+        "question" : "Known for his reckless spending, what movie star once paid $276,000 for a dinosaur skull?",
+        "time" : 7
+      }
+    },
+    "test" : {
+      "q0" : {
+        "alts" : [
+          "alla ostar",
+          "några ostar",
+          "många ostar"
+        ],
+        "answer" : "inga ostar",
+        "question" : "Hur många ostar har Johan hemma?",
+        "time" : 20
+      },
+      "q1" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      },
+      "q2" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      },
+      "q3" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      },
+      "q4" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      }
+    }
+  }
+}
