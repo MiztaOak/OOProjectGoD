@@ -1,5 +1,7 @@
 package com.god.kahit.model;
 
+import java.util.List;
+
 public enum Category {
     Science {
         public String toString() {
@@ -42,5 +44,27 @@ public enum Category {
                 return Celebrities;
         }
         return null;
+    }
+
+    public static Category getCategoryByString(String category){
+        switch (category) {
+            case "science":
+                return Science;
+            case "history":
+                return History;
+            case "nature":
+                return Nature;
+            case "mix":
+                return Mix;
+            case "celebrities":
+                return Celebrities;
+            case "test":
+                return Test;
+        }
+        return null;
+    }
+
+    public static Category[] getRealCategories(){
+        return new Category[]{Science, History, Nature, Celebrities};
     }
 }
