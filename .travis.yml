@@ -27,6 +27,8 @@ licenses:
 before_install:
 - cd KahIT
 - chmod +x gradlew
+- chmod +x run_git_inspector.sh
+- chmod +x push_report.sh
 - sudo apt-get update
 - sudo apt-get install python3
 
