@@ -12,6 +12,7 @@ env:
     - ANDROID_HOME=/usr/local/android-sdk
     - TOOLS=${ANDROID_HOME}/tools
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
+    - secure: abc
   matrix:
 #    - API=21 #minsdkAPI is set to 24, so dont bother to check for now
 #    - API=22 #minsdkAPI is set to 24, so dont bother to check for now
@@ -50,6 +51,8 @@ licenses:
 before_install:
     - cd KahIT
     - chmod +x gradlew
+    - sudo apt-get update
+    - sudo apt-get install python3
   
 # Emulator Management: Create, Start and Wait
 install:
@@ -70,7 +73,10 @@ install:
 script:
   - ./gradlew build
   - ./gradlew check connectedCheck --stacktrace
-  
+
+after_success:
+  - ./run_git_inspector.sh
+  - ./push_report.sh
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
