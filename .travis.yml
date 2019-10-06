@@ -54,13 +54,11 @@ script:
 after_success:
 - "./run_git_inspector.sh"
 - if [ -n "$GH_TOKEN" ]; then
-    cd ..
+    cd ..;
     git checkout -b gh-pages;
     git add git_inspector_report.html;
     git -c user.name='travis' -c user.email='travis' commit -m init;
-    # Make sure to make the output quiet, or else the API token will leak!
-    # This works because the API key can replace your password.
-    git push -f -q https://maatss:$GH_TOKEN@github.com/MiztaOak/OOProjectGoD-gh-pages gh-pages &>/dev/null
+    git push -f -q https://maatss:$GH_TOKEN@github.com/MiztaOak/OOProjectGoD-gh-pages gh-pages &>/dev/null;
   fi
 
 before_cache:
