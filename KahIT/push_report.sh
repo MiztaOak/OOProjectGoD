@@ -13,7 +13,7 @@ commit_website_files() {
 
 upload_files() {
   git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1
-  git push --quiet --set-upstream origin gitInspectorReport
+  git push --quiet --set-upstream origin gitInspector_Report
 }
 
 echo "Starting script"
