@@ -50,10 +50,12 @@ before_install:
 script:
 - "./run_git_inspector.sh"
 - cd ..
+- git config --global user.email "travis@travis-ci.org"
+- git config --global user.name "Travis CI"
 - git checkout -b gh-pages
 - git add .
-- git -c user.name='travis' -c user.email='travis' commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER'
-- git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git >> /dev/null 2>&1
+- git commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER'
+- git remote add origin https://$GH_TOKEN@github.com/MiztaOak/OOProjectGoD.git >> /dev/null 2>&1
 - git push --quiet --set-upstream origin gitInspector_Report >> /dev/null 2>&1
 # - "./gradlew build"
 # - "./gradlew check connectedCheck --stacktrace"
