@@ -49,17 +49,27 @@ before_install:
 
 script:
 - "./run_git_inspector.sh"
-- cd ..
-- git config --global user.email "travis@travis-ci.org"
-- git config --global user.name "Travis CI"
-- git checkout -b gh-pages
-- git add .
-- git commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER'
-# - git remote add origin https://$GH_TOKEN@github.com/MiztaOak/OOProjectGoD.git >> /dev/null 2>&1
-- git remote add origin https://maatss:$GH_TOKEN@github.com/maatss/OOProjectGoD.git >> /dev/null 2>&1
-- git push --quiet --set-upstream origin gitInspector_Report >> /dev/null 2>&1
+# - cd ..
+# - git config --global user.email "travis@travis-ci.org"
+# - git config --global user.name "Travis CI"
+# - git checkout -b gh-pages
+# - git add .
+# - git commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER'
+# - git remote add origin https://maatss:$GH_TOKEN@github.com/maatss/OOProjectGoD.git >> /dev/null 2>&1
+# - git push --quiet --set-upstream origin gitInspector_Report >> /dev/null 2>&1
 # - "./gradlew build"
 # - "./gradlew check connectedCheck --stacktrace"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: false
+  file_glob: true
+  file: "git_inspector_report.html"
+#  on:
+#    branch: master
+
 
 # after_success:
 # - "./run_git_inspector.sh"
@@ -71,7 +81,7 @@ script:
     # git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
     # git push --quiet --set-upstream origin gitInspector_Report > /dev/null 2>&1;
   # fi
-
+  
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
