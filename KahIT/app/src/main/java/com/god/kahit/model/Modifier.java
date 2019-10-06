@@ -1,33 +1,24 @@
 package com.god.kahit.model;
 
 public class Modifier extends Item {
-    private int scoreMultiplier;
-    private int timeMultiplier;
+    private double scoreMultiplier;
     private int timeHeadstart;
     private int amountOfAlternatives;
 
-    public Modifier(int price, String type, String name, String imageSource, int scoreMultiplier, int timeMultiplier, int timeHeadstart, int amountOfAlternatives) {
+
+    public Modifier(int price, String type, String name, String imageSource, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
         super(price, type, name, imageSource);
         this.scoreMultiplier = scoreMultiplier;
-        this.timeMultiplier = timeMultiplier;
         this.timeHeadstart = timeHeadstart;
         this.amountOfAlternatives = amountOfAlternatives;
     }
 
-    public int getScoreMultiplier() {
+    public double getScoreMultiplier() {
         return scoreMultiplier;
     }
 
-    public void setScoreMultiplier(int scoreMultiplier) {
+    public void setScoreMultiplier(double scoreMultiplier) {
         this.scoreMultiplier = scoreMultiplier;
-    }
-
-    public int getTimeMultiplier() {
-        return timeMultiplier;
-    }
-
-    public void setTimeMultiplier(int timeMultiplier) {
-        this.timeMultiplier = timeMultiplier;
     }
 
     public int getTimeHeadstart() {

@@ -1,4 +1,4 @@
-package com.god.kahit.ViewModel;
+package com.god.kahit.viewModel;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
