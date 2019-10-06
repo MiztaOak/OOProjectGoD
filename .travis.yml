@@ -67,8 +67,9 @@ deploy:
   keep_history: false
   file_glob: true
   file: "git_inspector_report.html"
-#  on:
-#    branch: master
+ on:
+   branch: GitInspectorReport
+   # branch: master
 
 
 # after_success:
