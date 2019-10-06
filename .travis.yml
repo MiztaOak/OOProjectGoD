@@ -34,31 +34,32 @@ before_install:
 
 install:
 - echo 'count=0' > /home/travis/.android/repositories.cfg
-- echo y | sdkmanager "platform-tools" >/dev/null
-- echo y | sdkmanager "tools" >/dev/null
-- echo y | sdkmanager "build-tools;28.0.3" >/dev/null
-- echo y | sdkmanager "platforms;android-$API" >/dev/null
-- echo y | sdkmanager "platforms;android-28" >/dev/null
-- echo y | sdkmanager --channel=4 "emulator" >/dev/null
-- echo y | sdkmanager "extras;android;m2repository" >/dev/null
-- echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null
-- echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
-- emulator -verbose -avd test -no-accel -no-snapshot -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
-- android-wait-for-emulator
-- adb shell input keyevent 82 &
+# - echo y | sdkmanager "platform-tools" >/dev/null
+# - echo y | sdkmanager "tools" >/dev/null
+# - echo y | sdkmanager "build-tools;28.0.3" >/dev/null
+# - echo y | sdkmanager "platforms;android-$API" >/dev/null
+# - echo y | sdkmanager "platforms;android-28" >/dev/null
+# - echo y | sdkmanager --channel=4 "emulator" >/dev/null
+# - echo y | sdkmanager "extras;android;m2repository" >/dev/null
+# - echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null
+# - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
+# - emulator -verbose -avd test -no-accel -no-snapshot -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
+# - android-wait-for-emulator
+# - adb shell input keyevent 82 &
 
 script:
-- "./gradlew build"
-- "./gradlew check connectedCheck --stacktrace"
+# - "./gradlew build"
+# - "./gradlew check connectedCheck --stacktrace"
 
 after_success:
 - "./run_git_inspector.sh"
 - if [ -n "$GH_TOKEN" ]; then
     cd ..;
     git checkout -b gh-pages;
-    git add git_inspector_report.html;
+    git add .;
     git -c user.name='travis' -c user.email='travis' commit -m "Travis build: $TRAVIS_BUILD_NUMBER";
-    git push -f -q https://maatss:$GH_TOKEN@github.com/MiztaOak/OOProjectGoD-gh-pages gh-pages &>/dev/null;
+    git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
+    git push --quiet --set-upstream origin gitInspector_Report;
   fi
 
 before_cache:
