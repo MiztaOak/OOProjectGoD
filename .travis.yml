@@ -19,7 +19,7 @@ android:
   components:
   # - tools
   
-licenses:
+# licenses:
 # - android-sdk-preview-license-.+
 # - android-sdk-license-.+
 # - google-gdk-license-.+
@@ -32,7 +32,7 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install python3
 
-install:
+# install:
 # - echo 'count=0' > /home/travis/.android/repositories.cfg
 # - echo y | sdkmanager "platform-tools" >/dev/null
 # - echo y | sdkmanager "tools" >/dev/null
@@ -48,10 +48,6 @@ install:
 # - adb shell input keyevent 82 &
 
 script:
-# - "./gradlew build"
-# - "./gradlew check connectedCheck --stacktrace"
-
-after_success:
 - "./run_git_inspector.sh"
 - if [ -n "$GH_TOKEN" ]; then
     cd ..;
@@ -61,6 +57,19 @@ after_success:
     git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
     git push --quiet --set-upstream origin gitInspector_Report &>/dev/null;
   fi
+# - "./gradlew build"
+# - "./gradlew check connectedCheck --stacktrace"
+
+# after_success:
+# - "./run_git_inspector.sh"
+# - if [ -n "$GH_TOKEN" ]; then
+    # cd ..;
+    # git checkout -b gh-pages;
+    # git add .;
+    # git -c user.name='travis' -c user.email='travis' commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER';
+    # git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
+    # git push --quiet --set-upstream origin gitInspector_Report &>/dev/null;
+  # fi
 
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
