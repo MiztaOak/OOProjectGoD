@@ -32,10 +32,10 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install python3
 
-# install:
-# - echo 'count=0' > /home/travis/.android/repositories.cfg
-# - echo y | sdkmanager "platform-tools" >/dev/null
-# echo y | sdkmanager "tools" >/dev/null
+install:
+- echo 'count=0' > /home/travis/.android/repositories.cfg
+- echo y | sdkmanager "platform-tools" >/dev/null
+- echo y | sdkmanager "tools" >/dev/null
 # - echo y | sdkmanager "build-tools;28.0.3" >/dev/null
 # - echo y | sdkmanager "platforms;android-$API" >/dev/null
 # - echo y | sdkmanager "platforms;android-28" >/dev/null
