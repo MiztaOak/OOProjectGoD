@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.QuestionViewModel;
+import com.god.kahit.viewModel.QuestionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
