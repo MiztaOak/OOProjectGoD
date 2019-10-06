@@ -47,7 +47,8 @@ install:
 #- android-wait-for-emulator
 #- adb shell input keyevent 82 &
 
-#script:
+script:
+- "./run_git_inspector.sh"
 #- "./gradlew build"
 #- "./gradlew check connectedCheck --stacktrace"
 
