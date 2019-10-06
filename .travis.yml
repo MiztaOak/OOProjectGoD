@@ -56,7 +56,7 @@ script:
 - git add .
 - git commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER'
 # - git remote add origin https://$GH_TOKEN@github.com/MiztaOak/OOProjectGoD.git >> /dev/null 2>&1
-- git remote add origin https://maatss:$GH_TOKEN@github.com/MiztaOak/OOProjectGoD.git >> /dev/null 2>&1
+- git remote add origin https://maatss:$GH_TOKEN@github.com/maatss/OOProjectGoD.git >> /dev/null 2>&1
 - git push --quiet --set-upstream origin gitInspector_Report >> /dev/null 2>&1
 # - "./gradlew build"
 # - "./gradlew check connectedCheck --stacktrace"
