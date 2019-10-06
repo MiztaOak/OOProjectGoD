@@ -7,4 +7,4 @@ python git_inspector/gitinspector.py --grading=1 --exclude="git_inspector" --for
 
 echo "Report completed"
 
-pause
+# pause
