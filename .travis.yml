@@ -53,8 +53,8 @@ script:
 - git checkout -b gh-pages;
 - git add .;
 - git -c user.name='travis' -c user.email='travis' commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER';
-- git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git &>/dev/null;
-- git push --quiet --set-upstream origin gitInspector_Report &>/dev/null &>/dev/null;
+- git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
+- git push --quiet --set-upstream origin gitInspector_Report > /dev/null 2>&1;
 # - "./gradlew build"
 # - "./gradlew check connectedCheck --stacktrace"
 
