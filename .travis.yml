@@ -49,14 +49,12 @@ before_install:
 
 script:
 - "./run_git_inspector.sh"
-- if [ -n "$GH_TOKEN" ]; then
-    cd ..;
-    git checkout -b gh-pages;
-    git add .;
-    git -c user.name='travis' -c user.email='travis' commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER';
-    git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
-    git push --quiet --set-upstream origin gitInspector_Report &>/dev/null;
-  fi
+- cd ..;
+- git checkout -b gh-pages;
+- git add .;
+- git -c user.name='travis' -c user.email='travis' commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER';
+- git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
+- git push --quiet --set-upstream origin gitInspector_Report &>/dev/null; > /dev/null 2>&1;
 # - "./gradlew build"
 # - "./gradlew check connectedCheck --stacktrace"
 
@@ -69,7 +67,7 @@ script:
     # git -c user.name='travis' -c user.email='travis' commit -m 'Travis_build:$TRAVIS_BUILD_NUMBER';
     # git remote add origin https://${GH_TOKEN}@github.com/MiztaOak/OOProjectGoD.git > /dev/null 2>&1;
     # git push --quiet --set-upstream origin gitInspector_Report > /dev/null 2>&1;
-  # fi
+  # fi > /dev/null 2>&1;
 
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
