@@ -49,9 +49,7 @@ install:
 script:
 - "./run_git_inspector.sh"
 - cd ..
-# - javadoc -protected -splitindex -d JavaDoc -sourcepath KahIt/app/src/main/java -subpackages com -Xdoclint:none
-# - javadoc -protected -splitindex -d JavaDoc -sourcepath KahIt/app/src -subpackages main/java -Xdoclint:none
-- javadoc -protected -splitindex -d JavaDoc -sourcepath KahIT/app/src/main/java -subpackages com.god.kahit -Xdoclint:none
+- javadoc -protected -splitindex -d JavaDoc -sourcepath KahIT/app/src/main/java -subpackages com.god.kahit -Xdoclint:none >/dev/null 2>&1 # Suppresses normal logs and error log 
 - cd KahIT
 - "./gradlew build"
 - "./gradlew check connectedCheck --stacktrace"
