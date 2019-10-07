@@ -1,7 +1,12 @@
 package com.god.kahit.view;
 
+import androidx.lifecycle.ViewModelProviders;
 import android.content.res.Resources;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,12 +19,8 @@ import com.god.kahit.viewModel.StoreViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProviders;
 
 /**
  * StoreView a class for the view of the store where players can buy items
@@ -73,13 +74,13 @@ public class StoreView extends AppCompatActivity {
 
     public void initializeStoreView() {
         pointsText = findViewById(R.id.pointsText);
-        storeViewModel.setPoints(500);
         findItemTypes();
         findItemIcons();
         findItemButtons();
         populateItemIcons();
         setPointsText();
         setItemTypes();
+        setButtonText();
         addActionsToTheButtons();
     }
 
@@ -118,14 +119,14 @@ public class StoreView extends AppCompatActivity {
         itemButtons.add((Button) findViewById(R.id.itemButton4));
         itemButtons.add((Button) findViewById(R.id.itemButton5));
         itemButtons.add((Button) findViewById(R.id.itemButton6));
-        itemButtons.add((Button) findViewById(R.id.itemButton7));
-        itemButtons.add((Button) findViewById(R.id.itemButton8));
-        itemButtons.add((Button) findViewById(R.id.itemButton9));
+        //itemButtons.add((Button) findViewById(R.id.itemButton7));
+        //itemButtons.add((Button) findViewById(R.id.itemButton8));
+        //itemButtons.add((Button) findViewById(R.id.itemButton9));
 
     }
 
     public void setPointsText() {
-        pointsText.setText("Points:" + storeViewModel.getPoints().getValue());
+        pointsText.setText("Points:" + storeViewModel.getStoreModel().getPlayer().getScore());
     }
 
     public void setItemTypes() {
@@ -140,19 +141,36 @@ public class StoreView extends AppCompatActivity {
             itemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (itemButtons.indexOf(itemButton) < 6){
-                        storeViewModel.buy(itemButtons.indexOf(itemButton));
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "You got a " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getType() + " "+storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getName(),
-                                Toast.LENGTH_LONG);
-
-                        toast.show();
-                    }
-                    itemButton.setEnabled(false);
-                    itemsIcons.get(itemButtons.indexOf(itemButton)).setImageResource(R.drawable.checkmark);
-                    pointsText.setText("Points: " + storeViewModel.getPoints().getValue());
+                    buy(itemButton);
                 }
             });
+        }
+    }
+    public void buy(Button itemButton){
+        if (storeViewModel.isItemBuyable(storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)))){
+            storeViewModel.buy(itemButtons.indexOf(itemButton));
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You got a " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getType() + " "+storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getName(),
+                    Toast.LENGTH_LONG);
+            toast.show();
+            itemButton.setEnabled(false);
+            itemsIcons.get(itemButtons.indexOf(itemButton)).setImageResource(R.drawable.checkmark);
+            pointsText.setText("Points: " + storeViewModel.getStoreModel().getPlayer().getScore());
+            disablebuttons();
+        }
+    }
+    public void disablebuttons(){
+        for (int i = 0; i < itemButtons.size(); i++) {
+            if(!storeViewModel.isItemBuyable(storeViewModel.getStoreItems().get(i))){
+                itemButtons.get(i).setEnabled(false);
+            }
+        }
+    }
+
+
+    public void setButtonText(){
+        for (int i = 0; i < itemButtons.size(); i++) {
+            itemButtons.get(i).setText(Integer.toString(storeViewModel.getStoreItems().get(i).getPrice()));
         }
     }
 }

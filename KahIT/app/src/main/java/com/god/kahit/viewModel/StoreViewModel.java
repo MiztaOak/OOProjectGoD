@@ -11,12 +11,13 @@ import androidx.lifecycle.ViewModel;
 public class StoreViewModel extends ViewModel {
     public int i = 0;
     private Store storeModel = new Store();
-    private MutableLiveData<Integer> points = new MutableLiveData<>();
-
+    //private MutableLiveData<Integer> points = new MutableLiveData<>();
+    public boolean isItemBuyable(Item item){
+        return (!(item.getPrice() > storeModel.getPlayer().getScore()));
+    }
     public void buy(int i) {
-        if (!(points.getValue() == (null)) && points.getValue() >= storeModel.getStoreItems().get(i).getPrice()) {
-            points.setValue(points.getValue() - (storeModel.getStoreItems().get(i).getPrice()));
-        }
+        storeModel.getPlayer().setScore((storeModel.getPlayer().getScore() - (storeModel.getStoreItems().get(i).getPrice())));
+        storeModel.buy(storeModel.getStoreItems().get(i));
     }
 
     public List<Item> getStoreItems() {
@@ -30,11 +31,11 @@ public class StoreViewModel extends ViewModel {
     public void setStoreModel(Store storeModel) {
         this.storeModel = storeModel;
     }
-
+//TODO cheak mutableLiveDate
+/*
     public MutableLiveData<Integer> getPoints() {
         return points;
     }
-
     public void setPoints(int p) {
         if ((points.getValue() == (null))) {
             this.points.setValue(p);
@@ -42,4 +43,5 @@ public class StoreViewModel extends ViewModel {
             this.points.setValue(points.getValue() + p);
         }
     }
+*/
 }
