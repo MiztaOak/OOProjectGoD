@@ -1,6 +1,5 @@
 package com.god.kahit;
 
-import com.god.kahit.databaseService.QuestionDataLoaderFirebase;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
