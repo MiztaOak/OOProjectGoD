@@ -38,7 +38,6 @@ public class StoreView extends AppCompatActivity {
         setContentView(R.layout.sidenav_store);
 
         initializeStoreView();
-
     }
 
     /**
@@ -54,6 +53,7 @@ public class StoreView extends AppCompatActivity {
         setItemTypes();
         setButtonText();
         addActionsToButtons();
+
         addDrawerListener();
     }
     /**
@@ -157,7 +157,6 @@ public class StoreView extends AppCompatActivity {
      * is a method call that lets the user buy an item
      */
     public void addActionsToButtons() {
-
         for (final Button itemButton : itemButtons) {
             itemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
