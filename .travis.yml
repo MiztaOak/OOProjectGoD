@@ -48,6 +48,7 @@ install:
 
 script:
 - "./run_git_inspector.sh"
+- javadoc -protected -splitindex -d JavaDoc -sourcepath KahIt/app/src/main/java -subpackages com -Xdoclint:none
 - "./gradlew build"
 - "./gradlew check connectedCheck --stacktrace"
 
@@ -57,9 +58,10 @@ deploy:
   github_token: $GH_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: false
   file_glob: true
-  file: "index.html"
+  # file: "index.html" # Upload everything, as we want both javadoc and git inspector report
   on:
-   branch: dev
+   branch: javaDocGenerator
+   # branch: dev
    # branch: master
   
 before_cache:
