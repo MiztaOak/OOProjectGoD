@@ -18,23 +18,18 @@ public class QuizGame {
     private final List<Player> players;
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
-
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3;
     private Category currentCategory;
-
     private Boolean gameIsStarted = false;
 
     private List<QuizListener> listeners;
-
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
     private Player currentUser;
-
     private Store store;
     private Lottery lottery;
-
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
     public QuizGame(Context context) {
