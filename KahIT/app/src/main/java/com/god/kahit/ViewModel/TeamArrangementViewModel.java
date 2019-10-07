@@ -1,40 +1,63 @@
 package com.god.kahit.ViewModel;
 
-import com.god.kahit.model.Lobby;
+import android.util.Log;
+
+import com.god.kahit.Events.TeamChangeEvent;
+import com.god.kahit.Repository;
+import com.god.kahit.model.Player;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.Lobby.BUS;
+import static com.god.kahit.model.QuizGame.BUS;
 
-public class TeamArrangementViewModel {
+public class TeamArrangementViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = TeamArrangementViewModel.class.getSimpleName();
 
-    private MutableLiveData<List<String>> playerMap;
+    private MutableLiveData<List<Player>> playerList;
 
-    private Lobby lobby;
-
-    public TeamArrangementViewModel(MutableLiveData<List<String>> playerMap) {
-        this.playerMap = playerMap;
+    public TeamArrangementViewModel() {
         BUS.register(this);
     }
 
-    public MutableLiveData<List<String>> getPlayerMap() {
-        if (playerMap == null) {
-            playerMap = new MutableLiveData<>();
-            addOnePlayer();
+    public MutableLiveData<List<Player>> getPlayerList() {
+        if (playerList == null) {
+            playerList = new MutableLiveData<>();
+            addNewPlayer();
         }
-        return playerMap;
+        return playerList;
     }
 
-    public void addOnePlayer() {
-        lobby.addPlayerToTeam(lobby.createNewPlayer(), lobby.getTeamList().size());
+    @Subscribe
+    public void onTeamChangeEvent(TeamChangeEvent event) {
+    }
+
+    public void addNewPlayer() {
+        Repository.getInstance().addNewPlayer();
     }
 
     public void removeOnePlayer() {
-        lobby.deleteTeam(lobby.getTeamList().size()); //TODO remove one player not a team.
+        //Repository.getInstance().removePlayer();
     }
 
+
+    public void resetPlayerData() {
+        Repository.getInstance().resetPLayerData();
+    }
+
+
+
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        Log.d(TAG, "on cleared called");
+    }
 }
+

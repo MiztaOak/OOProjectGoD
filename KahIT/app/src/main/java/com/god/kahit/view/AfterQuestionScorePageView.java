@@ -10,7 +10,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.AfterQuestionScorePageViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AfterQuestionScorePageView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
-    private AfterQuestionScorePageViewModel model;
+    private com.god.kahit.viewModel.AfterQuestionScorePageViewModel model;
     private ObjectAnimator animator;
 
     private RecyclerView recyclerView;
@@ -31,7 +30,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.after_question_score_page_activity);
 
-        model = ViewModelProviders.of(this).get(AfterQuestionScorePageViewModel.class);
+        model = ViewModelProviders.of(this).get(com.god.kahit.viewModel.AfterQuestionScorePageViewModel.class);
         final ProgressBar progressBar = findViewById(R.id.aqspProgressbar);
 
         setupRecycler();

@@ -3,7 +3,8 @@ package com.god.kahit.ViewModel;
 import android.util.Log;
 
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.model.Lobby;
+import com.god.kahit.Repository;
+import com.god.kahit.model.Player;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -14,48 +15,62 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.Lobby.BUS;
+import static com.god.kahit.model.QuizGame.BUS;
 
 public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = HotSwapAddPlayersViewModel.class.getSimpleName();
 
-    private Lobby lobby;
 
-    private MutableLiveData<List<String>> playerMap;
+    private MutableLiveData<List<Player>> playerMap;
 
     public HotSwapAddPlayersViewModel() {
-        lobby = new Lobby(); //TODO
         BUS.register(this);
     }
 
-    public MutableLiveData<List<String>> getPlayerMap() {
+    public MutableLiveData<List<Player>> getPlayerMap() {
         if (playerMap == null) {
             playerMap = new MutableLiveData<>();
-            addOnePlayer();
+            addNewPlayer();
         }
         return playerMap;
     }
 
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
-        List<String> playerNames = new ArrayList<>();
-        int numOfTeams = event.getTeam().size();
-        for (int i = 0; i < numOfTeams; i++) {
-            for (int j = 0; j < event.getTeam().get(i).getTeamMembers().size(); j++) {
-                String playerName = event.getTeam().get(i).getTeamMembers().get(j).getName();
-                playerNames.add(playerName);
-            }
+        /*List<Player> eventCopy = new ArrayList<>();
+        for (int i =0; i <event.getTeams().size();i++) {
+
         }
-        playerMap.setValue(playerNames);
+        event.getTeams().contains()
+        for(int i=0; i<event.getTeams().size(); i++) {
+            for(int j=0; j<event.getTeams().get(i).getTeamMembers().size(); j++) {
+                if(event.getTeams().get(i).getTeamMembers().get(j).equals(playerMap.getValue().get()))
+            }
+        }*/
+
+
+        List<Player> playerList = new ArrayList<>();
+        for (int i = 0; i < event.getTeams().size(); i++) {
+            playerList.addAll(event.getTeams().get(i).getTeamMembers());
+        }
+        playerMap.setValue(playerList);
     }
 
-    public void addOnePlayer() {
-        lobby.addPlayerToTeam(lobby.createNewPlayer(), lobby.getTeamList().size());
+    public void addNewPlayer() {
+        Repository.getInstance().addNewPlayer();
     }
 
-    public void removeOnePlayer() {
-        lobby.deleteTeam(lobby.getTeamList().size()); //TODO remove one player not a team.
+    public void removePlayer(Player player) {
+        Repository.getInstance().removePlayer(player);
+    }
+
+    public void resetPlayerData() {
+        Repository.getInstance().resetPLayerData();
+    }
+
+    public void updatePlayerData(int position, int newTeamId) {
+        Repository.getInstance().updatePlayerData(playerMap.getValue().get(position), newTeamId);
     }
 
     @Override

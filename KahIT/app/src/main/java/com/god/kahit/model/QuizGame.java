@@ -2,7 +2,10 @@ package com.god.kahit.model;
 
 import android.content.Context;
 
+import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.databaseService.QuestionDataLoaderDB;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -13,7 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 public class QuizGame {
-    private final List<Team> teams;
+
+    public static final EventBus BUS = new EventBus();
+
+    private static final int MAXIMUM_ALLOWED_PLAYERS = 8;
+
+    private final List<Team> teamList;
+
     private final List<Player> players;
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
@@ -35,7 +44,7 @@ public class QuizGame {
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
     public QuizGame(Context context) {
-        teams = new ArrayList<>();
+        teamList = new ArrayList<>();
         players = new ArrayList<>();
         listeners = new ArrayList<>();
         currentUser = new Player("local", 0, new ArrayList<Item>());
@@ -52,6 +61,8 @@ public class QuizGame {
 
         currentCategory = Category.Mix;
         loadIndexMap();
+
+        initTeamList();
     }
 
     /**
@@ -190,10 +201,115 @@ public class QuizGame {
     }
 
     public List<Team> getTeamList() {
-        return teams;
+        return teamList;
     }
 
-    public List<Player> getplayers() {
-        return players;
+    public void initTeamList() {
+        for(int i = 0; i< MAXIMUM_ALLOWED_PLAYERS; i++) {
+            createNewTeam();
+        }
+    }
+
+    public void createNewTeam() {
+            List<Player> players = new ArrayList<>();
+            Team team = new Team(players, 0, "Team " + (teamList.size() + 1));
+            teamList.add(team);
+    }
+
+    public void addNewPlayerToEmptyTeam() {
+        if (getTotalAmountOfPlayers() < 8) {
+            /*for (int i = 0; i < teamList.size(); i++) {
+                if (teamList.get(i).getTeamMembers().size() == 0) {
+                    teamList.get(i).getTeamMembers().add(createNewPlayer());
+                    break;
+                }
+            }*/
+            teamList.get(0).getTeamMembers().add(createNewPlayer()); //TODO
+            BUS.post(new TeamChangeEvent(teamList));
+        }
+    }
+
+    public void removePlayer(Player player) {
+        if (getTotalAmountOfPlayers() > 1) {
+            for (int i = 0; i < teamList.size(); i++) {
+                teamList.get(i).getTeamMembers().remove(player);
+            }
+            BUS.post(new TeamChangeEvent(teamList));
+        }
+    }
+
+    public void removePlayerFromTeam(Player player, int teamId) {
+        getTeamList().get(teamId).removePlayer(player);
+        BUS.post(new TeamChangeEvent(teamList));
+    }
+
+
+    public Player createNewPlayer() {
+        List<Item> buyableItems = new ArrayList<>();
+        int i = 1;
+        String name = "Player " + (getTotalAmountOfPlayers() + i);
+        while (isPlayerNameTaken(name)) {
+            name = "Player " + i;
+            i++;
+        }
+        return new Player(name, 0, buyableItems);
+    }
+
+    private boolean isPlayerNameTaken(String name) {
+        for (int i = 0; i < teamList.size(); i++) {
+            for(int j=0; j < teamList.get(i).getTeamMembers().size(); j++) {
+                if(teamList.get(i).getTeamMembers().get(j).getName().contentEquals(name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void removeTeam(Team team) {
+        teamList.remove(team);
+        BUS.post(new TeamChangeEvent(teamList));
+    }
+
+    public void changeTeam(Player player, int teamNum) {
+
+        BUS.post(new TeamChangeEvent(teamList));
+    }
+
+    public void changeTeamName(Team team, String teamName) {
+        BUS.post(new TeamChangeEvent(teamList));
+    }
+
+    public void setPlayerName(String name) {
+        BUS.post(new TeamChangeEvent(teamList));
+    }
+
+    private int getTotalAmountOfPlayers() {
+        int numOfPlayers = 0;
+        for (int i = 0; i < teamList.size(); i++) {
+            numOfPlayers += getTeamList().get(i).getTeamMembers().size();
+        }
+        return numOfPlayers;
+    }
+
+    /**
+     * Resets the teamList.
+     */
+    public void resetPLayerData() {
+        teamList.clear();
+    }
+
+    public void updatePlayerData(Player player, int newTeamNum) {
+        outerLoop:
+        for (int i = 0; i < teamList.size(); i++) {
+            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
+                if (teamList.get(i).getTeamMembers().get(j).equals(player) && newTeamNum != i) {
+                    teamList.get(newTeamNum).addPlayer(player);
+                    teamList.get(i).removePlayer(player);
+                    break outerLoop;
+                }
+            }
+        }
+        BUS.post(new TeamChangeEvent(teamList));
     }
 }
