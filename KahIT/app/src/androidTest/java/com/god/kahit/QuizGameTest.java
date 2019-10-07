@@ -20,6 +20,7 @@ public class QuizGameTest implements QuizListener {
     @Before
     public void setQuizGame() {
         quizGame = new QuizGame(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        quizGame.startGame();
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.god.kahit.model;
 import android.content.Context;
 
 import com.god.kahit.databaseService.QuestionDataLoaderDB;
+import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class QuizGame {
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3;
     private Category currentCategory;
+
+    private Boolean gameIsStarted = false;
+
     private List<QuizListener> listeners;
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
@@ -36,17 +40,27 @@ public class QuizGame {
         currentUser = new Player("local", 0, new ArrayList<Item>());
         players.add(currentUser);
 
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context));
-        questionMap = QuestionFactory.getFullQuestionMap();
-        indexMap = new HashMap<>();
-        currentCategory = Category.Mix;
-        loadIndexMap();
+        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
+
 
         store = new Store();
         lottery = new Lottery();
+    }
 
-        currentCategory = Category.Mix;
-        loadIndexMap();
+    public void startGame(){
+        if(!gameIsStarted){
+            questionMap = QuestionFactory.getFullQuestionMap();
+            indexMap = new HashMap<>();
+            currentCategory = Category.Mix;
+            loadIndexMap();
+
+            gameIsStarted = true;
+        }
+
+    }
+
+    public void endGame(){
+        gameIsStarted = false;
     }
 
     /**

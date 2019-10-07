@@ -59,8 +59,8 @@ deploy:
   file_glob: true
   file: "index.html"
   on:
-   branch: master
-   # branch: GitInspectorReport
+   branch: dev
+   # branch: master
   
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
