@@ -7,6 +7,7 @@ import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
+import com.god.kahit.model.Store;
 
 import java.util.List;
 
@@ -14,7 +15,6 @@ public class Repository {
 
     private static Repository instance;
     private QuizGame quizGame;
-
     private Repository() {
         //registerOnEventBus();
     }
@@ -35,8 +35,10 @@ public class Repository {
     }
 
     public void startGame() {
+        quizGame.startGame();
         quizGame.startRound();
     }
+
 
     public void nextQuestion() {
         quizGame.nextQuestion();
@@ -65,4 +67,6 @@ public class Repository {
     public void setCurrentCategory(Category currentCategory) {
         quizGame.setCurrentCategory(currentCategory);
     }
+
+
 }

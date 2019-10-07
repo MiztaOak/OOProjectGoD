@@ -3,6 +3,7 @@ package com.god.kahit.model;
 import android.content.Context;
 
 import com.god.kahit.databaseService.QuestionDataLoaderDB;
+import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -17,21 +18,19 @@ public class QuizGame {
     private final List<Player> players;
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
-
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3;
     private Category currentCategory;
 
-    private List<QuizListener> listeners;
+    private Boolean gameIsStarted = false;
 
+    private List<QuizListener> listeners;
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
     private Player currentUser;
-
     private Store store;
     private Lottery lottery;
-
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
     public QuizGame(Context context) {
@@ -41,17 +40,27 @@ public class QuizGame {
         currentUser = new Player("local", 0, new ArrayList<Item>());
         players.add(currentUser);
 
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context));
-        questionMap = QuestionFactory.getFullQuestionMap();
-        indexMap = new HashMap<>();
-        currentCategory = Category.Mix;
-        loadIndexMap();
+        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
+
 
         store = new Store();
         lottery = new Lottery();
+    }
 
-        currentCategory = Category.Mix;
-        loadIndexMap();
+    public void startGame(){
+        if(!gameIsStarted){
+            questionMap = QuestionFactory.getFullQuestionMap();
+            indexMap = new HashMap<>();
+            currentCategory = Category.Mix;
+            loadIndexMap();
+
+            gameIsStarted = true;
+        }
+
+    }
+
+    public void endGame(){
+        gameIsStarted = false;
     }
 
     /**
