@@ -51,7 +51,7 @@ script:
 - cd ..
 # - javadoc -protected -splitindex -d JavaDoc -sourcepath KahIt/app/src/main/java -subpackages com -Xdoclint:none
 # - javadoc -protected -splitindex -d JavaDoc -sourcepath KahIt/app/src -subpackages main/java -Xdoclint:none
-- javadoc -protected -splitindex -d JavaDoc -sourcepath KahIt/app/src/main/java -subpackages com.god.kahit -Xdoclint:none
+- javadoc -protected -splitindex -d JavaDoc -sourcepath KahIT/app/src/main/java -subpackages com.god.kahit -Xdoclint:none
 - cd KahIT
 - "./gradlew build"
 - "./gradlew check connectedCheck --stacktrace"
