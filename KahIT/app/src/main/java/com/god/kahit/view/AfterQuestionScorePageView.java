@@ -10,7 +10,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.AfterQuestionScorePageViewModel;
+import com.god.kahit.viewModel.AfterQuestionScorePageViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
