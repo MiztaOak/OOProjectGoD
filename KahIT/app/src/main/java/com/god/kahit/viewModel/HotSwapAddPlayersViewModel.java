@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.util.Pair;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -22,39 +23,31 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
     private static final String TAG = HotSwapAddPlayersViewModel.class.getSimpleName();
 
 
-    private MutableLiveData<List<Player>> playerMap;
+    private MutableLiveData<List<Pair<Player, Integer>>> listForView;
 
     public HotSwapAddPlayersViewModel() {
         BUS.register(this);
     }
 
-    public MutableLiveData<List<Player>> getPlayerMap() {
-        if (playerMap == null) {
-            playerMap = new MutableLiveData<>();
+    public MutableLiveData<List<Pair<Player, Integer>>> getListForView() {
+        if (listForView == null) {
+            listForView = new MutableLiveData<>();
             addNewPlayer();
         }
-        return playerMap;
+        return listForView;
     }
 
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
-        /*List<Player> eventCopy = new ArrayList<>();
-        for (int i =0; i <event.getTeams().size();i++) {
-
-        }
-        event.getTeams().contains()
-        for(int i=0; i<event.getTeams().size(); i++) {
-            for(int j=0; j<event.getTeams().get(i).getTeamMembers().size(); j++) {
-                if(event.getTeams().get(i).getTeamMembers().get(j).equals(playerMap.getValue().get()))
-            }
-        }*/
-
-
-        List<Player> playerList = new ArrayList<>();
+        List<Pair<Player, Integer>> playerList = new ArrayList<>();
+        Pair<Player, Integer> playerIntegerPair;
         for (int i = 0; i < event.getTeams().size(); i++) {
-            playerList.addAll(event.getTeams().get(i).getTeamMembers());
+            for (int j = 0; j < event.getTeams().get(i).getTeamMembers().size(); j++) {
+                playerIntegerPair = new Pair<>(event.getTeams().get(i).getTeamMembers().get(j), i);
+                playerList.add(playerIntegerPair);
+            }
         }
-        playerMap.setValue(playerList);
+        listForView.setValue(playerList);
     }
 
     public void addNewPlayer() {
@@ -70,7 +63,7 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
     }
 
     public void updatePlayerData(int position, int newTeamId) {
-        Repository.getInstance().updatePlayerData(playerMap.getValue().get(position), newTeamId);
+        Repository.getInstance().updatePlayerData(listForView.getValue().get(position).first, newTeamId);
     }
 
     @Override
