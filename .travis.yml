@@ -28,6 +28,7 @@ before_install:
 - cd KahIT
 - chmod +x gradlew
 - chmod +x run_git_inspector.sh
+- chmod +x generate_javadoc.sh
 - sudo apt-get update
 - sudo apt-get install python3
 
@@ -48,9 +49,10 @@ install:
 
 script:
 - "./run_git_inspector.sh"
-- cd ..
-- javadoc -protected -splitindex -d JavaDoc -sourcepath KahIT/app/src/main/java -subpackages com.god.kahit -Xdoclint:none >/dev/null 2>&1 # Suppresses normal logs and error log 
-- cd KahIT
+- "./generate_javadoc.sh"
+# - cd ..
+# - javadoc -protected -splitindex -d JavaDoc -sourcepath KahIT/app/src/main/java -subpackages com.god.kahit -Xdoclint:none >/dev/null 2>&1 # Suppresses normal logs and error log 
+# - cd KahIT
 - "./gradlew build"
 - "./gradlew check connectedCheck --stacktrace"
 
