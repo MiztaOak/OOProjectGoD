@@ -50,9 +50,6 @@ install:
 script:
 - "./run_git_inspector.sh"
 - "./generate_javadoc.sh"
-# - cd ..
-# - javadoc -protected -splitindex -d JavaDoc -sourcepath KahIT/app/src/main/java -subpackages com.god.kahit -Xdoclint:none >/dev/null 2>&1 # Suppresses normal logs and error log 
-# - cd KahIT
 - "./gradlew build"
 - "./gradlew check connectedCheck --stacktrace"
 
@@ -64,8 +61,7 @@ deploy:
   file_glob: true
   # file: "index.html" # Upload everything, as we want both javadoc and git inspector report
   on:
-   branch: javaDocGenerator
-   # branch: dev
+   branch: dev
    # branch: master
   
 before_cache:
