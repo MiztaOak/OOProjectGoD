@@ -1,4 +1,4 @@
-package com.god.kahit.ViewModel;
+package com.god.kahit.viewModel;
 
 
 import com.god.kahit.Repository;
@@ -7,7 +7,6 @@ import com.god.kahit.model.Category;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
