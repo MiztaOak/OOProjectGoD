@@ -1,7 +1,5 @@
 package com.god.kahit.model;
 
-import java.util.List;
-
 public enum Category {
     Science {
         public String toString() {
@@ -11,8 +9,7 @@ public enum Category {
         public String toString() {
             return "history";
         }
-    },
-    Nature {
+    }, Nature {
         public String toString() {
             return "nature";
         }

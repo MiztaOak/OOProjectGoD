@@ -1,6 +1,5 @@
 package com.god.kahit.view;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.core.view.GravityCompat;
-import androidx.lifecycle.MutableLiveData;
 
 /**
  * StoreView a class for the view of the store where players can buy items
@@ -38,6 +36,7 @@ public class StoreView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sidenav_store);
+
         initializeStoreView();
 
     }
@@ -54,7 +53,7 @@ public class StoreView extends AppCompatActivity {
         setPointsText();
         setItemTypes();
         setButtonText();
-        addActionsToTheButtons();
+        addActionsToButtons();
         addDrawerListener();
     }
     /**
@@ -157,7 +156,7 @@ public class StoreView extends AppCompatActivity {
      * A method that sets an action to each button that has been add to itemButtons list. The action
      * is a method call that lets the user buy an item
      */
-    public void addActionsToTheButtons() {
+    public void addActionsToButtons() {
 
         for (final Button itemButton : itemButtons) {
             itemButton.setOnClickListener(new View.OnClickListener() {
