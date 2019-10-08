@@ -26,6 +26,20 @@
   </a>
 </p>
 
+<p align="center">
+  GitInspector report - 
+	<a href="https://miztaoak.github.io/OOProjectGoD/">
+		dev
+	</a>
+</p>
+
+<p align="center">
+  JavaDoc - 
+	<a href="https://miztaoak.github.io/OOProjectGoD/JavaDoc/">
+		dev
+	</a>
+</p>
+
 #### About
 To be continued..
 
