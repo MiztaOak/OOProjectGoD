@@ -2,15 +2,13 @@ package com.god.kahit.view;
 
 import android.os.Bundle;
 
-import android.view.View;
-import android.widget.Button;
-
 import com.god.kahit.R;
 import com.god.kahit.ViewModel.TeamArrangementViewModel;
 import com.god.kahit.model.Player;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class TeamArrangementView extends AppCompatActivity implements HotSwapRecyclerAdapter.IOnPlayerClickListener {
+public class TeamArrangementView extends AppCompatActivity implements IOnPlayerClickListener {
 
     private static final String LOG_TAG = TeamArrangementView.class.getSimpleName();
 
@@ -27,7 +25,7 @@ public class TeamArrangementView extends AppCompatActivity implements HotSwapRec
     private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
 
-    MutableLiveData<List<Player>> playerList;
+    MutableLiveData<List<Pair<Player, Integer>>> playerList;
     TeamArrangementViewModel teamArrangementViewModel;
 
     @Override
@@ -37,38 +35,22 @@ public class TeamArrangementView extends AppCompatActivity implements HotSwapRec
 
         teamArrangementViewModel = ViewModelProviders.of(this).get(TeamArrangementViewModel.class);
 
-        setupRecyclerView();
-        playerList = teamArrangementViewModel.getPlayerList();
-        teamArrangementViewModel.getPlayerList().observe(this, new Observer<List<Player>>() {
+        playerList = teamArrangementViewModel.getListForView();
+        teamArrangementViewModel.getListForView().observe(this, new Observer<List<Pair<Player, Integer>>>() {
 
             @Override
-            public void onChanged(@Nullable List<Player> integerStringMap) {
-                recyclerView.removeAllViews();
+            public void onChanged(@Nullable List<Pair<Player, Integer>> integerStringMap) {
+                //recyclerView.removeAllViews();
                 recyclerAdapter.notifyDataSetChanged();
             }
         });
 
         setupRecyclerView();
 
-        Button addTeamButton = findViewById(R.id.addTeamButton);
-        Button removeTeamButton = findViewById(R.id.removePlayerButton);
-
-        addTeamButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                teamArrangementViewModel.addNewPlayer();
-            }
-        });
-        removeTeamButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                teamArrangementViewModel.removeOnePlayer();
-            }
-        });
     }
 
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.taPlayersRecyclerView);
         recyclerAdapter = new HotSwapRecyclerAdapter(this, playerList, this);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);

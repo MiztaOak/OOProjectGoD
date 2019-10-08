@@ -14,13 +14,14 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HotSwapAddPlayersView extends AppCompatActivity implements HotSwapRecyclerAdapter.IOnPlayerClickListener {
+public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlayerClickListener {
 
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
 
@@ -28,7 +29,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements HotSwapR
     private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
 
-    MutableLiveData<List<Player>> playerMap;
+    MutableLiveData<List<Pair<Player, Integer>>> playerMap;
     HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
 
     @Override
@@ -37,11 +38,11 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements HotSwapR
         setContentView(R.layout.hotswap_add_players);
 
         hotSwapAddPlayersViewModel = ViewModelProviders.of(this).get(HotSwapAddPlayersViewModel.class);
-        playerMap = hotSwapAddPlayersViewModel.getPlayerMap();
-        hotSwapAddPlayersViewModel.getPlayerMap().observe(this, new Observer<List<Player>>() {
+        playerMap = hotSwapAddPlayersViewModel.getListForView();
+        hotSwapAddPlayersViewModel.getListForView().observe(this, new Observer<List<Pair<Player, Integer>>>() {
 
             @Override
-            public void onChanged(@Nullable List<Player> integerStringMap) {
+            public void onChanged(@Nullable List<Pair<Player, Integer>> integerStringMap) {
                 recyclerAdapter.notifyDataSetChanged();
             }
         });
@@ -71,7 +72,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements HotSwapR
 
     @Override
     public void onPlayerClick(int position) {
-        hotSwapAddPlayersViewModel.removePlayer(playerMap.getValue().get(position));
+        hotSwapAddPlayersViewModel.removePlayer(playerMap.getValue().get(position).first);
     }
 
     @Override

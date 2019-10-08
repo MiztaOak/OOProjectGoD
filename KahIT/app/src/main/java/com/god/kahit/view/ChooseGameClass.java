@@ -21,7 +21,7 @@ public class ChooseGameClass extends AppCompatActivity {
 
     public void launchHostCreateRoomClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, HostCreateRoomClass.class);
+        Intent intent = new Intent(this, HostCreateRoomView.class);
         startActivity(intent);
     }
 
@@ -35,7 +35,7 @@ public class ChooseGameClass extends AppCompatActivity {
 
     public void launchJoinRoomClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, JoinRoomClass.class);
+        Intent intent = new Intent(this, JoinRoomView.class);
         startActivity(intent);
 
     }
