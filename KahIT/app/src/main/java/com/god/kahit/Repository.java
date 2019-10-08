@@ -1,7 +1,6 @@
 package com.god.kahit;
 
 import android.content.Context;
-import android.util.Pair;
 
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Player;
@@ -82,7 +81,7 @@ public class Repository {
     }
 
     public void updatePlayerData(Player player, int newTeamId){
-        quizGame.updatePlayerData(player, newTeamId);
+        quizGame.changeTeam(player, newTeamId);
     }
 
 }
