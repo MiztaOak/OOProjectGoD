@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.HotSwapGameModeViewModel;
+import com.god.kahit.viewModel.HotSwapGameModeViewModel;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.god.kahit.ViewModel;
+package com.god.kahit.viewModel;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-public class JoinRoomViewModel extends ViewModel implements LifecycleObserver {
+public class HostCreateRoomViewModel extends ViewModel implements LifecycleObserver {
 
-    private static final String TAG = JoinRoomViewModel.class.getSimpleName();
+    private static final String TAG = HostCreateRoomViewModel.class.getSimpleName();
 
     MutableLiveData<List<String>> listForView;
-
-    public JoinRoomViewModel() {
+    public HostCreateRoomViewModel() {
     }
 
     public MutableLiveData<List<String>> getListForView() {

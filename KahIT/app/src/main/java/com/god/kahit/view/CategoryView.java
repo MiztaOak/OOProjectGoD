@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.CategoryViewModel;
+import com.god.kahit.viewModel.CategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
