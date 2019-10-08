@@ -82,6 +82,15 @@ public class Player {
         items.remove(item);
     }
 
+    public boolean isPlayerReady() {
+        return playerReady;
+    }
+
+    public void setPlayerReady(boolean playerReady) {
+        this.playerReady = playerReady;
+    }
+
+
 }
 
 
