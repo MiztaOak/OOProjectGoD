@@ -218,13 +218,13 @@ public class QuizGame {
 
     public void addNewPlayerToEmptyTeam() {
         if (getTotalAmountOfPlayers() < 8) {
-            /*for (int i = 0; i < teamList.size(); i++) {
+            for (int i = 0; i < teamList.size(); i++) {
                 if (teamList.get(i).getTeamMembers().size() == 0) {
                     teamList.get(i).getTeamMembers().add(createNewPlayer());
                     break;
                 }
-            }*/
-            teamList.get(0).getTeamMembers().add(createNewPlayer()); //TODO
+            }
+            //teamList.get(0).getTeamMembers().add(createNewPlayer()); //TODO
             BUS.post(new TeamChangeEvent(teamList));
         }
     }
@@ -298,6 +298,7 @@ public class QuizGame {
     public void resetPLayerData() {
         teamList.clear();
     }
+
 
     public void updatePlayerData(Player player, int newTeamNum) {
         outerLoop:
