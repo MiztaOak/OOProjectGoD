@@ -9,7 +9,6 @@ import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
-import com.god.kahit.model.Store;
 
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class Repository {
     }
 
     public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
-        quizGame.receiveAnswer(givenAnswer, question, timeLeft);
+        quizGame.enterAnswer(givenAnswer, question, timeLeft);
     }
 
     public void registerOnEventBus() {

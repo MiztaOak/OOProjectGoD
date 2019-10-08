@@ -4,6 +4,8 @@ package com.god.kahit.model;
 import java.util.List;
 
 public class Player {
+    private final String id = "";  //TODO replace with good shit
+
     private String name;
     private Integer score;
     private Modifier currentEffcts; //TODO replace with stats ask Johan if you don't remember how
