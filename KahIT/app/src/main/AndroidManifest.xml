@@ -38,13 +38,13 @@
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
         <activity
-            android:name=".view.HostCreateRoomClass"
+            android:name=".view.HostCreateRoomView"
             android:parentActivityName=".view.ChooseGameClass"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.HostCreateRoomClass" />
+                android:value="com.god.kahit.view.HostCreateRoomView" />
         </activity>
         <activity
             android:name=".view.HotSwapAddPlayersView"
@@ -64,13 +64,13 @@
         </activity>
         <activity
 
-            android:name=".view.JoinRoomClass"
+            android:name=".view.JoinRoomView"
             android:parentActivityName=".view.ChooseGameClass"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.HostCreateRoomClass" />
+                android:value="com.god.kahit.view.HostCreateRoomView" />
         </activity>
         <activity
             android:name=".view.QuestionClass"

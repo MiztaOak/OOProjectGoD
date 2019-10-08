@@ -12,7 +12,7 @@ public class TeamChangeEvent {
         this.team = team;
     }
 
-    public List<Team> getTeam() {
+    public List<Team> getTeams() {
         return team;
     }
 

@@ -3,59 +3,67 @@ package com.god.kahit.ViewModel;
 import android.util.Log;
 
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.model.Lobby;
+import com.god.kahit.Repository;
+import com.god.kahit.model.Player;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.util.Pair;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.Lobby.BUS;
+import static com.god.kahit.model.QuizGame.BUS;
 
 public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = HotSwapAddPlayersViewModel.class.getSimpleName();
 
-    private Lobby lobby;
 
-    private MutableLiveData<List<String>> playerMap;
+    private MutableLiveData<List<Pair<Player, Integer>>> listForView;
 
     public HotSwapAddPlayersViewModel() {
-        lobby = new Lobby(); //TODO
         BUS.register(this);
     }
 
-    public MutableLiveData<List<String>> getPlayerMap() {
-        if (playerMap == null) {
-            playerMap = new MutableLiveData<>();
-            addOnePlayer();
+    public MutableLiveData<List<Pair<Player, Integer>>> getListForView() {
+        if (listForView == null) {
+            listForView = new MutableLiveData<>();
+            addNewPlayer();
         }
-        return playerMap;
+        return listForView;
     }
 
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
-        List<String> playerNames = new ArrayList<>();
-        int numOfTeams = event.getTeam().size();
-        for (int i = 0; i < numOfTeams; i++) {
-            for (int j = 0; j < event.getTeam().get(i).getTeamMembers().size(); j++) {
-                String playerName = event.getTeam().get(i).getTeamMembers().get(j).getName();
-                playerNames.add(playerName);
+        List<Pair<Player, Integer>> playerList = new ArrayList<>();
+        Pair<Player, Integer> playerIntegerPair;
+        for (int i = 0; i < event.getTeams().size(); i++) {
+            for (int j = 0; j < event.getTeams().get(i).getTeamMembers().size(); j++) {
+                playerIntegerPair = new Pair<>(event.getTeams().get(i).getTeamMembers().get(j), i);
+                playerList.add(playerIntegerPair);
             }
         }
-        playerMap.setValue(playerNames);
+        listForView.setValue(playerList);
     }
 
-    public void addOnePlayer() {
-        lobby.addPlayerToTeam(lobby.createNewPlayer(), lobby.getTeamList().size());
+    public void addNewPlayer() {
+        Repository.getInstance().addNewPlayer();
     }
 
-    public void removeOnePlayer() {
-        lobby.deleteTeam(lobby.getTeamList().size()); //TODO remove one player not a team.
+    public void removePlayer(Player player) {
+        Repository.getInstance().removePlayer(player);
+    }
+
+    public void resetPlayerData() {
+        Repository.getInstance().resetPLayerData();
+    }
+
+    public void updatePlayerData(int position, int newTeamId) {
+        Repository.getInstance().updatePlayerData(listForView.getValue().get(position).first, newTeamId);
     }
 
     @Override

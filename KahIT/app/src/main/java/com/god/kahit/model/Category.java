@@ -1,5 +1,13 @@
 package com.god.kahit.model;
 
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Enum that represents the different categories that a questions can have, each enum values has a
+ * to string method that returns a correct string representation of the values than can be used when
+ * loading resources such as values form a database or images
+ */
 public enum Category {
     Science {
         public String toString() {
@@ -27,22 +35,11 @@ public enum Category {
         }
     };
 
-    public static Category getCategoryByIndex(int i) {
-        switch (i) {
-            case 0:
-                return Science;
-            case 1:
-                return History;
-            case 2:
-                return Nature;
-            case 3:
-                return Mix;
-            case 4:
-                return Celebrities;
-        }
-        return null;
-    }
-
+    /**
+     * Method that takes a string and translates it into a category
+     * @param category the string that should be translated if possible
+     * @return the category if the string could be translated otherwise it returns null
+     */
     public static Category getCategoryByString(String category){
         switch (category) {
             case "science":
@@ -61,7 +58,12 @@ public enum Category {
         return null;
     }
 
-    public static Category[] getRealCategories(){
-        return new Category[]{Science, History, Nature, Celebrities};
+    /**
+     * Method that returns a list with all categories that have questions attached to them, meaning
+     * categories except test and mix
+     * @return a list with all categories that a question can have
+     */
+    public static List<Category> getRealCategories(){
+        return Arrays.asList(Science, History, Nature, Celebrities);
     }
 }
