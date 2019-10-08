@@ -9,19 +9,6 @@
     android:layout_marginBottom="3dp">
 
     <Button
-        android:id="@+id/add_button"
-        style="@style/Widget.AppCompat.ImageButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="+"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/remove_Player_Button1"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="30dp"
