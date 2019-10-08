@@ -4,7 +4,7 @@ public class Modifier extends Item {
     private double scoreMultiplier;
     private int timeHeadstart;
     private int amountOfAlternatives;
-
+    //TODO add the last of the values like robot boolean
 
     public Modifier(int price, String type, String name, String imageSource, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
         super(price, type, name, imageSource);

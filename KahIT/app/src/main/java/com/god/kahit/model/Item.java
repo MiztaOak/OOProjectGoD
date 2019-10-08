@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-public class Item {
+public abstract class Item {
     private int price;
     private String type; //TODO remove
     private String name;

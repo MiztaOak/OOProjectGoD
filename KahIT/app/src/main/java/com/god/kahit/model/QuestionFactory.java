@@ -1,5 +1,6 @@
 package com.god.kahit.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,8 @@ public class QuestionFactory {
      * @return The map with category as the key and a list of questions as the values
      */
     static Map<Category, List<Question>> getFullQuestionMap() {
-        Category[] categories = {Category.Science, Category.History, Category.Nature, Category.Celebrities}; //TODO replace with a scalable solution
-        return getQuestionMap(categories);
+        List<Category> categories = Category.getRealCategories();
+        return getQuestionMap((Category[])categories.toArray());
     }
 
     /**

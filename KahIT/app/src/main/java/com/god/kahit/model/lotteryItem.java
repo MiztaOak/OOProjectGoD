@@ -2,7 +2,7 @@ package com.god.kahit.model;
 
 import android.widget.ImageView;
 
-public class lotteryItem {
+public class lotteryItem { //TODO remove
     private Item playerWonItem; // buff or debuff
     private ImageView playerPic;
     private String playerName;
