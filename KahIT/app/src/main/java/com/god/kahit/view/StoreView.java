@@ -53,7 +53,6 @@ public class StoreView extends AppCompatActivity {
         setItemTypes();
         setButtonText();
         addActionsToButtons();
-
         addDrawerListener();
     }
     /**
