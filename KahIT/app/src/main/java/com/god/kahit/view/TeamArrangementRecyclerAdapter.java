@@ -33,12 +33,10 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
     private static final String LOG_TAG = TeamArrangementRecyclerAdapter.class.getSimpleName();
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
-
-    private IOnPlayerClickListener iOnplayerclickListener;
     MutableLiveData<List<Player>> playerList; //TODO LIST IS ENOUGH LIVEDATA BETWEEN VIEW AND VM NOT ADAPTER
     List<Integer> teamColors;
     List<String> teamNumbers;
-
+    private IOnPlayerClickListener iOnplayerclickListener;
     private Context context;
 
     public TeamArrangementRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList, IOnPlayerClickListener iOnplayerclickListener) {
@@ -47,17 +45,88 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
         this.iOnplayerclickListener = iOnplayerclickListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+    private void initTeamNumbers() {
+        teamNumbers = new ArrayList<>();
+        for (int i = 1; i < 9; i++) {
+            teamNumbers.add(" " + i + " ");
+        }
+    }
+
+    private void initTeamColors() {
+        teamColors = new ArrayList<>();
+        int[] retrieve = context.getResources().getIntArray(R.array.androidcolors);
+        for (int re : retrieve) {
+            teamColors.add(re);
+        }
+    }
+
+    @Override
+    public TeamArrangementRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        View view;
+        ViewHolder holder;
+
+        if (viewType == TYPE_ITEM) {
+            view = inflater.inflate(
+                    R.layout.player_row,
+                    parent,
+                    false);
+
+        } else {
+            view = inflater.inflate(
+                    R.layout.game_lobby_adapter_footer,
+                    parent,
+                    false);
+        }
 
 
+        ViewHolder viewHolder = new ViewHolder(view, iOnplayerclickListener);
+        return viewHolder;
+    }
 
-        IOnPlayerClickListener iOnplayerclickListener;
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
+
+        TextView textView = viewHolder.textView;
+        ImageView imageView = viewHolder.img;
+        Resources res = context.getResources();
+
+        textView.setText(playerList.getValue().get(i).getName());
+
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
+        imageView.setImageDrawable(drawable);
+        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1);
+        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
+        roundedBitmapDrawable.setCircular(true);
+        imageView.setImageDrawable(roundedBitmapDrawable);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == playerList.getValue().size()) ? 1 : 0; //todo footer
+    }
+
+    @Override
+    public int getItemCount() {
+        if (null == playerList.getValue() || playerList.getValue().size() == 0) {
+            return 0;
+        }
+        return playerList.getValue().size(); // + 1 //TODO COMMENT Footer
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+
         public ConstraintLayout row;
         public TextView textView;
         public ImageView img;
         public Button add;
         public Button remove;
         public Spinner spin;
+        IOnPlayerClickListener iOnplayerclickListener;
         //View.OnClickListener onClickListener; //TODO
 
 
@@ -65,12 +134,12 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
             super(itemView);
             this.iOnplayerclickListener = iOnplayerclickListener;
 
-            row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
-            textView = (TextView) itemView.findViewById(R.id.player_name);
-            img = (ImageView) itemView.findViewById(R.id.player_image);
-            add = itemView.findViewById(R.id.add_button);
+            row = itemView.findViewById(R.id.a_row);
+            textView = itemView.findViewById(R.id.player_name);
+            img = itemView.findViewById(R.id.player_image);
+            //  add = itemView.findViewById(R.id.add_button);
             remove = itemView.findViewById(R.id.remove_Player_Button1);
-            spin = (Spinner) itemView.findViewById(R.id.spinner2);
+            spin = itemView.findViewById(R.id.spinner2);
 
 
             add.setOnClickListener(this); //TODO
@@ -110,89 +179,18 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
             iOnplayerclickListener.onPlayerClick(getAdapterPosition());
         }
     }
+
     private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Button btnSubmitProblem;
 
         public FooterViewHolder(View view) {
             super(view);
-            btnSubmitProblem = (Button) view.findViewById(R.id.add_button1);
+            btnSubmitProblem = view.findViewById(R.id.add_button1);
         }
 
         @Override
         public void onClick(View v) {
 
         }
-    }
-
-    private void initTeamNumbers() {
-        teamNumbers = new ArrayList<>();
-        for(int i = 1; i <9;i++) {
-            teamNumbers.add(" " + i + " ");
-        }
-    }
-
-    private void initTeamColors() {
-        teamColors =new ArrayList<>();
-        int retrieve []=context.getResources().getIntArray(R.array.androidcolors);
-        for(int re:retrieve)
-        {
-            teamColors.add(re);
-        }
-    }
-
-    @Override
-    public TeamArrangementRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-        View view ;
-        ViewHolder holder;
-
-        if (viewType == TYPE_ITEM) {
-            view = inflater.inflate(
-                    R.layout.player_row,
-                    parent,
-                    false);
-
-        } else {
-            view = inflater.inflate(
-                    R.layout.game_lobby_adapter_footer,
-                    parent,
-                    false);
-        }
-
-
-        ViewHolder viewHolder = new ViewHolder(view, iOnplayerclickListener);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-
-
-        TextView textView = viewHolder.textView;
-        ImageView imageView = viewHolder.img;
-        Resources res = context.getResources();
-
-        textView.setText(playerList.getValue().get(i).getName());
-
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
-        imageView.setImageDrawable(drawable);
-        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1);
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
-        roundedBitmapDrawable.setCircular(true);
-        imageView.setImageDrawable(roundedBitmapDrawable);
-    }
-    @Override
-    public int getItemViewType(int position) {
-        return (position == playerList.getValue().size()) ? 1 : 0; //todo footer
-    }
-
-    @Override
-    public int getItemCount() {
-        if (null == playerList.getValue() || playerList.getValue().size() == 0) {
-            return 0;
-        }
-        return playerList.getValue().size(); // + 1 //TODO COMMENT Footer
     }
 }

@@ -21,10 +21,10 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     private MutableLiveData<Map<Integer, String>> playerMap;
     private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
 
-    public LotteryViewModel() {
+   /* public LotteryViewModel() {
         lottery = new Lottery();
         lottery.initPlayers(8);
-    }
+    }*/
 
     public MutableLiveData<Map<Integer, String>> getPlayerMap() {
         if (playerMap == null) {
@@ -57,12 +57,12 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private void loadItemMap() {
         Map<Integer, Item> map = new HashMap<>();
-        for (int i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
-            map.put(i, lottery.getBuffDebuffItems().get(i));
+        for (int i = 0; i < lottery.getItems().size(); i++) {
+            map.put(i, lottery.getItems().get(i));
 
 
-            for (i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
-                map.put(i, lottery.getBuffDebuffItems().get(i));
+            for (i = 0; i < lottery.getItems().size(); i++) {
+                map.put(i, lottery.getItems().get(i));
 
             }
             lotteryItemMap.setValue(map);

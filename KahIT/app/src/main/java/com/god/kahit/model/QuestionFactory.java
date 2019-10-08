@@ -36,7 +36,7 @@ public class QuestionFactory {
      * @return The map with category as the key and a list of questions as the values
      */
     static Map<Category, List<Question>> getFullQuestionMap() {
-        Category[] categories = {Category.Science, Category.History, Category.Nature, Category.Celebrities}; //TODO replace with a scalable solution
+        Category[] categories = {Category.Science, Category.History, Category.Nature, Category.Celebrities};
         return getQuestionMap(categories);
     }
 

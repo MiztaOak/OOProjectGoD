@@ -2,10 +2,6 @@ package com.god.kahit.view;
 
 import android.os.Bundle;
 
-import com.god.kahit.R;
-import com.god.kahit.ViewModel.TeamArrangementViewModel;
-import com.god.kahit.model.Player;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
@@ -15,18 +11,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.god.kahit.R;
+import com.god.kahit.ViewModel.TeamArrangementViewModel;
+import com.god.kahit.model.Player;
+
 import java.util.List;
 
 public class TeamArrangementView extends AppCompatActivity implements IOnPlayerClickListener {
 
     private static final String LOG_TAG = TeamArrangementView.class.getSimpleName();
-
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
-
     MutableLiveData<List<Pair<Player, Integer>>> playerList;
     TeamArrangementViewModel teamArrangementViewModel;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class TeamArrangementView extends AppCompatActivity implements IOnPlayerC
     }
 
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.taPlayersRecyclerView);
+        recyclerView = findViewById(R.id.taPlayersRecyclerView);
         recyclerAdapter = new HotSwapRecyclerAdapter(this, playerList, this);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);

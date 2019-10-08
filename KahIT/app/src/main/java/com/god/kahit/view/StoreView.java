@@ -8,18 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.god.kahit.R;
-import com.god.kahit.viewModel.StoreViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.god.kahit.R;
+import com.god.kahit.viewModel.StoreViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * StoreView a class for the view of the store where players can buy items
@@ -140,10 +140,10 @@ public class StoreView extends AppCompatActivity {
             itemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (itemButtons.indexOf(itemButton) < 6){
+                    if (itemButtons.indexOf(itemButton) < 6) {
                         storeViewModel.buy(itemButtons.indexOf(itemButton));
                         Toast toast = Toast.makeText(getApplicationContext(),
-                                "You got a " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getType() + " "+storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getName(),
+                                "You got a " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getType() + " " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getName(),
                                 Toast.LENGTH_LONG);
 
                         toast.show();

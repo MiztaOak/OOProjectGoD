@@ -2,10 +2,10 @@ package com.god.kahit.model;
 
 public class Item {
     private int price;
-    private String type;
+    private String type; //todo
     private Player player;
     private String name;
-    private String imageSource;
+    private String imageSource; // todo
 
     public Item(int price, String type, String name, String imageSource) {
         this.price = price;

@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.god.kahit.R;
 import com.god.kahit.Repository;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivityClass extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityClass.class.getSimpleName();

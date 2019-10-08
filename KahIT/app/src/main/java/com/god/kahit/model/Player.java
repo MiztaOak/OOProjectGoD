@@ -6,15 +6,13 @@ import java.util.List;
 public class Player {
     private String name;
     private Integer score;
-    private List<Item> items;
     private Modifier currentEffcts;
-    private boolean playerReady;
+    private boolean playerReady; //todo to lobby
     private Item wonItem;
 
     public Player(String name, int score, List<Item> items) {
         this.name = name;
         this.score = score;
-        this.items = items;
         this.playerReady = false;
     }
 
@@ -23,27 +21,11 @@ public class Player {
         this.score = score;
     }
 
-    public Player() {
-    }
-
-    public String getWonItemName() {
-        return wonItem.getName();
-    }
-
-    public Item getWonItem() {
-        return wonItem;
-    }
 
     public void setWonItem(Item wonItem) {
         this.wonItem = wonItem;
     }
 
-    public void calculateNewScore(int newScore) {
-        // todo switch instead
-        if (currentEffcts.equals("double score")) {
-            updateScore(newScore);
-        }
-    }
 
     public String getName() {
         return name;
@@ -53,7 +35,7 @@ public class Player {
         this.name = name;
     }
 
-    public void updateScore(int points) {
+    public void updateScore(int points) { //todo
         this.score += score;
     }
 
@@ -65,22 +47,6 @@ public class Player {
         this.score = score;
     }
 
-
-    public List<Item> getListItems() {
-        return items;
-    }
-
-    public void addItem(Item item) {
-        items.add(item);
-    }
-
-    public void addItemByIndex(int index, Item item) {
-        items.add(index, item);
-    }
-
-    public void removeItemByName(Item item) {
-        items.remove(item);
-    }
 
     public boolean isPlayerReady() {
         return playerReady;

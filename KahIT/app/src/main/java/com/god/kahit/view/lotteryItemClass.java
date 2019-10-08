@@ -2,9 +2,9 @@ package com.god.kahit.view;
 
 import android.os.Bundle;
 
-import com.god.kahit.R;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.god.kahit.R;
 
 public class lotteryItemClass extends AppCompatActivity {
 

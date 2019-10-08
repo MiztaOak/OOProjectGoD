@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.god.kahit.R;
-import com.god.kahit.ViewModel.HostCreateRoomViewModel;
-import com.god.kahit.ViewModel.JoinRoomViewModel;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.god.kahit.R;
+import com.god.kahit.ViewModel.JoinRoomViewModel;
 
 import java.util.List;
 

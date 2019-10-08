@@ -6,12 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.god.kahit.R;
-import com.god.kahit.ViewModel.HotSwapAddPlayersViewModel;
-import com.god.kahit.model.Player;
-
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
@@ -21,16 +15,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.god.kahit.R;
+import com.god.kahit.ViewModel.HotSwapAddPlayersViewModel;
+import com.god.kahit.model.Player;
+
+import java.util.List;
+
 public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlayerClickListener {
 
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
-
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
-
     MutableLiveData<List<Pair<Player, Integer>>> playerMap;
     HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
      * Sets up the recyclerView with it's adaptor HotSwapRecyclerAdapter.
      */
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        recyclerView = findViewById(R.id.hsApPlayersRecyclerView);
         recyclerAdapter = new HotSwapRecyclerAdapter(this, playerMap, this);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);

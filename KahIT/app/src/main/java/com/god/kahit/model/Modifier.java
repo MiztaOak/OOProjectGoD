@@ -6,7 +6,7 @@ public class Modifier extends Item {
     private int amountOfAlternatives;
 
 
-    public Modifier(int price, String type, String name, String imageSource, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
+    public Modifier(int price, String type, String name, String imageSource, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives) {
         super(price, type, name, imageSource);
         this.scoreMultiplier = scoreMultiplier;
         this.timeHeadstart = timeHeadstart;

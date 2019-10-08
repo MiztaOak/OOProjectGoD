@@ -20,17 +20,13 @@ public class QuizGame {
     public static final EventBus BUS = new EventBus();
 
     private static final int MAX_ALLOWED_PLAYERS = 8;
-
     private final List<Team> teamList;
-
     private final List<Player> players;
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
-
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3;
     private Category currentCategory;
-
     private List<QuizListener> listeners;
 
     /**

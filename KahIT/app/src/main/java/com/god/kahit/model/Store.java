@@ -6,7 +6,7 @@ public class Store {
     private List<Item> storeItems;
 
     public Store() {
-       this.storeItems = ItemFactory.createStoreItems(6);
+        this.storeItems = ItemFactory.createStoreItems(6);
     }
 
     public void buy(Item item) {

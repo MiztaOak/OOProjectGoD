@@ -12,16 +12,16 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.god.kahit.R;
 import com.god.kahit.viewModel.QuestionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 public class QuestionClass extends AppCompatActivity {
 
@@ -72,7 +72,7 @@ public class QuestionClass extends AppCompatActivity {
         };
         model.getQuestionTime().observe(this, questionTimeObserver);
 
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.qProgressBar);
+        final ProgressBar progressBar = findViewById(R.id.qProgressBar);
 
         initAnswerTextViews();
         populateQuestionNum(n);
