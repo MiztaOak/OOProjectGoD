@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Lottery {
     private List<Item> items;
-    private List<Player> players = new ArrayList<>();//todo
+    private List<Player> players = new ArrayList<>(); //TODO remove when testing is done
 
     public Lottery() {
         this.items = ItemFactory.createStoreItems(3);
@@ -19,6 +19,7 @@ public class Lottery {
         return items;
     }
 
+    //TODO move methods from the viewModel and add listener
 }
 
 

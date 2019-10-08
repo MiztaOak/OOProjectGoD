@@ -6,11 +6,13 @@ import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
@@ -20,12 +22,18 @@ import androidx.test.runner.AndroidJUnit4;
  */
 @RunWith(AndroidJUnit4.class)
 public class QuestionFactoryTest {
+
+    @Before
+    public void setUp() throws InterruptedException {
+        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        TimeUnit.MILLISECONDS.sleep(5);
+    }
+
     @Test
     public void testQuestionDataLoader() {
         Map<Category, List<Question>> qMap;
         Category[] categories = {Category.Test};
-        Assert.assertEquals(QuestionFactory.getQuestionMap(categories), null);
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+//        Assert.assertEquals(QuestionFactory.getQuestionMap(categories), null);
         qMap = QuestionFactory.getQuestionMap(categories);
         for (int i = 0; i < categories.length; i++) {
             List<Question> list = qMap.get(categories[i]);
@@ -58,7 +66,6 @@ public class QuestionFactoryTest {
     public void testQuestionFactory() {
         Map<Category, List<Question>> qMap;
         Category[] categories = {Category.History, Category.Science, Category.Nature, Category.Test};
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(InstrumentationRegistry.getInstrumentation().getTargetContext()));
         qMap = QuestionFactory.getQuestionMap(categories);
         Assert.assertTrue(qMap.containsKey(Category.History)); //These test assert that all asked for categories are present and that they are not empty
         Assert.assertTrue(qMap.containsKey(Category.Nature));

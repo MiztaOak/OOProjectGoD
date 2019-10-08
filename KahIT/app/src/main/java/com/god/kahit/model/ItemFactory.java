@@ -8,9 +8,9 @@ public class ItemFactory {
     static String[][] items = {{"150", "Buff", "Double Score", "double_score", "2", "0", "0"}
             , {"120", "Buff", "Time Headstart", "time_headstart", "1", "5", "0"}
             , {"100", "Buff", "Fifty Fifty", "fifty_fifty", "1", "0", "2"}
-            , {"100", "Debuff", "Half Score", "half_score", "1", "0", "0"}
-            , {"80", "Debuff", "Time is money", "double_time", "1", "-5", "0"}
-            , {"80", "Debuff", "Let the robot do it", "binoculars", "1", "0", "0"}};
+           , {"100", "Debuff", "Half Score", "half_score", "1", "0", "0"}
+           , {"80", "Debuff", "Time is money", "double_time", "1", "-5", "0"}
+           , {"80", "Debuff", "Let the robot do it", "binoculars", "1", "0", "0"}}; //TODO replace with database
 
     static public List<Item> createStoreItems(int size) {
 

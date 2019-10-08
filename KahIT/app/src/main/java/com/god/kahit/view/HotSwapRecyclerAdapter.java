@@ -14,6 +14,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.god.kahit.R;
+import com.god.kahit.model.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -33,7 +39,6 @@ import java.util.List;
  * Helper class for the HotSwapAddPlayerView it works as a recyclerAdapter for the RecyclerView.
  */
 public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecyclerAdapter.ItemViewHolder> {
-
     private static final String LOG_TAG = HotSwapRecyclerAdapter.class.getSimpleName();
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
@@ -42,6 +47,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
     List<Integer> teamColors;
     List<String> teamNumbers;
     private IOnPlayerClickListener iOnplayerclickListener;
+
     private Context context;
 
     public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IOnPlayerClickListener iOnplayerclickListener) {
@@ -67,10 +73,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-
         View view;
 
         if (viewType == TYPE_ITEM) {
@@ -78,7 +81,6 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
                     R.layout.player_row,
                     parent,
                     false);
-
         } else {
             view = inflater.inflate(
                     R.layout.game_lobby_adapter_footer,
@@ -86,15 +88,12 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
                     false);
         }
 
-
         ItemViewHolder itemViewHolder = new ItemViewHolder(view, iOnplayerclickListener);
         return itemViewHolder;
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder itemViewHolder, int i) {
-
-
         TextView textView = itemViewHolder.textView;
         ImageView imageView = itemViewHolder.img;
         Resources res = context.getResources();
@@ -117,21 +116,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         imageView.setImageDrawable(roundedBitmapDrawable);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return (position == playerList.getValue().size()) ? 1 : 0; //todo footer
-    }
-
-    @Override
-    public int getItemCount() {
-        if (null == playerList.getValue() || playerList.getValue().size() == 0) {
-            return 0;
-        }
-        return playerList.getValue().size(); // + 1 //TODO COMMENT Footer
-    }
-
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
         public ConstraintLayout row;
         public TextView textView;
         public ImageView img;
@@ -190,20 +175,16 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         }
     }
 
-    private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public int getItemViewType(int position) {
+        return (position == playerList.getValue().size()) ? 1 : 0; //todo footer
+    }
 
-
-        Button btnSubmitProblem;
-
-        public FooterViewHolder(View view) {
-            super(view);
-            //row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
-            btnSubmitProblem = view.findViewById(R.id.add_button1);
+    @Override
+    public int getItemCount() {
+        if (null == playerList.getValue() || playerList.getValue().size() == 0) {
+            return 0;
         }
-
-        @Override
-        public void onClick(View v) {
-
-        }
+        return playerList.getValue().size(); // + 1 //TODO COMMENT Footer
     }
 }

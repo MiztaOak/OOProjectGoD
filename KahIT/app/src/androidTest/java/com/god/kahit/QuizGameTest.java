@@ -1,7 +1,11 @@
 package com.god.kahit;
 
+import android.app.Instrumentation;
+
+import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
+import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
 
@@ -19,7 +23,9 @@ public class QuizGameTest implements QuizListener {
 
     @Before
     public void setQuizGame() {
-        quizGame = new QuizGame(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getContext()));
+        quizGame = new QuizGame();
+        quizGame.startGame();
     }
 
     @Test

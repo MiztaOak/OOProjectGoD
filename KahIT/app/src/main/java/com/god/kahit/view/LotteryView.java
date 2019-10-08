@@ -21,7 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.LotteryViewModel;
+import com.god.kahit.viewModel.LotteryViewModel;
 import com.god.kahit.model.Item;
 
 import java.util.ArrayList;

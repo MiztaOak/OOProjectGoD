@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.TeamArrangementViewModel;
+//import com.god.kahit.viewModel.TeamArrangementViewModel;
 import com.god.kahit.model.Player;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class TeamArrangementView extends AppCompatActivity implements IOnPlayerC
     private static final String LOG_TAG = TeamArrangementView.class.getSimpleName();
     RecyclerView.LayoutManager layoutManager;
     MutableLiveData<List<Pair<Player, Integer>>> playerList;
-    TeamArrangementViewModel teamArrangementViewModel;
+//    TeamArrangementViewModel teamArrangementViewModel;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerAdapter;
 
@@ -31,17 +31,17 @@ public class TeamArrangementView extends AppCompatActivity implements IOnPlayerC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.team_arrangement_activity);
 
-        teamArrangementViewModel = ViewModelProviders.of(this).get(TeamArrangementViewModel.class);
+//        teamArrangementViewModel = ViewModelProviders.of(this).get(TeamArrangementViewModel.class);
 
-        playerList = teamArrangementViewModel.getListForView();
-        teamArrangementViewModel.getListForView().observe(this, new Observer<List<Pair<Player, Integer>>>() {
+//        playerList = teamArrangementViewModel.getListForView();
+        /*teamArrangementViewModel.getListForView().observe(this, new Observer<List<Pair<Player, Integer>>>() {
 
             @Override
             public void onChanged(@Nullable List<Pair<Player, Integer>> integerStringMap) {
                 //recyclerView.removeAllViews();
                 recyclerAdapter.notifyDataSetChanged();
             }
-        });
+        });*/
 
         setupRecyclerView();
 
@@ -58,7 +58,7 @@ public class TeamArrangementView extends AppCompatActivity implements IOnPlayerC
 
     @Override
     protected void onDestroy() {
-        teamArrangementViewModel.resetPlayerData();
+//        teamArrangementViewModel.resetPlayerData();
         super.onDestroy();
     }
 

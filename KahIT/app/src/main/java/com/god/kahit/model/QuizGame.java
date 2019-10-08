@@ -1,9 +1,6 @@
 package com.god.kahit.model;
 
-import android.content.Context;
-
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.databaseService.QuestionDataLoaderDB;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -14,51 +11,59 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class QuizGame {
-
     public static final EventBus BUS = new EventBus();
 
     private static final int MAX_ALLOWED_PLAYERS = 8;
-    private final List<Team> teamList;
+
+    private List<Team> teamList;
     private final List<Player> players;
+
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
-    private int numOfQuestions = 3;
+    private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
-    private List<QuizListener> listeners;
 
+    private Boolean gameIsStarted = false; //TODO maybe move into constructor
+
+    private List<QuizListener> listeners;
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
-    private Player currentUser;
-
+    private Player currentUser; //TODO add method that moves current user through the list of users
     private Store store;
     private Lottery lottery;
-
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
-    public QuizGame(Context context) {
-        teamList = new ArrayList<>();
+
+    public QuizGame() {
         players = new ArrayList<>();
         listeners = new ArrayList<>();
-        currentUser = new Player("local", 0, new ArrayList<Item>());
+        currentUser = new Player("local", 0);
         players.add(currentUser);
-
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(context));
-        questionMap = QuestionFactory.getFullQuestionMap();
-        indexMap = new HashMap<>();
-        currentCategory = Category.Mix;
-        loadIndexMap();
 
         store = new Store();
         lottery = new Lottery();
 
-        currentCategory = Category.Mix;
-        loadIndexMap();
-
         initTeamList();
+    }
+
+    public void startGame() {
+        if (!gameIsStarted) {
+            questionMap = QuestionFactory.getFullQuestionMap();
+            indexMap = new HashMap<>();
+            currentCategory = Category.Mix;
+            loadIndexMap();
+
+            gameIsStarted = true;
+        }
+    }
+
+    public void endGame() {
+        gameIsStarted = false;
     }
 
     /**
@@ -78,7 +83,7 @@ public class QuizGame {
      */
     private void loadIndexList(Category category) {
         List<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < questionMap.get(category).size(); i++) {
+        for (int i = 0; i < Objects.requireNonNull(questionMap.get(category)).size(); i++) {
             indexes.add(i);
         }
         Collections.shuffle(indexes);
@@ -92,22 +97,36 @@ public class QuizGame {
     public void startRound() {
         roundQuestions = new ArrayDeque<>();
         if (currentCategory != Category.Mix) {
-            for (int i = 0; i < numOfQuestions; i++) {
-                addQuestion(currentCategory);
-            }
+            loadRoundQuestion();
         } else {
-            int i = 0;
-            List<Category> categories = new ArrayList<>(questionMap.keySet());
-            Collections.shuffle(categories);
-            while (i < numOfQuestions) {
-                for (Category category : categories) {
-                    addQuestion(category);
-                    i++;
-                    if (i == numOfQuestions) {
-                        break;
-                    }
+            loadMixQuestions();
+        }
+    }
+
+    /**
+     * Method that loads questions from all categories and puts them into the que
+     */
+    private void loadMixQuestions() {
+        int i = 0;
+        List<Category> categories = new ArrayList<>(questionMap.keySet());
+        Collections.shuffle(categories);
+        while (i < numOfQuestions) {
+            for (Category category : categories) {
+                addQuestion(category);
+                i++;
+                if (i == numOfQuestions) {
+                    break;
                 }
             }
+        }
+    }
+
+    /**
+     * Method that load questions into the que based on the current category
+     */
+    private void loadRoundQuestion() {
+        for (int i = 0; i < numOfQuestions; i++) {
+            addQuestion(currentCategory);
         }
     }
 
@@ -119,11 +138,12 @@ public class QuizGame {
      * @param category the category of the added question
      */
     private void addQuestion(Category category) {
-        if (indexMap.get(category).size() == 0) {
+        if (Objects.requireNonNull(indexMap.get(category)).size() == 0) {
             loadIndexList(category);
         }
-        roundQuestions.add(questionMap.get(category).get(indexMap.get(category).get(0))); //TODO make nice
-        indexMap.get(category).remove(0);
+        roundQuestions.add(Objects.requireNonNull(questionMap.get(category))
+                .get(Objects.requireNonNull(indexMap.get(category)).get(0))); //TODO make nice
+        Objects.requireNonNull(indexMap.get(category)).remove(0);
     }
 
     /**
@@ -134,7 +154,7 @@ public class QuizGame {
         if (!roundQuestions.isEmpty()) {
             broadCastQuestion(roundQuestions.pop());
         } else {
-            startRound();
+            startRound(); //TODO is this expected?
         }
     }
 
@@ -143,7 +163,7 @@ public class QuizGame {
      *
      * @param question the question that is being broadcast
      */
-    private void broadCastQuestion(final Question question) {
+    private void broadCastQuestion(Question question) {
         for (QuizListener quizListener : listeners) {
             quizListener.receiveQuestion(question);
         }
@@ -160,12 +180,11 @@ public class QuizGame {
      * @param question    - the question that was asked
      * @param timeLeft    - the time that was left when the user answered the question
      */
-    public void receiveAnswer(String givenAnswer, Question question, long timeLeft) {
+    public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            currentUser.setScore(currentUser.getScore() + scorePerQuestion);
+            currentUser.updateScore((int) (scorePerQuestion * (timeLeft / question.getTime())));
             //TODO if hotswap change currentUser
         }
-        //TODO get new question or something
     }
 
     /**
@@ -204,7 +223,8 @@ public class QuizGame {
      * Initiate teams where an integer max allowed players determines how many.
      */
     public void initTeamList() {
-        for (int i = 0; i < MAX_ALLOWED_PLAYERS; i++) {
+        teamList = new ArrayList<>();
+        for (int i = 0; i < MAX_ALLOWED_PLAYERS; i++) { //TODO should we create all teams at start or when new team is clicked
             createNewTeam();
         }
     }
@@ -223,7 +243,7 @@ public class QuizGame {
      * Then posts the change on the BUS.
      */
     public void addNewPlayerToEmptyTeam() {
-        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
+        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) { //TODO should this be checked here or in the network or some other place
             for (int i = 0; i < teamList.size(); i++) {
                 if (teamList.get(i).getTeamMembers().size() == 0) {
                     teamList.get(i).getTeamMembers().add(createNewPlayer());
@@ -241,7 +261,7 @@ public class QuizGame {
      * @param player the player to bew removed.
      */
     public void removePlayer(Player player) {
-        if (getTotalAmountOfPlayers() > 1) {
+        if (getTotalAmountOfPlayers() > 1) {//TODO should we not instead check if player is current player, or is it wrong to have no players
             for (int i = 0; i < teamList.size(); i++) {
                 teamList.get(i).getTeamMembers().remove(player);
             }
@@ -271,7 +291,7 @@ public class QuizGame {
      * @return True if name is taken.
      */
     private boolean isPlayerNameTaken(String name) {
-        for (int i = 0; i < teamList.size(); i++) {
+        for (int i = 0; i < teamList.size(); i++) { //TODO do this with player list
             for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
                 if (teamList.get(i).getTeamMembers().get(j).getName().contentEquals(name)) {
                     return true;

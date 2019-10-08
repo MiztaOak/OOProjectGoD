@@ -12,17 +12,16 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.HostCreateRoomViewModel;
+
+import com.god.kahit.viewModel.HostCreateRoomViewModel;
 
 import java.util.List;
 
 public class HostCreateRoomView extends AppCompatActivity {
-
     private static final String LOG_TAG = HostCreateRoomView.class.getSimpleName();
 
     MutableLiveData<List<String>> list;
     HostCreateRoomViewModel hostCreateRoomViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.HotSwapAddPlayersViewModel;
+import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
 import com.god.kahit.model.Player;
 
 import java.util.ArrayList;
@@ -25,13 +25,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlayerClickListener, AdapterView.OnItemSelectedListener {
-
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
-    RecyclerView.LayoutManager layoutManager;
-    MutableLiveData<List<Pair<Player, Integer>>> playerMap;
-    HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerAdapter;
+    RecyclerView.LayoutManager layoutManager;
+
+    MutableLiveData<List<Pair<Player, Integer>>> playerMap;
+    HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
 
     Spinner spin;
     List<Integer> teamColors;

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "506165513882",
+    "firebase_url": "https://kahit-d3a10.firebaseio.com",
+    "project_id": "kahit-d3a10",
+    "storage_bucket": "kahit-d3a10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506165513882:android:4dda2e4b6137fe9c479923",
+        "android_client_info": {
+          "package_name": "com.god.kahit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506165513882-cq4i7t4081fjojjbsfga464r1gc37nnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARLMCiKv0xYALCHZUTegyWCXrNAUw7-24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506165513882-cq4i7t4081fjojjbsfga464r1gc37nnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,11 +1,10 @@
 package com.god.kahit.model;
 
-public class Item {
+public abstract class Item {
     private int price;
-    private String type; //todo
-    private Player player;
+    private String type; //TODO remove
     private String name;
-    private String imageSource; // todo
+    private String imageSource; //TODO check if this is ok
 
     public Item(int price, String type, String name, String imageSource) {
         this.price = price;
@@ -36,14 +35,6 @@ public class Item {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 
     public int getPrice() {

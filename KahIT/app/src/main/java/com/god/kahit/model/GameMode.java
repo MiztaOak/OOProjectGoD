@@ -1,4 +1,4 @@
 package com.god.kahit.model;
 
-public abstract class GameMode { //todo
+public abstract class GameMode { //TODO is this even needed
 }

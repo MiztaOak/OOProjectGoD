@@ -21,13 +21,9 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-
         View row = null;
-
         row = super.getDropDownView(position, convertView, parent);
         row.setBackgroundColor(mColors.get(position));
-
-
         return row;
     }
 }

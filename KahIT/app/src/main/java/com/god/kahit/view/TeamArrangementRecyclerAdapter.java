@@ -37,6 +37,7 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
     List<Integer> teamColors;
     List<String> teamNumbers;
     private IOnPlayerClickListener iOnplayerclickListener;
+
     private Context context;
 
     public TeamArrangementRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList, IOnPlayerClickListener iOnplayerclickListener) {
@@ -62,7 +63,6 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
 
     @Override
     public TeamArrangementRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View view;
@@ -88,8 +88,6 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-
-
         TextView textView = viewHolder.textView;
         ImageView imageView = viewHolder.img;
         Resources res = context.getResources();
@@ -118,8 +116,6 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
-
         public ConstraintLayout row;
         public TextView textView;
         public ImageView img;
@@ -140,7 +136,6 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
             //  add = itemView.findViewById(R.id.add_button);
             remove = itemView.findViewById(R.id.remove_Player_Button1);
             spin = itemView.findViewById(R.id.spinner2);
-
 
             add.setOnClickListener(this); //TODO
             remove.setOnClickListener(this);

@@ -28,6 +28,7 @@ before_install:
 - cd KahIT
 - chmod +x gradlew
 - chmod +x run_git_inspector.sh
+- chmod +x generate_javadoc.sh
 - sudo apt-get update
 - sudo apt-get install python3
 
@@ -48,6 +49,7 @@ install:
 
 script:
 - "./run_git_inspector.sh"
+- "./generate_javadoc.sh"
 - "./gradlew build"
 - "./gradlew check connectedCheck --stacktrace"
 
@@ -57,10 +59,10 @@ deploy:
   github_token: $GH_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: false
   file_glob: true
-  file: "index.html"
+  # file: "index.html" # Upload everything, as we want both javadoc and git inspector report
   on:
-   branch: master
-   # branch: GitInspectorReport
+   branch: dev
+   # branch: master
   
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
