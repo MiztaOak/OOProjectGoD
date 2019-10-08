@@ -17,8 +17,7 @@ public enum Category {
         public String toString() {
             return "history";
         }
-    },
-    Nature {
+    }, Nature {
         public String toString() {
             return "nature";
         }
