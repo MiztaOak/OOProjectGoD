@@ -31,7 +31,8 @@ import static com.google.firebase.firestore.FirebaseFirestore.getInstance;
 
 
 /**
- * A helper class for the Firebase database
+ * A helper class for the Firebase realtime database, that loads the data from the database and
+ * and stores it inside of a map similar to the one found in QuizGame
  */
 public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
     private FirebaseDatabase db;
@@ -46,6 +47,9 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
         loadData();
     }
 
+    /**
+     * Method that attaches a onDataChange listener to fetch the data from the database
+     */
     private void loadData(){
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
