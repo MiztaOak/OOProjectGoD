@@ -1,7 +1,5 @@
 package com.god.kahit.model;
 
-import android.content.Context;
-
 import com.god.kahit.Events.TeamChangeEvent;
 import org.greenrobot.eventbus.EventBus;
 
@@ -14,18 +12,17 @@ import java.util.List;
 import java.util.Map;
 
 public class QuizGame {
-
     public static final EventBus BUS = new EventBus();
 
     private static final int MAX_ALLOWED_PLAYERS = 8;
-
+    
     private List<Team> teamList;
-
     private final List<Player> players;
+
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
-    private int numOfQuestions = 3;
+    private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
     private Boolean gameIsStarted = false;
 
@@ -41,7 +38,7 @@ public class QuizGame {
     public QuizGame() {
         players = new ArrayList<>();
         listeners = new ArrayList<>();
-        currentUser = new Player("local", 0, new ArrayList<Item>());
+        currentUser = new Player("local", 0);
         players.add(currentUser);
 
         store = new Store();
@@ -59,7 +56,6 @@ public class QuizGame {
 
             gameIsStarted = true;
         }
-
     }
 
     public void endGame(){
@@ -167,10 +163,9 @@ public class QuizGame {
      */
     public void receiveAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            currentUser.setScore(currentUser.getScore() + scorePerQuestion);
+            currentUser.updateScore((int)(scorePerQuestion*(timeLeft/question.getTime())));
             //TODO if hotswap change currentUser
         }
-        //TODO get new question or something
     }
 
     /**

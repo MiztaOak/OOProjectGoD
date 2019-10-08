@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Lottery {
     private List<Item> buffDebuffItems;
-    private List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>(); //TODO remove when testing is done
 
     public Lottery() {
         this.buffDebuffItems = ItemFactory.createStoreItems(3);
@@ -26,6 +26,7 @@ public class Lottery {
         return buffDebuffItems;
     }
 
+    //TODO move methods from the viewModel and add listener
 }
 
 

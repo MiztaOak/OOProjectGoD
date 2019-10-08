@@ -6,21 +6,14 @@ import java.util.List;
 public class Player {
     private String name;
     private Integer score;
-    private List<Item> items;
-    private Modifier currentEffcts;
-    private boolean playerReady;
-    private Item wonItem;
-
-    public Player(String name, int score, List<Item> items) {
-        this.name = name;
-        this.score = score;
-        this.items = items;
-        this.playerReady = false;
-    }
+    private Modifier currentEffcts; //TODO replace with stats ask Johan if you don't remember how
+    private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
+    private Item wonItem; //this item should be used when the player gets them maybe should be removed
 
     public Player(String name, Integer score) {
         this.name = name;
         this.score = score;
+        this.playerReady = false;
     }
 
     public Player() {
@@ -38,13 +31,6 @@ public class Player {
         this.wonItem = wonItem;
     }
 
-    public void calculateNewScore(int newScore) {
-        // todo switch instead
-        if (currentEffcts.equals("double score")) {
-            updateScore(newScore);
-        }
-    }
-
     public String getName() {
         return name;
     }
@@ -55,7 +41,7 @@ public class Player {
 
     public void updateScore(int points) {
         this.score += score;
-    }
+    } //TODO add calculation that takes current buff into account
 
     public int getScore() {
         return score;
@@ -63,23 +49,6 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-
-    public List<Item> getListItems() {
-        return items;
-    }
-
-    public void addItem(Item item) {
-        items.add(item);
-    }
-
-    public void addItemByIndex(int index, Item item) {
-        items.add(index, item);
-    }
-
-    public void removeItemByName(Item item) {
-        items.remove(item);
     }
 
     public boolean isPlayerReady() {
