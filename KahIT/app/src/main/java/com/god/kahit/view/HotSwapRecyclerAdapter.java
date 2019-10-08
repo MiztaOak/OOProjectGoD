@@ -31,14 +31,15 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Helper class for the HotSwapAddPlayerView it works as a recyclerAdapter for the RecyclerView.
  */
-public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecyclerAdapter.ViewHolder> {
+public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecyclerAdapter.itemViewHolder> {
 
     private static final String LOG_TAG = HotSwapRecyclerAdapter.class.getSimpleName();
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
+    private static final int TYPE_DIVIDER = 2;
 
     private IOnPlayerClickListener iOnplayerclickListener;
-    MutableLiveData<List<Player>> playerList; //TODO LIST IS ENOUGH LIVEDATA BETWEEN VIEW AND VM NOT ADAPTER
+    MutableLiveData<List<Player>> playerList;
     List<Integer> teamColors;
     List<String> teamNumbers;
 
@@ -50,7 +51,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         this.iOnplayerclickListener = iOnplayerclickListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+    public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
 
 
@@ -58,28 +59,28 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         public ConstraintLayout row;
         public TextView textView;
         public ImageView img;
-        public Button add;
+        //public Button add;
         public Button remove;
         public Spinner spin;
         //View.OnClickListener onClickListener; //TODO
 
 
-        public ViewHolder(@NonNull View itemView, IOnPlayerClickListener iOnplayerclickListener) {
+        public itemViewHolder(@NonNull View itemView, IOnPlayerClickListener iOnplayerclickListener) {
             super(itemView);
             this.iOnplayerclickListener = iOnplayerclickListener;
 
             row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
             textView = (TextView) itemView.findViewById(R.id.player_name);
             img = (ImageView) itemView.findViewById(R.id.player_image);
-            add = itemView.findViewById(R.id.add_button);
+            //add = itemView.findViewById(R.id.add_button);
             remove = itemView.findViewById(R.id.remove_Player_Button1);
             spin = (Spinner) itemView.findViewById(R.id.spinner2);
 
 
-            add.setOnClickListener(this); //TODO
+            //add.setOnClickListener(this); //TODO remove
             remove.setOnClickListener(this);
             //spin.setOnClickListener();
-            itemView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
 
             initTeamColors();
             initTeamNumbers();
@@ -113,11 +114,15 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
             iOnplayerclickListener.onPlayerClick(getAdapterPosition());
         }
     }
+
     private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+
         Button btnSubmitProblem;
 
         public FooterViewHolder(View view) {
             super(view);
+            //row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
             btnSubmitProblem = (Button) view.findViewById(R.id.add_button1);
         }
 
@@ -144,12 +149,12 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
     }
 
     @Override
-    public HotSwapRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public itemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View view ;
-        ViewHolder holder;
+        itemViewHolder holder;
 
         if (viewType == TYPE_ITEM) {
             view = inflater.inflate(
@@ -165,16 +170,16 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         }
 
 
-        ViewHolder viewHolder = new ViewHolder(view, iOnplayerclickListener);
-        return viewHolder;
+        itemViewHolder itemViewHolder = new itemViewHolder(view, iOnplayerclickListener);
+        return itemViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(itemViewHolder itemViewHolder, int i) {
 
 
-        TextView textView = viewHolder.textView;
-        ImageView imageView = viewHolder.img;
+        TextView textView = itemViewHolder.textView;
+        ImageView imageView = itemViewHolder.img;
         Resources res = context.getResources();
 
         textView.setText(playerList.getValue().get(i).getName());
