@@ -3,8 +3,6 @@ package com.god.kahit.model;
 import android.content.Context;
 
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.databaseService.QuestionDataLoaderDB;
-import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayDeque;
@@ -21,7 +19,7 @@ public class QuizGame {
 
     private static final int MAX_ALLOWED_PLAYERS = 8;
 
-    private final List<Team> teamList;
+    private List<Team> teamList;
 
     private final List<Player> players;
     private Map<Category, List<Question>> questionMap;
@@ -41,15 +39,11 @@ public class QuizGame {
     private Lottery lottery;
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
-    public QuizGame(Context context) {
-        teamList = new ArrayList<>();
+    public QuizGame() {
         players = new ArrayList<>();
         listeners = new ArrayList<>();
         currentUser = new Player("local", 0, new ArrayList<Item>());
         players.add(currentUser);
-
-        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
-
 
         store = new Store();
         lottery = new Lottery();

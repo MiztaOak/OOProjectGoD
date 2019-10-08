@@ -2,9 +2,11 @@ package com.god.kahit;
 
 import android.content.Context;
 
+import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
+import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
 import com.god.kahit.model.Store;
@@ -27,7 +29,8 @@ public class Repository {
     }
 
     public void startNewGameInstance(Context context) {
-        quizGame = new QuizGame(context.getApplicationContext());
+        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
+        quizGame = new QuizGame();
     }
 
     public void addQuizListener(QuizListener quizListener) {

@@ -2,9 +2,9 @@ package com.god.kahit.model;
 
 public class Item {
     private int price;
-    private String type;
+    private String type; //TODO remove
     private String name;
-    private String imageSource;
+    private String imageSource; //TODO check if this is ok
 
     public Item(int price, String type, String name, String imageSource) {
         this.price = price;
