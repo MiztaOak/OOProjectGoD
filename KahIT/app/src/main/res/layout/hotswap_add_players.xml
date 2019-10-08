@@ -17,52 +17,45 @@
 
         <Button
             android:id="@+id/hsApgoButton"
-            android:layout_width="120dp"
+            android:layout_width="80dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:onClick="launchQuestionClass"
             android:text="GO!"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/hsApBackButton"
-            android:layout_width="120dp"
+            android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
             android:onClick="launchBackHotSwapGameModeClass"
             android:text="back"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/hsApLogo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginTop="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/kahit" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hsApPlayersRecyclerView"
             android:layout_width="364dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="120dp"
             app:layout_constraintBottom_toTopOf="@+id/hsApBackButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +66,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Players"
+            android:text="Lobby"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,27 +78,31 @@
             android:id="@+id/addTeamButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:onClick="onClickAddTeam"
             android:text="AddPlayer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.28"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/removePlayerButton"
+        <Spinner
+            android:id="@+id/spinnerChangeTeam"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClickRemoveTeam"
-            android:text="RemovePlayer"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_centerHorizontal="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.69"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change my team"
+            app:layout_constraintEnd_toEndOf="@+id/spinnerChangeTeam"
+            app:layout_constraintStart_toStartOf="@+id/spinnerChangeTeam"
+            app:layout_constraintTop_toBottomOf="@+id/hsApPlayersRecyclerView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
