@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lottery {
-    private List<Item> buffDebuffItems;
+    private List<Item> buffDebuffItems; //todo rename to items
     private List<Player> players = new ArrayList<>(); //TODO remove when testing is done
 
     public Lottery() {

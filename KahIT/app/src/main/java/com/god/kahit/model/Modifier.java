@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-public class Modifier extends Item {
+public class Modifier extends Item { //todo revise with better use of access-modifiers e.i not public everywhere
     private double scoreMultiplier;
     private int timeHeadstart;
     private int amountOfAlternatives;

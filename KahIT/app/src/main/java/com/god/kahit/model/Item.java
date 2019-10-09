@@ -4,7 +4,7 @@ public abstract class Item {
     private int price;
     private String type; //TODO remove
     private String name;
-    private String imageSource; //TODO check if this is ok
+    private String imageSource; //TODO check if this is ok. -It is not. Use name as part of a sourcepath perhaps instead //Mats
 
     public Item(int price, String type, String name, String imageSource) {
         this.price = price;

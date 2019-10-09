@@ -71,7 +71,7 @@ public class Repository {
     }
 
     public void resetPLayerData(){
-        quizGame.resetPLayerData();
+        quizGame.resetPlayerData();
     }
 
     public void addNewPlayer() {

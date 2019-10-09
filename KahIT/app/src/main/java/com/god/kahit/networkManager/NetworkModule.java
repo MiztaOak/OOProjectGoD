@@ -310,7 +310,8 @@ public class NetworkModule implements NetworkManager {
     private void addConnection(Connection connection) {
         //If too many connections, remove first one
         if (connectionLinkedHashMap.size() >= MAX_NMB_CONNECTIONS) {
-            disconnect(connectionLinkedHashMap.remove(0));
+            Connection firstConnection = connectionLinkedHashMap.values().toArray(new Connection[0])[0];
+            disconnect(connectionLinkedHashMap.remove(firstConnection.getId()));
             Log.d(TAG, "addConnection: ERROR maximum number of connections reached (" + MAX_NMB_CONNECTIONS + "), " +
                     "disconnecting first one.");
         }

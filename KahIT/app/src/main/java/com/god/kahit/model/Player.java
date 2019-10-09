@@ -1,18 +1,15 @@
 package com.god.kahit.model;
 
-
-import java.util.List;
-
-public class Player {
+public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
     private final String id = "";  //TODO replace with good shit
 
     private String name;
-    private Integer score;
-    private Modifier currentEffcts; //TODO replace with stats ask Johan if you don't remember how
+    private int score;
+    private Modifier currentEffects; //TODO replace with stats ask Johan if you don't remember how
     private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
-    private Item wonItem; //this item should be used when the player gets them maybe should be removed
+    private Item heldItem; //this item should be used when the player gets them maybe should be removed
 
-    public Player(String name, Integer score) {
+    public Player(String name, int score) {
         this.name = name;
         this.score = score;
         this.playerReady = false;
@@ -21,16 +18,16 @@ public class Player {
     public Player() {
     }
 
-    public String getWonItemName() {
-        return wonItem.getName();
+    public String getHeldItemName() {
+        return heldItem.getName();
     }
 
-    public Item getWonItem() {
-        return wonItem;
+    public Item getHeldItem() {
+        return heldItem;
     }
 
-    public void setWonItem(Item wonItem) {
-        this.wonItem = wonItem;
+    public void setHeldItem(Item heldItem) {
+        this.heldItem = heldItem;
     }
 
     public String getName() {
@@ -41,7 +38,7 @@ public class Player {
         this.name = name;
     }
 
-    public void updateScore(int points) {
+    public void updateScore(int points) { //todo rename to addScore
         this.score += score;
     } //TODO add calculation that takes current buff into account
 
