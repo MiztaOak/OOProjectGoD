@@ -21,6 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * A helper class for the Firebase realtime database, that loads the item data from the database and
+ * and stores it inside of a list of items and a map that pairs the names of items and the names of
+ * their images
+ *
+ * @author Johan Ek
+ */
 public class ItemDataLoaderRealtime implements IItemDataLoader {
     private FirebaseDatabase db;
     private DatabaseReference databaseReference;
@@ -33,7 +40,7 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference("items");
 
-        if(itemImageNameMap == null){
+        if (itemImageNameMap == null) {
             itemImageNameMap = new HashMap<>();
         }
         itemList = new ArrayList<>();
@@ -41,12 +48,15 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         loadData();
     }
 
-    private void loadData(){
+    /**
+     * Method that attaches a ValueEventListener to the database reference
+     */
+    private void loadData() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 itemList = new ArrayList<>();
-                for(DataSnapshot itemData: dataSnapshot.getChildren()){
+                for (DataSnapshot itemData : dataSnapshot.getChildren()) {
                     Item i = getItem(itemData);
                     itemList.add(i);
                 }
@@ -59,24 +69,29 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         });
     }
 
-    private Item getItem(DataSnapshot itemData){
+    /**
+     * Method that takes the data for one item from a DataSnapshot and converts it into an item
+     * @param itemData the DataSnapshot pointing at the data for the item
+     * @return the item that the data was converted into
+     */
+    private Item getItem(DataSnapshot itemData) {
         int price = ((Long) Objects.requireNonNull(itemData.child("price").getValue())).intValue();
 
-        String name = (String)itemData.child("name").getValue();
-        String imgName = (String)itemData.child("img_name").getValue();
+        String name = (String) itemData.child("name").getValue();
+        String imgName = (String) itemData.child("img_name").getValue();
         String type = (String) itemData.child("type").getValue();
 
         itemImageNameMap.put(Objects.requireNonNull(name), Objects.requireNonNull(imgName));
 
-        if(itemData.child("scoreMultiplier").exists()){
-            int scoreMultiplier = ((Long)Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).intValue();
+        if (itemData.child("scoreMultiplier").exists()) {
+            int scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).intValue();
             int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
             int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
-            return new Modifier(price,type,name,scoreMultiplier,timeHeadstart,amountOfAlternatives);
+            return new Modifier(price, type, name, scoreMultiplier, timeHeadstart, amountOfAlternatives);
         }
-        return new VanityItem(price,type,name);
+        return new VanityItem(price, type, name);
     }
-
+    
     public static Map<String, String> getItemImageNameMap() {
         return itemImageNameMap;
     }

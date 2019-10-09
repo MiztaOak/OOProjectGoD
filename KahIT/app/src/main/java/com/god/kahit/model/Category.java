@@ -7,6 +7,8 @@ import java.util.List;
  * Enum that represents the different categories that a questions can have, each enum values has a
  * to string method that returns a correct string representation of the values than can be used when
  * loading resources such as values form a database or images
+ *
+ * @author Johan Ek
  */
 public enum Category {
     Science {
