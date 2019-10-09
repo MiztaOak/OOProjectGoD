@@ -2,12 +2,10 @@ package com.god.kahit.model;
 
 public abstract class Item {
     private int price;
-    private String type; //TODO remove
     private String name;
 
-    public Item(int price, String type, String name) {
+    public Item(int price, String name) {
         this.price = price;
-        this.type = type;
         this.name = name;
     }
 
@@ -17,14 +15,6 @@ public abstract class Item {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public int getPrice() {
