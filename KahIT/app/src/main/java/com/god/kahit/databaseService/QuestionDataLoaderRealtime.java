@@ -31,8 +31,9 @@ import static com.google.firebase.firestore.FirebaseFirestore.getInstance;
 
 
 /**
- * A helper class for the Firebase realtime database, that loads the data from the database and
+ * A helper class for the Firebase realtime database, that loads the question data from the database and
  * and stores it inside of a map similar to the one found in QuizGame
+ * @author Johan Ek
  */
 public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
     private FirebaseDatabase db;

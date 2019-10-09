@@ -31,4 +31,8 @@ public class ItemFactory {
     public static String getCertainItem(int row, int col) {
         return items[row][col];
     }
+
+    public static void setDataLoader(IItemDataLoader dataLoader) {
+        ItemFactory.dataLoader = dataLoader;
+    }
 }

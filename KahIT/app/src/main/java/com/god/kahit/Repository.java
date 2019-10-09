@@ -2,8 +2,10 @@ package com.god.kahit;
 
 import android.content.Context;
 
+import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
+import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
@@ -16,6 +18,7 @@ public class Repository {
 
     private static Repository instance;
     private QuizGame quizGame;
+
     private Repository() {
         //registerOnEventBus();
     }
@@ -29,6 +32,7 @@ public class Repository {
 
     public void startNewGameInstance(Context context) {
         QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
+        ItemFactory.setDataLoader(new ItemDataLoaderRealtime(context));
         quizGame = new QuizGame();
     }
 
@@ -70,7 +74,7 @@ public class Repository {
         quizGame.setCurrentCategory(currentCategory);
     }
 
-    public void resetPLayerData(){
+    public void resetPLayerData() {
         quizGame.resetPLayerData();
     }
 
@@ -82,7 +86,7 @@ public class Repository {
         quizGame.removePlayer(player);
     }
 
-    public void updatePlayerData(Player player, int newTeamId){
+    public void updatePlayerData(Player player, int newTeamId) {
         quizGame.changeTeam(player, newTeamId);
     }
 
