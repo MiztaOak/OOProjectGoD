@@ -13,10 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.god.kahit.R;
+import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.viewModel.StoreViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import androidx.core.view.GravityCompat;
 
@@ -60,8 +62,9 @@ public class StoreView extends AppCompatActivity {
      *A method that iterates through the list of items and get their names and their image source to set them correctly in the view
      */
     public void populateItemIcons() {
+        Map<String,String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
         for (int i = 0; i < storeViewModel.getStoreItems().size(); i++) {
-            int resId = getResources().getIdentifier(storeViewModel.getStoreItems().get(i).getImageSource(), "drawable", getPackageName());
+            int resId = getResources().getIdentifier(imageNameMap.get(storeViewModel.getStoreItems().get(i).getName()), "drawable", getPackageName());
             itemsIcons.get(i).setImageResource(resId);
         }
     }

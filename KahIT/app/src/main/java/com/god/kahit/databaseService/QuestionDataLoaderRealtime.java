@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
@@ -31,8 +32,9 @@ import static com.google.firebase.firestore.FirebaseFirestore.getInstance;
 
 
 /**
- * A helper class for the Firebase realtime database, that loads the data from the database and
+ * A helper class for the Firebase realtime database, that loads the question data from the database and
  * and stores it inside of a map similar to the one found in QuizGame
+ * @author Johan Ek
  */
 public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
     private FirebaseDatabase db;
@@ -104,10 +106,17 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
     private Question getQuestion(DataSnapshot document, Category category){
        String question = (String) document.child("question").getValue();
        String answer = (String) document.child("answer").getValue();
-       int time = ((Long)document.child("time").getValue()).intValue();
-       List<String> alts = (List<String>) document.child("alts").getValue();
-       alts.add(answer);
+       int time = ((Long) Objects.requireNonNull(document.child("time").getValue())).intValue();
+       List<String> alts = new ArrayList<>();
+       if(document.child("alts").getValue() instanceof List){
+           for(Object alt: (List<?>) Objects.requireNonNull(document.child("alts").getValue())){
+               if(alt instanceof String){
+                   alts.add((String) alt);
+               }
+           }
 
+       }
+       Objects.requireNonNull(alts).add(answer);
        return new Question(category,question,answer,alts,time);
     }
 }

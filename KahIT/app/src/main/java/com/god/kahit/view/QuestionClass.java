@@ -115,6 +115,7 @@ public class QuestionClass extends AppCompatActivity {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        animation.pause();
         startActivity(intent);
     }
 
@@ -122,7 +123,20 @@ public class QuestionClass extends AppCompatActivity {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        animation.pause();
         startActivity(intent);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        animation.pause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        animation.resume();
     }
 
     /**

@@ -6,8 +6,8 @@ public class Modifier extends Item {
     private int amountOfAlternatives;
     //TODO add the last of the values like robot boolean
 
-    public Modifier(int price, String type, String name, String imageSource, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
-        super(price, type, name, imageSource);
+    public Modifier(int price, String type, String name, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
+        super(price, type, name);
         this.scoreMultiplier = scoreMultiplier;
         this.timeHeadstart = timeHeadstart;
         this.amountOfAlternatives = amountOfAlternatives;

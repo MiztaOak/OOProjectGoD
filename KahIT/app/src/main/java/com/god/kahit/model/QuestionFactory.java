@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * A factory class used to create questions
+ * @author Johan Ek
  */
 public class QuestionFactory {
     /**
