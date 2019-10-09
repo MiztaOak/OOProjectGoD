@@ -17,23 +17,13 @@
             android:id="@+id/storeImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/storeimage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/shoppingcart" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="138dp"
-            android:layout_height="94dp"
-            android:layout_marginTop="152dp"
-            android:layout_marginEnd="196dp"
-            android:text="swipe from right to open store"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -54,19 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="80dp"
-                android:text="TextView"
                 android:textSize="30sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/itemType3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="440dp"
-                android:text="TextView"
-                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="128dp"
-                android:text="TextView"
+                android:text="@string/buffs"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -87,7 +65,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="284dp"
-                android:text="TextView"
+                android:text="@string/debuffs"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/itemType3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="440dp"
+                android:text="@string/cosmetic_items"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -163,7 +152,6 @@
                 android:layout_width="64dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="20dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -172,7 +160,6 @@
                 android:layout_width="64dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="116dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -181,7 +168,6 @@
                 android:layout_width="64dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="212dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -191,7 +177,6 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="168dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -201,7 +186,6 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="116dp"
                 android:layout_marginTop="168dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -211,7 +195,6 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="212dp"
                 android:layout_marginTop="168dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -221,7 +204,6 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="324dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -231,7 +213,6 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="116dp"
                 android:layout_marginTop="324dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 
@@ -241,7 +222,6 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="212dp"
                 android:layout_marginTop="324dp"
-                android:text="Buy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemIcon" />
 

@@ -9,8 +9,8 @@ public class Modifier extends Item { //todo revise with better use of access-mod
     private boolean autoAnswer;
     //TODO add the last of the values like robot boolean
 
-    public Modifier(int price, String type, String name, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
-        super(price, type, name);
+    public Modifier(int price, String name, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
+        super(price, name);
         this.scoreMultiplier = scoreMultiplier;
         this.timeHeadstart = timeHeadstart;
         this.amountOfAlternatives = amountOfAlternatives;
