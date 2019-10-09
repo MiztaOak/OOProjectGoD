@@ -1,18 +1,28 @@
 package com.god.kahit.model;
 
-public class Modifier extends Item {
+public class Modifier extends Item { //todo revise with better use of access-modifiers e.i not public everywhere
     private double scoreMultiplier;
     private int timeHeadstart;
     private int amountOfAlternatives;
 
 
-    public Modifier(int price, String type, String name, String imageSource, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
-        super(price, type, name, imageSource);
+    private boolean autoAnswer;
+    //TODO add the last of the values like robot boolean
+
+    public Modifier(int price, String name, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
+        super(price, name);
         this.scoreMultiplier = scoreMultiplier;
         this.timeHeadstart = timeHeadstart;
         this.amountOfAlternatives = amountOfAlternatives;
     }
 
+    public boolean isAutoAnswer() {
+        return autoAnswer;
+    }
+
+    public void setAutoAnswer(boolean autoAnswer) {
+        this.autoAnswer = autoAnswer;
+    }
     public double getScoreMultiplier() {
         return scoreMultiplier;
     }

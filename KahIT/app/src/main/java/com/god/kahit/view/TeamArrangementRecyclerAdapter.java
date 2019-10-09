@@ -47,8 +47,7 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
         this.iOnplayerclickListener = iOnplayerclickListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
-
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
 
         IOnPlayerClickListener iOnplayerclickListener;
@@ -68,7 +67,9 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
             row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
             textView = (TextView) itemView.findViewById(R.id.player_name);
             img = (ImageView) itemView.findViewById(R.id.player_image);
+
             //add = itemView.findViewById(R.id.add_button);
+
             remove = itemView.findViewById(R.id.remove_Player_Button1);
             spin = (Spinner) itemView.findViewById(R.id.spinner2);
 
@@ -110,6 +111,7 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
             iOnplayerclickListener.onPlayerClick(getAdapterPosition());
         }
     }
+
     private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Button btnSubmitProblem;
 
@@ -126,16 +128,15 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
 
     private void initTeamNumbers() {
         teamNumbers = new ArrayList<>();
-        for(int i = 1; i <9;i++) {
+        for (int i = 1; i < 9; i++) {
             teamNumbers.add(" " + i + " ");
         }
     }
 
     private void initTeamColors() {
-        teamColors =new ArrayList<>();
-        int retrieve []=context.getResources().getIntArray(R.array.androidcolors);
-        for(int re:retrieve)
-        {
+        teamColors = new ArrayList<>();
+        int retrieve[] = context.getResources().getIntArray(R.array.androidcolors);
+        for (int re : retrieve) {
             teamColors.add(re);
         }
     }
@@ -145,7 +146,7 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view ;
+        View view;
         ViewHolder holder;
 
         if (viewType == TYPE_ITEM) {
@@ -183,6 +184,7 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
         roundedBitmapDrawable.setCircular(true);
         imageView.setImageDrawable(roundedBitmapDrawable);
     }
+
     @Override
     public int getItemViewType(int position) {
         return (position == playerList.getValue().size()) ? 1 : 0; //todo footer

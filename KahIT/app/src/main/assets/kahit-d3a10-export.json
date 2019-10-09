@@ -110,5 +110,61 @@
         "time" : 1
       }
     }
+  },
+  "items" : {
+    "i0" : {
+      "price" : 150,
+      "type" : "Buff",
+      "name" : "Double Score",
+      "img_name" : "double_score",
+      "scoreMultiplier" : 2,
+      "timeHeadstart" : 0,
+      "amountOfAlternatives" : 0
+    },
+    "i1" : {
+      "price" : 120,
+      "type" : "Buff",
+      "name" : "Time Headstart",
+      "img_name" : "time_headstart",
+      "scoreMultiplier" : 1,
+      "timeHeadstart" : 5,
+      "amountOfAlternatives" : 0
+    },
+    "i2" : {
+      "price" : 100,
+      "type" : "Buff",
+      "name" : "Fifty Fifty",
+      "img_name" : "fifty_fifty",
+      "scoreMultiplier" : 1,
+      "timeHeadstart" : 0,
+      "amountOfAlternatives" : 2
+    },
+    "i3" : {
+      "price" : 100,
+      "type" : "Debuff",
+      "name" : "Half Score",
+      "img_name" : "half_score",
+      "scoreMultiplier" : 1,
+      "timeHeadstart" : 0,
+      "amountOfAlternatives" : 0
+    },
+    "i4" : {
+      "price" : 80,
+      "type" : "Debuff",
+      "name" : "Time is money",
+      "img_name" : "double_time",
+      "scoreMultiplier" : 1,
+      "timeHeadstart" : -5,
+      "amountOfAlternatives" : 0
+    },
+    "i5" : {
+      "price" : 80,
+      "type" : "Debuff",
+      "name" : "Let the robot do it",
+      "img_name" : "binoculars",
+      "scoreMultiplier" : 1,
+      "timeHeadstart" : 0,
+      "amountOfAlternatives" : 0
+    }
   }
 }

@@ -1,4 +1,4 @@
-package com.god.kahit.ViewModel;
+package com.god.kahit.viewModel;
 
 import android.util.Log;
 
@@ -58,7 +58,7 @@ public class TeamArrangementViewModel extends ViewModel implements LifecycleObse
     }
 
     public void resetPlayerData() {
-        Repository.getInstance().resetPLayerData();
+        Repository.getInstance().resetPlayerData();
     }
 
     public void updatePlayerData(int position, int newTeamId) {

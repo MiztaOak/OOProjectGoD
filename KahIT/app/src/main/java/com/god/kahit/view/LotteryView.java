@@ -12,7 +12,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.LotteryViewModel;
+import com.god.kahit.databaseService.ItemDataLoaderRealtime;
+import com.god.kahit.viewModel.LotteryViewModel;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
 
@@ -197,11 +198,12 @@ public class LotteryView extends AppCompatActivity {
         return count >= maxCount;
     }
 
-    public int getImageId(int id) {
-        return getResources().getIdentifier(Objects.requireNonNull(
+    public int getImageId(int id) { //TODO ImageSource removed.
+        /*return getResources().getIdentifier(Objects.requireNonNull(
                 itemListLiveData.getValue()).get(id).getImageSource(),
                 "drawable",
-                getPackageName());
+                getPackageName());*/
+        return 0;
     }
 
     /**
@@ -256,10 +258,10 @@ public class LotteryView extends AppCompatActivity {
      *
      * @param index
      */
-    private void setWonItemImage(int index) {
-        Item item = mapWinningsLiveData.getValue().get(playerListLiveData.getValue().get(index));
+    private void setWonItemImage(int index) { //TODO ImageSource removed.
+        /*Item item = mapWinningsLiveData.getValue().get(playerListLiveData.getValue().get(index));
         int imgId = getResources().getIdentifier(Objects.requireNonNull(item).getImageSource(), "drawable", getPackageName());
-        playerImageViews.get(index).setImageResource(imgId);
+        playerImageViews.get(index).setImageResource(imgId);*/
     }
 
     /**

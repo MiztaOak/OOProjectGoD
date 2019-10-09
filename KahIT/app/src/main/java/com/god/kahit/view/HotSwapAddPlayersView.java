@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.HotSwapAddPlayersViewModel;
+import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
 

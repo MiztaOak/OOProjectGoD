@@ -3,7 +3,7 @@ package com.god.kahit.view;
 import android.os.Bundle;
 
 import com.god.kahit.R;
-import com.god.kahit.ViewModel.TeamArrangementViewModel;
+import com.god.kahit.viewModel.TeamArrangementViewModel;
 import com.god.kahit.model.Player;
 
 import androidx.annotation.Nullable;
