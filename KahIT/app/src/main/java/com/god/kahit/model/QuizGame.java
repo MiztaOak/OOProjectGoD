@@ -14,13 +14,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class QuizGame {
-    public static final EventBus BUS = new EventBus();
+    public static final EventBus BUS = new EventBus(); //todo Evaluate if we need this external dependency, instead of making our own observer-pattern
 
     private static final int MAX_ALLOWED_PLAYERS = 8;
-
-    private List<Team> teamList;
     private final List<Player> players;
-
+    private List<Team> teams;
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
@@ -33,7 +31,7 @@ public class QuizGame {
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
-    private Player currentUser; //TODO add method that moves current user through the list of users
+    private Player currentPlayer; //TODO add method that moves current user through the list of users
     private Store store;
     private Lottery lottery;
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
@@ -41,13 +39,13 @@ public class QuizGame {
     public QuizGame() {
         players = new ArrayList<>();
         listeners = new ArrayList<>();
-        currentUser = new Player("local", 0);
-        players.add(currentUser);
+        currentPlayer = new Player("local", 0);
+        players.add(currentPlayer);
 
         store = new Store();
         lottery = new Lottery();
 
-        initTeamList();
+        initTeams();
     }
 
     public void startGame() {
@@ -181,8 +179,8 @@ public class QuizGame {
      */
     public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            currentUser.updateScore((int) (scorePerQuestion * (timeLeft / question.getTime())));
-            //TODO if hotswap change currentUser
+            currentPlayer.updateScore((int) (scorePerQuestion * (timeLeft / question.getTime())));
+            //TODO if hotswap change currentPlayer
         }
     }
 
@@ -214,15 +212,15 @@ public class QuizGame {
         return players;
     }
 
-    public List<Team> getTeamList() {
-        return teamList;
+    public List<Team> getTeams() {
+        return teams;
     }
 
     /**
      * Initiate teams where an integer max allowed players determines how many.
      */
-    public void initTeamList() {
-        teamList = new ArrayList<>();
+    public void initTeams() {
+        teams = new ArrayList<>();
         for (int i = 0; i < MAX_ALLOWED_PLAYERS; i++) { //TODO should we create all teams at start or when new team is clicked
             createNewTeam();
         }
@@ -233,8 +231,8 @@ public class QuizGame {
      */
     public void createNewTeam() {
         List<Player> players = new ArrayList<>();
-        Team team = new Team(players, 0, "Team " + (teamList.size() + 1));
-        teamList.add(team);
+        Team team = new Team(players, 0, "Team " + (teams.size() + 1));
+        teams.add(team);
     }
 
     /**
@@ -243,14 +241,14 @@ public class QuizGame {
      */
     public void addNewPlayerToEmptyTeam() {
         if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) { //TODO should this be checked here or in the network or some other place
-            for (int i = 0; i < teamList.size(); i++) {
-                if (teamList.get(i).getTeamMembers().size() == 0) {
-                    teamList.get(i).getTeamMembers().add(createNewPlayer());
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getTeamMembers().size() == 0) {
+                    teams.get(i).getTeamMembers().add(createNewPlayer()); //todo also add to player list
                     break;
                 }
             }
-            //teamList.get(0).getTeamMembers().add(createNewPlayer()); //TODO
-            BUS.post(new TeamChangeEvent(teamList));
+            //teams.get(0).getTeamMembers().add(createNewPlayer()); //TODO
+            BUS.post(new TeamChangeEvent(teams));
         }
     }
 
@@ -261,10 +259,10 @@ public class QuizGame {
      */
     public void removePlayer(Player player) {
         if (getTotalAmountOfPlayers() > 1) {//TODO should we not instead check if player is current player, or is it wrong to have no players
-            for (int i = 0; i < teamList.size(); i++) {
-                teamList.get(i).getTeamMembers().remove(player);
+            for (int i = 0; i < teams.size(); i++) {
+                teams.get(i).getTeamMembers().remove(player);
             }
-            BUS.post(new TeamChangeEvent(teamList));
+            BUS.post(new TeamChangeEvent(teams));
         }
     }
 
@@ -290,9 +288,9 @@ public class QuizGame {
      * @return True if name is taken.
      */
     private boolean isPlayerNameTaken(String name) {
-        for (int i = 0; i < teamList.size(); i++) { //TODO do this shit with player
-            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
-                if (teamList.get(i).getTeamMembers().get(j).getName().contentEquals(name)) {
+        for (int i = 0; i < teams.size(); i++) { //TODO do this with player list instead
+            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
+                if (teams.get(i).getTeamMembers().get(j).getName().contentEquals(name)) {
                     return true;
                 }
             }
@@ -306,8 +304,8 @@ public class QuizGame {
      * @param team the team to be removed.
      */
     public void removeTeam(Team team) {
-        teamList.remove(team);
-        BUS.post(new TeamChangeEvent(teamList));
+        teams.remove(team);
+        BUS.post(new TeamChangeEvent(teams));
     }
 
 
@@ -318,12 +316,12 @@ public class QuizGame {
      * @param teamName The team name that the team changes to.
      */
     public void changeTeamName(Team team, String teamName) {
-        for (Team team1 : teamList) {
-            if (team1.equals(team)) {
-                team1.setTeamName(teamName);
-            }
+        int index = teams.indexOf(team);
+        if (index >= 0) {
+            teams.get(index).setTeamName(teamName);
         }
-        BUS.post(new TeamChangeEvent(teamList));
+
+        BUS.post(new TeamChangeEvent(teams));
     }
 
     /**
@@ -332,15 +330,16 @@ public class QuizGame {
      * @param player the player to have his name changed.
      * @param name   the new name for the player.
      */
-    public void changePlayerName(Player player, String name) {
-        for (int i = 0; i < teamList.size(); i++) {
-            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
-                if (teamList.get(i).getTeamMembers().get(j).equals(player)) {
-                    teamList.get(i).getTeamMembers().get(j).setName(name);
+    public void changePlayerName(Player player, String name) { //todo user player list instead
+        for (int i = 0; i < teams.size(); i++) {
+            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
+                if (teams.get(i).getTeamMembers().get(j).equals(player)) {
+                    teams.get(i).getTeamMembers().get(j).setName(name);
+                    break;
                 }
             }
         }
-        BUS.post(new TeamChangeEvent(teamList));
+        BUS.post(new TeamChangeEvent(teams));
     }
 
     /**
@@ -348,19 +347,19 @@ public class QuizGame {
      *
      * @return the number of players.
      */
-    private int getTotalAmountOfPlayers() {
+    private int getTotalAmountOfPlayers() { //todo use player list instead, simply get size of that list
         int numOfPlayers = 0;
-        for (int i = 0; i < teamList.size(); i++) {
-            numOfPlayers += getTeamList().get(i).getTeamMembers().size();
+        for (int i = 0; i < teams.size(); i++) {
+            numOfPlayers += getTeams().get(i).getTeamMembers().size();
         }
         return numOfPlayers;
     }
 
     /**
-     * Resets the entire teamList.
+     * Resets the entire teams.
      */
-    public void resetPLayerData() {
-        teamList.clear();
+    public void resetPlayerData() { //todo clear player list as well
+        teams.clear();
     }
 
     /**
@@ -369,12 +368,12 @@ public class QuizGame {
      * @param player     The player that needs to change team.
      * @param newTeamNum The index for the new team.
      */
-    public void changeTeam(Player player, int newTeamNum) {
-        for (Team team : teamList) {
+    public void changeTeam(Player player, int newTeamNum) { //todo use team id when that is implemented
+        for (Team team : teams) {
             team.removePlayer(player);
         }
-        teamList.get(newTeamNum).getTeamMembers().add(player);
-        BUS.post(new TeamChangeEvent(teamList));
+        teams.get(newTeamNum).getTeamMembers().add(player);
+        BUS.post(new TeamChangeEvent(teams));
     }
 
     /**
@@ -382,10 +381,10 @@ public class QuizGame {
      *
      * @return
      */
-    public boolean checkAllPlayersReady() {
-        for (int i = 0; i < teamList.size(); i++) {
-            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
-                if (!teamList.get(i).getTeamMembers().get(j).isPlayerReady()) {
+    public boolean checkAllPlayersReady() { //todo remove ready-related stuff from player, move responsibility to viewModel
+        for (int i = 0; i < teams.size(); i++) {
+            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
+                if (!teams.get(i).getTeamMembers().get(j).isPlayerReady()) {
                     return false;
                 }
             }
@@ -399,11 +398,12 @@ public class QuizGame {
      * @param player the affected player.
      * @param state  the boolean value to be set.
      */
-    public void setIsPlayerReady(Player player, boolean state) {
-        for (int i = 0; i < teamList.size(); i++) {
-            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
-                if (teamList.get(i).getTeamMembers().get(j).equals(player)) {
-                    teamList.get(i).getTeamMembers().get(j).setPlayerReady(state);
+    public void setIsPlayerReady(Player player, boolean state) {  //todo remove ready-related stuff from player, move responsibility to viewModel
+        for (int i = 0; i < teams.size(); i++) {
+            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
+                if (teams.get(i).getTeamMembers().get(j).equals(player)) {
+                    teams.get(i).getTeamMembers().get(j).setPlayerReady(state);
+                    break;
                 }
             }
         }
