@@ -17,19 +17,22 @@ import org.junit.runner.RunWith;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
+import java.util.concurrent.TimeUnit;
+
 @RunWith(AndroidJUnit4.class)
 public class QuizGameTest implements QuizListener {
     private QuizGame quizGame;
 
     @Before
-    public void setQuizGame() {
+    public void setUp() throws InterruptedException {
         QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getContext()));
         quizGame = new QuizGame();
-        quizGame.startGame();
+        TimeUnit.SECONDS.sleep(5);
     }
 
     @Test
     public void testStartRound() {
+        quizGame.startGame();
         quizGame.setCurrentCategory(Category.History);
         quizGame.startRound();
         do {
