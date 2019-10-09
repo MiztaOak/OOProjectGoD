@@ -2,11 +2,12 @@ package com.god.kahit.model;
 
 import java.util.List;
 
-public class Team {
+public class Team { //todo use package-private instead of public on many of the methods
     private final List<Player> teamMembers;
-    private int teamScore;
+    private int teamScore; //todo replace with a method that calc average player score
     private String teamName;
-
+    //todo add teamId
+    //todo add method to set/get teamId
 
     public Team(List<Player> teamMembers, int teamScore, String teamName) {
         this.teamMembers = teamMembers;

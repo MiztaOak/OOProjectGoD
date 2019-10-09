@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-public class Tuple<S, T> {
+public class Tuple<S, T> { //todo remove, use android-pair instead
     private final S x;
     private final T y;
 
