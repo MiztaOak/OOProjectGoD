@@ -7,7 +7,6 @@ public class Store {
     private Player player;
 
     public Store() {
-        this.storeItems = ItemFactory.createStoreItems(6);
         this.player= new Player("Anas", 500);
     }
 
@@ -24,6 +23,9 @@ public class Store {
         this.player = player;
     }
     public List<Item> getStoreItems() {
+        if(storeItems == null){
+            this.storeItems = ItemFactory.createStoreItems(6);
+        }
         return storeItems;
     }
 

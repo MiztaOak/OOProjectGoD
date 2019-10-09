@@ -4,14 +4,6 @@ public abstract class Item {
     private int price;
     private String type; //TODO remove
     private String name;
-    private String imageSource; //TODO REMOVE THIS PLZ
-
-    public Item(int price, String type, String name, String imageSource) {//TODO REMOVE THIS PLZ
-        this.price = price;
-        this.type = type;
-        this.name = name;
-        this.imageSource = imageSource;
-    }
 
     public Item(int price, String type, String name) {
         this.price = price;
@@ -25,14 +17,6 @@ public abstract class Item {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getImageSource() {
-        return imageSource;
-    }
-
-    public void setImageSource(String imageSource) {
-        this.imageSource = imageSource;
     }
 
     public String getType() {
