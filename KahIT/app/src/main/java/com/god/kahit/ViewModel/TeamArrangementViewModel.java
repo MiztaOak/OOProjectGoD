@@ -62,7 +62,7 @@ public class TeamArrangementViewModel extends ViewModel implements LifecycleObse
     }
 
     public void updatePlayerData(int position, int newTeamId) {
-        Repository.getInstance().updatePlayerData(listForView.getValue().get(position).first, newTeamId);
+        Repository.getInstance().changeTeam(listForView.getValue().get(position).first, newTeamId);
     }
 
     @Override

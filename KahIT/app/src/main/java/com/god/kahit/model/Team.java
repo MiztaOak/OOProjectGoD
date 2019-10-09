@@ -6,12 +6,14 @@ public class Team {
     private final List<Player> teamMembers;
     private int teamScore;
     private String teamName;
+    private final String id;
 
 
-    public Team(List<Player> teamMembers, int teamScore, String teamName) {
+    public Team(List<Player> teamMembers, String teamName, String id) {
         this.teamMembers = teamMembers;
-        this.teamScore = teamScore;
+        this.teamScore = 0;
         this.teamName = teamName;
+        this.id = id;
     }
 
     public List<Player> getTeamMembers() {

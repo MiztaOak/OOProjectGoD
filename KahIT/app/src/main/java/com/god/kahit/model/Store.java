@@ -8,7 +8,7 @@ public class Store {
 
     public Store() {
         this.storeItems = ItemFactory.createStoreItems(6);
-        this.player= new Player("Anas", 500);
+        this.player= new Player("Anas", String.valueOf(500));
     }
 
 

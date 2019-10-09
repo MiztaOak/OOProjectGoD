@@ -6,24 +6,36 @@ import java.util.List;
 public class Player {
     private String name;
     private Integer score;
-    private List<Item> items;
+    private List<VanityItem> vanityItems;
     private Modifier currentEffcts;
     private boolean playerReady;
     private Item wonItem;
+    private final String id;
 
-    public Player(String name, int score, List<Item> items) {
-        this.name = name;
-        this.score = score;
-        this.items = items;
-        this.playerReady = false;
-    }
-
-    public Player(String name, Integer score) {
-        this.name = name;
+    public void setScore(Integer score) {
         this.score = score;
     }
 
-    public Player() {
+    public List<VanityItem> getVanityItems() {
+        return vanityItems;
+    }
+
+    public void addVanityItem(VanityItem vanityItems) {
+        this.vanityItems.add(vanityItems);
+    }
+
+    public Modifier getCurrentEffcts() {
+        return currentEffcts;
+    }
+
+    public void setCurrentEffcts(Modifier currentEffcts) {
+        this.currentEffcts = currentEffcts;
+    }
+
+    public Player(String name, String id) {
+        this.name = name;
+        this.score = 0;
+        this.id = id;
     }
 
     public String getWonItemName() {
@@ -63,23 +75,6 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-
-    public List<Item> getListItems() {
-        return items;
-    }
-
-    public void addItem(Item item) {
-        items.add(item);
-    }
-
-    public void addItemByIndex(int index, Item item) {
-        items.add(index, item);
-    }
-
-    public void removeItemByName(Item item) {
-        items.remove(item);
     }
 
     public boolean isPlayerReady() {
