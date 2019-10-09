@@ -1,14 +1,11 @@
-package com.god.kahit.viewModel;
+package com.god.kahit.ViewModel;
 
+import com.god.kahit.Repository;
 import com.god.kahit.model.Item;
-import com.god.kahit.model.Lottery;
-import com.god.kahit.model.Modifier;
+import com.god.kahit.model.Player;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
@@ -17,71 +14,48 @@ import androidx.lifecycle.ViewModel;
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = LotteryViewModel.class.getSimpleName();
-    Lottery lottery;
-    private Random rand = new Random();
-    private MutableLiveData<Map<Integer, String>> playerMap;
-    private MutableLiveData<Map<Integer, Item>> lotteryItemMap;
+
+    private MutableLiveData<Map<Player, Item>> mapWinningsLiveData;
+    private MutableLiveData<List<Item>> itemListLiveData;
+    private MutableLiveData<List<Player>> playerListLiveData;
 
     public LotteryViewModel() {
-        lottery = new Lottery();
-        lottery.initPlayers(8);
     }
 
-    public MutableLiveData<Map<Integer, String>> getPlayerMap() {
-        if (playerMap == null) {
-            playerMap = new MutableLiveData<>();
-            loadPlayerMap();
+    public MutableLiveData<List<Item>> getItemListLiveData() {
+        if (itemListLiveData == null) {
+            itemListLiveData = new MutableLiveData<>();
+            loadItemListLiveData();
         }
-        return playerMap;
+        return itemListLiveData;
     }
 
-    private void loadPlayerMap() {
-        Map<Integer, String> map = new HashMap<>();
-        for (int i = 0; i < 8; i++) { //TODO Size of list with player names
-            String player = "Player"; //TODO get player names as list.
-            map.put(i, player + i);
+    public MutableLiveData<Map<Player, Item>> getMapWinningsLiveData() {
+        if (mapWinningsLiveData == null) {
+            mapWinningsLiveData = new MutableLiveData<>();
+            loadMapWinningsLiveData();
         }
-        playerMap.setValue(map);
+        return mapWinningsLiveData;
     }
 
-    public Lottery getLottery() {
-        return lottery;
-    }
-
-    public MutableLiveData<Map<Integer, Item>> getLotteryItemMap() {
-        if (lotteryItemMap == null) {
-            lotteryItemMap = new MutableLiveData<>();
-            loadItemMap();
+    public MutableLiveData<List<Player>> getPlayerListLiveData() {
+        if(playerListLiveData == null) {
+            playerListLiveData = new MutableLiveData<>();
+            loadPlayerListLiveData();
         }
-        return lotteryItemMap;
+        return playerListLiveData;
     }
 
-    private void loadItemMap() {
-        Map<Integer, Item> map = new HashMap<>();
-        for (int i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
-            map.put(i, lottery.getBuffDebuffItems().get(i));
 
-
-            for (i = 0; i < lottery.getBuffDebuffItems().size(); i++) {
-                map.put(i, lottery.getBuffDebuffItems().get(i));
-
-            }
-            lotteryItemMap.setValue(map);
-        }
+    private void loadMapWinningsLiveData() {
+        mapWinningsLiveData.setValue(Repository.getInstance().getDrawResult());
     }
 
-    public Item getWonItem(List<Item> items) {
-        Item wonItem = items.get(items.size() - 1);
-        Collections.shuffle(items);
-        return wonItem;
+    private void loadItemListLiveData() {
+        itemListLiveData.setValue(Repository.getInstance().getAllItems());
     }
 
-    public Random getRandom() {
-        return rand = new Random();
-    }
-
-    public void setWonItem(Item wonItem, int playerIndex) {
-        lottery.getPlayers().get(playerIndex).setHeldItem((Modifier) wonItem);
-
+    private void loadPlayerListLiveData() {
+        playerListLiveData.setValue(Repository.getInstance().getPlayers());
     }
 }

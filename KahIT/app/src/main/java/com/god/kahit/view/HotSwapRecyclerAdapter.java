@@ -19,6 +19,7 @@ import com.god.kahit.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -41,16 +42,18 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
 
     private IOnPlayerClickListener iOnplayerclickListener;
 
-    MutableLiveData<List<Pair<Player, Integer>>> playerList;
+    private MutableLiveData<List<Player>> playerList;
+    private MutableLiveData<List<Integer>> teamNumberList;
 
-    List<Integer> teamColors;
-    List<String> teamNumbers;
+    private List<Integer> teamColors;
+    private List<String> teamNumbers;
 
     private Context context;
 
-    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IOnPlayerClickListener iOnplayerclickListener) {
-        this.playerList = playerList;
+    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList,MutableLiveData<List<Integer>> teamNumberList, IOnPlayerClickListener iOnplayerclickListener) {
         this.context = c;
+        this.playerList = playerList;
+        this.teamNumberList = teamNumberList;
         this.iOnplayerclickListener = iOnplayerclickListener;
     }
 
@@ -169,8 +172,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         }
 
 
-        itemViewHolder itemViewHolder = new itemViewHolder(view, iOnplayerclickListener);
-        return itemViewHolder;
+        return new itemViewHolder(view, iOnplayerclickListener);
     }
 
     @Override
@@ -181,15 +183,12 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         ImageView imageView = itemViewHolder.img;
         Resources res = context.getResources();
 
-        Integer value = playerList.getValue().get(i).second;
-        if (value != null) {
-            itemViewHolder.spin.setSelection(value);
-        }
+        itemViewHolder.spin.setSelection(Objects.requireNonNull(teamNumberList.getValue()).get(i));
 
         itemViewHolder.row.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
         itemViewHolder.spin.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
 
-        textView.setText(playerList.getValue().get(i).first.getName());
+        textView.setText(Objects.requireNonNull(playerList.getValue()).get(i).getName());
 
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
         imageView.setImageDrawable(drawable);

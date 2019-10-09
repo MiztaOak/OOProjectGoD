@@ -1,41 +1,60 @@
 package com.god.kahit.model;
 
-public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
-    private final String id = "";  //TODO replace with good shit
 
+import java.util.List;
+
+public class Player {
     private String name;
-    private int score;
-    private double scoreMultiplier;
-    private int timeHeadstart;
-    private int amountOfAlternatives;
-    private boolean autoAnswer;
-    private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
-    private Item heldItem; //this item should be used when the player gets them maybe should be removed
+    private Integer score;
+    private List<VanityItem> vanityItems;
+    private Modifier currentEffcts;
+    private boolean playerReady;
+    private Item wonItem;
+    private final String id;
 
-    public Player(String name, int score) {
-        this.name = name;
+    public void setScore(Integer score) {
         this.score = score;
-        this.playerReady = false;
     }
 
-    public Player() {
+    public List<VanityItem> getVanityItems() {
+        return vanityItems;
     }
 
-    public String getHeldItemName() {
-        return heldItem.getName();
+    public void addVanityItem(VanityItem vanityItems) {
+        this.vanityItems.add(vanityItems);
     }
 
-    public Item getHeldItem() {
-        return heldItem;
+    public Modifier getCurrentEffcts() {
+        return currentEffcts;
     }
-    /**
-     * A method that sets the values of effects of a Modifier to players own values
-     */
-    public void setHeldItem(Modifier modifier) {
-        this.scoreMultiplier = modifier.getScoreMultiplier();
-        this.timeHeadstart = modifier.getTimeHeadstart();
-        this.amountOfAlternatives = modifier.getAmountOfAlternatives();
-        this.autoAnswer = modifier.isAutoAnswer();
+
+    public void setCurrentEffcts(Modifier currentEffcts) {
+        this.currentEffcts = currentEffcts;
+    }
+
+    public Player(String name, String id) {
+        this.name = name;
+        this.score = 0;
+        this.id = id;
+    }
+
+    public String getWonItemName() {
+        return wonItem.getName();
+    }
+
+    public Item getWonItem() {
+        return wonItem;
+    }
+
+    public void setWonItem(Item wonItem) {
+        this.wonItem = wonItem;
+    }
+
+    public void calculateNewScore(int newScore) {
+        // todo switch instead
+        if (currentEffcts.equals("double score")) {
+            updateScore(newScore);
+        }
     }
 
     public String getName() {
@@ -46,9 +65,9 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         this.name = name;
     }
 
-    public void updateScore(int points) { //todo rename to addScore
+    public void updateScore(int points) {
         this.score += score;
-    } //TODO add calculation that takes current buff into account
+    }
 
     public int getScore() {
         return score;
@@ -66,15 +85,6 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         this.playerReady = playerReady;
     }
 
-    /**
-     * A method that clears the effect of a Modifier after  it has been used
-     */
-    public void clearModifier(){
-        this.scoreMultiplier = 1;
-        this.timeHeadstart = 0;
-        this.amountOfAlternatives = 0;
-        this.autoAnswer = false;
-    }
 
 }
 

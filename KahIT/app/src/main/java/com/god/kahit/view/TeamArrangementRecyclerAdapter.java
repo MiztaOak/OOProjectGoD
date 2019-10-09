@@ -68,7 +68,7 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
             row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
             textView = (TextView) itemView.findViewById(R.id.player_name);
             img = (ImageView) itemView.findViewById(R.id.player_image);
-//            add = itemView.findViewById(R.id.add_button);
+            //add = itemView.findViewById(R.id.add_button);
             remove = itemView.findViewById(R.id.remove_Player_Button1);
             spin = (Spinner) itemView.findViewById(R.id.spinner2);
 

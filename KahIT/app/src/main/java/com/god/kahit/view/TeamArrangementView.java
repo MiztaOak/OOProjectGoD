@@ -25,7 +25,7 @@ public class TeamArrangementView extends AppCompatActivity implements IOnPlayerC
     private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
 
-    MutableLiveData<List<Pair<Player, Integer>>> playerList;
+    MutableLiveData<List<Player>> playerList;
     TeamArrangementViewModel teamArrangementViewModel;
 
     @Override
@@ -35,15 +35,15 @@ public class TeamArrangementView extends AppCompatActivity implements IOnPlayerC
 
         teamArrangementViewModel = ViewModelProviders.of(this).get(TeamArrangementViewModel.class);
 
-        playerList = teamArrangementViewModel.getListForView();
-        teamArrangementViewModel.getListForView().observe(this, new Observer<List<Pair<Player, Integer>>>() {
+        //playerList = teamArrangementViewModel.getListForView();
+       /* teamArrangementViewModel.getListForView().observe(this, new Observer<List<Player>>() {
 
             @Override
-            public void onChanged(@Nullable List<Pair<Player, Integer>> integerStringMap) {
+            public void onChanged(@Nullable List<Player> integerStringMap) {
                 //recyclerView.removeAllViews();
                 recyclerAdapter.notifyDataSetChanged();
             }
-        });
+        });*/
 
         setupRecyclerView();
 
@@ -51,7 +51,7 @@ public class TeamArrangementView extends AppCompatActivity implements IOnPlayerC
 
     private void setupRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.taPlayersRecyclerView);
-        recyclerAdapter = new HotSwapRecyclerAdapter(this, playerList, this);
+        recyclerAdapter = new TeamArrangementRecyclerAdapter(this, playerList, this);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);

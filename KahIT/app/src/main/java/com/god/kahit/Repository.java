@@ -2,25 +2,23 @@ package com.god.kahit;
 
 import android.content.Context;
 
-import com.god.kahit.databaseService.ItemDataLoaderRealtime;
-import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
-import com.god.kahit.model.ItemFactory;
+import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
-import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
+import com.god.kahit.networkManager.NetworkManager;
+import com.god.kahit.networkManager.NetworkModule;
 
 import java.util.List;
+import java.util.Map;
 
 public class Repository {
 
     private static Repository instance;
     private QuizGame quizGame;
-
     private Repository() {
-        //registerOnEventBus();
     }
 
     public static Repository getInstance() {
@@ -31,9 +29,7 @@ public class Repository {
     }
 
     public void startNewGameInstance(Context context) {
-        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
-        ItemFactory.setDataLoader(new ItemDataLoaderRealtime(context));
-        quizGame = new QuizGame();
+        quizGame = new QuizGame(context.getApplicationContext());
     }
 
     public void addQuizListener(QuizListener quizListener) {
@@ -51,11 +47,7 @@ public class Repository {
     }
 
     public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
-        quizGame.enterAnswer(givenAnswer, question, timeLeft);
-    }
-
-    public void registerOnEventBus() {
-        //    eventBus.register(this);
+        quizGame.receiveAnswer(givenAnswer, question, timeLeft);
     }
 
     public List<Player> getPlayers() {
@@ -75,19 +67,31 @@ public class Repository {
     }
 
     public void resetPLayerData(){
-        quizGame.resetPlayerData();
+        quizGame.resetPLayerData();
     }
 
     public void addNewPlayer() {
         quizGame.addNewPlayerToEmptyTeam();
     }
 
+    public void fireTeamChangeEvent() {
+        quizGame.fireTeamChangeEvent();
+    }
+
     public void removePlayer(Player player) {
         quizGame.removePlayer(player);
     }
 
-    public void updatePlayerData(Player player, int newTeamId) {
+    public void changeTeam(Player player, int newTeamId){
         quizGame.changeTeam(player, newTeamId);
+    }
+
+    public Map<Player, Item> getDrawResult() {
+        return quizGame.getWinnings();
+    }
+
+    public List<Item> getAllItems() {
+        return quizGame.getAllItems();
     }
 
 }

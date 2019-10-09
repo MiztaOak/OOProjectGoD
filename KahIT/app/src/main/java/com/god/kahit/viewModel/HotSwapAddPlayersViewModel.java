@@ -4,14 +4,15 @@ import android.util.Log;
 
 import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.Repository;
-import com.god.kahit.model.Player;
+import com.god.kahit.model.Player;;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
-import androidx.core.util.Pair;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,39 +24,63 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
     private static final String TAG = HotSwapAddPlayersViewModel.class.getSimpleName();
 
 
-    private MutableLiveData<List<Pair<Player, Integer>>> listForView;
+    private MutableLiveData<List<Player>> playerListForView;
+    private MutableLiveData<List<Integer>> teamNumberForView;
 
     public HotSwapAddPlayersViewModel() {
         BUS.register(this);
     }
 
-    public MutableLiveData<List<Pair<Player, Integer>>> getListForView() {
-        if (listForView == null) {
-            listForView = new MutableLiveData<>();
-            addNewPlayer();
+    public MutableLiveData<List<Player>> getPlayerListForView() {
+        if (playerListForView == null) {
+            playerListForView = new MutableLiveData<>();
         }
-        return listForView;
+        return playerListForView;
+    }
+
+    public MutableLiveData<List<Integer>> getTeamNumberForView() {
+        if (teamNumberForView == null) {
+            teamNumberForView = new MutableLiveData<>();
+            Repository.getInstance().fireTeamChangeEvent();
+        }
+        return teamNumberForView;
     }
 
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
-        List<Pair<Player, Integer>> playerList = new ArrayList<>();
-        Pair<Player, Integer> playerIntegerPair;
-        for (int i = 0; i < event.getTeams().size(); i++) {
-            for (int j = 0; j < event.getTeams().get(i).getTeamMembers().size(); j++) {
-                playerIntegerPair = new Pair<>(event.getTeams().get(i).getTeamMembers().get(j), i);
-                playerList.add(playerIntegerPair);
+        List<Player> sortedPlayerList = new ArrayList<>();
+        List<Integer> teamNumberList = new ArrayList<>();
+
+        //Already existing items added first in order.
+        if(playerListForView.getValue() != null)
+        for (Player player : playerListForView.getValue()) {
+            for (int i = 0; i < event.getTeams().size(); i++) {
+                if (event.getTeams().get(i).getTeamMembers().contains(player)) {
+                    sortedPlayerList.add(player);
+                    teamNumberList.add(i);
+                }
             }
         }
-        listForView.setValue(playerList);
+
+        //New additions to the list added.
+        for(int i = 0; i < event.getTeams().size(); i++) {
+            for(int j = 0; j < event.getTeams().get(i).getTeamMembers().size(); j++) {
+                if(!sortedPlayerList.contains(event.getTeams().get(i).getTeamMembers().get(j))) {
+                    sortedPlayerList.add(event.getTeams().get(i).getTeamMembers().get(j));
+                    teamNumberList.add(i);
+                }
+            }
+        }
+        playerListForView.setValue(sortedPlayerList);
+        teamNumberForView.setValue(teamNumberList);
     }
 
     public void addNewPlayer() {
         Repository.getInstance().addNewPlayer();
     }
 
-    public void removePlayer(Player player) {
-        Repository.getInstance().removePlayer(player);
+    public void removePlayer(int position) {
+        Repository.getInstance().removePlayer(Objects.requireNonNull(playerListForView.getValue()).get(position));
     }
 
     public void resetPlayerData() {
@@ -63,7 +88,7 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
     }
 
     public void updatePlayerData(int position, int newTeamId) {
-        Repository.getInstance().updatePlayerData(listForView.getValue().get(position).first, newTeamId);
+        Repository.getInstance().changeTeam(Objects.requireNonNull(playerListForView.getValue()).get(position), newTeamId);
     }
 
     @Override
