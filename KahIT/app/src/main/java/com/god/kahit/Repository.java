@@ -74,8 +74,8 @@ public class Repository {
         quizGame.setCurrentCategory(currentCategory);
     }
 
-    public void resetPLayerData() {
-        quizGame.resetPLayerData();
+    public void resetPLayerData(){
+        quizGame.resetPlayerData();
     }
 
     public void addNewPlayer() {

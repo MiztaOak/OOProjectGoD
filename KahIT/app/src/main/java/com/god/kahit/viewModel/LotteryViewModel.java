@@ -80,7 +80,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public void setWonItem(Item wonItem, int playerIndex) {
-        lottery.getPlayers().get(playerIndex).setWonItem(wonItem);
+        lottery.getPlayers().get(playerIndex).setHeldItem(wonItem);
 
     }
 }
