@@ -2,6 +2,7 @@ package com.god.kahit.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ItemFactory {
     private static IItemDataLoader dataLoader;
@@ -14,12 +15,12 @@ public class ItemFactory {
            , {"80", "Debuff", "Let the robot do it", "binoculars", "1", "0", "0"}}; //TODO replace with database
 
     static public List<Item> createStoreItems(int size) {
-
+        List<Item> loadedItems = dataLoader.getItems()
         ArrayList<Item> itemList = new ArrayList<>();
+        Random r = new Random();
         for (int i = 0; i < size; i++) {
-            int rand = (int) (Math.random() * (items.length));
-            String[] item = items[rand];
-            itemList.add(new Modifier(Integer.parseInt(item[0]), item[1], item[2], item[3], Integer.parseInt(item[4]), Integer.parseInt(item[5]), Integer.parseInt(item[6])));
+            int index = r.nextInt(loadedItems.size());
+            itemList.add(loadedItems.get(index));
         }
         return itemList;
     }
