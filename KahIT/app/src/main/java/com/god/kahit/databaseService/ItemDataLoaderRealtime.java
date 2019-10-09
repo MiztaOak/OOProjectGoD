@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A helper class for the Firebase realtime database, that loads the item data from the database and
@@ -98,6 +99,13 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
     @Override
     public List<Item> getItems() {
+        if(itemList == null){
+            try {
+                TimeUnit.MILLISECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return itemList;
     }
 }

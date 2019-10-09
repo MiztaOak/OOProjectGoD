@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
@@ -46,6 +47,34 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
 
         recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents());
         recyclerView.setAdapter(recyclerAdapter);
+    }
+
+    public void launchBackMainActivityClass(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, MainActivityClass.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        animator.pause();
+        startActivity(intent);
+    }
+
+    public void onBackPressed() {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, MainActivityClass.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        animator.pause();
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        animator.pause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        animator.resume();
     }
 
     public void launchQuestionClass() {

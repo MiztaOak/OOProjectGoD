@@ -8,7 +8,7 @@ public class Lottery {
     private List<Player> players = new ArrayList<>(); //TODO remove when testing is done
 
     public Lottery() {
-        this.buffDebuffItems = ItemFactory.createStoreItems(3);
+
     }
 
     public List<Player> getPlayers() {
@@ -23,6 +23,9 @@ public class Lottery {
     }
 
     public List<Item> getBuffDebuffItems() {
+        if(buffDebuffItems == null){
+            this.buffDebuffItems = ItemFactory.createStoreItems(3);
+        }
         return buffDebuffItems;
     }
 
