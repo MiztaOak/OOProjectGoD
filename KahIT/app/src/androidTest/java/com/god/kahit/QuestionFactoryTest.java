@@ -1,6 +1,7 @@
 package com.god.kahit;
 
 import com.god.kahit.databaseService.QuestionDataLoaderDB;
+import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
@@ -25,8 +26,8 @@ public class QuestionFactoryTest {
 
     @Before
     public void setUp() throws InterruptedException {
-        QuestionFactory.setDataLoader(new QuestionDataLoaderDB(InstrumentationRegistry.getInstrumentation().getTargetContext()));
-        TimeUnit.MILLISECONDS.sleep(5);
+        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        TimeUnit.SECONDS.sleep(5);
     }
 
     @Test
