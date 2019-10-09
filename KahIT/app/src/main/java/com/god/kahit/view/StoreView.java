@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -211,6 +213,16 @@ public class StoreView extends AppCompatActivity {
     }
 
     public void showBlurEffect(){
+        ConstraintLayout layout = findViewById(R.id.holder);
+        ConstraintSet set = new ConstraintSet();
+
+        ImageView view = new ImageView(this);
+        view.setId(View.generateViewId());
+        layout.addView(view,0);
+        set.clone(layout);
+        set.connect(view.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP, 60);
+        set.applyTo(layout);
+        view.setImageResource(getResources().getIdentifier("blur_effect", "drawable", getPackageName()));
 
     }
 }
