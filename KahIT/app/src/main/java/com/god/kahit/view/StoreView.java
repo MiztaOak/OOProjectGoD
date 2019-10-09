@@ -1,8 +1,11 @@
 package com.god.kahit.view;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,7 +43,12 @@ public class StoreView extends AppCompatActivity {
         setContentView(R.layout.sidenav_store);
 
         initializeStoreView();
-
+        findViewById(R.id.itemButton7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBlurEffect();
+            }
+        });
     }
 
     /**
@@ -53,7 +61,6 @@ public class StoreView extends AppCompatActivity {
         findItemButtons();
         populateItemIcons();
         setPointsText();
-        setItemTypes();
         setButtonText();
         addActionsToButtons();
         addDrawerListener();
@@ -99,7 +106,7 @@ public class StoreView extends AppCompatActivity {
      */
     public void findItemButtons() {
 
-        itemButtons.add((Button) findViewById(R.id.itemButton)); // Add each imageButton in the view to the array list
+        itemButtons.add((Button) findViewById(R.id.itemButton));
         itemButtons.add((Button) findViewById(R.id.itemButton2));
         itemButtons.add((Button) findViewById(R.id.itemButton3));
         itemButtons.add((Button) findViewById(R.id.itemButton4));
@@ -144,16 +151,9 @@ public class StoreView extends AppCompatActivity {
      * A method that updates the taxt the old the value of a player's points which changes after
      * buying an item or answering a question
      */
+    @SuppressLint("SetTextI18n")
     public void setPointsText() {
         pointsText.setText("Points:" + storeViewModel.getStoreModel().getPlayer().getScore());
-    }
-    /**
-     * A method that sets the type of a group of items in their textviews
-     */
-    public void setItemTypes() {
-        itemType1.setText(storeViewModel.getStoreItems().get(0).getType());
-        itemType2.setText(storeViewModel.getStoreItems().get(1).getType());
-        itemType3.setText(storeViewModel.getStoreItems().get(2).getType());
     }
     /**
      * A method that sets an action to each button that has been add to itemButtons list. The action
@@ -177,24 +177,25 @@ public class StoreView extends AppCompatActivity {
      * @param itemButton is which button has been clicked which is need in order to buy the
      * associated item
      */
+    @SuppressLint("SetTextI18n")
     public void buy(Button itemButton){
         if (storeViewModel.isItemBuyable(storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)))){
             storeViewModel.buy(itemButtons.indexOf(itemButton));
             Toast toast = Toast.makeText(getApplicationContext(),
-                "You got a " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getType() + " " +storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getName(),
+                "You got " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getName(),
                 Toast.LENGTH_LONG);
             toast.show();
             itemButton.setEnabled(false);
             itemsIcons.get(itemButtons.indexOf(itemButton)).setImageResource(R.drawable.checkmark);
             pointsText.setText("Points: " + storeViewModel.getStoreModel().getPlayer().getScore());
-            disablebuttons();
+            disableButtons();
         }
     }
     /**
      * A method that disables the buttons used to buy items when the player's points are lower than
      * the price of an item
      */
-    public void disablebuttons(){
+    public void disableButtons(){
         for (int i = 0; i < itemButtons.size(); i++) {
             if(!storeViewModel.isItemBuyable(storeViewModel.getStoreItems().get(i))){
                 itemButtons.get(i).setEnabled(false);
@@ -204,9 +205,24 @@ public class StoreView extends AppCompatActivity {
     /**
      * A method that sets the text of a button to the price of the item associated to it
      */
+    @SuppressLint("SetTextI18n")
     public void setButtonText(){
         for (int i = 0; i < itemButtons.size(); i++) {
             itemButtons.get(i).setText(Integer.toString(storeViewModel.getStoreItems().get(i).getPrice()));
         }
+    }
+
+    public void showBlurEffect(){
+        ConstraintLayout layout = findViewById(R.id.holder);
+        ConstraintSet set = new ConstraintSet();
+
+        ImageView view = new ImageView(this);
+        view.setId(View.generateViewId());
+        layout.addView(view,0);
+        set.clone(layout);
+        set.connect(view.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP, 60);
+        set.applyTo(layout);
+        view.setImageResource(getResources().getIdentifier("blur_effect", "drawable", getPackageName()));
+
     }
 }

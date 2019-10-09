@@ -80,7 +80,6 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
         String name = (String) itemData.child("name").getValue();
         String imgName = (String) itemData.child("img_name").getValue();
-        String type = (String) itemData.child("type").getValue();
 
         itemImageNameMap.put(Objects.requireNonNull(name), Objects.requireNonNull(imgName));
 
@@ -88,9 +87,9 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
             int scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).intValue();
             int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
             int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
-            return new Modifier(price, type, name, scoreMultiplier, timeHeadstart, amountOfAlternatives);
+            return new Modifier(price, name, scoreMultiplier, timeHeadstart, amountOfAlternatives);
         }
-        return new VanityItem(price, type, name);
+        return new VanityItem(price, name);
     }
     
     public static Map<String, String> getItemImageNameMap() {
