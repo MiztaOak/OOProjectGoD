@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemFactory {
+    private static IItemDataLoader dataLoader;
 
    static String[][] items = {{"150", "Buff", "Double Score", "double_score", "2", "0", "0"}
             , {"120", "Buff", "Time Headstart", "time_headstart", "1", "5", "0"}

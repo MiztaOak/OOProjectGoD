@@ -4,13 +4,19 @@ public abstract class Item {
     private int price;
     private String type; //TODO remove
     private String name;
-    private String imageSource; //TODO check if this is ok
+    private String imageSource; //TODO REMOVE THIS PLZ
 
-    public Item(int price, String type, String name, String imageSource) {
+    public Item(int price, String type, String name, String imageSource) {//TODO REMOVE THIS PLZ
         this.price = price;
         this.type = type;
         this.name = name;
         this.imageSource = imageSource;
+    }
+
+    public Item(int price, String type, String name) {
+        this.price = price;
+        this.type = type;
+        this.name = name;
     }
 
     public String getName() {
