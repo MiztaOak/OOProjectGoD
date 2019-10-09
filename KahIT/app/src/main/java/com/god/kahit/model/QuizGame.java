@@ -47,8 +47,8 @@ public class QuizGame {
         currentPlayer = teamList.get(0).getTeamMembers().get(0);
         players.add(currentPlayer);
 
-        store = new Store();
-        lottery = new Lottery();
+        //store = new Store();
+        //lottery = new Lottery();
     }
 
     public void startGame() {
