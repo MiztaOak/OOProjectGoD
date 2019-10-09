@@ -11,6 +11,13 @@ public class Modifier extends Item {
         this.scoreMultiplier = scoreMultiplier;
         this.timeHeadstart = timeHeadstart;
         this.amountOfAlternatives = amountOfAlternatives;
+    }//TODO REMOVE THIS PLZ
+
+    public Modifier(int price, String type, String name, int scoreMultiplier, int timeHeadstart, int amountOfAlternatives){
+        super(price, type, name);
+        this.scoreMultiplier = scoreMultiplier;
+        this.timeHeadstart = timeHeadstart;
+        this.amountOfAlternatives = amountOfAlternatives;
     }
 
     public double getScoreMultiplier() {
