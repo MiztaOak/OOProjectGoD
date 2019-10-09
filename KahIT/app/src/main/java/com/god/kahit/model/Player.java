@@ -5,7 +5,10 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
 
     private String name;
     private int score;
-    private Modifier currentEffects; //TODO replace with stats ask Johan if you don't remember how
+    private double scoreMultiplier;
+    private int timeHeadstart;
+    private int amountOfAlternatives;
+    private boolean autoAnswer;
     private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
     private Item heldItem; //this item should be used when the player gets them maybe should be removed
 
@@ -25,9 +28,14 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     public Item getHeldItem() {
         return heldItem;
     }
-
-    public void setHeldItem(Item heldItem) {
-        this.heldItem = heldItem;
+    /**
+     * A method that sets the values of effects of a Modifier to players own values
+     */
+    public void setHeldItem(Modifier modifier) {
+        this.scoreMultiplier = modifier.getScoreMultiplier();
+        this.timeHeadstart = modifier.getTimeHeadstart();
+        this.amountOfAlternatives = modifier.getAmountOfAlternatives();
+        this.autoAnswer = modifier.isAutoAnswer();
     }
 
     public String getName() {
@@ -58,6 +66,15 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         this.playerReady = playerReady;
     }
 
+    /**
+     * A method that clears the effect of a Modifier after  it has been used
+     */
+    public void clearModifier(){
+        this.scoreMultiplier = 1;
+        this.timeHeadstart = 0;
+        this.amountOfAlternatives = 0;
+        this.autoAnswer = false;
+    }
 
 }
 

@@ -2,6 +2,7 @@ package com.god.kahit.viewModel;
 
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Lottery;
+import com.god.kahit.model.Modifier;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public void setWonItem(Item wonItem, int playerIndex) {
-        lottery.getPlayers().get(playerIndex).setHeldItem(wonItem);
+        lottery.getPlayers().get(playerIndex).setHeldItem((Modifier) wonItem);
 
     }
 }
