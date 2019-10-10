@@ -9,9 +9,9 @@ import com.god.kahit.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ChooseGameClass extends AppCompatActivity {
+public class ChooseGameView extends AppCompatActivity {
 
-    private static final String LOG_TAG = ChooseGameClass.class.getSimpleName();
+    private static final String LOG_TAG = ChooseGameView.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class ChooseGameClass extends AppCompatActivity {
 
     public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, MainActivityClass.class);
+        Intent intent = new Intent(this, MainActivityView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

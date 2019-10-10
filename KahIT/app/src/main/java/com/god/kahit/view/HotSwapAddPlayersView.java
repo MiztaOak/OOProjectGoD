@@ -12,7 +12,6 @@ import com.god.kahit.model.Player;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
@@ -90,7 +89,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnClick
 
     public void launchQuestionClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, QuestionClass.class);
+        Intent intent = new Intent(this, QuestionView.class);
         startActivity(intent);
     }
 }
