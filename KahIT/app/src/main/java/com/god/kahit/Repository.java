@@ -2,14 +2,16 @@ package com.god.kahit;
 
 import android.content.Context;
 
+import com.god.kahit.databaseService.ItemDataLoaderRealtime;
+import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Item;
+import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
+import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
-import com.god.kahit.networkManager.NetworkManager;
-import com.god.kahit.networkManager.NetworkModule;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ public class Repository {
 
     private static Repository instance;
     private QuizGame quizGame;
+
     private Repository() {
     }
 
@@ -29,7 +32,9 @@ public class Repository {
     }
 
     public void startNewGameInstance(Context context) {
-        quizGame = new QuizGame(context.getApplicationContext());
+        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
+        ItemFactory.setDataLoader(new ItemDataLoaderRealtime(context));
+        quizGame = new QuizGame();
     }
 
     public void addQuizListener(QuizListener quizListener) {
@@ -47,7 +52,7 @@ public class Repository {
     }
 
     public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
-        quizGame.receiveAnswer(givenAnswer, question, timeLeft);
+        quizGame.enterAnswer(givenAnswer, question, timeLeft);
     }
 
     public List<Player> getPlayers() {
@@ -66,8 +71,8 @@ public class Repository {
         quizGame.setCurrentCategory(currentCategory);
     }
 
-    public void resetPLayerData(){
-        quizGame.resetPLayerData();
+    public void resetPlayerData() {
+        quizGame.resetPlayerData();
     }
 
     public void addNewPlayer() {
@@ -78,6 +83,10 @@ public class Repository {
         quizGame.addNewPlayerToEmptyTeam();
     }
 
+    public void addNewPlayerToTeam(String playerName, String playerId, String teamId) {
+        quizGame.addNewPlayerToTeam(playerName, playerId, teamId);
+    }
+
     public void fireTeamChangeEvent() {
         quizGame.fireTeamChangeEvent();
     }
@@ -86,7 +95,12 @@ public class Repository {
         quizGame.removePlayer(player);
     }
 
-    public void changeTeam(Player player, int newTeamId){
+    public void changeTeam(Player player, String newTeamId) {
+        System.out.println("LobbyNetViewModel - requestTeamChange: Triggered!");
+        quizGame.changeTeam(player, newTeamId);
+    }
+
+    public void changeTeam(Player player, int newTeamId) {
         quizGame.changeTeam(player, newTeamId);
     }
 

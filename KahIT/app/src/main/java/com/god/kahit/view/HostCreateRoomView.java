@@ -50,9 +50,10 @@ public class HostCreateRoomView extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchTeamArrangementActivity(View view) {
+    public void launchLobbyNetActivity(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, TeamArrangementView.class);
+        Intent intent = new Intent(this, LobbyNetView.class);
+        intent.putExtra("isHostBoolean", true);
         startActivity(intent);
     }
 }

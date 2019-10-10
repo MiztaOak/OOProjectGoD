@@ -36,7 +36,6 @@ public class ChooseGameView extends AppCompatActivity {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, JoinRoomView.class);
         startActivity(intent);
-
     }
 
     public void launchHotSwapGameModeClass(View view) {

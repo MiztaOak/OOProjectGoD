@@ -8,7 +8,6 @@
     tools:ignore="MissingDefaultResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/teamArrangementActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textViewConnectionType"
+            android:id="@+id/lobbyNet_SessionType_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Host"
@@ -57,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4">
 
             <TextView
-                android:id="@+id/textViewRoomName"
+                android:id="@+id/lobbyNetRoomName_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LOOT MANSION"
@@ -85,7 +84,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewGameMode"
+            android:id="@+id/lobbyNet_GameMode_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Game mode"
@@ -101,8 +100,8 @@
             android:layout_marginBottom="2dp"
             android:text="Team"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/taPlayersRecyclerView"
-            app:layout_constraintStart_toStartOf="@+id/taPlayersRecyclerView" />
+            app:layout_constraintBottom_toTopOf="@+id/lobbyNetTeamRecyclerView"
+            app:layout_constraintStart_toStartOf="@+id/lobbyNetTeamRecyclerView" />
 
         <TextView
             android:id="@+id/textView13"
@@ -112,20 +111,22 @@
             android:layout_marginBottom="2dp"
             android:text="Player list"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/taPlayersRecyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/lobbyNetTeamRecyclerView"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/taPlayersRecyclerView"
+            android:id="@+id/lobbyNetTeamRecyclerView"
             android:layout_width="364dp"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/light_border"
-            app:layout_constraintBottom_toTopOf="@+id/taStartGameButton"
+            app:layout_constraintBottom_toTopOf="@+id/lobbyNetStartButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewGameMode" />
+            app:layout_constraintTop_toBottomOf="@+id/lobbyNet_GameMode_textView"
+            tools:itemCount="2"
+            tools:listitem="@layout/team_container" />
 
         <TextView
             android:id="@+id/textViewMyTeam"
@@ -148,7 +149,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/num_off_player"
+            android:id="@+id/lobbyNet_nmb_players_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
@@ -158,7 +159,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/taStartGameButton"
+            android:id="@+id/lobbyNetStartButton"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
