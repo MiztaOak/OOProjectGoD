@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 
 public class CategoryViewModel extends ViewModel implements LifecycleObserver {
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> categories;
 
     public CategoryViewModel() {
         generateCategories();
@@ -20,19 +20,10 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
 
     private void generateCategories() {
         Category currentCategory = Repository.getInstance().getCurrentCategory();
-        categories = Category.getRealCategories();
+        categories = new ArrayList<>(Category.getRealCategories());
         categories.remove(currentCategory);
         Collections.shuffle(categories);
         categories = categories.subList(0,4);
-    }
-
-    private boolean listContainsCategory(List<Category> list, Category category) {
-        for (Category listItem : list) {
-            if (listItem.toString().equals(category.toString())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void setCategory(int index) {
