@@ -40,6 +40,7 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         FirebaseApp.initializeApp(context);
         db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference("items");
+        databaseReference.keepSynced(true);
 
         if (itemImageNameMap == null) {
             itemImageNameMap = new HashMap<>();
