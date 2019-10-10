@@ -72,7 +72,7 @@ public class Repository {
     }
 
     public void resetPlayerData() {
-        quizGame.resetPLayerData();
+        quizGame.resetPlayerData();
     }
 
     public void addNewPlayer() {
@@ -83,12 +83,21 @@ public class Repository {
         quizGame.addNewPlayerToEmptyTeam();
     }
 
+    public void addNewPlayerToTeam(String playerName, String playerId, String teamId) {
+        quizGame.addNewPlayerToTeam(playerName, playerId, teamId);
+    }
+
     public void fireTeamChangeEvent() {
         quizGame.fireTeamChangeEvent();
     }
 
     public void removePlayer(Player player) {
         quizGame.removePlayer(player);
+    }
+
+    public void changeTeam(Player player, String newTeamId) {
+        System.out.println("LobbyNetViewModel - requestTeamChange: Triggered!");
+        quizGame.changeTeam(player, newTeamId);
     }
 
     public void changeTeam(Player player, int newTeamId) {

@@ -1,7 +1,6 @@
 package com.god.kahit.model;
 
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,10 +15,7 @@ import java.util.Objects;
 
 public class QuizGame {
     public static final EventBus BUS = new EventBus(); //todo Evaluate if we need this external dependency, instead of making our own observer-pattern
-
-    private final String id = "Player 1"; //TODO
     private static final int MAX_ALLOWED_PLAYERS = 8;
-
     private final ArrayList<Team> teamList;
     private final List<Player> players;
     private Map<Category, List<Question>> questionMap;
@@ -43,7 +39,7 @@ public class QuizGame {
         teamList = new ArrayList<>(MAX_ALLOWED_PLAYERS);
         players = new ArrayList<>();
         listeners = new ArrayList<>();
-        addNewPlayerToEmptyTeam("Player 1", id);
+        addNewPlayerToEmptyTeam("Player 1", "1");
         currentPlayer = teamList.get(0).getTeamMembers().get(0);
         players.add(currentPlayer);
 
@@ -219,6 +215,18 @@ public class QuizGame {
         return teamList;
     }
 
+    public void addNewPlayerToTeam(String playerName, String playerId, String teamId) {
+        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
+            createNewTeam(teamId);
+        }
+        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
+            Player player = createNewPlayer(playerName, playerId);
+            getEmptyTeam().addPlayer(player);
+            players.add(player);
+            fireTeamChangeEvent();
+        }
+    }
+
     /**
      * Checks if a empty team exists, if not it creates one if the total number of teams are below specified Integer.
      * A new player is then created with the use of the parameters if less then specified maximum allowed players and adds it to the first empty team that is found.
@@ -230,7 +238,7 @@ public class QuizGame {
      */
     public void addNewPlayerToEmptyTeam(String name, String id) {
         if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
-            createNewTeam(teamList.size()); //createNewTeam(String id, int teamNumber) //TODO There is a overloaded method that accepts a String id as parameter, in multiplayer set id for team?
+            createNewTeam(teamList.size());
         }
         if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
             Player player = createNewPlayer(name, id);
@@ -295,7 +303,7 @@ public class QuizGame {
     public void createNewTeam(int teamNumber) {
         List<Player> players = new ArrayList<>();
         String teamName = "Team " + (teamNumber + 1);
-        String id = teamName;
+        String id = Integer.toString(teamNumber);
         Team team = new Team(players, teamName, id);
         teamList.add(teamNumber, team);
     }
@@ -305,11 +313,11 @@ public class QuizGame {
      *
      * @param id for the team.
      */
-    public void createNewTeam(String id, int teamNumber) {
+    public void createNewTeam(String id) {
         List<Player> players = new ArrayList<>();
-        String teamName = "Team " + (teamNumber + 1);
+        String teamName = "Team " + id;
         Team team = new Team(players, teamName, id);
-        teamList.add(teamNumber, team);
+        teamList.add(team);
     }
 
     /**
@@ -463,9 +471,38 @@ public class QuizGame {
     /**
      * Resets the entire teams.
      */
-    public void resetPLayerData() {
+    public void resetPlayerData() {
         teamList.clear();
         players.clear();
+    }
+
+    public void changeTeam(Player player, String newTeamId) {
+        System.out.println("QuizGame - changeTeam: Triggered!");
+
+        //Remove player from any other team
+        for(int i = teamList.size()-1; i >= 0; i--) {
+            teamList.get(i).removePlayer(player);
+            removeTeamIfEmpty(teamList.get(i));
+        }
+
+        //Handle team exist
+        for (Team team : teamList) {
+            if (team.getId().equals(newTeamId)) {
+                team.addPlayer(player);
+                fireTeamChangeEvent();
+                return;
+            }
+        }
+
+        //Handle team does not exist
+        createNewTeam(newTeamId);
+        for (Team team : teamList) {
+            if (team.getId().equals(newTeamId)) {
+                team.addPlayer(player);
+                fireTeamChangeEvent();
+                return;
+            }
+        }
     }
 
     /**

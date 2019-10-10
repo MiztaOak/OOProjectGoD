@@ -91,7 +91,7 @@
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
         <activity
-            android:name=".view.TeamArrangementView"
+            android:name=".view.LobbyNetView"
             android:parentActivityName=".view.MainActivityClass"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
