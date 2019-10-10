@@ -71,6 +71,10 @@ public class Repository {
     }
 
     public void addNewPlayer() {
+        quizGame.createNewPlayer();
+    }
+
+    public void addNewPlayerToEmptyTeam() {
         quizGame.addNewPlayerToEmptyTeam();
     }
 

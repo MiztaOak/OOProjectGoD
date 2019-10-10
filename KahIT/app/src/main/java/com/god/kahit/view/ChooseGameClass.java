@@ -19,18 +19,17 @@ public class ChooseGameClass extends AppCompatActivity {
         setContentView(R.layout.choose_game_activity);
     }
 
-    public void launchHostCreateRoomClass(View view) {
-        Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, HostCreateRoomView.class);
-        startActivity(intent);
-    }
-
     public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
 
+    public void launchHostCreateRoomClass(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, HostCreateRoomView.class);
+        startActivity(intent);
     }
 
     public void launchJoinRoomClass(View view) {

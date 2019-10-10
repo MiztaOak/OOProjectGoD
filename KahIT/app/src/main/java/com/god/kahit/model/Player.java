@@ -1,60 +1,35 @@
 package com.god.kahit.model;
 
+import com.god.kahit.networkManager.Connection;
 
-import java.util.List;
-
-public class Player {
+public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
     private String name;
-    private Integer score;
-    private List<VanityItem> vanityItems;
-    private Modifier currentEffcts;
-    private boolean playerReady;
-    private Item wonItem;
-    private final String id;
+    private int score;
+    private Connection connection;
+    private Modifier currentEffects; //TODO replace with stats ask Johan if you don't remember how
+    private Item heldItem; //this item should be used when the player gets them maybe should be removed
+    private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
+    private boolean isMe;
 
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    public List<VanityItem> getVanityItems() {
-        return vanityItems;
-    }
-
-    public void addVanityItem(VanityItem vanityItems) {
-        this.vanityItems.add(vanityItems);
-    }
-
-    public Modifier getCurrentEffcts() {
-        return currentEffcts;
-    }
-
-    public void setCurrentEffcts(Modifier currentEffcts) {
-        this.currentEffcts = currentEffcts;
-    }
-
-    public Player(String name, String id) {
+    public Player(String name, int score) {
         this.name = name;
-        this.score = 0;
-        this.id = id;
+        this.score = score;
+        this.playerReady = false;
     }
 
-    public String getWonItemName() {
-        return wonItem.getName();
+    public Player() {
     }
 
-    public Item getWonItem() {
-        return wonItem;
+    public String getHeldItemName() {
+        return heldItem.getName();
     }
 
-    public void setWonItem(Item wonItem) {
-        this.wonItem = wonItem;
+    public Item getHeldItem() {
+        return heldItem;
     }
 
-    public void calculateNewScore(int newScore) {
-        // todo switch instead
-        if (currentEffcts.equals("double score")) {
-            updateScore(newScore);
-        }
+    public void setHeldItem(Item heldItem) {
+        this.heldItem = heldItem;
     }
 
     public String getName() {
@@ -65,9 +40,9 @@ public class Player {
         this.name = name;
     }
 
-    public void updateScore(int points) {
+    public void updateScore(int points) { //todo rename to addScore
         this.score += score;
-    }
+    } //TODO add calculation that takes current buff into account
 
     public int getScore() {
         return score;
@@ -85,7 +60,21 @@ public class Player {
         this.playerReady = playerReady;
     }
 
+    public String getId() {
+        return connection.getId();
+    }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public boolean isMe() {
+        return isMe;
+    }
 }
 
 
