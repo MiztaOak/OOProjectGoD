@@ -45,6 +45,7 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
         FirebaseApp.initializeApp(context);
         db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference("questions");
+        databaseReference.keepSynced(true);
         questions = new HashMap<>();
         loadData();
     }
