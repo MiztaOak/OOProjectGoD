@@ -5,7 +5,7 @@
     android:id="@+id/lotteryItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.lotteryItemClass">
+    tools:context=".view.lotteryItemView">
 
     <RelativeLayout
         android:layout_width="360dp"

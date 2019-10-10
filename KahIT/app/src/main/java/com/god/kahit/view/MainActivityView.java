@@ -11,8 +11,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivityClass extends AppCompatActivity {
-    private static final String LOG_TAG = MainActivityClass.class.getSimpleName();
+public class MainActivityView extends AppCompatActivity {
+    private static final String LOG_TAG = MainActivityView.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +24,8 @@ public class MainActivityClass extends AppCompatActivity {
 
     public void launchChooseGameClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-//        Intent intent = new Intent(this, ChooseGameClass.class);
-        Intent intent = new Intent(this, ChooseGameClass.class);
+//        Intent intent = new Intent(this, ChooseGameView.class);
+        Intent intent = new Intent(this, ChooseGameView.class);
         startActivity(intent);
     }
 }

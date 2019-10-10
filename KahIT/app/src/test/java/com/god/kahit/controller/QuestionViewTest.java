@@ -1,6 +1,6 @@
 package com.god.kahit.controller;
 
-import com.god.kahit.view.QuestionClass;
+import com.god.kahit.view.QuestionView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,13 +11,13 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
 
-public class QuestionClassTest {
+public class QuestionViewTest {
 
     @InjectMocks
-    private QuestionClass questionClass;
+    private QuestionView questionView;
 
     @Mock
-    private QuestionClass questionClassMock;
+    private QuestionView questionViewMock;
 
     @Before
     public void init() {
@@ -39,9 +39,9 @@ public class QuestionClassTest {
 
     @Test
     public void testPopulateQuestionTextView() throws Exception {
-        //QuestionClass  mockWorld = mock(QuestionClass.class);
+        //QuestionView  mockWorld = mock(QuestionView.class);
         final String expected = "HELLO";
-        doNothing().when(questionClassMock).populateQuestionTextView(anyString());
+        doNothing().when(questionViewMock).populateQuestionTextView(anyString());
     }
 
     @Test
