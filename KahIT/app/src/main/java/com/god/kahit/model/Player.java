@@ -1,23 +1,30 @@
 package com.god.kahit.model;
 
-import com.god.kahit.networkManager.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
+    private final String id; //TODO Should probably not even exist in model.
     private String name;
     private int score;
-    private Connection connection;
-    private Modifier currentEffects; //TODO replace with stats ask Johan if you don't remember how
-    private Item heldItem; //this item should be used when the player gets them maybe should be removed
+    private double scoreMultiplier = 1;
+    private int timeHeadstart;
+    private int amountOfAlternatives;
+    private boolean autoAnswer;
+    private List<VanityItem> vanityItems;
     private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
-    private boolean isMe;
+    private Item heldItem; //this item should be used when the player gets them maybe should be removed
 
-    public Player(String name, int score) {
+    public Player(String name, String id) {
         this.name = name;
-        this.score = score;
+        this.id = id;
+        this.score = 0;
         this.playerReady = false;
+        this.vanityItems = new ArrayList<>();
     }
 
-    public Player() {
+    public void addVanityItem(VanityItem vanityItem) {
+        vanityItems.add(vanityItem);
     }
 
     public String getHeldItemName() {
@@ -28,8 +35,14 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         return heldItem;
     }
 
-    public void setHeldItem(Item heldItem) {
-        this.heldItem = heldItem;
+    /**
+     * A method that sets the values of effects of a Modifier to players own values
+     */
+    public void setHeldItem(Modifier modifier) {
+        this.scoreMultiplier = modifier.getScoreMultiplier();
+        this.timeHeadstart = modifier.getTimeHeadstart();
+        this.amountOfAlternatives = modifier.getAmountOfAlternatives();
+        this.autoAnswer = modifier.isAutoAnswer();
     }
 
     public String getName() {
@@ -41,7 +54,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     }
 
     public void updateScore(int points) { //todo rename to addScore
-        this.score += score;
+        this.score += points*scoreMultiplier;
     } //TODO add calculation that takes current buff into account
 
     public int getScore() {
@@ -60,20 +73,18 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         this.playerReady = playerReady;
     }
 
+    /**
+     * A method that clears the effect of a Modifier after  it has been used
+     */
+    public void clearModifier() {
+        this.scoreMultiplier = 1;
+        this.timeHeadstart = 0;
+        this.amountOfAlternatives = 0;
+        this.autoAnswer = false;
+    }
+
     public String getId() {
-        return connection.getId();
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
-    public boolean isMe() {
-        return isMe;
+        return id;
     }
 }
 

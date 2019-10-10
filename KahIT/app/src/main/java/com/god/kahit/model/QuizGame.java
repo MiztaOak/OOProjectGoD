@@ -182,7 +182,8 @@ public class QuizGame {
      */
     public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            currentPlayer.updateScore((int) (scorePerQuestion * (timeLeft / question.getTime())));
+            double scoreDelta = ((double)scorePerQuestion) * (((double) timeLeft) / ((double)question.getTime()));
+            currentPlayer.updateScore((int)scoreDelta);
             //TODO if hotswap change currentPlayer
         }
     }
