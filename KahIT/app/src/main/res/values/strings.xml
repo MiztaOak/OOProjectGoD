@@ -4,4 +4,8 @@
     <string name="item_icon">item icon</string>
     <string name="sidenav_test">sidenav test</string>
     <string name="logo_description">The logo for KahIt</string>
+    <string name="buffs">Buffs</string>
+    <string name="debuffs">DeBuffs</string>
+    <string name="storeimage">storeImage</string>
+    <string name="cosmetic_items">Cosmetic Items</string>
 </resources>

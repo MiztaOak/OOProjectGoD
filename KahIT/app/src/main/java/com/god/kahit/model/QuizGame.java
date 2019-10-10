@@ -1,6 +1,7 @@
 package com.god.kahit.model;
 
 import com.god.kahit.Events.TeamChangeEvent;
+import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,9 +17,11 @@ import java.util.Objects;
 public class QuizGame {
     public static final EventBus BUS = new EventBus(); //todo Evaluate if we need this external dependency, instead of making our own observer-pattern
 
+    private final String id = "Player 1"; //TODO
     private static final int MAX_ALLOWED_PLAYERS = 8;
+
+    private final ArrayList<Team> teamList;
     private final List<Player> players;
-    private List<Team> teams;
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
@@ -37,15 +40,15 @@ public class QuizGame {
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
     public QuizGame() {
+        teamList = new ArrayList<>(MAX_ALLOWED_PLAYERS);
         players = new ArrayList<>();
         listeners = new ArrayList<>();
-        currentPlayer = new Player("local", 0);
+        addNewPlayerToEmptyTeam("Player 1", id);
+        currentPlayer = teamList.get(0).getTeamMembers().get(0);
         players.add(currentPlayer);
 
-        store = new Store();
-        lottery = new Lottery();
-
-        initTeams();
+        //store = new Store();
+        //lottery = new Lottery();
     }
 
     public void startGame() {
@@ -213,72 +216,164 @@ public class QuizGame {
     }
 
     public List<Team> getTeams() {
-        return teams;
+        return teamList;
     }
 
     /**
-     * Initiate teams where an integer max allowed players determines how many.
+     * Checks if a empty team exists, if not it creates one if the total number of teams are below specified Integer.
+     * A new player is then created with the use of the parameters if less then specified maximum allowed players and adds it to the first empty team that is found.
+     * Said player is also added to the playerList.
+     * Method then posts the change on the BUS with a teamChangeEvent.
+     *
+     * @param name for the new player.
+     * @param id   for the new player.
      */
-    public void initTeams() {
-        teams = new ArrayList<>();
-        for (int i = 0; i < MAX_ALLOWED_PLAYERS; i++) { //TODO should we create all teams at start or when new team is clicked
-            createNewTeam();
+    public void addNewPlayerToEmptyTeam(String name, String id) {
+        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
+            createNewTeam(teamList.size()); //createNewTeam(String id, int teamNumber) //TODO There is a overloaded method that accepts a String id as parameter, in multiplayer set id for team?
         }
+        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
+            Player player = createNewPlayer(name, id);
+            getEmptyTeam().addPlayer(player);
+            players.add(player);
+            fireTeamChangeEvent();
+        }
+    }
+
+
+    /**
+     * Checks if a empty team exists, if not it creates one if the total number of teams are below specified Integer.
+     * A new player is then created with default settings if less then specified maximum allowed players and adds it to the first empty team that is found.
+     * Said player is also added to the playerList.
+     * Method then posts the change on the BUS with a teamChangeEvent.
+     */
+    public void addNewPlayerToEmptyTeam() {
+        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) { //TODO should this be checked here or in the network or some other place
+            createNewTeam(teamList.size());
+        }
+        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
+            Player player = createNewPlayer();
+            getEmptyTeam().addPlayer(player);
+            players.add(player);
+            fireTeamChangeEvent();
+        }
+
+    }
+
+    /**
+     * Checks if there is an empty team.
+     *
+     * @return true if empty team, false if there is no empty team.
+     */
+    public boolean noEmptyTeamExists() {
+        for (Team team : teamList) {
+            if (team.getTeamMembers().size() == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Gets an empty team from the teamList.
+     *
+     * @return the empty team.
+     */
+    public Team getEmptyTeam() {
+        int j = 0;
+        for (int i = 0; i < teamList.size(); i++) {
+            if (teamList.get(i).getTeamMembers().size() == 0) {
+                return teamList.get(i);
+            }
+        }
+        return teamList.get(j);
     }
 
     /**
      * Creates a new empty team with default settings.
      */
-    public void createNewTeam() {
+    public void createNewTeam(int teamNumber) {
         List<Player> players = new ArrayList<>();
-        Team team = new Team(players, 0, "Team " + (teams.size() + 1));
-        teams.add(team);
+        String teamName = "Team " + (teamNumber + 1);
+        String id = teamName;
+        Team team = new Team(players, teamName, id);
+        teamList.add(teamNumber, team);
     }
 
     /**
-     * Creates a new player if less then maximum allowed players and adds it to the first empty team that is found.
-     * Then posts the change on the BUS.
-     */
-    public void addNewPlayerToEmptyTeam() {
-        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) { //TODO should this be checked here or in the network or some other place
-            for (int i = 0; i < teams.size(); i++) {
-                if (teams.get(i).getTeamMembers().size() == 0) {
-                    teams.get(i).getTeamMembers().add(createNewPlayer()); //todo also add to player list
-                    break;
-                }
-            }
-            //teams.get(0).getTeamMembers().add(createNewPlayer()); //TODO
-            BUS.post(new TeamChangeEvent(teams));
-        }
-    }
-
-    /**
-     * Removes a specific player from the game and post the change on the BUS.
+     * Creates a new empty team with specified id.
      *
-     * @param player the player to bew removed.
+     * @param id for the team.
      */
-    public void removePlayer(Player player) {
-        if (getTotalAmountOfPlayers() > 1) {//TODO should we not instead check if player is current player, or is it wrong to have no players
-            for (int i = 0; i < teams.size(); i++) {
-                teams.get(i).getTeamMembers().remove(player);
-            }
-            BUS.post(new TeamChangeEvent(teams));
-        }
+    public void createNewTeam(String id, int teamNumber) {
+        List<Player> players = new ArrayList<>();
+        String teamName = "Team " + (teamNumber + 1);
+        Team team = new Team(players, teamName, id);
+        teamList.add(teamNumber, team);
     }
 
     /**
-     * Returns a new player with default settings.
+     * Checks if name is empty and generates a new name until no other player has the same name.
+     * Then it returns a player with specified name and id.
+     * In the event of a name being used by another player it returns a player with a generated name.
      *
-     * @return the newly created player.
+     * @param name the name for the player.
+     * @param id   the id for the player.
+     * @return
      */
-    public Player createNewPlayer() {
-        int i = 1;
-        String name = "Player " + (getTotalAmountOfPlayers() + i);
+    public Player createNewPlayer(String name, String id) {
+        String copy = name.replaceAll("\\s", ""); //Removes all whitespace so that it can be tested if it contains any characters.
+        if (isParamStringEmpty(copy)) {
+            name = getNewPlayerName();
+        }
+
+        int i = players.size();
         while (isPlayerNameTaken(name)) {
             name = "Player " + i;
             i++;
         }
-        return new Player(name, 0);
+        return new Player(name, id);
+    }
+
+    /**
+     * Returns a new player with default name and id.
+     *
+     * @return a new Player object.
+     */
+    public Player createNewPlayer() {
+        String name = getNewPlayerName();
+
+        int i = players.size();
+        while (isPlayerNameTaken(name)) {
+            name = "Player " + i;
+            i++;
+        }
+        String id = name;
+
+        return new Player(name, id);
+    }
+
+    /**
+     * Checks if a String contains any characters.
+     *
+     * @param string to be checked.
+     * @return true if string is empty, false if string contains one or more characters.
+     */
+    public boolean isParamStringEmpty(String string) {
+        if (string.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Creates a new player name.
+     *
+     * @return new name.
+     */
+    private String getNewPlayerName() {
+        return "Player " + (players.size());
     }
 
     /**
@@ -288,26 +383,42 @@ public class QuizGame {
      * @return True if name is taken.
      */
     private boolean isPlayerNameTaken(String name) {
-        for (int i = 0; i < teams.size(); i++) { //TODO do this with player list instead
-            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
-                if (teams.get(i).getTeamMembers().get(j).getName().contentEquals(name)) {
-                    return true;
-                }
+        for (Player player : players) {
+            if (player.getName().equals(name)) {
+                return true;
             }
         }
         return false;
     }
 
     /**
-     * Removes a team from the game then posts the change on the BUS.
+     * Removes a specific player from the game and post the change on the BUS.
+     *
+     * @param player the player to bew removed.
+     */
+    public void removePlayer(Player player) {
+        if (getTotalAmountOfPlayers() > 1) { //TODO should we not instead check if player is current player, or is it wrong to have no players
+            for (int i = 0; i < teamList.size(); i++) {
+                teamList.get(i).getTeamMembers().remove(player);
+
+                removeTeamIfEmpty(teamList.get(i));
+            }
+            players.remove(player);
+
+            fireTeamChangeEvent();
+        }
+    }
+
+    /**
+     * Removes a team from the game.
      *
      * @param team the team to be removed.
      */
-    public void removeTeam(Team team) {
-        teams.remove(team);
-        BUS.post(new TeamChangeEvent(teams));
+    public void removeTeamIfEmpty(Team team) {
+        if (team.getTeamMembers().size() == 0) {
+            teamList.remove(team);
+        }
     }
-
 
     /**
      * Changes the team name and posts it on the BUS.
@@ -316,12 +427,11 @@ public class QuizGame {
      * @param teamName The team name that the team changes to.
      */
     public void changeTeamName(Team team, String teamName) {
-        int index = teams.indexOf(team);
+        int index = teamList.indexOf(team);
         if (index >= 0) {
-            teams.get(index).setTeamName(teamName);
+            teamList.get(index).setTeamName(teamName);
         }
-
-        BUS.post(new TeamChangeEvent(teams));
+        fireTeamChangeEvent();
     }
 
     /**
@@ -330,16 +440,15 @@ public class QuizGame {
      * @param player the player to have his name changed.
      * @param name   the new name for the player.
      */
-    public void changePlayerName(Player player, String name) { //todo user player list instead
-        for (int i = 0; i < teams.size(); i++) {
-            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
-                if (teams.get(i).getTeamMembers().get(j).equals(player)) {
-                    teams.get(i).getTeamMembers().get(j).setName(name);
-                    break;
+    public void changePlayerName(Player player, String name) {
+        if (!player.isPlayerReady()) {
+            for (Player player1 : players) {
+                if (player1.equals(player)) {
+                    player.setName(name);
                 }
             }
+            fireTeamChangeEvent();
         }
-        BUS.post(new TeamChangeEvent(teams));
     }
 
     /**
@@ -347,34 +456,45 @@ public class QuizGame {
      *
      * @return the number of players.
      */
-    private int getTotalAmountOfPlayers() { //todo use player list instead, simply get size of that list
-        int numOfPlayers = 0;
-        for (int i = 0; i < teams.size(); i++) {
-            numOfPlayers += getTeams().get(i).getTeamMembers().size();
-        }
-        return numOfPlayers;
+    public int getTotalAmountOfPlayers() {
+        return players.size();
     }
 
     /**
      * Resets the entire teams.
      */
-    public void resetPlayerData() { //todo clear player list as well
-        teams.clear();
+    public void resetPLayerData() {
+        teamList.clear();
+        players.clear();
     }
 
     /**
+     * Checks if the newTeamNum exists if not it creates a new team.
      * Changes the team for the player and posts the change on the BUS.
      *
      * @param player     The player that needs to change team.
      * @param newTeamNum The index for the new team.
      */
     public void changeTeam(Player player, int newTeamNum) { //todo use team id when that is implemented
-        for (Team team : teams) {
+        try {
+            teamList.get(newTeamNum);
+        } catch (IndexOutOfBoundsException e) {
+            createNewTeam(newTeamNum);
+        }
+        for (Team team : teamList) {
             team.removePlayer(player);
         }
-        teams.get(newTeamNum).getTeamMembers().add(player);
-        BUS.post(new TeamChangeEvent(teams));
+        teamList.get(newTeamNum).getTeamMembers().add(player);
+        fireTeamChangeEvent();
     }
+
+    /**
+     * fires a teamChangeEvent.
+     */
+    public void fireTeamChangeEvent() {
+        BUS.post(new TeamChangeEvent(teamList));
+    }
+
 
     /**
      * Checks if all players are ready by utilizing the players boolean.
@@ -382,9 +502,9 @@ public class QuizGame {
      * @return
      */
     public boolean checkAllPlayersReady() { //todo remove ready-related stuff from player, move responsibility to viewModel
-        for (int i = 0; i < teams.size(); i++) {
-            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
-                if (!teams.get(i).getTeamMembers().get(j).isPlayerReady()) {
+        for (int i = 0; i < teamList.size(); i++) {
+            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
+                if (!teamList.get(i).getTeamMembers().get(j).isPlayerReady()) {
                     return false;
                 }
             }
@@ -399,13 +519,66 @@ public class QuizGame {
      * @param state  the boolean value to be set.
      */
     public void setIsPlayerReady(Player player, boolean state) {  //todo remove ready-related stuff from player, move responsibility to viewModel
-        for (int i = 0; i < teams.size(); i++) {
-            for (int j = 0; j < teams.get(i).getTeamMembers().size(); j++) {
-                if (teams.get(i).getTeamMembers().get(j).equals(player)) {
-                    teams.get(i).getTeamMembers().get(j).setPlayerReady(state);
+        for (int i = 0; i < teamList.size(); i++) {
+            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
+                if (teamList.get(i).getTeamMembers().get(j).equals(player)) {
+                    teamList.get(i).getTeamMembers().get(j).setPlayerReady(state);
                     break;
                 }
             }
         }
+        fireTeamChangeEvent();
+    }
+
+    /**
+     * Gets a Map with a Player as key and a won item as value.
+     *
+     * @return Map with players and Items.
+     */
+    public Map<Player, Item> getWinnings() {
+        Map<Player, Item> winnings = lottery.drawItem(players);
+        applyModifiers(winnings);
+        return winnings;
+    }
+
+    /**
+     * Method takes a map of Players as keys and Items as values and applies each values on each key eg. Player gets Item(value) applied.
+     *
+     * @param winnings a map with winnings.
+     */
+    private void applyModifiers
+    (Map<Player, Item> winnings) {
+        for (Player player : getPlayers()) {
+            if (winnings.get(player) instanceof Modifier) {
+                player.setHeldItem((Modifier) Objects.requireNonNull(winnings.get(player)));
+            } else {
+                player.addVanityItem((VanityItem) winnings.get(player));
+            }
+        }
+    }
+
+    /**
+     * Applies a single modifier on a single player.
+     *
+     * @param player to have a modifier applied to.
+     * @param item   to be applied.
+     */
+    public void applyModifier
+    (Player player, Item item) {
+        if (item instanceof Modifier) {
+            player.setHeldItem((Modifier) item);
+        } else {
+            player.addVanityItem((VanityItem) item);
+        }
+    }
+
+    /**
+     * Method returns all items available in the game.
+     *
+     * @return
+     */
+    public List<Item> getAllItems
+    () {
+        return lottery.getItemList();
     }
 }

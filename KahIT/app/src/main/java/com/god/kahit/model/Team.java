@@ -6,13 +6,14 @@ public class Team { //todo use package-private instead of public on many of the 
     private final List<Player> teamMembers;
     private int teamScore; //todo replace with a method that calc average player score
     private String teamName;
-    //todo add teamId
+    private final String id;
     //todo add method to set/get teamId
 
-    public Team(List<Player> teamMembers, int teamScore, String teamName) {
+    public Team(List<Player> teamMembers, String teamName, String id) {
         this.teamMembers = teamMembers;
-        this.teamScore = teamScore;
+        this.teamScore = 0;
         this.teamName = teamName;
+        this.id = id;
     }
 
     public List<Player> getTeamMembers() {
@@ -41,5 +42,9 @@ public class Team { //todo use package-private instead of public on many of the 
 
     public void removePlayer(Player player) {
         teamMembers.remove(player);
+    }
+
+    public String getId() {
+        return id;
     }
 }

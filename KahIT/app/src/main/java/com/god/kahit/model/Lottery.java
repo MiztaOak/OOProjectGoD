@@ -1,35 +1,34 @@
 package com.god.kahit.model;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Lottery {
-    private List<Item> buffDebuffItems; //todo rename to items
-    private List<Player> players = new ArrayList<>(); //TODO remove when testing is done
+    List<Item> itemList;
+    Map<Player, Item> winnings;
 
     public Lottery() {
-
+        this.itemList = ItemFactory.createStoreItems(3);
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<Item> getItemList() {
+        return itemList;
     }
 
-    //todo later, 8 players
-    public void initPlayers(int numOfPlayers) {
-        for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
-            players.add(new Player());
+    public Map<Player, Item> drawItem(List<Player> playerList) {
+        winnings = new HashMap<>();
+        for(Player player: playerList) {
+            Collections.shuffle(this.itemList);
+            winnings.put(player, itemList.get(0));
         }
+        return winnings;
     }
 
-    public List<Item> getBuffDebuffItems() {
-        if(buffDebuffItems == null){
-            this.buffDebuffItems = ItemFactory.createStoreItems(3);
-        }
-        return buffDebuffItems;
+    public Map<Player, Item> getWinnings() {
+        return winnings;
     }
-
-    //TODO move methods from the viewModel and add listener
 }
 
 

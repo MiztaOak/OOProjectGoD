@@ -5,6 +5,7 @@ import android.content.Context;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
+import com.god.kahit.model.Item;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
@@ -13,6 +14,7 @@ import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
 
 import java.util.List;
+import java.util.Map;
 
 public class Repository {
 
@@ -20,7 +22,6 @@ public class Repository {
     private QuizGame quizGame;
 
     private Repository() {
-        //registerOnEventBus();
     }
 
     public static Repository getInstance() {
@@ -54,10 +55,6 @@ public class Repository {
         quizGame.enterAnswer(givenAnswer, question, timeLeft);
     }
 
-    public void registerOnEventBus() {
-        //    eventBus.register(this);
-    }
-
     public List<Player> getPlayers() {
         return quizGame.getPlayers();
     }
@@ -74,8 +71,8 @@ public class Repository {
         quizGame.setCurrentCategory(currentCategory);
     }
 
-    public void resetPlayerData(){
-        quizGame.resetPlayerData();
+    public void resetPlayerData() {
+        quizGame.resetPLayerData();
     }
 
     public void addNewPlayer() {
@@ -86,12 +83,24 @@ public class Repository {
         quizGame.addNewPlayerToEmptyTeam();
     }
 
+    public void fireTeamChangeEvent() {
+        quizGame.fireTeamChangeEvent();
+    }
+
     public void removePlayer(Player player) {
         quizGame.removePlayer(player);
     }
 
-    public void updatePlayerData(Player player, int newTeamId) {
+    public void changeTeam(Player player, int newTeamId) {
         quizGame.changeTeam(player, newTeamId);
+    }
+
+    public Map<Player, Item> getDrawResult() {
+        return quizGame.getWinnings();
+    }
+
+    public List<Item> getAllItems() {
+        return quizGame.getAllItems();
     }
 
 }

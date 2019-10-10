@@ -1,9 +1,10 @@
 package com.god.kahit.viewModel;
 
 
+import android.util.Pair;
+
 import com.god.kahit.Repository;
 import com.god.kahit.model.Player;
-import com.god.kahit.model.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,13 @@ import androidx.lifecycle.ViewModel;
 
 public class AfterQuestionScorePageViewModel extends ViewModel implements LifecycleObserver {
 
-    public List<Tuple<String, String>> getScoreScreenContents() {
-        List<Tuple<String, String>> tupleList = new ArrayList<>();
+    public List<Pair<String, String>> getScoreScreenContents() {
+        List<Pair<String, String>> pairList = new ArrayList<>();
         for (Player player : Repository.getInstance().getPlayers()) {
-            Tuple<String, String> tuple = new Tuple<>(player.getName(), Integer.toString(player.getScore()));
-            tupleList.add(tuple);
+            Pair<String, String> tuple = new Pair<>(player.getName(), Integer.toString(player.getScore()));
+            pairList.add(tuple);
         }
-        return tupleList;
+        return pairList;
     }
 
     public boolean isRoundOver() {

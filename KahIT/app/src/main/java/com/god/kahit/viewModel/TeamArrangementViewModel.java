@@ -62,10 +62,6 @@ public class TeamArrangementViewModel extends ViewModel implements LifecycleObse
         repository.resetPlayerData();
     }
 
-    public void updatePlayerData(int position, int newTeamId) { //todo cant ever do this, can only request and wait for eventbus from viewModel
-        repository.updatePlayerData(playerListForView.getValue().get(position).first, newTeamId);
-    }
-
     @Override
     protected void onCleared() {
         super.onCleared();

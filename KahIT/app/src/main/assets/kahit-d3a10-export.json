@@ -109,6 +109,103 @@
         "question" : "Test",
         "time" : 1
       }
+    },
+    "literature" : {
+      "q0" : {
+        "alts" : [
+          "Natsume Sõseki",
+          "Junichirõ Tanizaki",
+          "Akutagawa Ryunosuke"
+        ],
+        "answer" : "Osamu Dazai",
+        "question" : "No longer human is one of Japans most populat novels and was writen shortly before it's authors suicide. Who was the author?",
+        "time" : 12
+      },
+      "q1" : {
+        "alts" : [
+          "The setting sun",
+          "Quicksand",
+          "Kõjin"
+        ],
+        "answer" : "Kokoro",
+        "question" : "Natsume Sõseki is often seen as on of Japans most influential authors becuase of one of hist works, What is the titel of this book?",
+        "time" : 12
+      }
+    },
+    "movies" : {
+      "q0" : {
+        "alts" : [
+          "Make the music happen, Sam",
+          "Music now, Sam",
+          "Once more, Sam"
+        ],
+        "answer" : "Play it, Sam.",
+        "question" : "What is the actual line of dialogue in “Casablanca”that is often misquoted as “Play it again, Sam”?",
+        "time" : 7
+      }
+    },
+    "music" : {
+
+    },
+    "sports" : {
+      "q0" : {
+        "alts" : [
+          "13 hours, 10 min",
+          "23 hours , 59 min",
+          "3 hours, 23 min"
+        ],
+        "answer" : "11 hours, 5 min",
+        "question" : "Played at Wimbledon in 2010, the longest match in tennis history lasted how long?",
+        "time" : 7
+      }
+    },
+    "geography" : {
+      "q0" : {
+        "alts" : [
+          "Holland",
+          "England",
+          "Spain"
+        ],
+        "answer" : "The Netherlands",
+        "question" : "New Zealand is named after a province in what nation?",
+        "time" : 7
+      }
+    },
+    "gaming" : {
+      "q0" : {
+        "alts" : [
+          "Bonneter",
+          "Cappers",
+          "Tiara"
+        ],
+        "answer" : "Cappy",
+        "question" : "In Mario Odyssey Mario is joined by a friendly hat. What is the name of this hat?",
+        "time" : 10
+      }
+    },
+    "religion" : {
+      "q0" : {
+        "alts" : [
+          "Hinduism",
+          "Taoism",
+          "Shintoism"
+        ],
+        "answer" : "Buddhism",
+        "question" : "In what religion is the Dhammapada a holy scripture?",
+        "time" : 10
+      }
+    },
+    "language" : {
+      "q0" : {
+        "alts" : [
+          "Squirrel",
+          "Man",
+          "Bourgeois dog"
+        ],
+        "answer" : "Lady",
+        "question" : "In a 1971 hit song,Tom Jones sings “Whoa!Whoa!Whoa! She’s a ” what?",
+        "time" : 10
+      }
     }
   },
   "items" : {
