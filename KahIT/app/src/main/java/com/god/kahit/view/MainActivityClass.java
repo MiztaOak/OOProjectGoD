@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.god.kahit.R;
 import com.god.kahit.Repository;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ public class MainActivityClass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         setContentView(R.layout.main_activity);
         Repository.getInstance().startNewGameInstance(getApplicationContext());
     }
