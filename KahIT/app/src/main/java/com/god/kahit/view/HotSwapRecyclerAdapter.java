@@ -39,7 +39,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
     private static final int TYPE_FOOTER = 1;
     private static final int TYPE_DIVIDER = 2;
 
-    private IOnPlayerClickListener iOnplayerclickListener;
+    private IOnClickListener iOnplayerclickListener;
 
     MutableLiveData<List<Pair<Player, Integer>>> playerList;
 
@@ -48,7 +48,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
 
     private Context context;
 
-    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IOnPlayerClickListener iOnplayerclickListener) {
+    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IOnClickListener iOnplayerclickListener) {
         this.playerList = playerList;
         this.context = c;
         this.iOnplayerclickListener = iOnplayerclickListener;
@@ -57,7 +57,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
 
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
-        IOnPlayerClickListener iOnplayerclickListener;
+        IOnClickListener iOnplayerclickListener;
         public ConstraintLayout row;
         public TextView textView;
         public ImageView img;
@@ -67,7 +67,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         //View.OnClickListener onClickListener; //TODO
 
 
-        public itemViewHolder(@NonNull View itemView, IOnPlayerClickListener iOnplayerclickListener) {
+        public itemViewHolder(@NonNull View itemView, IOnClickListener iOnplayerclickListener) {
             super(itemView);
             this.iOnplayerclickListener = iOnplayerclickListener;
 
@@ -101,7 +101,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            iOnplayerclickListener.onTeamSelected(getAdapterPosition(), position);
+
         }
 
         @Override
@@ -111,7 +111,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
 
         @Override
         public void onClick(View v) {
-            iOnplayerclickListener.onPlayerClick(getAdapterPosition());
+            iOnplayerclickListener.onClick(getAdapterPosition());
         }
     }
 

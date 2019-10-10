@@ -21,19 +21,20 @@ import static com.god.kahit.model.QuizGame.BUS;
 public class TeamArrangementViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = TeamArrangementViewModel.class.getSimpleName();
-
-    private MutableLiveData<List<Pair<Player, Integer>>> listForView;
+    private Repository repository;
+    private MutableLiveData<List<Pair<Player, Integer>>> playerListForView;
 
     public TeamArrangementViewModel() {
+        repository = Repository.getInstance();
         BUS.register(this);
     }
 
-    public MutableLiveData<List<Pair<Player, Integer>>> getListForView() {
-        if (listForView == null) {
-            listForView = new MutableLiveData<>();
+    public MutableLiveData<List<Pair<Player, Integer>>> getPlayerListForView() {
+        if (playerListForView == null) {
+            playerListForView = new MutableLiveData<>();
             addNewPlayer();
         }
-        return listForView;
+        return playerListForView;
     }
 
     @Subscribe
@@ -46,23 +47,23 @@ public class TeamArrangementViewModel extends ViewModel implements LifecycleObse
                 playerList.add(playerIntegerPair);
             }
         }
-        listForView.setValue(playerList);
+        playerListForView.setValue(playerList);
     }
 
     public void addNewPlayer() {
-        Repository.getInstance().addNewPlayer();
+        repository.addNewPlayer();
     }
 
     public void removePlayer(Player player) {
-        Repository.getInstance().removePlayer(player);
+        repository.removePlayer(player);
     }
 
     public void resetPlayerData() {
-        Repository.getInstance().resetPlayerData();
+        repository.resetPlayerData();
     }
 
-    public void updatePlayerData(int position, int newTeamId) {
-        Repository.getInstance().updatePlayerData(listForView.getValue().get(position).first, newTeamId);
+    public void updatePlayerData(int position, int newTeamId) { //todo cant ever do this, can only request and wait for eventbus from viewModel
+        repository.updatePlayerData(playerListForView.getValue().get(position).first, newTeamId);
     }
 
     @Override

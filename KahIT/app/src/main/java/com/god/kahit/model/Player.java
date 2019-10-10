@@ -1,13 +1,15 @@
 package com.god.kahit.model;
 
-public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
-    private final String id = "";  //TODO replace with good shit
+import com.god.kahit.networkManager.Connection;
 
+public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
     private String name;
     private int score;
+    private Connection connection;
     private Modifier currentEffects; //TODO replace with stats ask Johan if you don't remember how
-    private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
     private Item heldItem; //this item should be used when the player gets them maybe should be removed
+    private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
+    private boolean isMe;
 
     public Player(String name, int score) {
         this.name = name;
@@ -58,7 +60,21 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         this.playerReady = playerReady;
     }
 
+    public String getId() {
+        return connection.getId();
+    }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public boolean isMe() {
+        return isMe;
+    }
 }
 
 

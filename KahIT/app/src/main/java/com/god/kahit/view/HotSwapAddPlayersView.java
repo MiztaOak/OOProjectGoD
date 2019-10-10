@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlayerClickListener {
+public class HotSwapAddPlayersView extends AppCompatActivity implements IOnClickListener {
 
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
 
@@ -71,13 +71,8 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
     }
 
     @Override
-    public void onPlayerClick(int position) {
+    public void onClick(int position) {
         hotSwapAddPlayersViewModel.removePlayer(playerMap.getValue().get(position).first);
-    }
-
-    @Override
-    public void onTeamSelected(int position, int newTeamId) {
-        hotSwapAddPlayersViewModel.updatePlayerData(position, newTeamId);
     }
 
     @Override
