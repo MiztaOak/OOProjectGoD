@@ -43,12 +43,6 @@ public class StoreView extends AppCompatActivity {
         setContentView(R.layout.sidenav_store);
 
         initializeStoreView();
-        findViewById(R.id.itemButton7).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showBlurEffect();
-            }
-        });
     }
 
     /**
@@ -112,9 +106,6 @@ public class StoreView extends AppCompatActivity {
         itemButtons.add((Button) findViewById(R.id.itemButton4));
         itemButtons.add((Button) findViewById(R.id.itemButton5));
         itemButtons.add((Button) findViewById(R.id.itemButton6));
-        //itemButtons.add((Button) findViewById(R.id.itemButton7)); //Empty buttons for now
-        //itemButtons.add((Button) findViewById(R.id.itemButton8)); //Empty buttons for now
-        //itemButtons.add((Button) findViewById(R.id.itemButton9)); //Empty buttons for now
     }
     /**
      * A method that adds an action to the drawer layout which changes the position of storeImage
@@ -210,19 +201,5 @@ public class StoreView extends AppCompatActivity {
         for (int i = 0; i < itemButtons.size(); i++) {
             itemButtons.get(i).setText(Integer.toString(storeViewModel.getStoreItems().get(i).getPrice()));
         }
-    }
-
-    public void showBlurEffect(){
-        ConstraintLayout layout = findViewById(R.id.holder);
-        ConstraintSet set = new ConstraintSet();
-
-        ImageView view = new ImageView(this);
-        view.setId(View.generateViewId());
-        layout.addView(view,0);
-        set.clone(layout);
-        set.connect(view.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP, 60);
-        set.applyTo(layout);
-        view.setImageResource(getResources().getIdentifier("blur_effect", "drawable", getPackageName()));
-
     }
 }
