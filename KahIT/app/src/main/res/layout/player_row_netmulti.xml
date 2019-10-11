@@ -11,6 +11,7 @@
     android:paddingBottom="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playerRow_net_header_constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/light_border"

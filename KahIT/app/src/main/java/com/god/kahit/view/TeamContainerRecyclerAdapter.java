@@ -5,13 +5,13 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.god.kahit.R;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.lifecycle.MutableLiveData;
@@ -30,6 +31,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamContainerRecyclerAdapter.ItemViewHolder> {
     private static final String LOG_TAG = TeamContainerRecyclerAdapter.class.getSimpleName(); //todo use same tag name in all classes
+    private static final int READY_COLOR_GREEN = 0xAB48D613;
+    private static final int READY_COLOR_RED = 0xABd61313;
     private Context context;
     private Team team;
     private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
@@ -74,14 +77,17 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Player holderPlayer = team.getTeamMembers().get(position);
 
+        int teamColorRGB = getLessSaturatedColor(teamColors.get(Integer.valueOf(team.getId())));
+        holder.headerConstraintLayout.setBackgroundTintList(ColorStateList.valueOf(teamColorRGB));
+
         holder.playerNameTextView.setText(holderPlayer.getName());
         holder.playerKickButton.setVisibility(showKickButton ? View.VISIBLE : View.GONE);
 
         if (holderPlayer.isPlayerReady()) {
-            holder.playerReadyTextView.setBackgroundTintList(ColorStateList.valueOf(0xAB48D613));
+            holder.playerReadyTextView.setBackgroundTintList(ColorStateList.valueOf(READY_COLOR_GREEN));
             holder.playerReadyTextView.setText("R");
         } else {
-            holder.playerReadyTextView.setBackgroundTintList(ColorStateList.valueOf(0xABd61313));
+            holder.playerReadyTextView.setBackgroundTintList(ColorStateList.valueOf(READY_COLOR_RED));
             holder.playerReadyTextView.setText("N");
         }
 
@@ -94,12 +100,24 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
 
     @Override
     public int getItemCount() {
-        return 0;
+        if (team == null) {
+            return 0;
+        }
+        return team.getTeamMembers().size();
+    }
+
+    private int getLessSaturatedColor(int teamColorRGB) {
+        float[] hsvArr = new float[3];
+        Color.colorToHSV(teamColorRGB, hsvArr);
+        hsvArr[1] -= 0.7f;
+        teamColorRGB = Color.HSVToColor(200, hsvArr);
+        return teamColorRGB;
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         IOnClickListener iOnClickListener;
 
+        private ConstraintLayout headerConstraintLayout;
         private ImageView playerImageView;
         private TextView playerNameTextView;
         private Button playerKickButton;
@@ -109,6 +127,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
             super(itemView);
             this.iOnClickListener = iOnClickListener;
 
+            headerConstraintLayout = itemView.findViewById(R.id.playerRow_net_header_constraintLayout);
             playerImageView = itemView.findViewById(R.id.playerRow_image_imageView);
             playerNameTextView = itemView.findViewById(R.id.playerRow_net_name_textView);
             playerReadyTextView = itemView.findViewById(R.id.playerRow_net_ready_textView);
