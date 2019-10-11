@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +33,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
     MutableLiveData<List<Player>> playerListMutableLiveData;
     MutableLiveData<List<Integer>> integerListMutableLiveData;
     HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
             }
         });
 
-        setupRecyclerView();
+
 
         Button addTeamButton = findViewById(R.id.addTeamButton);
 
@@ -66,6 +68,24 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
                 hotSwapAddPlayersViewModel.addNewPlayer();
             }
         });
+
+        simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // CusrsorViewHolder cViewHolder = (CursorViewHolder)viewHolder;
+                hotSwapAddPlayersViewModel.removePlayer(viewHolder.getAdapterPosition());
+                recyclerAdapter.notifyDataSetChanged();
+            }
+        };
+
+
+
+        setupRecyclerView();
     }
 
     /**
@@ -77,11 +97,13 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(this.recyclerView);
     }
 
     @Override
     public void onPlayerClick(int position) {
-        hotSwapAddPlayersViewModel.removePlayer(position);
+        //hotSwapAddPlayersViewModel.removePlayer(position);
     }
 
     @Override

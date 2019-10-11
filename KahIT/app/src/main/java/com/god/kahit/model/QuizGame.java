@@ -466,6 +466,7 @@ public class QuizGame {
     public void resetPLayerData() {
         teamList.clear();
         players.clear();
+        players.add(currentPlayer);
     }
 
     /**

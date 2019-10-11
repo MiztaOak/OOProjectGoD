@@ -198,12 +198,13 @@ public class LotteryView extends AppCompatActivity {
         return count >= maxCount;
     }
 
-    public int getImageId(int id) { //TODO ImageSource removed.
-        /*return getResources().getIdentifier(Objects.requireNonNull(
-                itemListLiveData.getValue()).get(id).getImageSource(),
+    public int getImageId(int id) {
+        Map<String, String> map = ItemDataLoaderRealtime.getItemImageNameMap();
+        String string = map.get(Objects.requireNonNull(itemListLiveData.getValue()).get(id).getName());
+        return getResources().getIdentifier(
+                string,
                 "drawable",
-                getPackageName());*/
-        return 0;
+                getPackageName());
     }
 
     /**
@@ -259,9 +260,15 @@ public class LotteryView extends AppCompatActivity {
      * @param index
      */
     private void setWonItemImage(int index) { //TODO ImageSource removed.
-        /*Item item = mapWinningsLiveData.getValue().get(playerListLiveData.getValue().get(index));
-        int imgId = getResources().getIdentifier(Objects.requireNonNull(item).getImageSource(), "drawable", getPackageName());
-        playerImageViews.get(index).setImageResource(imgId);*/
+        Map<String, String> map = ItemDataLoaderRealtime.getItemImageNameMap();
+        String string = map.get(Objects.requireNonNull(Objects.requireNonNull(
+                mapWinningsLiveData.getValue()).get(Objects.requireNonNull(
+                playerListLiveData.getValue()).get(index))).getName());
+        int i = getResources().getIdentifier(
+                string,
+                "drawable",
+                getPackageName());
+        playerImageViews.get(index).setImageResource(i);
     }
 
     /**

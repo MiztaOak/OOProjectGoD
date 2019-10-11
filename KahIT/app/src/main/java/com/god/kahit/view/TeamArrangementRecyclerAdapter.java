@@ -70,12 +70,12 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
 
             //add = itemView.findViewById(R.id.add_button);
 
-            remove = itemView.findViewById(R.id.remove_Player_Button1);
+            //remove = itemView.findViewById(R.id.remove_Player_Button1);
             spin = (Spinner) itemView.findViewById(R.id.spinner2);
 
 
             add.setOnClickListener(this); //TODO
-            remove.setOnClickListener(this);
+            //remove.setOnClickListener(this);
             //spin.setOnClickListener();
             itemView.setOnClickListener(this);
 

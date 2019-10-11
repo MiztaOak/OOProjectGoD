@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +24,15 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -78,12 +83,12 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
             textView = (TextView) itemView.findViewById(R.id.player_name);
             img = (ImageView) itemView.findViewById(R.id.player_image);
             //add = itemView.findViewById(R.id.add_button);
-            remove = itemView.findViewById(R.id.remove_Player_Button1);
+            //remove = itemView.findViewById(R.id.remove_Player_Button1);
             spin = (Spinner) itemView.findViewById(R.id.spinner2);
 
 
             //add.setOnClickListener(this); //TODO remove
-            remove.setOnClickListener(this);
+            //remove.setOnClickListener(this);
             //spin.setOnClickListener();
             //itemView.setOnClickListener(this);
 
@@ -116,6 +121,18 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         public void onClick(View v) {
             iOnplayerclickListener.onPlayerClick(getAdapterPosition());
         }
+
+        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                iOnplayerclickListener.onPlayerClick(i);
+            }
+        };
     }
 
     private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -184,9 +201,14 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         Resources res = context.getResources();
 
         itemViewHolder.spin.setSelection(Objects.requireNonNull(teamNumberList.getValue()).get(i));
-
         itemViewHolder.row.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
         itemViewHolder.spin.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
+
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(teamColors.get(i));
+        gd.setCornerRadius(60);
+        itemViewHolder.row.setBackground(gd);
+        itemViewHolder.spin.setBackground(gd);
 
         textView.setText(Objects.requireNonNull(playerList.getValue()).get(i).getName());
 
