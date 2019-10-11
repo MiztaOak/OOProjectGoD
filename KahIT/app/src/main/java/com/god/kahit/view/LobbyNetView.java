@@ -1,6 +1,7 @@
 package com.god.kahit.view;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,11 +16,9 @@ import com.god.kahit.viewModel.LobbyNetViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -60,6 +59,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickListener,
             @Override
             public void onChanged(@Nullable List<Pair<Player, Connection>> integerStringMap) {
                 recyclerAdapter.notifyDataSetChanged();
+                updateTextAndButtonViews();
             }
         });
 
@@ -67,17 +67,17 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickListener,
             @Override
             public void onChanged(@Nullable List<Team> teams) {
                 recyclerAdapter.notifyDataSetChanged();
+                updateTextAndButtonViews();
             }
         });
 
-        setupTextViews();
+        setupTextAndButtonViews();
         setupRecyclerView();
         setupSpinner();
 
+        updateTextAndButtonViews();
         lobbyNetViewModel.resetPlayerData();
-        if(lobbyNetViewModel.isHost()) {
-            lobbyNetViewModel.setupNewHostSession();
-        }
+        lobbyNetViewModel.setupNewLobbySession(getApplicationContext());
     }
 
     private void determineIsHost() {
@@ -90,7 +90,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickListener,
         lobbyNetViewModel.setIsHost(isHost);
     }
 
-    private void setupTextViews() {
+    private void setupTextAndButtonViews() {
         sessionTypeTextView = findViewById(R.id.lobbyNet_SessionType_textView);
         roomNameTextView = findViewById(R.id.lobbyNetRoomName_textView);
         gameModeTextView = findViewById(R.id.lobbyNet_GameMode_textView);
@@ -98,9 +98,24 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickListener,
         startGameButton = findViewById(R.id.lobbyNetStartButton);
     }
 
+    private void updateTextAndButtonViews() {
+        sessionTypeTextView.setText(lobbyNetViewModel.isHost() ? "Host" : "Client");
+
+        gameModeTextView.setText("Game mode: Epic"); //todo use actual current gamemode
+
+        int nmbPlayers = 0;
+        if (playerList.getValue() != null) {
+            nmbPlayers = playerList.getValue().size();
+        }
+        nmbPlayersTextView.setText(String.format("%s/%s", nmbPlayers, "8")); //todo get max players from quizGame
+
+        startGameButton.setText(lobbyNetViewModel.isHost() ? "START GAME" : "Ready");
+        startGameButton.setEnabled(lobbyNetViewModel.areAllPlayersReady());
+    }
+
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.lobbyNetTeamRecyclerView);
-        recyclerAdapter = new LobbyNetRecyclerAdapter(this, teamList, this);
+        recyclerView = findViewById(R.id.lobbyNetTeamRecyclerView);
+        recyclerAdapter = new LobbyNetRecyclerAdapter(this, teamList, playerList, lobbyNetViewModel.isHost(), this);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -142,9 +157,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickListener,
     private void handleChangeTeam(int teamIndex) {
         System.out.println("LobbyNetView - handleChangeTeam: Triggered!");
         changeTeamSpinner.setBackgroundColor(teamColors.get(teamIndex));
-        if(teamList.getValue() != null) {
-            lobbyNetViewModel.requestTeamChange(Objects.requireNonNull(Integer.toString(teamIndex)));
-        }
+        lobbyNetViewModel.requestTeamChange(Integer.toString(teamIndex));
     }
 
     @Override

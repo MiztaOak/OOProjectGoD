@@ -17,13 +17,14 @@ public class QuizGame {
     public static final EventBus BUS = new EventBus(); //todo Evaluate if we need this external dependency, instead of making our own observer-pattern
     private static final int MAX_ALLOWED_PLAYERS = 8;
     private final ArrayList<Team> teamList;
-    private final List<Player> players;
+    private final List<Player> playerList;
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
 
+    private String hostPlayerId = "iHost";
     private Boolean gameIsStarted = false; //TODO maybe move into constructor
 
     private List<QuizListener> listeners;
@@ -37,10 +38,11 @@ public class QuizGame {
 
     public QuizGame() {
         teamList = new ArrayList<>(MAX_ALLOWED_PLAYERS);
-        players = new ArrayList<>();
+        playerList = new ArrayList<>();
         listeners = new ArrayList<>();
         addNewPlayerToEmptyTeam("Player 1", "1");
         currentPlayer = teamList.get(0).getTeamMembers().get(0);
+        playerList.add(currentPlayer);
 
         //store = new Store();
         //lottery = new Lottery();
@@ -59,6 +61,10 @@ public class QuizGame {
 
     public void endGame() {
         gameIsStarted = false;
+    }
+
+    public boolean hasGameStarted() {
+        return gameIsStarted;
     }
 
     /**
@@ -177,8 +183,7 @@ public class QuizGame {
      */
     public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            double scoreDelta = ((double)scorePerQuestion) * (((double) timeLeft) / ((double)question.getTime()));
-            currentPlayer.updateScore((int)scoreDelta);
+            currentPlayer.updateScore((int) (scorePerQuestion * (timeLeft / question.getTime())));
             //TODO if hotswap change currentPlayer
         }
     }
@@ -207,22 +212,43 @@ public class QuizGame {
         this.numOfQuestions = numOfQuestions;
     }
 
+    public Player getPlayer(String playerId) {
+        for (Player player : playerList) {
+            if (player.getId().equals(playerId)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     public List<Player> getPlayers() {
-        return players;
+        return playerList;
     }
 
     public List<Team> getTeams() {
         return teamList;
     }
 
+    private Team getTeam(String teamId) {
+        for (Team team : teamList) {
+            if (team.getId().equals(teamId)) {
+                return team;
+            }
+        }
+        return null;
+    }
+
     public void addNewPlayerToTeam(String playerName, String playerId, String teamId) {
-        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
+        Team team = getTeam(teamId);
+        if (team == null) {
             createNewTeam(teamId);
         }
-        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
+
+        team = getTeam(teamId);
+        if (team != null && playerList.size() < MAX_ALLOWED_PLAYERS) {
             Player player = createNewPlayer(playerName, playerId);
-            getEmptyTeam().addPlayer(player);
-            players.add(player);
+            playerList.add(player);
+            team.addPlayer(player);
             fireTeamChangeEvent();
         }
     }
@@ -240,10 +266,10 @@ public class QuizGame {
         if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
             createNewTeam(teamList.size());
         }
-        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
+        if (playerList.size() < MAX_ALLOWED_PLAYERS) {
             Player player = createNewPlayer(name, id);
+            playerList.add(player);
             getEmptyTeam().addPlayer(player);
-            players.add(player);
             fireTeamChangeEvent();
         }
     }
@@ -262,7 +288,7 @@ public class QuizGame {
         if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
             Player player = createNewPlayer();
             getEmptyTeam().addPlayer(player);
-            players.add(player);
+            playerList.add(player);
             fireTeamChangeEvent();
         }
 
@@ -335,7 +361,7 @@ public class QuizGame {
             name = getNewPlayerName();
         }
 
-        int i = players.size();
+        int i = playerList.size();
         while (isPlayerNameTaken(name)) {
             name = "Player " + i;
             i++;
@@ -351,7 +377,7 @@ public class QuizGame {
     public Player createNewPlayer() {
         String name = getNewPlayerName();
 
-        int i = players.size();
+        int i = playerList.size();
         while (isPlayerNameTaken(name)) {
             name = "Player " + i;
             i++;
@@ -381,7 +407,7 @@ public class QuizGame {
      * @return new name.
      */
     private String getNewPlayerName() {
-        return "Player " + (players.size());
+        return "Player " + (playerList.size());
     }
 
     /**
@@ -391,7 +417,7 @@ public class QuizGame {
      * @return True if name is taken.
      */
     private boolean isPlayerNameTaken(String name) {
-        for (Player player : players) {
+        for (Player player : playerList) {
             if (player.getName().equals(name)) {
                 return true;
             }
@@ -411,7 +437,7 @@ public class QuizGame {
 
                 removeTeamIfEmpty(teamList.get(i));
             }
-            players.remove(player);
+            playerList.remove(player);
 
             fireTeamChangeEvent();
         }
@@ -450,7 +476,7 @@ public class QuizGame {
      */
     public void changePlayerName(Player player, String name) {
         if (!player.isPlayerReady()) {
-            for (Player player1 : players) {
+            for (Player player1 : playerList) {
                 if (player1.equals(player)) {
                     player.setName(name);
                 }
@@ -465,7 +491,7 @@ public class QuizGame {
      * @return the number of players.
      */
     public int getTotalAmountOfPlayers() {
-        return players.size();
+        return playerList.size();
     }
 
     /**
@@ -473,36 +499,32 @@ public class QuizGame {
      */
     public void resetPlayerData() {
         teamList.clear();
-        players.clear();
-        players.add(currentPlayer);
+        playerList.clear();
+        currentPlayer = null;
     }
 
     public void changeTeam(Player player, String newTeamId) {
         System.out.println("QuizGame - changeTeam: Triggered!");
 
         //Remove player from any other team
-        for(int i = teamList.size()-1; i >= 0; i--) {
+        for (int i = teamList.size() - 1; i >= 0; i--) {
             teamList.get(i).removePlayer(player);
-            removeTeamIfEmpty(teamList.get(i));
         }
 
         //Handle team exist
-        for (Team team : teamList) {
-            if (team.getId().equals(newTeamId)) {
-                team.addPlayer(player);
-                fireTeamChangeEvent();
-                return;
-            }
+        Team team = getTeam(newTeamId);
+        if (team != null) {
+            team.addPlayer(player);
+            fireTeamChangeEvent();
+            return;
         }
 
         //Handle team does not exist
         createNewTeam(newTeamId);
-        for (Team team : teamList) {
-            if (team.getId().equals(newTeamId)) {
-                team.addPlayer(player);
-                fireTeamChangeEvent();
-                return;
-            }
+        team = getTeam(newTeamId);
+        if (team != null) {
+            team.addPlayer(player);
+            fireTeamChangeEvent();
         }
     }
 
@@ -574,7 +596,7 @@ public class QuizGame {
      * @return Map with players and Items.
      */
     public Map<Player, Item> getWinnings() {
-        Map<Player, Item> winnings = lottery.drawItem(players);
+        Map<Player, Item> winnings = lottery.drawItem(playerList);
         applyModifiers(winnings);
         return winnings;
     }
@@ -618,5 +640,13 @@ public class QuizGame {
     public List<Item> getAllItems
     () {
         return lottery.getItemList();
+    }
+
+    public String getHostPlayerId() {
+        return hostPlayerId;
+    }
+
+    public void setHostPlayerId(String hostPlayerId) {
+        this.hostPlayerId = hostPlayerId;
     }
 }

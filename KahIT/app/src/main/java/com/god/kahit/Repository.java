@@ -1,6 +1,7 @@
 package com.god.kahit;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
@@ -12,14 +13,26 @@ import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
+import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
+import com.god.kahit.networkManager.Callbacks.HostEventCallback;
+import com.god.kahit.networkManager.Callbacks.NetworkCallback;
+import com.god.kahit.networkManager.Connection;
+import com.god.kahit.networkManager.ConnectionState;
+import com.god.kahit.networkManager.NetworkManager;
+import com.god.kahit.networkManager.NetworkModule;
+import com.god.kahit.networkManager.PacketHandler;
 
 import java.util.List;
 import java.util.Map;
 
-public class Repository {
+import androidx.annotation.NonNull;
 
+public class Repository { //todo implement a strategy pattern, as we got two different states, host & non-host
+    private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
     private QuizGame quizGame;
+    private NetworkManager networkManager;
+    private PacketHandler packetHandler;
 
     private Repository() {
     }
@@ -29,6 +42,173 @@ public class Repository {
             instance = new Repository();
         }
         return instance;
+    }
+
+    public void setupNetwork(Context context, final boolean isHost) {
+        networkManager = NetworkModule.getInstance(context, new NetworkCallback() {
+            @Override
+            public void onBytePayloadReceived(@NonNull String id, @NonNull byte[] receivedBytes) {
+                packetHandler.handleReceivedPayload(id, receivedBytes);
+            }
+
+            @Override
+            public void onHostFound(@NonNull String id, @NonNull Connection connection) {
+                //todo add support to join room
+            }
+
+            @Override
+            public void onHostLost(@NonNull String id) {
+                //todo add support to join room
+            }
+
+            @Override
+            public void onClientFound(@NonNull String id, @NonNull Connection connection) {
+                //Do nothing, as only clients can initiate a connection
+            }
+
+            @Override
+            public void onConnectionEstablished(@NonNull String id, @NonNull Connection connection) {
+                setupPacketHandler();
+                packetHandler.sendPlayerId(connection, connection.getId()); //Both host and client get to know their id
+                if (networkManager.isHost()) {
+                    quizGame.createNewPlayer(connection.getName(), connection.getId());
+                    packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName()); //todo handle properly, or make sync overwrite all local info
+                    //todo send sync packet
+                }
+            }
+
+            @Override
+            public void onConnectionLost(@NonNull String id) {
+                if (isHost && !quizGame.hasGameStarted()) {
+                    //Remove player completely only if game is in lobby
+                    Player player = quizGame.getPlayer(id);
+                    quizGame.removePlayer(player);
+                    packetHandler.broadcastPlayerLeft(id);
+                } else if (!isHost) {
+                    //todo exit game if not host
+                }
+            }
+
+            @Override
+            public void onConnectionChanged(@NonNull Connection connection, @NonNull ConnectionState oldState, @NonNull ConnectionState newState) {
+                fireTeamChangeEvent();
+            }
+        });
+    }
+
+    private void setupPacketHandler() {
+        if (networkManager.isHost()) {
+            packetHandler = new PacketHandler(networkManager, new ClientRequestsCallback() {
+                @Override
+                public void onReceivedMyConnectionId(@NonNull String playerId) {
+                    Log.i(TAG, String.format("onReceivedMyConnectionId: event triggered. Old hostPlayerId: '%s', new hostPlayerId: '%s'", quizGame.getHostPlayerId(), playerId));
+                    quizGame.getPlayer(quizGame.getHostPlayerId()).setId(playerId);
+                    quizGame.setHostPlayerId(playerId);
+                }
+
+                @Override
+                public void onPlayerNameChangeRequest(@NonNull String targetPlayerId, @NonNull String newName) {
+                    Log.i(TAG, String.format("onPlayerNameChangeRequest: event triggered. callback from: '%s', new name: '%s'", targetPlayerId, newName));
+                    packetHandler.broadcastPlayerNameChange(targetPlayerId, newName); //todo only pass to quizgame, let it trigger a broadcast
+                }
+
+                @Override
+                public void onLobbyReadyChangeRequest(@NonNull String targetPlayerId, @NonNull boolean newState) {
+                    Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: event triggered. callback from: '%s', new state: '%s'", targetPlayerId, String.valueOf(newState)));
+                    packetHandler.broadcastLobbyReadyChange(targetPlayerId, newState);  //todo only pass to quizGame, let it trigger a broadcast
+                }
+
+                @Override
+                public void onTeamNameChangeRequest(@NonNull String teamId, @NonNull String newTeamName) {
+                    Log.i(TAG, String.format("onTeamNameChangeRequest: event triggered. teamId: '%s', new team name: '%s'", teamId, newTeamName));
+                    packetHandler.broadcastTeamNameChange(teamId, newTeamName);  //todo only pass to quizGame, let it trigger a broadcast
+                }
+
+                @Override
+                public void onPlayerTeamChangeRequest(@NonNull String targetPlayerId, @NonNull String newTeamId) {
+                    Log.i(TAG, String.format("onPlayerTeamChangeRequest: event triggered. targetPlayerId: '%s', newTeamId: '%s'", targetPlayerId, newTeamId));
+                    packetHandler.broadcastPlayerChangeTeam(targetPlayerId, newTeamId); //todo only pass to quizGame, let it trigger a broadcast
+                }
+            });
+        } else {
+            packetHandler = new PacketHandler(networkManager, new HostEventCallback() {
+                @Override
+                public void onPlayerNameChangeEvent(@NonNull String targetId, @NonNull String newName) {
+                    Log.i(TAG, String.format("onPlayerNameChangeEvent: event triggered. targetId: '%s', new name: '%s'", targetId, newName));
+                    if (networkManager.isMe(targetId)) {
+                        Log.i(TAG, String.format("onPlayerNameChangeEvent: Target was me! Changing my playername to: '%s'", newName));
+                        networkManager.setPlayerName(newName);
+                    }
+                    Player player = quizGame.getPlayer(targetId);
+                    if (player != null) {
+                        player.setName(newName);
+                        fireTeamChangeEvent();
+                    } else {
+                        Log.i(TAG, String.format("onPlayerNameChangeEvent: Target player (id: '%s') does not exist in quizGame! Skipping player name change event", targetId));
+                    }
+                }
+
+                @Override
+                public void onLobbyReadyChangeEvent(@NonNull String targetId, @NonNull boolean newState) {
+                    Log.i(TAG, String.format("onLobbyReadyChangeEvent: event triggered. targetId: '%s', new state: '%s'", targetId, newState));
+                    Player player = quizGame.getPlayer(targetId);
+                    if (player != null) {
+                        player.setPlayerReady(newState);
+                        fireTeamChangeEvent();
+                    } else {
+                        Log.i(TAG, String.format("onLobbyReadyChangeEvent: Target player (id: '%s') does not exist in quizGame! Skipping ready change event", targetId));
+                    }
+                }
+
+                @Override
+                public void onTeamNameChangeEvent(@NonNull String teamId, @NonNull String newTeamName) {
+                    Log.i(TAG, String.format("onTeamNameChangeEvent: event triggered. teamId: '%s', new team name: '%s'", teamId, newTeamName));
+                    //todo implement onTeamNameChangeEvent
+                }
+
+                @Override
+                public void onPlayerJoinedEvent(@NonNull String playerId, @NonNull String playerName) {
+                    Log.i(TAG, String.format("onPlayerJoinedEvent: event triggered. playerId: '%s', player name: '%s'", playerId, playerName));
+                    //todo implement onPlayerJoinedEvent //todo as client also construct a connection, so we can keep track of connectionState and color rows accordingly
+                }
+
+                @Override
+                public void onPlayerLeftEvent(@NonNull String playerId) {
+                    Log.i(TAG, String.format("onPlayerLeftEvent: event triggered. playerId: '%s'", playerId));
+                    //todo implement onPlayerLeftEvent
+                }
+
+                @Override
+                public void onPlayerChangeTeamEvent(@NonNull String targetPlayerId, @NonNull String newTeamId) {
+                    Log.i(TAG, String.format("onPlayerChangeTeamEvent: event triggered. targetPlayerId: '%s', newTeamId: %s", targetPlayerId, newTeamId));
+                    //todo implement onPlayerChangeTeamEvent
+                }
+
+                @Override
+                public void onTeamCreatedEvent(@NonNull String newTeamId, @NonNull String newTeamName) {
+                    Log.i(TAG, String.format("onTeamCreatedEvent: event triggered. newTeamId: '%s', newTeamName: %s", newTeamId, newTeamName));
+                    //todo implement onTeamCreatedEvent
+                }
+
+                @Override
+                public void onTeamDeletedEvent(@NonNull String teamId) {
+                    Log.i(TAG, String.format("onTeamDeletedEvent: event triggered. teamId: '%s'", teamId));
+                    //todo implement onTeamDeletedEvent
+                }
+
+                @Override
+                public void onGameStartedEvent() {
+                    Log.i(TAG, "onGameStartedEvent: event triggered.");
+                    //todo implement onGameStartedEvent
+                }
+
+                @Override
+                public void onLobbySyncEvent(@NonNull String roomName, @NonNull String gameModeId) {
+                    Log.i(TAG, "onLobbySyncEvent: event triggered.");
+                    //todo implement onLobbySyncEvent
+                }
+            });
+        }
     }
 
     public void startNewGameInstance(Context context) {
@@ -45,7 +225,6 @@ public class Repository {
         quizGame.startGame();
         quizGame.startRound();
     }
-
 
     public void nextQuestion() {
         quizGame.nextQuestion();
@@ -83,7 +262,11 @@ public class Repository {
         quizGame.addNewPlayerToEmptyTeam();
     }
 
-    public void addNewPlayerToTeam(String playerName, String playerId, String teamId) {
+    public void createNewHostPlayer() {
+        addNewPlayerToTeam("Im the host", quizGame.getHostPlayerId(), true, "0");
+    }
+
+    public void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {
         quizGame.addNewPlayerToTeam(playerName, playerId, teamId);
     }
 
@@ -95,9 +278,29 @@ public class Repository {
         quizGame.removePlayer(player);
     }
 
-    public void changeTeam(Player player, String newTeamId) {
-        System.out.println("LobbyNetViewModel - requestTeamChange: Triggered!");
-        quizGame.changeTeam(player, newTeamId);
+    public void changeMyTeam(String newTeamId, boolean isHost) {
+        if (isHost) {
+            String myPlayerId = quizGame.getHostPlayerId();
+            quizGame.changeTeam(quizGame.getPlayer(myPlayerId), newTeamId);
+            if (packetHandler != null) {
+                packetHandler.broadcastPlayerChangeTeam(myPlayerId, newTeamId);
+            } else {
+                Log.i(TAG, "changeMyTeam: Attempt to call broadcastPlayerChangeTeam with null packetHandler, skipping call");
+            }
+        } else {
+            if (packetHandler != null) {
+                packetHandler.sendRequestTeamChange(newTeamId);
+            } else {
+                Log.i(TAG, "changeMyTeam: Attempt to call sendRequestTeamChange with null packetHandler, skipping call");
+            }
+        }
+    }
+
+    public Connection getConnection(String playerId) {
+        if (networkManager != null) {
+            return networkManager.getConnection(playerId);
+        }
+        return null;
     }
 
     public void changeTeam(Player player, int newTeamId) {

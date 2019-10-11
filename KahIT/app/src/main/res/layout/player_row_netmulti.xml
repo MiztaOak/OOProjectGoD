@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/player_image"
+            android:id="@+id/playerRow_image_imageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,7 @@
             tools:srcCompat="@drawable/test5" />
 
         <TextView
-            android:id="@+id/player_name"
+            android:id="@+id/playerRow_net_name_textView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="5dp"
@@ -44,24 +44,24 @@
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout_kick"
-            app:layout_constraintStart_toEndOf="@+id/player_image"
+            app:layout_constraintEnd_toStartOf="@+id/playerRow_net_kick_linearLayout"
+            app:layout_constraintStart_toEndOf="@+id/playerRow_image_imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
-            android:id="@+id/linearLayout_kick"
+            android:id="@+id/playerRow_net_kick_linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="3dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/remove_Player_Button1"
+            app:layout_constraintEnd_toStartOf="@+id/playerRow_net_ready_textView"
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/playerRow_net_kick_button"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#C8C71111"
@@ -71,8 +71,8 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/remove_Player_Button1"
+        <TextView
+            android:id="@+id/playerRow_net_ready_textView"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="20dp"
             android:layout_height="30dp"
