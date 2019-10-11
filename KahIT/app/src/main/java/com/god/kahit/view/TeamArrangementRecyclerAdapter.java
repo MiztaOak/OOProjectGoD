@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,81 +14,70 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.core.util.Pair;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
+public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArrangementRecyclerAdapter.ViewHolder> {
 
-/**
- * Helper class for the HotSwapAddPlayerView it works as a recyclerAdapter for the RecyclerView.
- */
-public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecyclerAdapter.itemViewHolder> {
-
-    private static final String LOG_TAG = HotSwapRecyclerAdapter.class.getSimpleName();
+    private static final String LOG_TAG = TeamArrangementRecyclerAdapter.class.getSimpleName();
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
-    private static final int TYPE_DIVIDER = 2;
 
     private IOnPlayerClickListener iOnplayerclickListener;
-
-    private MutableLiveData<List<Player>> playerList;
-    private MutableLiveData<List<Integer>> teamNumberList;
-
-    private List<Integer> teamColors;
-    private List<String> teamNumbers;
+    MutableLiveData<List<Player>> playerList; //TODO LIST IS ENOUGH LIVEDATA BETWEEN VIEW AND VM NOT ADAPTER
+    List<Integer> teamColors;
+    List<String> teamNumbers;
 
     private Context context;
 
-    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList,MutableLiveData<List<Integer>> teamNumberList, IOnPlayerClickListener iOnplayerclickListener) {
-        this.context = c;
+    public TeamArrangementRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList, IOnPlayerClickListener iOnplayerclickListener) {
         this.playerList = playerList;
-        this.teamNumberList = teamNumberList;
+        this.context = c;
         this.iOnplayerclickListener = iOnplayerclickListener;
     }
 
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
         IOnPlayerClickListener iOnplayerclickListener;
         public ConstraintLayout row;
         public TextView textView;
         public ImageView img;
-        //public Button add;
+        public Button add;
         public Button remove;
         public Spinner spin;
         //View.OnClickListener onClickListener; //TODO
 
 
-        public itemViewHolder(@NonNull View itemView, IOnPlayerClickListener iOnplayerclickListener) {
+        public ViewHolder(@NonNull View itemView, IOnPlayerClickListener iOnplayerclickListener) {
             super(itemView);
             this.iOnplayerclickListener = iOnplayerclickListener;
 
             row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
             textView = (TextView) itemView.findViewById(R.id.player_name);
             img = (ImageView) itemView.findViewById(R.id.player_image);
+
             //add = itemView.findViewById(R.id.add_button);
+
             //remove = itemView.findViewById(R.id.remove_Player_Button1);
             spin = (Spinner) itemView.findViewById(R.id.spinner2);
 
 
-            //add.setOnClickListener(this); //TODO remove
+            add.setOnClickListener(this); //TODO
             //remove.setOnClickListener(this);
             //spin.setOnClickListener();
-            //itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
 
             initTeamColors();
             initTeamNumbers();
@@ -109,6 +96,8 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            row.setBackgroundColor(teamColors.get(position));
+            parent.setBackgroundColor(teamColors.get(position));
             iOnplayerclickListener.onTeamSelected(getAdapterPosition(), position);
         }
 
@@ -121,28 +110,13 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         public void onClick(View v) {
             iOnplayerclickListener.onPlayerClick(getAdapterPosition());
         }
-
-        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                iOnplayerclickListener.onPlayerClick(i);
-            }
-        };
     }
 
     private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-
         Button btnSubmitProblem;
 
         public FooterViewHolder(View view) {
             super(view);
-            //row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
             btnSubmitProblem = (Button) view.findViewById(R.id.add_button1);
         }
 
@@ -168,12 +142,12 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
     }
 
     @Override
-    public itemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TeamArrangementRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view ;
-        itemViewHolder holder;
+        View view;
+        ViewHolder holder;
 
         if (viewType == TYPE_ITEM) {
             view = inflater.inflate(
@@ -189,28 +163,19 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         }
 
 
-        return new itemViewHolder(view, iOnplayerclickListener);
+        ViewHolder viewHolder = new ViewHolder(view, iOnplayerclickListener);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(itemViewHolder itemViewHolder, int i) {
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
 
-        TextView textView = itemViewHolder.textView;
-        ImageView imageView = itemViewHolder.img;
+        TextView textView = viewHolder.textView;
+        ImageView imageView = viewHolder.img;
         Resources res = context.getResources();
 
-        itemViewHolder.spin.setSelection(Objects.requireNonNull(teamNumberList.getValue()).get(i));
-        itemViewHolder.row.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
-        itemViewHolder.spin.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
-
-        GradientDrawable gd = new GradientDrawable();
-        gd.setColor(teamColors.get(i));
-        gd.setCornerRadius(60);
-        itemViewHolder.row.setBackground(gd);
-        itemViewHolder.spin.setBackground(gd);
-
-        textView.setText(Objects.requireNonNull(playerList.getValue()).get(i).getName());
+        textView.setText(playerList.getValue().get(i).getName());
 
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
         imageView.setImageDrawable(drawable);

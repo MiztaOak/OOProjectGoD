@@ -474,6 +474,7 @@ public class QuizGame {
     public void resetPlayerData() {
         teamList.clear();
         players.clear();
+        players.add(currentPlayer);
     }
 
     public void changeTeam(Player player, String newTeamId) {

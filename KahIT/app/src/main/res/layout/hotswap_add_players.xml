@@ -59,9 +59,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hsApPlayersRecyclerView"
-            android:layout_width="364dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/hsApBackButton"
             app:layout_constraintEnd_toEndOf="parent"
