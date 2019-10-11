@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
-    private final String id; //TODO Should probably not even exist in model.
+    private String id;
     private String name;
     private int score;
     private double scoreMultiplier;
@@ -85,6 +85,10 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
 

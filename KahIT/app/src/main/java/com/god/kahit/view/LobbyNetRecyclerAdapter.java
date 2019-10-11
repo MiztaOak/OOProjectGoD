@@ -2,18 +2,16 @@ package com.god.kahit.view;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.god.kahit.R;
+import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
+import com.god.kahit.networkManager.Connection;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -23,22 +21,24 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecyclerAdapter.ItemViewHolder> {
     private static final String LOG_TAG = LobbyNetRecyclerAdapter.class.getSimpleName();
     private MutableLiveData<List<Team>> teamList;
+    private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
     private List<Integer> teamColors;
+    private boolean showKickButton;
     private IOnClickListener iOnClickListener;
     private Context context;
 
-    public LobbyNetRecyclerAdapter(Context c, MutableLiveData<List<Team>> teamList, IOnClickListener iOnClickListener) {
-        this.teamList = teamList;
+    public LobbyNetRecyclerAdapter(Context c, MutableLiveData<List<Team>> teamList, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, boolean showKickButton, IOnClickListener iOnClickListener) {
         this.context = c;
+        this.teamList = teamList;
+        this.playerConPairList = playerConPairList;
+        this.showKickButton = showKickButton;
         this.iOnClickListener = iOnClickListener;
 
         initTeamColors();
@@ -53,6 +53,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -62,8 +63,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
                 parent,
                 false);
 
-        ItemViewHolder itemViewHolder = new ItemViewHolder(view, iOnClickListener);
-        return itemViewHolder;
+        return new ItemViewHolder(view, iOnClickListener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -75,19 +75,11 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
         holder.teamNameTextView.setText(holderTeam.getTeamName());
         holder.teamNameTextInputLayout.setVisibility(View.GONE);
         holder.teamNameTextView.setVisibility(View.VISIBLE);
-//        holder.teamPlayersRecyclerView
 
-
-        /*Resources res = context.getResources();
-
-        textView.setText(teamList.getValue().get(i).getTeamName());
-
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
-        imageView.setImageDrawable(drawable);
-        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1);
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
-        roundedBitmapDrawable.setCircular(true);
-        imageView.setImageDrawable(roundedBitmapDrawable);*/
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        TeamContainerRecyclerAdapter recyclerAdapter = new TeamContainerRecyclerAdapter(context, holderTeam, playerConPairList, showKickButton, iOnClickListener);
+        holder.teamPlayersRecyclerView.setAdapter(recyclerAdapter);
+        holder.teamPlayersRecyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -104,7 +96,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        IOnClickListener iOnClickListener;
+        private IOnClickListener iOnClickListener;
         private ConstraintLayout teamHeaderConstraintLayout;
         private TextView teamNameTextView;
         private TextInputLayout teamNameTextInputLayout;
@@ -113,7 +105,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
 
         public ItemViewHolder(@NonNull View itemView, IOnClickListener iOnClickListener) {
             super(itemView);
-//            this.iOnClickListener = iOnClickListener;
+            this.iOnClickListener = iOnClickListener;
 
             teamHeaderConstraintLayout = itemView.findViewById(R.id.constraintLayout_teamHeader);
             teamNameTextView = itemView.findViewById(R.id.textView_teamName);

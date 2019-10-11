@@ -119,6 +119,11 @@ public class PacketHandler {
         String playerId = PlayerIdPacket.getPlayerId(payload);
         Log.i(TAG, String.format("handlePlayerIdPacket: Received new playerId: '%s'", playerId));
         networkManager.setPlayerId(playerId);
+
+        //todo as host overwrite my host_id when receiving my real id, tho how do i get my self? use same as above
+        if (clientRequestsCallback != null) {
+            clientRequestsCallback.onReceivedMyConnectionId(playerId);
+        }
     }
 
     private void handleLobbySyncPacket(byte[] payload) {
