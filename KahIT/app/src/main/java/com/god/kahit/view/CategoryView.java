@@ -55,7 +55,7 @@ public class CategoryView extends AppCompatActivity {
 
     public void launchQuestionClass() {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, QuestionClass.class);
+        Intent intent = new Intent(this, QuestionView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

@@ -23,9 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-public class QuestionClass extends AppCompatActivity {
+public class QuestionView extends AppCompatActivity {
 
-    private static final String LOG_TAG = QuestionClass.class.getSimpleName();
+    private static final String LOG_TAG = QuestionView.class.getSimpleName();
     private final Handler h1 = new Handler();
     //TODO FOLLOWING is ALL TEMPORARY and will be replaced by variables from Question.class. FROM:
     int qTime = 20; //The total time the player1 has to answer.
@@ -99,7 +99,7 @@ public class QuestionClass extends AppCompatActivity {
 
     public void launchScorePageClass() {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, ScorePageClass.class);
+        Intent intent = new Intent(this, ScorePageView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -113,7 +113,7 @@ public class QuestionClass extends AppCompatActivity {
 
     public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, MainActivityClass.class);
+        Intent intent = new Intent(this, MainActivityView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         animation.pause();
         startActivity(intent);
@@ -121,7 +121,7 @@ public class QuestionClass extends AppCompatActivity {
 
     public void onBackPressed() {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, MainActivityClass.class);
+        Intent intent = new Intent(this, MainActivityView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         animation.pause();
         startActivity(intent);

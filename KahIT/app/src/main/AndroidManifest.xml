@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.lotteryItemClass"></activity>
+        <activity android:name=".view.lotteryItemView"></activity>
         <activity
             android:name=".view.CategoryView"
             android:screenOrientation="portrait"
@@ -20,7 +20,7 @@
             android:name=".view.LotteryView"
             android:exported="true" />
         <activity
-            android:name=".view.MainActivityClass"
+            android:name=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -29,17 +29,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ChooseGameClass"
-            android:parentActivityName=".view.MainActivityClass"
+            android:name=".view.ChooseGameView"
+            android:parentActivityName=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.ChooseGameClass" />
+                android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
             android:name=".view.HostCreateRoomView"
-            android:parentActivityName=".view.ChooseGameClass"
+            android:parentActivityName=".view.ChooseGameView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
@@ -57,15 +57,15 @@
         </activity>
         <activity
             android:name=".view.HotSwapGameModeView"
-            android:parentActivityName=".view.ChooseGameClass">
+            android:parentActivityName=".view.ChooseGameView">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.ChooseGameClass" />
+                android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
 
             android:name=".view.JoinRoomView"
-            android:parentActivityName=".view.ChooseGameClass"
+            android:parentActivityName=".view.ChooseGameView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
@@ -73,47 +73,47 @@
                 android:value="com.god.kahit.view.HostCreateRoomView" />
         </activity>
         <activity
-            android:name=".view.QuestionClass"
-            android:parentActivityName=".view.MainActivityClass"
+            android:name=".view.QuestionView"
+            android:parentActivityName=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.ChooseGameClass" />
+                android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
-            android:name=".view.ScorePageClass"
-            android:parentActivityName=".view.MainActivityClass"
+            android:name=".view.ScorePageView"
+            android:parentActivityName=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.ChooseGameClass" />
+                android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
             android:name=".view.TeamArrangementView"
-            android:parentActivityName=".view.MainActivityClass"
+            android:parentActivityName=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.ChooseGameClass" />
+                android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
             android:name=".view.StoreView"
-            android:parentActivityName=".view.MainActivityClass">
+            android:parentActivityName=".view.MainActivityView">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.ChooseGameClass" />
+                android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
             android:name=".view.AfterQuestionScorePageView"
-            android:parentActivityName=".view.QuestionClass"
+            android:parentActivityName=".view.QuestionView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.QuestionClass" />
+                android:value="com.god.kahit.view.QuestionView" />
         </activity>
     </application>
 </manifest>

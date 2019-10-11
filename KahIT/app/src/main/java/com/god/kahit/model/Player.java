@@ -7,7 +7,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     private final String id; //TODO Should probably not even exist in model.
     private String name;
     private int score;
-    private double scoreMultiplier;
+    private double scoreMultiplier = 1;
     private int timeHeadstart;
     private int amountOfAlternatives;
     private boolean autoAnswer;
@@ -54,7 +54,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     }
 
     public void updateScore(int points) { //todo rename to addScore
-        this.score += score;
+        this.score += points*scoreMultiplier;
     } //TODO add calculation that takes current buff into account
 
     public int getScore() {

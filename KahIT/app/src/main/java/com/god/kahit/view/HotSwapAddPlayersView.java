@@ -9,11 +9,9 @@ import android.widget.Button;
 import com.god.kahit.R;
 import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
 import com.god.kahit.model.Player;
-import com.god.kahit.model.Team;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -126,7 +124,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
 
     public void launchQuestionClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, QuestionClass.class);
+        Intent intent = new Intent(this, QuestionView.class);
         startActivity(intent);
     }
 }

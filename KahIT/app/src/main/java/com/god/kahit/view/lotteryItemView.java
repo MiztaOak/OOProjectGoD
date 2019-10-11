@@ -6,7 +6,7 @@ import com.god.kahit.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class lotteryItemClass extends AppCompatActivity {
+public class lotteryItemView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

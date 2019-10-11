@@ -1,7 +1,6 @@
 package com.god.kahit.model;
 
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,7 +44,6 @@ public class QuizGame {
         listeners = new ArrayList<>();
         addNewPlayerToEmptyTeam("Player 1", id);
         currentPlayer = teamList.get(0).getTeamMembers().get(0);
-        players.add(currentPlayer);
 
         //store = new Store();
         //lottery = new Lottery();
@@ -182,7 +180,8 @@ public class QuizGame {
      */
     public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            currentPlayer.updateScore((int) (scorePerQuestion * (timeLeft / question.getTime())));
+            double scoreDelta = ((double)scorePerQuestion) * (((double) timeLeft) / ((double)question.getTime()));
+            currentPlayer.updateScore((int)scoreDelta);
             //TODO if hotswap change currentPlayer
         }
     }
