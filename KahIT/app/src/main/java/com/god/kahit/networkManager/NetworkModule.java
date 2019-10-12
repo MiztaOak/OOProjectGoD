@@ -602,7 +602,7 @@ public class NetworkModule implements NetworkManager {
                 networkCallback.onConnectionChanged(connection, oldState, connection.getState());
                 networkCallback.onConnectionLost(id);
             } else {
-                Log.i(TAG, "disconnect: ERROR connection was not connected in the first place");
+                Log.i(TAG, "disconnect: ERROR connection was not connected in the first place - only triggering onConnectionChanged callback");
 
                 //Update stored state
                 ConnectionState oldState = connection.getState();
@@ -610,7 +610,6 @@ public class NetworkModule implements NetworkManager {
 
                 //Perform call back
                 networkCallback.onConnectionChanged(connection, oldState, connection.getState());
-                networkCallback.onConnectionLost(id);
             }
         } else {
             Log.i(TAG, "disconnect: ERROR no valid connection with given id was found");

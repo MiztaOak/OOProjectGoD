@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.Repository;
 import com.god.kahit.model.Player;
@@ -26,6 +27,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private Repository repository;
     private MutableLiveData<List<Pair<Player, Connection>>> playerListForView;
     private MutableLiveData<List<Team>> teamListForView;
+    private MutableLiveData<String> myPlayerId;
     private boolean isHost;
 
     public LobbyNetViewModel() {
@@ -47,6 +49,13 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         return teamListForView;
     }
 
+    public MutableLiveData<String> getMyPlayerId() {
+        if (myPlayerId == null) {
+            myPlayerId = new MutableLiveData<>();
+        }
+        return myPlayerId;
+    }
+
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
         List<Team> teams = event.getTeams();
@@ -54,6 +63,57 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         teamListForView.setValue(teams);
 
         updatePlayerList();
+    }
+
+    @Subscribe
+    public void onMyPlayerIdChangedEvent(MyPlayerIdChangedEvent event) {
+        Log.d(TAG, String.format("onMyPlayerIdChangedEvent: event triggered, new id: '%s'", event.getNewPlayerId()));
+        myPlayerId.setValue(event.getNewPlayerId());
+    }
+
+    public Pair<Player, Connection> getMe() {
+        if (myPlayerId.getValue() == null) {
+            Log.d(TAG, "getMe: myPlayerId.getValue() == null, could therefore not find me - returning null");
+            return null;
+        }
+
+        if (playerListForView.getValue() == null) {
+            Log.d(TAG, "getMe: playerListForView.getValue == null, could therefore not find me - returning null");
+            return null;
+        }
+
+        for (Pair<Player, Connection> playerConnectionPair : playerListForView.getValue()) {
+            if (playerConnectionPair.first.getId().equals(myPlayerId.getValue())) {
+                return playerConnectionPair;
+            }
+        }
+
+        Log.d(TAG, "getMe: myId could not be found inside playerList, returning null");
+        return null;
+    }
+
+    public Team getMyTeam() {
+        Pair<Player, Connection> myPlayerConnectionPair = getMe();
+        if (myPlayerConnectionPair == null) {
+            Log.d(TAG, "getMyTeam: myPlayerConnectionPair == null, could therefore not find my team - returning null");
+            return null;
+        }
+
+        if (teamListForView.getValue() == null) {
+            Log.d(TAG, "getMyTeam: teamListForView.getValue() == null, could therefore not find my team - returning null");
+            return null;
+        }
+
+        for (Team team : teamListForView.getValue()) {
+            for (Player teamMember : team.getTeamMembers()) {
+                if (myPlayerConnectionPair.first.getId().equals(teamMember.getId())) {
+                    return team;
+                }
+            }
+        }
+
+        Log.d(TAG, "getMyTeam: my playerId was not found in any team's playerList - returning null");
+        return null;
     }
 
     private void updatePlayerList() {
@@ -93,14 +153,16 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
             repository.createNewHostPlayer();
         }
         repository.setupNetwork(context, isHost);
-        repository.startHostBeacon();
+        if (isHost) {
+            repository.startHostBeacon();
+        }
     }
 
     public void stopHostBeacon() {
         repository.stopHostBeacon();
     }
 
-    public void clearConnection() {
+    public void clearConnections() {
         repository.clearConnections();
     }
 
@@ -114,7 +176,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
 
     public void requestTeamChange(String teamId) {
         System.out.println("LobbyNetViewModel - requestTeamChange: Triggered!");
-        repository.changeMyTeam(teamId, isHost);
+        repository.requestChangeMyTeam(teamId, isHost);
     }
 
     public boolean areAllPlayersReady() {

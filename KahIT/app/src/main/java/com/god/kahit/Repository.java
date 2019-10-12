@@ -1,9 +1,11 @@
 package com.god.kahit;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
+import com.god.kahit.Events.GameJoinedLobbyEvent;
+import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.RoomChangeEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
@@ -24,8 +26,8 @@ import com.god.kahit.networkManager.ConnectionType;
 import com.god.kahit.networkManager.NetworkManager;
 import com.god.kahit.networkManager.NetworkModule;
 import com.god.kahit.networkManager.PacketHandler;
-import com.god.kahit.view.LobbyNetView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +64,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             public void onHostFound(@NonNull String id, @NonNull Connection connection) {
                 //Get all connections
                 Connection[] roomsArr = networkManager.getConnections();
-                List<Connection> rooms = Arrays.asList(roomsArr);
+                List<Connection> rooms = new ArrayList<>(Arrays.asList(roomsArr));
 
                 //Remove all which are not considered rooms
                 for (int i = rooms.size() - 1; i >= 0; i--) {
@@ -95,8 +97,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName()); //todo handle properly, or make sync overwrite all local info
                     //todo send sync packet
                 } else {
-                    //todo add event bus here
-//                    asdf
+                    BUS.post(new GameJoinedLobbyEvent());
                 }
             }
 
@@ -108,7 +109,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     quizGame.removePlayer(player);
                     packetHandler.broadcastPlayerLeft(id);
                 } else if (!isHost) {
-                    //todo exit game if not host
+                    BUS.post(new GameLostConnectionEvent()); //todo implement
                 }
             }
 
@@ -127,6 +128,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     Log.i(TAG, String.format("onReceivedMyConnectionId: event triggered. Old hostPlayerId: '%s', new hostPlayerId: '%s'", quizGame.getHostPlayerId(), playerId));
                     quizGame.getPlayer(quizGame.getHostPlayerId()).setId(playerId);
                     quizGame.setHostPlayerId(playerId);
+                    BUS.post(new MyPlayerIdChangedEvent(playerId));
                 }
 
                 @Override
@@ -150,11 +152,18 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onPlayerTeamChangeRequest(@NonNull String targetPlayerId, @NonNull String newTeamId) {
                     Log.i(TAG, String.format("onPlayerTeamChangeRequest: event triggered. targetPlayerId: '%s', newTeamId: '%s'", targetPlayerId, newTeamId));
-                    packetHandler.broadcastPlayerChangeTeam(targetPlayerId, newTeamId); //todo only pass to quizGame, let it trigger a broadcast
+                    quizGame.changeTeam(quizGame.getPlayer(targetPlayerId), newTeamId);
+                    packetHandler.broadcastPlayerChangeTeam(targetPlayerId, newTeamId);
                 }
             });
         } else {
             packetHandler = new PacketHandler(networkManager, new HostEventCallback() {
+                @Override
+                public void onReceivedMyConnectionId(@NonNull String playerId) {
+                    Log.i(TAG, String.format("onReceivedMyConnectionId: event triggered. received playerId: '%s'", playerId));
+                    BUS.post(new MyPlayerIdChangedEvent(playerId));
+                }
+
                 @Override
                 public void onPlayerNameChangeEvent(@NonNull String targetId, @NonNull String newName) {
                     Log.i(TAG, String.format("onPlayerNameChangeEvent: event triggered. targetId: '%s', new name: '%s'", targetId, newName));
@@ -334,6 +343,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void createNewHostPlayer() {
+        BUS.post(new MyPlayerIdChangedEvent(quizGame.getHostPlayerId()));
         addNewPlayerToTeam("Im the host", quizGame.getHostPlayerId(), true, "0");
     }
 
@@ -348,22 +358,27 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void removePlayer(Player player) {
         quizGame.removePlayer(player);
+        if (networkManager != null) { //todo let quizGame trigger a eventbus, and upon this confirmation call disconnect
+            networkManager.disconnect(player.getId());
+        } else {
+            Log.i(TAG, "removePlayer: Attempt to call disconnect with null networkManager, skipping call");
+        }
     }
 
-    public void changeMyTeam(String newTeamId, boolean isHost) {
+    public void requestChangeMyTeam(String newTeamId, boolean isHost) {
         if (isHost) {
             String myPlayerId = quizGame.getHostPlayerId();
             quizGame.changeTeam(quizGame.getPlayer(myPlayerId), newTeamId);
             if (packetHandler != null) {
                 packetHandler.broadcastPlayerChangeTeam(myPlayerId, newTeamId);
             } else {
-                Log.i(TAG, "changeMyTeam: Attempt to call broadcastPlayerChangeTeam with null packetHandler, skipping call");
+                Log.i(TAG, "requestChangeMyTeam: Attempt to call broadcastPlayerChangeTeam with null packetHandler, skipping call");
             }
         } else {
             if (packetHandler != null) {
                 packetHandler.sendRequestTeamChange(newTeamId);
             } else {
-                Log.i(TAG, "changeMyTeam: Attempt to call sendRequestTeamChange with null packetHandler, skipping call");
+                Log.i(TAG, "requestChangeMyTeam: Attempt to call sendRequestTeamChange with null packetHandler, skipping call");
             }
         }
     }

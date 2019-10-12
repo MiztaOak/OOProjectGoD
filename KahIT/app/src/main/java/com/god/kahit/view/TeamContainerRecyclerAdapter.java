@@ -36,16 +36,18 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     private Context context;
     private Team team;
     private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
+    private MutableLiveData<String> myPlayerId;
     private List<Integer> teamColors;
     private IOnClickPlayerListener iOnClickPlayerListener;
-    private boolean showKickButton;
+    private boolean isHost;
 
-    public TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, boolean showKickButton, IOnClickPlayerListener iOnClickPlayerListener) {
+    public TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, MutableLiveData<String> myPlayerId, boolean isHost, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = context;
         this.team = team;
         this.playerConPairList = playerConPairList;
+        this.myPlayerId = myPlayerId;
         this.iOnClickPlayerListener = iOnClickPlayerListener;
-        this.showKickButton = showKickButton;
+        this.isHost = isHost;
 
         initTeamColors();
     }
@@ -77,11 +79,26 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Player holderPlayer = team.getTeamMembers().get(position);
 
+        //Determine of local player
+        boolean isMe = false;
+        if (myPlayerId.getValue() != null && myPlayerId.getValue().equals(holderPlayer.getId())) {
+            isMe = true;
+        }
+
+        //Set a less saturated tint of team color to player row
         int teamColorRGB = getLessSaturatedColor(teamColors.get(Integer.valueOf(team.getId())));
         holder.headerConstraintLayout.setBackgroundTintList(ColorStateList.valueOf(teamColorRGB));
 
-        holder.playerNameTextView.setText(holderPlayer.getName());
-        holder.playerKickButton.setVisibility(showKickButton ? View.VISIBLE : View.GONE);
+        //Set player name, if local player also add additional string
+        holder.playerNameTextView.setText((isMe ? "(ME):" : "") + holderPlayer.getName());
+
+        //Set 'kick'-button to visible if host and not local player
+        holder.playerKickButton.setVisibility((isHost && !isMe) ? View.VISIBLE : View.GONE);
+
+        //Set player ready 'icon' based on ready-status
+        if (isMe && isHost) {
+            holder.playerReadyTextView.setVisibility(View.INVISIBLE);
+        }
 
         if (holderPlayer.isPlayerReady()) {
             holder.playerReadyTextView.setBackgroundTintList(ColorStateList.valueOf(READY_COLOR_GREEN));
@@ -91,6 +108,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
             holder.playerReadyTextView.setText("N");
         }
 
+        //Set player image
         Resources res = context.getResources();
         Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1); //TODO more pictures.
         RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
