@@ -37,14 +37,14 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     private Team team;
     private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
     private List<Integer> teamColors;
-    private IOnClickListener iOnClickListener;
+    private IOnClickPlayerListener iOnClickPlayerListener;
     private boolean showKickButton;
 
-    public TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, boolean showKickButton, IOnClickListener iOnClickListener) {
+    public TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, boolean showKickButton, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = context;
         this.team = team;
         this.playerConPairList = playerConPairList;
-        this.iOnClickListener = iOnClickListener;
+        this.iOnClickPlayerListener = iOnClickPlayerListener;
         this.showKickButton = showKickButton;
 
         initTeamColors();
@@ -69,7 +69,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
                 parent,
                 false);
 
-        return new ItemViewHolder(view, iOnClickListener);
+        return new ItemViewHolder(view, iOnClickPlayerListener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -115,7 +115,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        IOnClickListener iOnClickListener;
+        IOnClickPlayerListener iOnClickPlayerListener;
 
         private ConstraintLayout headerConstraintLayout;
         private ImageView playerImageView;
@@ -123,9 +123,9 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
         private Button playerKickButton;
         private TextView playerReadyTextView;
 
-        public ItemViewHolder(@NonNull View itemView, IOnClickListener iOnClickListener) {
+        public ItemViewHolder(@NonNull View itemView, IOnClickPlayerListener iOnClickPlayerListener) {
             super(itemView);
-            this.iOnClickListener = iOnClickListener;
+            this.iOnClickPlayerListener = iOnClickPlayerListener;
 
             headerConstraintLayout = itemView.findViewById(R.id.playerRow_net_header_constraintLayout);
             playerImageView = itemView.findViewById(R.id.playerRow_image_imageView);
@@ -138,7 +138,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
 
         @Override
         public void onClick(View v) {
-            iOnClickListener.onClick(team.getTeamMembers().get(getAdapterPosition()));
+            iOnClickPlayerListener.onClick(team.getTeamMembers().get(getAdapterPosition()));
         }
     }
 }

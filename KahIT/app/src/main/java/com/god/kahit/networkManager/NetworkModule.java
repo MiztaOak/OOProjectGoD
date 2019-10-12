@@ -21,6 +21,7 @@ import com.google.android.gms.nearby.connection.Strategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -517,9 +518,7 @@ public class NetworkModule implements NetworkManager {
     public void stopAllConnections() { //todo implement a 'reset'-method and let this method leave ad/dis state alone?
         Log.i(TAG, "stopAllConnections: terminated all connections");
         for (Connection connection : connectionLinkedHashMap.values()) {
-            if (connection.getState().equals(ConnectionState.CONNECTED)) {
-                disconnect(connection);
-            }
+            disconnect(connection);
         }
         connectionsClient.stopAllEndpoints(); //Ensure all are stopped
         if (isScanning) {
@@ -574,7 +573,8 @@ public class NetworkModule implements NetworkManager {
 
     @Override
     public Connection[] getConnections() {
-        return (Connection[]) connectionLinkedHashMap.values().toArray();
+        Collection<Connection> connections = connectionLinkedHashMap.values();
+        return connectionLinkedHashMap.values().toArray(new Connection[connections.size()]);
     }
 
 

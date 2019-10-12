@@ -1,8 +1,10 @@
 package com.god.kahit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.god.kahit.Events.RoomChangeEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
@@ -18,14 +20,19 @@ import com.god.kahit.networkManager.Callbacks.HostEventCallback;
 import com.god.kahit.networkManager.Callbacks.NetworkCallback;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.networkManager.ConnectionState;
+import com.god.kahit.networkManager.ConnectionType;
 import com.god.kahit.networkManager.NetworkManager;
 import com.god.kahit.networkManager.NetworkModule;
 import com.god.kahit.networkManager.PacketHandler;
+import com.god.kahit.view.LobbyNetView;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+
+import static com.god.kahit.model.QuizGame.BUS;
 
 public class Repository { //todo implement a strategy pattern, as we got two different states, host & non-host
     private static final String TAG = Repository.class.getSimpleName();
@@ -53,12 +60,25 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
             @Override
             public void onHostFound(@NonNull String id, @NonNull Connection connection) {
-                //todo add support to join room
+                //Get all connections
+                Connection[] roomsArr = networkManager.getConnections();
+                List<Connection> rooms = Arrays.asList(roomsArr);
+
+                //Remove all which are not considered rooms
+                for (int i = rooms.size() - 1; i >= 0; i--) {
+                    if (!rooms.get(i).getState().isDisconnected() ||
+                            !rooms.get(i).getType().equals(ConnectionType.SERVER)) {
+                        rooms.remove(i);
+                    }
+                }
+
+                //Post event containing all rooms
+                BUS.post(new RoomChangeEvent(rooms));
             }
 
             @Override
             public void onHostLost(@NonNull String id) {
-                //todo add support to join room
+                //todo how to implement? As this is same as disconnected, which is valid connection
             }
 
             @Override
@@ -71,9 +91,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 setupPacketHandler();
                 packetHandler.sendPlayerId(connection, connection.getId()); //Both host and client get to know their id
                 if (networkManager.isHost()) {
-                    quizGame.createNewPlayer(connection.getName(), connection.getId());
+                    quizGame.addNewPlayerToEmptyTeam(connection.getName(), connection.getId());
                     packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName()); //todo handle properly, or make sync overwrite all local info
                     //todo send sync packet
+                } else {
+                    //todo add event bus here
+//                    asdf
                 }
             }
 
@@ -254,6 +277,54 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.resetPlayerData();
     }
 
+    public void joinRoom(Connection roomConnection) {
+        if (networkManager != null) {
+            networkManager.connectToHost(roomConnection);
+        } else {
+            Log.i(TAG, "joinRoom: Attempt to call connectToHost with null networkManager, skipping call");
+        }
+    }
+
+    public void startHostBeacon() {
+        if (networkManager != null) {
+            networkManager.startHostBeacon();
+        } else {
+            Log.i(TAG, "startHostBeacon: Attempt to call startHostBeacon with null networkManager, skipping call");
+        }
+    }
+
+    public void stopHostBeacon() {
+        if (networkManager != null) {
+            networkManager.stopHostBeacon();
+        } else {
+            Log.i(TAG, "stopHostBeacon: Attempt to call stopHostBeacon with null networkManager, skipping call");
+        }
+    }
+
+    public void startScan() {
+        if (networkManager != null) {
+            networkManager.startScan();
+        } else {
+            Log.i(TAG, "startScan: Attempt to call startScan with null networkManager, skipping call");
+        }
+    }
+
+    public void stopScan() {
+        if (networkManager != null) {
+            networkManager.stopScan();
+        } else {
+            Log.i(TAG, "stopScan: Attempt to call stopScan with null networkManager, skipping call");
+        }
+    }
+
+    public void clearConnections() {
+        if (networkManager != null) {
+            networkManager.stopAllConnections();
+        } else {
+            Log.i(TAG, "clearConnections: Attempt to call stopAllConnections with null networkManager, skipping call");
+        }
+    }
+
     public void addNewPlayer() {
         quizGame.createNewPlayer();
     }
@@ -273,6 +344,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     public void fireTeamChangeEvent() {
         quizGame.fireTeamChangeEvent();
     }
+
 
     public void removePlayer(Player player) {
         quizGame.removePlayer(player);

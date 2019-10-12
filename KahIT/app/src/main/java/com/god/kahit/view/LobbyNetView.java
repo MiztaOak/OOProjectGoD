@@ -25,9 +25,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class LobbyNetView extends AppCompatActivity implements IOnClickListener, AdapterView.OnItemSelectedListener {
+public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerListener, AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = LobbyNetView.class.getSimpleName();
-    private RecyclerView.LayoutManager layoutManager;
     private Spinner changeTeamSpinner;
     private RecyclerView recyclerView;
     private TextView sessionTypeTextView;
@@ -37,6 +36,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickListener,
     private Button startGameButton;
 
     private RecyclerView.Adapter recyclerAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     private LobbyNetViewModel lobbyNetViewModel;
 
     private MutableLiveData<List<Pair<Player, Connection>>> playerList;
@@ -161,7 +161,8 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickListener,
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy() { //todo if player didnt start the game, and activity died, clearConnections too
+        lobbyNetViewModel.stopHostBeacon();
         lobbyNetViewModel.resetPlayerData();
         super.onDestroy();
     }

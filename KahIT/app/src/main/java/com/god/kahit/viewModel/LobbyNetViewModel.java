@@ -93,6 +93,15 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
             repository.createNewHostPlayer();
         }
         repository.setupNetwork(context, isHost);
+        repository.startHostBeacon();
+    }
+
+    public void stopHostBeacon() {
+        repository.stopHostBeacon();
+    }
+
+    public void clearConnection() {
+        repository.clearConnections();
     }
 
     public void setIsHost(boolean isHost) {
