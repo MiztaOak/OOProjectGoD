@@ -2,6 +2,6 @@ package com.god.kahit.view;
 
 import com.god.kahit.model.Player;
 
-public interface IOnClickListener {
+public interface IOnClickPlayerListener {
     void onClick(Player player);
 }

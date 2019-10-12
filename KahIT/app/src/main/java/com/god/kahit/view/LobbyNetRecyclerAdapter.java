@@ -31,15 +31,15 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
     private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
     private List<Integer> teamColors;
     private boolean showKickButton;
-    private IOnClickListener iOnClickListener;
+    private IOnClickPlayerListener iOnClickPlayerListener;
     private Context context;
 
-    public LobbyNetRecyclerAdapter(Context c, MutableLiveData<List<Team>> teamList, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, boolean showKickButton, IOnClickListener iOnClickListener) {
+    public LobbyNetRecyclerAdapter(Context c, MutableLiveData<List<Team>> teamList, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, boolean showKickButton, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = c;
         this.teamList = teamList;
         this.playerConPairList = playerConPairList;
         this.showKickButton = showKickButton;
-        this.iOnClickListener = iOnClickListener;
+        this.iOnClickPlayerListener = iOnClickPlayerListener;
 
         initTeamColors();
     }
@@ -63,7 +63,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
                 parent,
                 false);
 
-        return new ItemViewHolder(view, iOnClickListener);
+        return new ItemViewHolder(view, iOnClickPlayerListener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -77,14 +77,14 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
         holder.teamNameTextView.setVisibility(View.VISIBLE);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        TeamContainerRecyclerAdapter recyclerAdapter = new TeamContainerRecyclerAdapter(context, holderTeam, playerConPairList, showKickButton, iOnClickListener);
+        TeamContainerRecyclerAdapter recyclerAdapter = new TeamContainerRecyclerAdapter(context, holderTeam, playerConPairList, showKickButton, iOnClickPlayerListener);
         holder.teamPlayersRecyclerView.setAdapter(recyclerAdapter);
         holder.teamPlayersRecyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == teamList.getValue().size()) ? 1 : 0; //todo footer
+        return (position == teamList.getValue().size()) ? 1 : 0;
     }
 
     @Override
@@ -96,16 +96,16 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private IOnClickListener iOnClickListener;
+        private IOnClickPlayerListener iOnClickPlayerListener;
         private ConstraintLayout teamHeaderConstraintLayout;
         private TextView teamNameTextView;
         private TextInputLayout teamNameTextInputLayout;
         private TextInputEditText teamNameTextInputEditText;
         private RecyclerView teamPlayersRecyclerView;
 
-        public ItemViewHolder(@NonNull View itemView, IOnClickListener iOnClickListener) {
+        public ItemViewHolder(@NonNull View itemView, IOnClickPlayerListener iOnClickPlayerListener) {
             super(itemView);
-            this.iOnClickListener = iOnClickListener;
+            this.iOnClickPlayerListener = iOnClickPlayerListener;
 
             teamHeaderConstraintLayout = itemView.findViewById(R.id.constraintLayout_teamHeader);
             teamNameTextView = itemView.findViewById(R.id.textView_teamName);

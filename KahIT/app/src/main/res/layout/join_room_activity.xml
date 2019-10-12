@@ -24,11 +24,7 @@
             android:onClick="launchLobbyNetActivity"
             android:text="join"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/jBackButton"
@@ -39,34 +35,28 @@
             android:onClick="launchBackChooseGameClass"
             android:text="back"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="80dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/kahit" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/jChooseRoomRecyclerView"
-            android:layout_width="164dp"
-            android:layout_height="240dp"
-            android:layout_marginBottom="308dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="250dp"
+            android:layout_height="300dp"
+            android:background="@drawable/light_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            tools:itemCount="3"
+            tools:listitem="@layout/room_row" />
 
         <TextView
             android:id="@+id/textView7"
@@ -74,38 +64,33 @@
             android:layout_height="29dp"
             android:text="Choose room"
             android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.195" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <EditText
             android:id="@+id/jYourNameEditText"
-            android:layout_width="172dp"
-            android:layout_height="55dp"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Your name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.292"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.775" />
+            app:layout_constraintBottom_toBottomOf="@+id/jSelfieImageButton"
+            app:layout_constraintStart_toEndOf="@+id/jSelfieImageButton"
+            app:layout_constraintTop_toBottomOf="@+id/jChooseRoomRecyclerView" />
 
         <ImageButton
             android:id="@+id/jSelfieImageButton"
-            android:layout_width="95dp"
-            android:layout_height="79dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.365"
-            app:layout_constraintStart_toEndOf="@+id/jYourNameEditText"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.784"
-            app:srcCompat="@mipmap/ic_launcher_round" />
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jChooseRoomRecyclerView"
+            app:srcCompat="@drawable/test5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
