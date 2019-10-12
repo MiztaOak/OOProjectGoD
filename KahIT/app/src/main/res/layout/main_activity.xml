@@ -39,19 +39,10 @@
             android:id="@+id/mAboutKahitButton"
             android:layout_width="120dp"
             android:layout_height="50dp"
-<<<<<<< HEAD
-            android:layout_marginStart="8dp"
-            android:typeface="normal"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/play_button_selector"
-            android:backgroundTint="@color/white"
-            android:text="HOW TO PLAY"
-=======
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
             android:text="About KahIt"
             android:onClick="launchAboutKahitView"
->>>>>>> ouActivities3
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
