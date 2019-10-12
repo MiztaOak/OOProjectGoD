@@ -120,9 +120,12 @@ public class PacketHandler {
         Log.i(TAG, String.format("handlePlayerIdPacket: Received new playerId: '%s'", playerId));
         networkManager.setPlayerId(playerId);
 
-        //todo as host overwrite my host_id when receiving my real id, tho how do i get my self? use same as above
         if (clientRequestsCallback != null) {
             clientRequestsCallback.onReceivedMyConnectionId(playerId);
+        }
+
+        if(hostEventCallback != null) {
+            hostEventCallback.onReceivedMyConnectionId(playerId);
         }
     }
 
@@ -216,7 +219,7 @@ public class PacketHandler {
         Log.i(TAG, String.format("handleRequestPlayerChangeTeamPacket: Received player team change request from '%s'. newTeamId: '%s'", id, newTeamId));
 
         if (clientRequestsCallback != null) {
-            clientRequestsCallback.onTeamNameChangeRequest(id, newTeamId);
+            clientRequestsCallback.onPlayerTeamChangeRequest(id, newTeamId);
         }
     }
 

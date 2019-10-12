@@ -1,18 +1,25 @@
 package com.god.kahit.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.viewModel.LobbyNetViewModel;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +31,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.god.kahit.model.QuizGame.BUS;
 
 public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerListener, AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = LobbyNetView.class.getSimpleName();
@@ -41,6 +50,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     private MutableLiveData<List<Pair<Player, Connection>>> playerList;
     private MutableLiveData<List<Team>> teamList;
+    private MutableLiveData<String> myPlayerId;
     private List<Integer> teamColors;
     private List<String> teamNumbers;
 
@@ -54,8 +64,9 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         determineIsHost();
         playerList = lobbyNetViewModel.getPlayerListForView();
         teamList = lobbyNetViewModel.getTeamListForView();
+        myPlayerId = lobbyNetViewModel.getMyPlayerId();
 
-        lobbyNetViewModel.getPlayerListForView().observe(this, new Observer<List<Pair<Player, Connection>>>() { //todo remove?
+        playerList.observe(this, new Observer<List<Pair<Player, Connection>>>() { //todo remove?
             @Override
             public void onChanged(@Nullable List<Pair<Player, Connection>> integerStringMap) {
                 recyclerAdapter.notifyDataSetChanged();
@@ -63,11 +74,18 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             }
         });
 
-        lobbyNetViewModel.getTeamListForView().observe(this, new Observer<List<Team>>() {
+        teamList.observe(this, new Observer<List<Team>>() {
             @Override
             public void onChanged(@Nullable List<Team> teams) {
                 recyclerAdapter.notifyDataSetChanged();
                 updateTextAndButtonViews();
+            }
+        });
+
+        myPlayerId.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                recyclerAdapter.notifyDataSetChanged();
             }
         });
 
@@ -78,6 +96,8 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         updateTextAndButtonViews();
         lobbyNetViewModel.resetPlayerData();
         lobbyNetViewModel.setupNewLobbySession(getApplicationContext());
+
+        BUS.register(this);
     }
 
     private void determineIsHost() {
@@ -107,15 +127,29 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         if (playerList.getValue() != null) {
             nmbPlayers = playerList.getValue().size();
         }
-        nmbPlayersTextView.setText(String.format("%s/%s", nmbPlayers, "8")); //todo get max players from quizGame
+        nmbPlayersTextView.setText(String.format("Players: %s/%s", nmbPlayers, "8")); //todo get max players from quizGame
 
-        startGameButton.setText(lobbyNetViewModel.isHost() ? "START GAME" : "Ready");
-        startGameButton.setEnabled(lobbyNetViewModel.areAllPlayersReady());
+        String buttonText;
+        if (lobbyNetViewModel.isHost()) {
+            buttonText = "Start game";
+        } else {
+            Pair<Player, Connection> myPlayerConnectionPair = lobbyNetViewModel.getMe();
+            if (myPlayerConnectionPair != null && myPlayerConnectionPair.first.isPlayerReady()) {
+                buttonText = "Unready";
+            } else {
+                buttonText = "Ready";
+            }
+        }
+
+        startGameButton.setText(buttonText);
+        if (lobbyNetViewModel.isHost()) {
+            startGameButton.setEnabled(lobbyNetViewModel.areAllPlayersReady());
+        }
     }
 
     private void setupRecyclerView() {
         recyclerView = findViewById(R.id.lobbyNetTeamRecyclerView);
-        recyclerAdapter = new LobbyNetRecyclerAdapter(this, teamList, playerList, lobbyNetViewModel.isHost(), this);
+        recyclerAdapter = new LobbyNetRecyclerAdapter(this, teamList, playerList, myPlayerId, lobbyNetViewModel.isHost(), this);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -134,8 +168,10 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
                 teamNumbers,
                 teamColors));
 
-        changeTeamSpinner.setSelection(0);
-        changeTeamSpinner.setBackgroundColor(teamColors.get(0));
+        if (lobbyNetViewModel.isHost()) {
+            changeTeamSpinner.setSelection(0);
+            changeTeamSpinner.setBackgroundColor(teamColors.get(0));
+        }
         changeTeamSpinner.setOnItemSelectedListener(this);
     }
 
@@ -170,7 +206,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     @Override
     public void onClick(Player player) {
         System.out.println("LobbyNetView - onClick: Player row delete button clicked!");
-        //todo send request downwards to model -> repo -> (model || network)
+        lobbyNetViewModel.removePlayer(player);
     }
 
     @Override
@@ -181,6 +217,34 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         System.out.println("LobbyNetView - onNothingSelected: Triggered!");
+    }
+
+    @Subscribe
+    public void onGameLostConnectionEvent(GameLostConnectionEvent event) {
+        if (!lobbyNetViewModel.isHost()) {
+            Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered");
+            lobbyNetViewModel.clearConnections();
+
+            Toast.makeText(getApplicationContext(), "Lost connection to game!",
+                    Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(this, ChooseGameClass.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else {
+            Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered, but I am host - skipping");
+        }
+    }
+
+    @Subscribe
+    public void onTeamChangeEvent(TeamChangeEvent event) {
+        Team myTeam = lobbyNetViewModel.getMyTeam();
+        if (myTeam != null) {
+            int teamIdInt = Integer.valueOf(myTeam.getId());
+            changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt));
+        } else {
+            Log.d(LOG_TAG, "onTeamChangeEvent: myTeam == null, unable to update spinner background - skipping");
+        }
     }
 }
 

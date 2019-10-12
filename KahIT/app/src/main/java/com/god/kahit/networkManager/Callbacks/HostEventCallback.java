@@ -6,6 +6,8 @@ public abstract class HostEventCallback {
     public HostEventCallback() {
     }
 
+    public abstract void onReceivedMyConnectionId(@NonNull String playerId);
+
     public abstract void onPlayerNameChangeEvent(@NonNull String targetPlayerId, @NonNull String newName);
 
     public abstract void onLobbyReadyChangeEvent(@NonNull String targetPlayerId, @NonNull boolean newState);

@@ -435,7 +435,7 @@ public class QuizGame {
             for (int i = 0; i < teamList.size(); i++) {
                 teamList.get(i).getTeamMembers().remove(player);
 
-                removeTeamIfEmpty(teamList.get(i));
+//                removeTeamIfEmpty(teamList.get(i)); //Would clear team name, don't want that
             }
             playerList.remove(player);
 

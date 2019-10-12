@@ -29,16 +29,18 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
     private static final String LOG_TAG = LobbyNetRecyclerAdapter.class.getSimpleName();
     private MutableLiveData<List<Team>> teamList;
     private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
+    private MutableLiveData<String> myPlayerId;
     private List<Integer> teamColors;
-    private boolean showKickButton;
+    private boolean isHost;
     private IOnClickPlayerListener iOnClickPlayerListener;
     private Context context;
 
-    public LobbyNetRecyclerAdapter(Context c, MutableLiveData<List<Team>> teamList, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, boolean showKickButton, IOnClickPlayerListener iOnClickPlayerListener) {
+    public LobbyNetRecyclerAdapter(Context c, MutableLiveData<List<Team>> teamList, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, MutableLiveData<String> myPlayerId, boolean isHost, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = c;
         this.teamList = teamList;
         this.playerConPairList = playerConPairList;
-        this.showKickButton = showKickButton;
+        this.myPlayerId = myPlayerId;
+        this.isHost = isHost;
         this.iOnClickPlayerListener = iOnClickPlayerListener;
 
         initTeamColors();
@@ -77,7 +79,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
         holder.teamNameTextView.setVisibility(View.VISIBLE);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        TeamContainerRecyclerAdapter recyclerAdapter = new TeamContainerRecyclerAdapter(context, holderTeam, playerConPairList, showKickButton, iOnClickPlayerListener);
+        TeamContainerRecyclerAdapter recyclerAdapter = new TeamContainerRecyclerAdapter(context, holderTeam, playerConPairList, myPlayerId, isHost, iOnClickPlayerListener);
         holder.teamPlayersRecyclerView.setAdapter(recyclerAdapter);
         holder.teamPlayersRecyclerView.setLayoutManager(layoutManager);
     }
