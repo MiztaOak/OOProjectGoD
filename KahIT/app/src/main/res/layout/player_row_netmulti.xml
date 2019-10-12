@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/playerRow_net_header_constraintLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/light_border"
         android:backgroundTint="#00BCD4"
@@ -45,7 +45,6 @@
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/playerRow_net_kick_linearLayout"
             app:layout_constraintStart_toEndOf="@+id/playerRow_image_imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />

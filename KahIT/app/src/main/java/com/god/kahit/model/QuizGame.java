@@ -221,6 +221,17 @@ public class QuizGame {
         return null;
     }
 
+    public Team getPlayerTeam(String playerId) {
+        for (Team team : teamList) {
+            for (Player teamMember : team.getTeamMembers()) {
+                if (teamMember.getId().equals(playerId)) {
+                    return team;
+                }
+            }
+        }
+        return null;
+    }
+
     public List<Player> getPlayers() {
         return playerList;
     }

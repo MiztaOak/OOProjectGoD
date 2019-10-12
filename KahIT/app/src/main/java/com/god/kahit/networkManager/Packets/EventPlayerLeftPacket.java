@@ -1,7 +1,7 @@
 package com.god.kahit.networkManager.Packets;
 
 public class EventPlayerLeftPacket extends Packet {
-    public static final int PACKET_ID = 9;
+    public static final int PACKET_ID = 10;
 
     public EventPlayerLeftPacket(String playerId) {
         super(PACKET_ID, playerId.getBytes());

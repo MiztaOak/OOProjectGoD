@@ -26,6 +26,8 @@ public abstract class HostEventCallback {
 
     public abstract void onGameStartedEvent();
 
-    public abstract void onLobbySyncEvent(@NonNull String roomName, @NonNull String gameModeId);
+    public abstract void onLobbySyncStartEvent(@NonNull String targetPlayerId, @NonNull String roomName, @NonNull String gameModeId);
+
+    public abstract void onLobbySyncEndEvent();
 
 }
