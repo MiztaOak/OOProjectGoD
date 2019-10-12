@@ -33,12 +33,13 @@
             app:srcCompat="@drawable/kahit" />
 
         <Button
-            android:id="@+id/mAboutButton"
+            android:id="@+id/mAboutKahitButton"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
-            android:text="HOW TO PLAY"
+            android:text="About KahIt"
+            android:onClick="launchAboutKahitView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -53,6 +54,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:text="SETTINGS"
+            android:onClick="launchSettingsView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -78,6 +80,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.499" />
+
+        <Button
+            android:id="@+id/countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pre-game countdown"
+            android:onClick="launchPreGameCountdownView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.661" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
