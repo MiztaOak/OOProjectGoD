@@ -6,7 +6,8 @@ import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
 import com.god.kahit.networkManager.Callbacks.HostEventCallback;
 import com.god.kahit.networkManager.Packets.EventGameStartedPacket;
 import com.god.kahit.networkManager.Packets.EventLobbyReadyChangePacket;
-import com.god.kahit.networkManager.Packets.EventLobbySyncPacket;
+import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
+import com.god.kahit.networkManager.Packets.EventLobbySyncStartPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerChangeTeamPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerJoinedPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerLeftPacket;
@@ -52,64 +53,69 @@ public class PacketHandler {
                 handlePlayerIdPacket(payload);
                 break;
 
-            case (EventLobbySyncPacket.PACKET_ID): //1
-                handleLobbySyncPacket(payload);
+            case (EventLobbySyncStartPacket.PACKET_ID): //1
+                handleLobbySyncStartPacket(payload);
                 break;
 
-            case (RequestPlayerNameChangePacket.PACKET_ID): //2
+            case (EventLobbySyncEndPacket.PACKET_ID): //2
+                handleLobbySyncEndPacket();
+                break;
+
+            case (RequestPlayerNameChangePacket.PACKET_ID): //3
                 handleRequestPlayerNameChangePacket(id, payload);
                 break;
 
-            case (EventPlayerNameChangePacket.PACKET_ID): //3
+            case (EventPlayerNameChangePacket.PACKET_ID): //4
                 handleEventPlayerNameChangePacket(payload);
                 break;
 
-            case (RequestLobbyReadyChangePacket.PACKET_ID): //4
+            case (RequestLobbyReadyChangePacket.PACKET_ID): //5
                 handleRequestLobbyReadyChangePacket(id, payload);
                 break;
 
-            case (EventLobbyReadyChangePacket.PACKET_ID): //5
+            case (EventLobbyReadyChangePacket.PACKET_ID): //6
                 handleEventLobbyReadyChangePacket(payload);
                 break;
 
-            case (RequestTeamNameChangePacket.PACKET_ID): //6
+            case (RequestTeamNameChangePacket.PACKET_ID): //7
                 handleRequestTeamNameChangePacket(id, payload);
                 break;
 
-            case (EventTeamNameChangePacket.PACKET_ID): //7
+            case (EventTeamNameChangePacket.PACKET_ID): //8
                 handleEventTeamNameChangePacket(payload);
                 break;
 
-            case (EventPlayerJoinedPacket.PACKET_ID): //8
+            case (EventPlayerJoinedPacket.PACKET_ID): //9
                 handleEventPlayerJoinedPacket(payload);
                 break;
 
-            case (EventPlayerLeftPacket.PACKET_ID): //9
+            case (EventPlayerLeftPacket.PACKET_ID): //10
                 handleEventPlayerLeftPacket(payload);
                 break;
 
-            case (RequestPlayerChangeTeamPacket.PACKET_ID): //10
+            case (RequestPlayerChangeTeamPacket.PACKET_ID): //11
                 handleRequestPlayerChangeTeamPacket(id, payload);
                 break;
 
-            case (EventPlayerChangeTeamPacket.PACKET_ID): //11
+            case (EventPlayerChangeTeamPacket.PACKET_ID): //12
                 handleEventPlayerChangeTeamPacket(payload);
                 break;
 
-            case (EventTeamCreatedPacket.PACKET_ID): //12
+            case (EventTeamCreatedPacket.PACKET_ID): //13
                 handleEventTeamCreatedPacket(payload);
                 break;
 
-            case (EventTeamDeletedPacket.PACKET_ID): //13
+            case (EventTeamDeletedPacket.PACKET_ID): //14
                 handleEventTeamDeletedPacket(payload);
                 break;
 
-            case (EventGameStartedPacket.PACKET_ID): //14
+            case (EventGameStartedPacket.PACKET_ID): //15
                 handleEventGameStartedPacket();
                 break;
 
             default:
-                Log.i(TAG, String.format("handleReceivedPayload: Unknown packetID from: '%s', packetId:'%s'", id, receivedPacketID));
+                Log.i(TAG, String.format("handleReceivedPayload: Unknown packetID from: '%s', " +
+                        "packetId:'%s'", id, receivedPacketID));
         }
     }
 
@@ -124,18 +130,29 @@ public class PacketHandler {
             clientRequestsCallback.onReceivedMyConnectionId(playerId);
         }
 
-        if(hostEventCallback != null) {
+        if (hostEventCallback != null) {
             hostEventCallback.onReceivedMyConnectionId(playerId);
         }
     }
 
-    private void handleLobbySyncPacket(byte[] payload) {
-        String roomName = EventLobbySyncPacket.getRoomName(payload);
-        String gameModeId = EventLobbySyncPacket.getGameModeId(payload);
-        Log.i(TAG, String.format("handleLobbySyncPacket: Received EventLobbySyncPacket. roomName: '%s', gameModeId: '%s'", roomName, gameModeId));
+    private void handleLobbySyncStartPacket(byte[] payload) {
+        String targetPlayerId = EventLobbySyncStartPacket.getTargetPlayerId(payload);
+        String roomName = EventLobbySyncStartPacket.getRoomName(payload);
+        String gameModeId = EventLobbySyncStartPacket.getGameModeId(payload);
+        Log.i(TAG, String.format("handleLobbySyncStartPacket: Received " +
+                "EventLobbySyncStartPacket. targetPlayerId: '%s', roomName: '%s', " +
+                "gameModeId: '%s'", targetPlayerId, roomName, gameModeId));
 
         if (hostEventCallback != null) {
-            hostEventCallback.onLobbySyncEvent(roomName, gameModeId);
+            hostEventCallback.onLobbySyncStartEvent(targetPlayerId, roomName, gameModeId);
+        }
+    }
+
+    private void handleLobbySyncEndPacket() {
+        Log.i(TAG, "handleLobbySyncEndPacket: Received EventLobbySyncEndPacket.");
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onLobbySyncEndEvent();
         }
     }
 
@@ -300,21 +317,34 @@ public class PacketHandler {
         //todo implement
     }
 
-    public void sendLobbySyncPacket() {
+    // ====================== Broadcast methods ======================
+
+    public void broadcastLobbySyncStartPacket(String targetPlayerId, String roomName, String gameModeId) {
+        Log.i(TAG, String.format("broadcastLobbySyncStartPacket: broadcasting " +
+                "EventLobbySyncStartPacket. targetPlayerId: '%s', roomName: '%s', " +
+                "gameModeId: '%s'", targetPlayerId, roomName, gameModeId));
+
         //Start queuing incoming payloads
         networkManager.setQueueIncomingPayloads(true);
 
-        //Send necessary packets..
-        //todo implement
+        //Send packet
+        Packet packet = new EventLobbySyncStartPacket(targetPlayerId, roomName, gameModeId);
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
 
-        //When sync is complete, process received payloads and reset setQueueIncomingPayloads
+    public void broadcastLobbySyncEndPacket() {
+        Log.i(TAG, "broadcastLobbySyncEndPacket: broadcasting EventLobbySyncEndPacket.");
+        Packet packet = new EventLobbySyncEndPacket();
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+
+        //As sync is complete, process received payloads and reset setQueueIncomingPayloads
         networkManager.processPayloadQueue();
     }
 
-    // ====================== Broadcast methods ======================
-
     public void broadcastPlayerNameChange(String targetPlayerId, String newName) {
-        Log.i(TAG, String.format("broadcastPlayerNameChange: broadcasting EventPlayerNameChangePacket. targetPlayerId: '%s', newName: '%s'", targetPlayerId, newName));
+        Log.i(TAG, String.format("broadcastPlayerNameChange: broadcasting" +
+                " EventPlayerNameChangePacket. targetPlayerId: '%s', " +
+                "newName: '%s'", targetPlayerId, newName));
         Packet packet = new EventPlayerNameChangePacket(targetPlayerId, newName);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }

@@ -94,8 +94,15 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 packetHandler.sendPlayerId(connection, connection.getId()); //Both host and client get to know their id
                 if (networkManager.isHost()) {
                     quizGame.addNewPlayerToEmptyTeam(connection.getName(), connection.getId());
-                    packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName()); //todo handle properly, or make sync overwrite all local info
-                    //todo send sync packet
+                    packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName());
+                    packetHandler.broadcastPlayerChangeTeam(connection.getId(), quizGame.getPlayerTeam(connection.getId()).getId());
+                    packetHandler.broadcastLobbySyncStartPacket(id, "Loot Mansion", "epic"); //todo lobbySync replace with actual values
+
+                    //todo send all sync messages
+                    packetHandler.broadcastPlayerJoined(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).getName());
+                    packetHandler.broadcastPlayerChangeTeam(quizGame.getHostPlayerId(), quizGame.getPlayerTeam(quizGame.getHostPlayerId()).getId());
+
+                    packetHandler.broadcastLobbySyncEndPacket();
                 } else {
                     BUS.post(new GameJoinedLobbyEvent());
                 }
@@ -201,19 +208,20 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onPlayerJoinedEvent(@NonNull String playerId, @NonNull String playerName) {
                     Log.i(TAG, String.format("onPlayerJoinedEvent: event triggered. playerId: '%s', player name: '%s'", playerId, playerName));
-                    //todo implement onPlayerJoinedEvent //todo as client also construct a connection, so we can keep track of connectionState and color rows accordingly
+                    quizGame.addNewPlayerToEmptyTeam(playerName, playerId);
+                    //todo as client also construct a connection, so we can keep track of connectionState and color rows accordingly
                 }
 
                 @Override
                 public void onPlayerLeftEvent(@NonNull String playerId) {
                     Log.i(TAG, String.format("onPlayerLeftEvent: event triggered. playerId: '%s'", playerId));
-                    //todo implement onPlayerLeftEvent
+                    quizGame.removePlayer(quizGame.getPlayer(playerId));
                 }
 
                 @Override
                 public void onPlayerChangeTeamEvent(@NonNull String targetPlayerId, @NonNull String newTeamId) {
                     Log.i(TAG, String.format("onPlayerChangeTeamEvent: event triggered. targetPlayerId: '%s', newTeamId: %s", targetPlayerId, newTeamId));
-                    //todo implement onPlayerChangeTeamEvent
+                    quizGame.changeTeam(quizGame.getPlayer(targetPlayerId), newTeamId);
                 }
 
                 @Override
@@ -235,9 +243,15 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 }
 
                 @Override
-                public void onLobbySyncEvent(@NonNull String roomName, @NonNull String gameModeId) {
-                    Log.i(TAG, "onLobbySyncEvent: event triggered.");
-                    //todo implement onLobbySyncEvent
+                public void onLobbySyncStartEvent(@NonNull String targetPlayerId, @NonNull String roomName, @NonNull String gameModeId) {
+                    Log.i(TAG, "onLobbySyncStartEvent: event triggered.");
+                    //todo implement onLobbySyncStartEvent
+                }
+
+                @Override
+                public void onLobbySyncEndEvent() {
+                    Log.i(TAG, "onLobbySyncEndEvent: event triggered.");
+                    //todo implement onLobbySyncEndEvent
                 }
             });
         }
