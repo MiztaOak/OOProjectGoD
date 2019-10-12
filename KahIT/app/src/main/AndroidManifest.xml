@@ -11,11 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".view.lotteryItemView"></activity>
+        <activity android:name=".view.AboutKahitView"></activity>
+        <activity android:name=".view.SettingsView" />
+        <activity android:name=".view.PreGameCountdownView" />
+
+
         <activity
             android:name=".view.CategoryView"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".view.LotteryView"
             android:exported="true" />
@@ -25,6 +31,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -63,7 +70,6 @@
                 android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
-
             android:name=".view.JoinRoomView"
             android:parentActivityName=".view.ChooseGameView"
             android:screenOrientation="portrait"
@@ -116,4 +122,5 @@
                 android:value="com.god.kahit.view.QuestionView" />
         </activity>
     </application>
+
 </manifest>
