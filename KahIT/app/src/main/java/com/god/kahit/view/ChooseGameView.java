@@ -44,10 +44,15 @@ public class ChooseGameView extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void launchSidenavTest(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, StoreView.class);
+        startActivity(intent);
+    }
+
+    public void launchLotteryTest(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, LotteryView.class);
         startActivity(intent);
     }
 }
