@@ -119,9 +119,9 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     }
 
     private void updateTextAndButtonViews() {
-        sessionTypeTextView.setText(lobbyNetViewModel.isHost() ? "Host" : "Client");
+        sessionTypeTextView.setText(String.format("%s - id: '%s'", lobbyNetViewModel.isHost() ? "Host" : "Client", myPlayerId.getValue()));
 
-        gameModeTextView.setText("Game mode: Epic"); //todo use actual current gamemode
+        gameModeTextView.setText(String.format("Game mode: %s", "Epic")); //todo use actual current gamemode
 
         int nmbPlayers = 0;
         if (playerList.getValue() != null) {

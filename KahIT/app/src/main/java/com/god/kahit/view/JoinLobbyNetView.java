@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.god.kahit.Events.GameJoinedLobbyEvent;
-import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.R;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.viewModel.JoinRoomViewModel;
@@ -24,8 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.god.kahit.model.QuizGame.BUS;
 
-public class JoinRoomView extends AppCompatActivity {
-    private static final String LOG_TAG = JoinRoomView.class.getSimpleName();
+public class JoinLobbyNetView extends AppCompatActivity {
+    private static final String LOG_TAG = JoinLobbyNetView.class.getSimpleName();
     private MutableLiveData<List<Connection>> roomList;
     private JoinRoomViewModel joinRoomViewModel;
     private RecyclerView recyclerView;
@@ -36,7 +35,7 @@ public class JoinRoomView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.join_room_activity);
+        setContentView(R.layout.join_lobbynet_activity);
 
         joinRoomViewModel = ViewModelProviders.of(this).get(JoinRoomViewModel.class);
         roomList = joinRoomViewModel.getListForView();
@@ -56,7 +55,7 @@ public class JoinRoomView extends AppCompatActivity {
 
     private void setupRecyclerView() {
         recyclerView = findViewById(R.id.jChooseRoomRecyclerView);
-        recyclerAdapter = new JoinRoomRecyclerAdapter(this, roomList, new IOnClickRoomListener() {
+        recyclerAdapter = new JoinLobbyNetRecyclerAdapter(this, roomList, new IOnClickLobbyListener() {
             @Override
             public void onClick(Connection roomConnection) {
                 joinRoomViewModel.joinRoom(roomConnection);
