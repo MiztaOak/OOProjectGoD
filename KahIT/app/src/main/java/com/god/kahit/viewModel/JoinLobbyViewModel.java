@@ -10,22 +10,41 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.model.QuizGame.BUS;
 
-
-public class JoinRoomViewModel extends ViewModel implements LifecycleObserver {
-    private static final String TAG = JoinRoomViewModel.class.getSimpleName();
+public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
+    private static final String TAG = JoinLobbyViewModel.class.getSimpleName();
 
     MutableLiveData<List<Connection>> roomListForView;
     private Repository repository;
 
-    public JoinRoomViewModel() {
+    public JoinLobbyViewModel() {
         repository = Repository.getInstance();
-        BUS.register(this);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public void onCreate() {
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onStart() {
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onStop() {
+        BUS.unregister(this);
     }
 
     @Subscribe

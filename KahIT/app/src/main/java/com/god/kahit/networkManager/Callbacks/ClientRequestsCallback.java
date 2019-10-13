@@ -6,7 +6,7 @@ public abstract class ClientRequestsCallback {
     public ClientRequestsCallback() {
     }
 
-    public abstract void onReceivedMyConnectionId(@NonNull String playerId);
+    public abstract void onReceivedMyConnectionId(@NonNull String senderId, @NonNull String playerId);
 
     public abstract void onPlayerNameChangeRequest(@NonNull String targetPlayerId, @NonNull String newName);
 

@@ -50,7 +50,7 @@ public class PacketHandler {
 
         switch (receivedPacketID) {
             case (PlayerIdPacket.PACKET_ID): //0
-                handlePlayerIdPacket(payload);
+                handlePlayerIdPacket(id, payload);
                 break;
 
             case (EventLobbySyncStartPacket.PACKET_ID): //1
@@ -121,13 +121,13 @@ public class PacketHandler {
 
     // ====================== Handle methods ======================
 
-    private void handlePlayerIdPacket(byte[] payload) {
+    private void handlePlayerIdPacket(String senderId, byte[] payload) {
         String playerId = PlayerIdPacket.getPlayerId(payload);
         Log.i(TAG, String.format("handlePlayerIdPacket: Received new playerId: '%s'", playerId));
         networkManager.setPlayerId(playerId);
 
         if (clientRequestsCallback != null) {
-            clientRequestsCallback.onReceivedMyConnectionId(playerId);
+            clientRequestsCallback.onReceivedMyConnectionId(senderId, playerId);
         }
 
         if (hostEventCallback != null) {
@@ -156,12 +156,12 @@ public class PacketHandler {
         }
     }
 
-    private void handleRequestPlayerNameChangePacket(String id, byte[] payload) {
+    private void handleRequestPlayerNameChangePacket(String senderId, byte[] payload) {
         String newName = RequestPlayerNameChangePacket.getNewPlayerName(payload);
-        Log.i(TAG, String.format("handleRequestPlayerNameChangePacket: Received player name change request from '%s'. New name is '%s'", id, newName));
+        Log.i(TAG, String.format("handleRequestPlayerNameChangePacket: Received player name change request from '%s'. New name is '%s'", senderId, newName));
 
         if (clientRequestsCallback != null) {
-            clientRequestsCallback.onPlayerNameChangeRequest(id, newName);
+            clientRequestsCallback.onPlayerNameChangeRequest(senderId, newName);
         }
     }
 
@@ -174,12 +174,12 @@ public class PacketHandler {
         }
     }
 
-    private void handleRequestLobbyReadyChangePacket(String id, byte[] payload) {
+    private void handleRequestLobbyReadyChangePacket(String senderId, byte[] payload) {
         boolean newState = RequestLobbyReadyChangePacket.getNewState(payload);
-        Log.i(TAG, String.format("RequestLobbyReadyChangePacket: Received player ready state change request from '%s'. New state is '%s'", id, newState));
+        Log.i(TAG, String.format("RequestLobbyReadyChangePacket: Received player ready state change request from '%s'. New state is '%s'", senderId, newState));
 
         if (clientRequestsCallback != null) {
-            clientRequestsCallback.onLobbyReadyChangeRequest(id, newState);
+            clientRequestsCallback.onLobbyReadyChangeRequest(senderId, newState);
         }
     }
 
@@ -192,10 +192,10 @@ public class PacketHandler {
         }
     }
 
-    private void handleRequestTeamNameChangePacket(String id, byte[] payload) {
+    private void handleRequestTeamNameChangePacket(String senderId, byte[] payload) {
         String teamId = RequestTeamNameChangePacket.getTeamId(payload);
         String newTeamName = RequestTeamNameChangePacket.getNewTeamName(payload);
-        Log.i(TAG, String.format("handleRequestTeamNameChangePacket: Received team name change request from '%s'. TeamId: '%s', new team name is '%s'", id, teamId, newTeamName));
+        Log.i(TAG, String.format("handleRequestTeamNameChangePacket: Received team name change request from '%s'. TeamId: '%s', new team name is '%s'", senderId, teamId, newTeamName));
 
         if (clientRequestsCallback != null) {
             clientRequestsCallback.onTeamNameChangeRequest(teamId, newTeamName);
@@ -231,12 +231,12 @@ public class PacketHandler {
         }
     }
 
-    private void handleRequestPlayerChangeTeamPacket(String id, byte[] payload) {
+    private void handleRequestPlayerChangeTeamPacket(String senderId, byte[] payload) {
         String newTeamId = RequestPlayerChangeTeamPacket.getNewTeamId(payload);
-        Log.i(TAG, String.format("handleRequestPlayerChangeTeamPacket: Received player team change request from '%s'. newTeamId: '%s'", id, newTeamId));
+        Log.i(TAG, String.format("handleRequestPlayerChangeTeamPacket: Received player team change request from '%s'. newTeamId: '%s'", senderId, newTeamId));
 
         if (clientRequestsCallback != null) {
-            clientRequestsCallback.onPlayerTeamChangeRequest(id, newTeamId);
+            clientRequestsCallback.onPlayerTeamChangeRequest(senderId, newTeamId);
         }
     }
 
