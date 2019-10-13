@@ -19,7 +19,7 @@
             android:id="@+id/lobbyNet_SessionType_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Host"
+            android:text="Host - id: qsJ3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -11,14 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.AboutKahitView"></activity>
-        <activity android:name=".view.SettingsView" />
-        <activity android:name=".view.PreGameCountdownView" />
-        <activity android:name=".view.lotteryItemClass" />
+        <activity android:name=".view.lotteryItemClass"></activity>
         <activity
             android:name=".view.CategoryView"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".view.LotteryView"
             android:exported="true" />
@@ -28,7 +25,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,13 +38,13 @@
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
         <activity
-            android:name=".view.HostCreateRoomView"
+            android:name=".view.CreateLobbyNetView"
             android:parentActivityName=".view.ChooseGameClass"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.HostCreateRoomView" />
+                android:value="com.god.kahit.view.CreateLobbyNetView" />
         </activity>
         <activity
             android:name=".view.HotSwapAddPlayersView"
@@ -67,13 +63,14 @@
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
         <activity
-            android:name=".view.JoinRoomView"
+
+            android:name=".view.JoinLobbyNetView"
             android:parentActivityName=".view.ChooseGameClass"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.HostCreateRoomView" />
+                android:value="com.god.kahit.view.CreateLobbyNetView" />
         </activity>
         <activity
             android:name=".view.QuestionClass"
@@ -94,7 +91,7 @@
                 android:value="com.god.kahit.view.ChooseGameClass" />
         </activity>
         <activity
-            android:name=".view.TeamArrangementView"
+            android:name=".view.LobbyNetView"
             android:parentActivityName=".view.MainActivityClass"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -120,4 +117,11 @@
         </activity>
     </application>
 
+    <!-- Required for Nearby Connections -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 </manifest>
