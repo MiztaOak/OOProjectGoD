@@ -62,20 +62,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
             @Override
             public void onHostFound(@NonNull String id, @NonNull Connection connection) {
-                //Get all connections
-                Connection[] roomsArr = networkManager.getConnections();
-                List<Connection> rooms = new ArrayList<>(Arrays.asList(roomsArr));
-
-                //Remove all which are not considered rooms
-                for (int i = rooms.size() - 1; i >= 0; i--) {
-                    if (!rooms.get(i).getState().isDisconnected() ||
-                            !rooms.get(i).getType().equals(ConnectionType.SERVER)) {
-                        rooms.remove(i);
-                    }
-                }
-
-                //Post event containing all rooms
-                BUS.post(new RoomChangeEvent(rooms));
+                fireRoomChangeEvent();
             }
 
             @Override
@@ -91,19 +78,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             @Override
             public void onConnectionEstablished(@NonNull String id, @NonNull Connection connection) {
                 setupPacketHandler();
-                packetHandler.sendPlayerId(connection, connection.getId()); //Both host and client get to know their id
                 if (networkManager.isHost()) {
+                    packetHandler.sendPlayerId(connection, connection.getId()); //Let client know their id
                     quizGame.addNewPlayerToEmptyTeam(connection.getName(), connection.getId());
                     packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName());
                     packetHandler.broadcastPlayerChangeTeam(connection.getId(), quizGame.getPlayerTeam(connection.getId()).getId());
-                    packetHandler.broadcastLobbySyncStartPacket(id, "Loot Mansion", "epic"); //todo lobbySync replace with actual values
-
-                    //todo send all sync messages
-                    packetHandler.broadcastPlayerJoined(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).getName());
-                    packetHandler.broadcastPlayerChangeTeam(quizGame.getHostPlayerId(), quizGame.getPlayerTeam(quizGame.getHostPlayerId()).getId());
-
-                    packetHandler.broadcastLobbySyncEndPacket();
                 } else {
+                    pauseNetInCommunication(); //Pause in-coming communication, letting client set up needed logic beforehand
+                    packetHandler.sendPlayerId(connection, connection.getId()); //Let host let their id
                     BUS.post(new GameJoinedLobbyEvent());
                 }
             }
@@ -122,6 +104,9 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
             @Override
             public void onConnectionChanged(@NonNull Connection connection, @NonNull ConnectionState oldState, @NonNull ConnectionState newState) {
+                if (!isHost && networkManager.isScanning()) {
+                    fireRoomChangeEvent();
+                }
                 fireTeamChangeEvent();
             }
         });
@@ -131,10 +116,19 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         if (networkManager.isHost()) {
             packetHandler = new PacketHandler(networkManager, new ClientRequestsCallback() {
                 @Override
-                public void onReceivedMyConnectionId(@NonNull String playerId) {
+                public void onReceivedMyConnectionId(@NonNull String senderId, @NonNull String playerId) {
                     Log.i(TAG, String.format("onReceivedMyConnectionId: event triggered. Old hostPlayerId: '%s', new hostPlayerId: '%s'", quizGame.getHostPlayerId(), playerId));
                     quizGame.getPlayer(quizGame.getHostPlayerId()).setId(playerId);
                     quizGame.setHostPlayerId(playerId);
+
+                    packetHandler.broadcastLobbySyncStartPacket(senderId, "Loot Mansion", "epic"); //todo lobbySync replace with actual values
+
+                    //todo send all sync messages
+                    packetHandler.broadcastPlayerJoined(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).getName());
+                    packetHandler.broadcastPlayerChangeTeam(quizGame.getHostPlayerId(), quizGame.getPlayerTeam(quizGame.getHostPlayerId()).getId());
+
+                    packetHandler.broadcastLobbySyncEndPacket();
+
                     BUS.post(new MyPlayerIdChangedEvent(playerId));
                 }
 
@@ -308,6 +302,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
+    public void pauseNetInCommunication() {
+        networkManager.setQueueIncomingPayloads(true);
+    }
+
+    public void restoreNetInCommunications() {
+        networkManager.processPayloadQueue();
+    }
+
     public void startHostBeacon() {
         if (networkManager != null) {
             networkManager.startHostBeacon();
@@ -369,6 +371,23 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.fireTeamChangeEvent();
     }
 
+    public void fireRoomChangeEvent() {
+        //Get all connections
+        Connection[] roomsArr = networkManager.getConnections();
+        List<Connection> rooms = new ArrayList<>(Arrays.asList(roomsArr));
+
+        //Remove all which are not considered rooms
+        for (int i = rooms.size() - 1; i >= 0; i--) {
+            if (!rooms.get(i).getType().equals(ConnectionType.SERVER)) {
+                Log.i(TAG, String.format("fireRoomChangeEvent: excluded connection due to not " +
+                        "being considered a room. id:'%s', name:'%s', type:'%s', status:'%s'", rooms.get(i).getId(), rooms.get(i).getName(), rooms.get(i).getType(), rooms.get(i).getState()));
+                rooms.remove(i);
+            }
+        }
+
+        //Post event containing all rooms
+        BUS.post(new RoomChangeEvent(rooms));
+    }
 
     public void removePlayer(Player player) {
         quizGame.removePlayer(player);

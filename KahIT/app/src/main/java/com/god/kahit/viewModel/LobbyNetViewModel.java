@@ -16,8 +16,10 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.model.QuizGame.BUS;
@@ -29,10 +31,30 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private MutableLiveData<List<Team>> teamListForView;
     private MutableLiveData<String> myPlayerId;
     private boolean isHost;
+    private boolean hasStartedGame;
 
     public LobbyNetViewModel() {
         repository = Repository.getInstance();
-        BUS.register(this);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public void onCreate() {
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
+        hasStartedGame = false;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onStart() {
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onStop() {
+        BUS.unregister(this);
     }
 
     public MutableLiveData<List<Pair<Player, Connection>>> getPlayerListForView() {
@@ -69,6 +91,10 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     public void onMyPlayerIdChangedEvent(MyPlayerIdChangedEvent event) {
         Log.d(TAG, String.format("onMyPlayerIdChangedEvent: event triggered, new id: '%s'", event.getNewPlayerId()));
         myPlayerId.setValue(event.getNewPlayerId());
+    }
+
+    public void restoreNetInCommunication() {
+        repository.restoreNetInCommunications();
     }
 
     public Pair<Player, Connection> getMe() {
@@ -174,8 +200,16 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         return isHost;
     }
 
+    public boolean hasStartedGame() {
+        return hasStartedGame;
+    }
+
+    public void setHasStartedGame(boolean hasStartedGame) {
+        this.hasStartedGame = hasStartedGame;
+    }
+
     public void requestTeamChange(String teamId) {
-        System.out.println("LobbyNetViewModel - requestTeamChange: Triggered!");
+        Log.d(TAG, "requestTeamChange: Triggered");
         repository.requestChangeMyTeam(teamId, isHost);
     }
 
@@ -209,7 +243,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     @Override
     protected void onCleared() {
         super.onCleared();
-        Log.d(TAG, "on cleared called");
+        Log.d(TAG, "onCleared: was called.");
     }
 }
 

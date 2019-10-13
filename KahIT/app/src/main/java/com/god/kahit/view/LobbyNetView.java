@@ -60,6 +60,8 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         setContentView(R.layout.lobby_net_activity);
 
         lobbyNetViewModel = ViewModelProviders.of(this).get(LobbyNetViewModel.class);
+        getLifecycle().addObserver(lobbyNetViewModel);
+        lobbyNetViewModel.onCreate();
 
         determineIsHost();
         playerList = lobbyNetViewModel.getPlayerListForView();
@@ -86,6 +88,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             @Override
             public void onChanged(String s) {
                 recyclerAdapter.notifyDataSetChanged();
+                updateTextAndButtonViews();
             }
         });
 
@@ -98,6 +101,10 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         lobbyNetViewModel.setupNewLobbySession(getApplicationContext());
 
         BUS.register(this);
+
+        if (!lobbyNetViewModel.isHost()) { //Restore net in communication as all logic is setup
+            lobbyNetViewModel.restoreNetInCommunication();
+        }
     }
 
     private void determineIsHost() {
@@ -168,10 +175,8 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
                 teamNumbers,
                 teamColors));
 
-        if (lobbyNetViewModel.isHost()) {
-            changeTeamSpinner.setSelection(0);
-            changeTeamSpinner.setBackgroundColor(teamColors.get(0));
-        }
+        changeTeamSpinner.setSelection(0, false); //Fix bug with an otherwise triggered event as soon as animation is complete, messing things up
+        changeTeamSpinner.setBackgroundColor(teamColors.get(0));
         changeTeamSpinner.setOnItemSelectedListener(this);
     }
 
@@ -191,21 +196,47 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     }
 
     private void handleChangeTeam(int teamIndex) {
-        System.out.println("LobbyNetView - handleChangeTeam: Triggered!");
+        Log.d(LOG_TAG, "handleChangeTeam: Triggered!");
         changeTeamSpinner.setBackgroundColor(teamColors.get(teamIndex));
         lobbyNetViewModel.requestTeamChange(Integer.toString(teamIndex));
     }
 
+    private void doSilentSpinnerUpdate(int teamIdInt) {
+        changeTeamSpinner.setOnItemSelectedListener(null);
+        changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt));
+        changeTeamSpinner.setSelection(teamIdInt, false);
+        changeTeamSpinner.setOnItemSelectedListener(this);
+    }
+
     @Override
-    protected void onDestroy() { //todo if player didnt start the game, and activity died, clearConnections too
+    public void onStart() {
+        super.onStart();
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BUS.unregister(this);
+        if (!lobbyNetViewModel.hasStartedGame()) {//todo close host beacon, and start again in onStart, maybe?
+            finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() { //todo if player didnt start the game, and activity died, clearConnections too //todo check if game has begun, if so dont kill player data, only stop beacon
+        BUS.unregister(this);
         lobbyNetViewModel.stopHostBeacon();
+        lobbyNetViewModel.clearConnections();//todo maybe check if has started game as not to kill all connections mid-game because of memory reclaim from android
         lobbyNetViewModel.resetPlayerData();
         super.onDestroy();
     }
 
     @Override
     public void onClick(Player player) {
-        System.out.println("LobbyNetView - onClick: Player row delete button clicked!");
+        Log.d(LOG_TAG, "onClick: Player row delete button clicked!");
         lobbyNetViewModel.removePlayer(player);
     }
 
@@ -216,7 +247,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        System.out.println("LobbyNetView - onNothingSelected: Triggered!");
+        Log.d(LOG_TAG, "onNothingSelected: Triggered!");
     }
 
     @Subscribe
@@ -231,6 +262,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             Intent intent = new Intent(this, ChooseGameClass.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         } else {
             Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered, but I am host - skipping");
         }
@@ -241,7 +273,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         Team myTeam = lobbyNetViewModel.getMyTeam();
         if (myTeam != null) {
             int teamIdInt = Integer.valueOf(myTeam.getId());
-            changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt));
+            doSilentSpinnerUpdate(teamIdInt);
         } else {
             Log.d(LOG_TAG, "onTeamChangeEvent: myTeam == null, unable to update spinner background - skipping");
         }

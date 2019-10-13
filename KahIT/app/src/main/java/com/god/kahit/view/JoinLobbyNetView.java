@@ -8,7 +8,7 @@ import android.view.View;
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.R;
 import com.god.kahit.networkManager.Connection;
-import com.god.kahit.viewModel.JoinRoomViewModel;
+import com.god.kahit.viewModel.JoinLobbyViewModel;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -26,7 +26,7 @@ import static com.god.kahit.model.QuizGame.BUS;
 public class JoinLobbyNetView extends AppCompatActivity {
     private static final String LOG_TAG = JoinLobbyNetView.class.getSimpleName();
     private MutableLiveData<List<Connection>> roomList;
-    private JoinRoomViewModel joinRoomViewModel;
+    private JoinLobbyViewModel joinLobbyViewModel;
     private RecyclerView recyclerView;
 
     private RecyclerView.Adapter recyclerAdapter;
@@ -37,8 +37,12 @@ public class JoinLobbyNetView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.join_lobbynet_activity);
 
-        joinRoomViewModel = ViewModelProviders.of(this).get(JoinRoomViewModel.class);
-        roomList = joinRoomViewModel.getListForView();
+        joinLobbyViewModel = ViewModelProviders.of(this).get(JoinLobbyViewModel.class);
+        getLifecycle().addObserver(joinLobbyViewModel);
+        joinLobbyViewModel.onCreate();
+        BUS.register(this);
+
+        roomList = joinLobbyViewModel.getListForView();
         roomList.observe(this, new Observer<List<Connection>>() {
             @Override
             public void onChanged(List<Connection> connections) {
@@ -47,10 +51,23 @@ public class JoinLobbyNetView extends AppCompatActivity {
         });
 
         setupRecyclerView();
-        joinRoomViewModel.setupNetwork(getApplicationContext());
-        joinRoomViewModel.startScan();
+        joinLobbyViewModel.setupNetwork(getApplicationContext());
+        joinLobbyViewModel.startScan();
+    }
 
-        BUS.register(this);
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        BUS.unregister(this);
     }
 
     private void setupRecyclerView() {
@@ -58,7 +75,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
         recyclerAdapter = new JoinLobbyNetRecyclerAdapter(this, roomList, new IOnClickLobbyListener() {
             @Override
             public void onClick(Connection roomConnection) {
-                joinRoomViewModel.joinRoom(roomConnection);
+                joinLobbyViewModel.joinRoom(roomConnection);
             }
         });
         layoutManager = new LinearLayoutManager(this);
@@ -68,15 +85,15 @@ public class JoinLobbyNetView extends AppCompatActivity {
 
     public void launchBackChooseGameClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        joinRoomViewModel.stopScan();
-        joinRoomViewModel.clearConnections();
+        joinLobbyViewModel.stopScan();
+        joinLobbyViewModel.clearConnections();
         Intent intent = new Intent(this, ChooseGameClass.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
     public void launchLobbyNetActivity(View view) { //otherwise remove whole method
-        joinRoomViewModel.stopScan(); //todo change behaviour to select a server then press this?
+        joinLobbyViewModel.stopScan(); //todo change behaviour to select a server then press this?
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, LobbyNetView.class);
         intent.putExtra("isHostBoolean", false);
@@ -86,9 +103,10 @@ public class JoinLobbyNetView extends AppCompatActivity {
     @Subscribe
     public void onLobbyJoinedEvent(GameJoinedLobbyEvent event) {
         Log.d(LOG_TAG, "onLobbyJoinedEvent: event triggered");
-        joinRoomViewModel.stopScan();
+        joinLobbyViewModel.stopScan();
         Intent intent = new Intent(this, LobbyNetView.class);
         intent.putExtra("isHostBoolean", false);
         startActivity(intent);
+        finish();
     }
 }
