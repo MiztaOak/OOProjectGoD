@@ -123,6 +123,13 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         gameModeTextView = findViewById(R.id.lobbyNet_GameMode_textView);
         nmbPlayersTextView = findViewById(R.id.lobbyNet_nmb_players_textView);
         startGameButton = findViewById(R.id.lobbyNetStartButton);
+
+        startGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStartGameButtonAction();
+            }
+        });
     }
 
     private void updateTextAndButtonViews() {
@@ -206,6 +213,22 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt - 1));
         changeTeamSpinner.setSelection(teamIdInt - 1, false);
         changeTeamSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void onStartGameButtonAction() {
+        if (lobbyNetViewModel.isHost()) {
+            Log.d(LOG_TAG, "onStartGameButtonAction: start game action called - not implemented yet!");
+        } else {
+            if (startGameButton.getText().equals("Ready")) {
+                Log.d(LOG_TAG, "onStartGameButtonAction: player ready action called");
+                lobbyNetViewModel.requestSetReady(true);
+            } else if (startGameButton.getText().equals("Unready")) {
+                Log.d(LOG_TAG, "onStartGameButtonAction: player unready action called");
+                lobbyNetViewModel.requestSetReady(false);
+            } else {
+                Log.e(LOG_TAG, "onStartGameButtonAction: unknown startGameButton state, ignoring button tap");
+            }
+        }
     }
 
     @Override
