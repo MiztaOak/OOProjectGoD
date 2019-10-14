@@ -72,7 +72,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
 
     private void setupRecyclerView() {
         recyclerView = findViewById(R.id.jChooseRoomRecyclerView);
-        recyclerAdapter = new JoinLobbyNetRecyclerAdapter(this, roomList, new IOnClickLobbyListener() {
+        recyclerAdapter = new JoinLobbyNetRecyclerAdapter(roomList, new IOnClickLobbyListener() {
             @Override
             public void onClick(Connection roomConnection) {
                 joinLobbyViewModel.joinRoom(roomConnection);

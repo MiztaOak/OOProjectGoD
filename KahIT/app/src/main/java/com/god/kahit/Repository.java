@@ -360,7 +360,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void createNewHostPlayer() {
         BUS.post(new MyPlayerIdChangedEvent(quizGame.getHostPlayerId()));
-        addNewPlayerToTeam("Im the host", quizGame.getHostPlayerId(), true, "0");
+        addNewPlayerToTeam("Im the host", quizGame.getHostPlayerId(), true, "1");
     }
 
     public void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {

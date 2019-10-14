@@ -22,10 +22,8 @@ public class JoinLobbyNetRecyclerAdapter extends RecyclerView.Adapter<JoinLobbyN
     private static final String TAG = JoinLobbyNetRecyclerAdapter.class.getSimpleName();
     private MutableLiveData<List<Connection>> lobbyList;
     private IOnClickLobbyListener iOnClickListener;
-    private Context context;
 
-    public JoinLobbyNetRecyclerAdapter(Context context, MutableLiveData<List<Connection>> lobbyList, IOnClickLobbyListener iOnClickListener) {
-        this.context = context;
+    public JoinLobbyNetRecyclerAdapter(MutableLiveData<List<Connection>> lobbyList, IOnClickLobbyListener iOnClickListener) {
         this.lobbyList = lobbyList;
         this.iOnClickListener = iOnClickListener;
     }
