@@ -18,7 +18,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     public Player(String name, String id) {
         this.name = name;
         this.id = id;
-        this.score = 0;
+        this.score = 500; //TODO remove when done testing
         this.playerReady = false;
         this.vanityItems = new ArrayList<>();
     }
