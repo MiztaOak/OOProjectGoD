@@ -8,9 +8,9 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,6 +35,7 @@ public class QuestionView extends AppCompatActivity {
     private final Handler h1 = new Handler();
     private ImageView storeImage;
     private DrawerLayout drawerLayout;
+    private Button choosePlayerButton;
     NavigationView navigationView;
     //TODO FOLLOWING is ALL TEMPORARY and will be replaced by variables from Question.class. FROM:
     int qTime = 2000; //The total time the player1 has to answer.
@@ -48,14 +49,20 @@ public class QuestionView extends AppCompatActivity {
     private QuestionViewModel model;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
         model = ViewModelProviders.of(this).get(QuestionViewModel.class);
         storeImage = findViewById(R.id.storeImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
-
+        choosePlayerButton = findViewById(R.id.choosePlayerButton);
+        choosePlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initChoosePlayer(savedInstanceState);
+            }
+        });
         final Observer<String> questionTextObserver = new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -245,7 +252,7 @@ public class QuestionView extends AppCompatActivity {
     public void initStore(Bundle savedInstanceState){
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.storeContainer, StoreView.newInstance())
+                    .replace(R.id.container, StoreView.newInstance())
                     .commitNow();
         }
     }
@@ -282,7 +289,10 @@ public class QuestionView extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * A method that adds action to the store image  which makes the store slides out when clicking
+     * on it
+     */
     public void addStoreImageAction(){
         storeImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,6 +300,18 @@ public class QuestionView extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.END);
             }
         });
+    }
+
+    /**
+     * A method that initiates the a list to choose a player to debuff by getting its layout
+     * and pasting it inside the side navigation
+     */
+    public void initChoosePlayer(Bundle savedInstanceState){
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, ChoosePlayerToDebuffView.newInstance())
+                    .commitNow();
+        }
     }
 }
 
