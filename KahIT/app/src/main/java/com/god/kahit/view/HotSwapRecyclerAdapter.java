@@ -53,6 +53,9 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
     private List<String> teamNumbers;
 
     private Context context;
+    //TODO remove when done testing
+    private LayoutInflater layoutInflater;
+    private List<String> data;
 
     public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList,MutableLiveData<List<Integer>> teamNumberList, IOnPlayerClickListener iOnplayerclickListener) {
         this.context = c;
@@ -61,7 +64,10 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         this.iOnplayerclickListener = iOnplayerclickListener;
     }
 
-
+    public HotSwapRecyclerAdapter(Context context, List<String> data) {
+            this.layoutInflater = LayoutInflater.from(context);
+            this.data = data;
+    }
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
         IOnPlayerClickListener iOnplayerclickListener;

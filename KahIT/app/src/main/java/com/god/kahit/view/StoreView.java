@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -37,15 +36,12 @@ import androidx.lifecycle.ViewModelProviders;
  */
 public class StoreView extends Fragment {
     private StoreViewModel storeViewModel = new StoreViewModel();
-    private TextView pointsText, itemType1, itemType2, itemType3;
+    private TextView pointsText;
     private ArrayList<ImageView> itemsIcons = new ArrayList<>();
-    private DrawerLayout drawerLayout;
-    private ImageView storeImage;
     private List<Button> itemButtons = new ArrayList<>();
     public static StoreView newInstance() {
         return new StoreView();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -65,7 +61,6 @@ public class StoreView extends Fragment {
      * This method gets called upon creating the view
      */
     public void initializeStoreView() {
-        findViews();
         findItemIcons();
         findItemButtons();
         populateItemIcons();
@@ -83,15 +78,7 @@ public class StoreView extends Fragment {
             itemsIcons.get(i).setImageResource(resId);
         }
     }
-    /**
-     * A method that finds all the necessary views by their id in order for this view to work
-     */
-    public void findViews(){
-        pointsText = Objects.requireNonNull(getView()).findViewById(R.id.pointsText);
-        itemType1 = Objects.requireNonNull(getView()).findViewById(R.id.itemType1);
-        itemType2 = Objects.requireNonNull(getView()).findViewById(R.id.itemType2);
-        itemType3 = Objects.requireNonNull(getView()).findViewById(R.id.itemType3);
-    }
+
     /**
      * A method that finds all the imageViews and adds them to a list of imageViews
      */
@@ -117,6 +104,11 @@ public class StoreView extends Fragment {
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton4));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton5));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton6));
+        /*
+        itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton7));
+        itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton8));
+        itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton9));
+         */
     }
     /**
      * A method that updates the taxt the old the value of a player's points which changes after
@@ -124,7 +116,8 @@ public class StoreView extends Fragment {
      */
     @SuppressLint("SetTextI18n")
     public void setPointsText() {
-       pointsText.setText("Points:" + storeViewModel.getStoreModel().getPlayer().getScore());
+        pointsText = Objects.requireNonNull(getView()).findViewById(R.id.pointsText);
+        pointsText.setText("Points:" + storeViewModel.getStoreModel().getPlayer().getScore());
     }
     /**
      * A method that sets an action to each button that has been add to itemButtons list. The action

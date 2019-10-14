@@ -619,13 +619,14 @@ public class QuizGame {
      *
      * @param winnings a map with winnings.
      */
-    private void applyModifiers
-    (Map<Player, Item> winnings) {
+    private void applyModifiers (Map<Player, Item> winnings) {
         for (Player player : getPlayers()) {
-            if (winnings.get(player) instanceof Modifier) {
-                player.setHeldItem((Modifier) Objects.requireNonNull(winnings.get(player)));
-            } else {
-                player.addVanityItem((VanityItem) winnings.get(player));
+            if (winnings.get(player) instanceof Buff) {
+                player.setBuff((Buff) Objects.requireNonNull(winnings.get(player)));
+            } else if(winnings.get(player) instanceof Debuff) {
+                player.setDebuff((Debuff) Objects.requireNonNull(winnings.get(player)));
+            }else {
+                player.setVanityItem((VanityItem) Objects.requireNonNull(winnings.get(player)));
             }
         }
     }
@@ -636,12 +637,14 @@ public class QuizGame {
      * @param player to have a modifier applied to.
      * @param item   to be applied.
      */
-    public void applyModifier
-    (Player player, Item item) {
-        if (item instanceof Modifier) {
-            player.setHeldItem((Modifier) item);
+    //TODO is this method needed. isn't it the same as the previous one?
+    public void applyModifier(Player player, Item item) {
+        if (item instanceof Buff) {
+            player.setBuff((Buff) item);
+        }else if(item instanceof Debuff){
+            player.setDebuff((Debuff) item);
         } else {
-            player.addVanityItem((VanityItem) item);
+            player.setVanityItem((VanityItem) item);
         }
     }
 
