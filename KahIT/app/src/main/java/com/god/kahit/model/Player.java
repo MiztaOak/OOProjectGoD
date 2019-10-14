@@ -40,9 +40,9 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
      */
     public void setHeldItem(Modifier modifier) {
         this.scoreMultiplier = modifier.getScoreMultiplier();
-        this.timeHeadstart = modifier.getTimeHeadstart();
-        this.amountOfAlternatives = modifier.getAmountOfAlternatives();
-        this.autoAnswer = modifier.isAutoAnswer();
+        this.timeHeadstart = modifier.getAmountOfTime();
+        //this.amountOfAlternatives = modifier.getAmountOfAlternatives();
+        //this.autoAnswer = modifier.isAutoAnswer();
     }
 
     public String getName() {

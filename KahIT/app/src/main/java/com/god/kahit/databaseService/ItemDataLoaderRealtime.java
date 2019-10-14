@@ -87,7 +87,7 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
             int scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).intValue();
             int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
             int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
-            return new Modifier(price, name, scoreMultiplier, timeHeadstart, amountOfAlternatives);
+            return new Modifier(price, name, scoreMultiplier, timeHeadstart);
         }
         return new VanityItem(price, name);
     }
