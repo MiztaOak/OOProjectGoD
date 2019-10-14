@@ -86,7 +86,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
         }
 
         //Set a less saturated tint of team color to player row
-        int teamColorRGB = getLessSaturatedColor(teamColors.get(Integer.valueOf(team.getId())));
+        int teamColorRGB = getLessSaturatedColor(teamColors.get(Integer.valueOf(team.getId())-1));
         holder.headerConstraintLayout.setBackgroundTintList(ColorStateList.valueOf(teamColorRGB));
 
         //Set player name, if local player also add additional string

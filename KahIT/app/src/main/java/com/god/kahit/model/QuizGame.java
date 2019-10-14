@@ -340,7 +340,7 @@ public class QuizGame {
     public void createNewTeam(int teamNumber) {
         List<Player> players = new ArrayList<>();
         String teamName = "Team " + (teamNumber + 1);
-        String id = Integer.toString(teamNumber);
+        String id = Integer.toString(teamNumber+1);
         Team team = new Team(players, teamName, id);
         teamList.add(teamNumber, team);
     }

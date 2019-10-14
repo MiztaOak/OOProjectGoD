@@ -198,13 +198,13 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     private void handleChangeTeam(int teamIndex) {
         Log.d(LOG_TAG, "handleChangeTeam: Triggered!");
         changeTeamSpinner.setBackgroundColor(teamColors.get(teamIndex));
-        lobbyNetViewModel.requestTeamChange(Integer.toString(teamIndex));
+        lobbyNetViewModel.requestTeamChange(Integer.toString(teamIndex + 1));
     }
 
     private void doSilentSpinnerUpdate(int teamIdInt) {
         changeTeamSpinner.setOnItemSelectedListener(null);
-        changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt));
-        changeTeamSpinner.setSelection(teamIdInt, false);
+        changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt - 1));
+        changeTeamSpinner.setSelection(teamIdInt - 1, false);
         changeTeamSpinner.setOnItemSelectedListener(this);
     }
 
