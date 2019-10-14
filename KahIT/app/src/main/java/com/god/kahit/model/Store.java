@@ -11,8 +11,15 @@ public class Store { //todo implement a method to restock store?
         this.player= new Player("Anas", String.valueOf(500));
     }
 
-    public void buy(Item item) { //todo pass along a player parameter
-        player.setHeldItem((Modifier) item);
+    public void buy(Item item, Player player) { //todo pass along a player parameter
+        if (item instanceof Buff) {
+            player.setBuff((Buff) item);
+        }else if(item instanceof Debuff){
+            player.setDebuff((Debuff) item);
+        } else {
+            player.setModifier((Modifier) item);
+            //player.setVanityItem((VanityItem) item);
+        }
     } //todo It is store's responsibility to check if current user has enough points (money)
 
     public Player getPlayer() {

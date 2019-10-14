@@ -15,7 +15,7 @@ public class StoreViewModel extends ViewModel {
     }
     public void buy(int i) {
         storeModel.getPlayer().setScore((storeModel.getPlayer().getScore() - (storeModel.getStoreItems().get(i).getPrice())));
-        storeModel.buy(storeModel.getStoreItems().get(i));
+        storeModel.buy(storeModel.getStoreItems().get(i), storeModel.getPlayer());
     }
 
     public List<Item> getStoreItems() {
