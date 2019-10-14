@@ -3,7 +3,7 @@ package com.god.kahit.networkManager.Packets;
 import java.util.Arrays;
 
 public class EventLobbyReadyChangePacket extends Packet {
-    public static final int PACKET_ID = 5;
+    public static final int PACKET_ID = 6;
 
     public EventLobbyReadyChangePacket(String targetPlayerId, boolean newState) {
         super(PACKET_ID, null);

@@ -19,25 +19,23 @@ public class ChooseGameView extends AppCompatActivity {
         setContentView(R.layout.choose_game_activity);
     }
 
-    public void launchHostCreateRoomClass(View view) {
-        Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, HostCreateRoomView.class);
-        startActivity(intent);
-    }
-
     public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
 
+    public void launchHostCreateRoomClass(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, CreateLobbyNetView.class);
+        startActivity(intent);
     }
 
     public void launchJoinRoomClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, JoinRoomView.class);
+        Intent intent = new Intent(this, JoinLobbyNetView.class);
         startActivity(intent);
-
     }
 
     public void launchHotSwapGameModeClass(View view) {
@@ -46,10 +44,15 @@ public class ChooseGameView extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void launchSidenavTest(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, StoreView.class);
+        startActivity(intent);
+    }
+
+    public void launchLotteryTest(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, LotteryView.class);
         startActivity(intent);
     }
 }
