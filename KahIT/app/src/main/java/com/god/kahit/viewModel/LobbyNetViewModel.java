@@ -213,6 +213,11 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         repository.requestChangeMyTeam(teamId, isHost);
     }
 
+    public void requestSetReady(boolean isReady) {
+        Log.d(TAG, "requestSetReady: Triggered");
+        repository.requestSetReady(isReady);
+    }
+
     public boolean areAllPlayersReady() {
         boolean allAreReady = true;
         if (playerListForView.getValue() != null && playerListForView.getValue().size() > 0) {

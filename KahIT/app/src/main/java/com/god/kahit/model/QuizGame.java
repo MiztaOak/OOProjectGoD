@@ -249,7 +249,7 @@ public class QuizGame {
         return null;
     }
 
-    public void addNewPlayerToTeam(String playerName, String playerId, String teamId) {
+    public void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {
         Team team = getTeam(teamId);
         if (team == null) {
             createNewTeam(teamId);
@@ -258,6 +258,7 @@ public class QuizGame {
         team = getTeam(teamId);
         if (team != null && playerList.size() < MAX_ALLOWED_PLAYERS) {
             Player player = createNewPlayer(playerName, playerId);
+            player.setPlayerReady(readyStatus);
             playerList.add(player);
             team.addPlayer(player);
             fireTeamChangeEvent();
@@ -340,7 +341,7 @@ public class QuizGame {
     public void createNewTeam(int teamNumber) {
         List<Player> players = new ArrayList<>();
         String teamName = "Team " + (teamNumber + 1);
-        String id = Integer.toString(teamNumber+1);
+        String id = Integer.toString(teamNumber + 1);
         Team team = new Team(players, teamName, id);
         teamList.add(teamNumber, team);
     }

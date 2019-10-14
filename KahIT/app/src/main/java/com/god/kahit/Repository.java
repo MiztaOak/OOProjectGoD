@@ -126,6 +126,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     //todo send all sync messages
                     packetHandler.broadcastPlayerJoined(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).getName());
                     packetHandler.broadcastPlayerChangeTeam(quizGame.getHostPlayerId(), quizGame.getPlayerTeam(quizGame.getHostPlayerId()).getId());
+                    packetHandler.broadcastLobbyReadyChange(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).isPlayerReady());
 
                     packetHandler.broadcastLobbySyncEndPacket();
 
@@ -141,7 +142,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onLobbyReadyChangeRequest(@NonNull String targetPlayerId, @NonNull boolean newState) {
                     Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: event triggered. callback from: '%s', new state: '%s'", targetPlayerId, String.valueOf(newState)));
-                    packetHandler.broadcastLobbyReadyChange(targetPlayerId, newState);  //todo only pass to quizGame, let it trigger a broadcast
+                    Player targetPlayer = quizGame.getPlayer(targetPlayerId);
+                    if (targetPlayer != null) {
+                        targetPlayer.setPlayerReady(newState);
+                        fireTeamChangeEvent();
+                        packetHandler.broadcastLobbyReadyChange(targetPlayerId, newState);  //todo only pass to quizGame, let it trigger a broadcast
+                    } else {
+                        Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: targetPlayer was not found. targetPlayerId: '%s', new state: '%s' - ignoring request", targetPlayerId, newState));
+                    }
                 }
 
                 @Override
@@ -364,7 +372,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {
-        quizGame.addNewPlayerToTeam(playerName, playerId, teamId);
+        quizGame.addNewPlayerToTeam(playerName, playerId, readyStatus, teamId);
     }
 
     public void fireTeamChangeEvent() {
@@ -413,6 +421,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             } else {
                 Log.i(TAG, "requestChangeMyTeam: Attempt to call sendRequestTeamChange with null packetHandler, skipping call");
             }
+        }
+    }
+
+    public void requestSetReady(boolean isReady) {
+        if (packetHandler != null) {
+            packetHandler.sendRequestReadyStatus(isReady);
+        } else {
+            Log.i(TAG, "requestSetReady: Attempt to call sendRequestReadyStatus with null packetHandler, skipping call");
         }
     }
 
