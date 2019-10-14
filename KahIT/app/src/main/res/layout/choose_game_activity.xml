@@ -119,13 +119,12 @@
                         android:text="sidenav store" />
 
                     <Button
-                        android:id="@+id/hsGmWaitWhatButton"
                         android:layout_width="150dp"
                         android:layout_height="70dp"
                         android:backgroundTint="#00CBF8"
                         android:background="@drawable/play_button_selector"
                         android:onClick="launchHotSwapGameModeClass"
-                        android:text="hot swap"
+                        android:text="Lottery"
                         android:textSize="17sp" />
                 </LinearLayout>
 

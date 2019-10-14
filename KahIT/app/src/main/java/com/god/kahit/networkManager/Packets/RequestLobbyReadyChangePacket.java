@@ -1,7 +1,7 @@
 package com.god.kahit.networkManager.Packets;
 
 public class RequestLobbyReadyChangePacket extends Packet {
-    public static final int PACKET_ID = 4;
+    public static final int PACKET_ID = 5;
 
     public RequestLobbyReadyChangePacket(boolean newState) {
         super(PACKET_ID, null);

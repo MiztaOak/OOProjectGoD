@@ -28,4 +28,22 @@ public class MainActivityView extends AppCompatActivity {
         Intent intent = new Intent(this, ChooseGameView.class);
         startActivity(intent);
     }
+    public void launchSettingsView(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+//        Intent intent = new Intent(this, ChooseGameClass.class);
+        Intent intent = new Intent(this, SettingsView.class);
+        startActivity(intent);
+    }
+    public void launchPreGameCountdownView(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+//        Intent intent = new Intent(this, ChooseGameClass.class);
+        Intent intent = new Intent(this, PreGameCountdownView.class);
+        startActivity(intent);
+    }
+    public void launchAboutKahitView(View view) {
+        Log.d(LOG_TAG, "Button clicked!");
+//        Intent intent = new Intent(this, ChooseGameClass.class);
+        Intent intent = new Intent(this, AboutKahitView.class);
+        startActivity(intent);
+    }
 }

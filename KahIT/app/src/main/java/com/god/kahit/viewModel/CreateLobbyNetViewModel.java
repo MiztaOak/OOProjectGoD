@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-public class HostCreateRoomViewModel extends ViewModel implements LifecycleObserver {
+public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObserver {
 
-    private static final String TAG = HostCreateRoomViewModel.class.getSimpleName();
+    private static final String TAG = CreateLobbyNetViewModel.class.getSimpleName();
 
     MutableLiveData<List<String>> listForView;
-    public HostCreateRoomViewModel() {
+    public CreateLobbyNetViewModel() {
     }
 
     public MutableLiveData<List<String>> getListForView() {
