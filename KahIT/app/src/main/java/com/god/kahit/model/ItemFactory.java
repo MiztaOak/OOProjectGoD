@@ -18,13 +18,9 @@ public class ItemFactory {
      */
 
     static public List<Item> createStoreItems(int size) {
-        List<Item> loadedItems = dataLoader.getItems();
         ArrayList<Item> itemList = new ArrayList<>();
-        Random r = new Random();
-        for (int i = 0; i < size; i++) {
-            int index = r.nextInt(loadedItems.size());
-            itemList.add(loadedItems.get(index));
-        }
+        itemList.addAll(createBuffs());
+        itemList.addAll(createDeBuffs());
         return itemList;
     }
 
@@ -35,5 +31,32 @@ public class ItemFactory {
 
     public static void setDataLoader(IItemDataLoader dataLoader) {
         ItemFactory.dataLoader = dataLoader;
+    }
+
+    static private List<Item> createBuffs(){
+        List<Item> loadedItems = dataLoader.getItems();
+        ArrayList<Item> buffsList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            buffsList.add(loadedItems.get(i));
+        }
+        return buffsList;
+    }
+
+    static private List<Item> createDeBuffs(){
+        List<Item> loadedItems = dataLoader.getItems();
+        ArrayList<Item> buffsList = new ArrayList<>();
+        for (int i = 3; i < 6; i++) {
+            buffsList.add(loadedItems.get(i));
+        }
+        return buffsList;
+    }
+
+    static private List<Item> createVanityItems(){
+        List<Item> loadedItems = dataLoader.getItems();
+        ArrayList<Item> buffsList = new ArrayList<>();
+        for (int i = 6; i < 9; i++) {
+            buffsList.add(loadedItems.get(i));
+        }
+        return buffsList;
     }
 }

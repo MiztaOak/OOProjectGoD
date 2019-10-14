@@ -208,7 +208,7 @@
       }
     }
   },
-  "items" : {
+  "buffs" : {
     "i0" : {
       "price" : 150,
       "type" : "Buff",
@@ -235,7 +235,9 @@
       "scoreMultiplier" : 1,
       "timeHeadstart" : 0,
       "amountOfAlternatives" : 2
-    },
+    }
+  }, 
+  "debuffs" : {
     "i3" : {
       "price" : 100,
       "type" : "Debuff",
@@ -260,6 +262,35 @@
       "name" : "Let the robot do it",
       "img_name" : "binoculars",
       "scoreMultiplier" : 1,
+      "timeHeadstart" : 0,
+      "amountOfAlternatives" : 0
+    }
+  },
+  "vanityItems" :{
+    "i6" : {
+      "price" : 150,
+      "type" : "Cosmetic",
+      "name" : "Number One",
+      "img_name" : "glove",
+      "scoreMultiplier" : 0,
+      "timeHeadstart" : 0,
+      "amountOfAlternatives" : 0
+    },
+    "i7" : {
+      "price" : 150,
+      "type" : "Cosmetic",
+      "name" : "Smart",
+      "img_name" : "knowladge",
+      "scoreMultiplier" : 0,
+      "timeHeadstart" : 0,
+      "amountOfAlternatives" : 0
+    },
+    "i8" : {
+      "price" : 150,
+      "type" : "Cosmetic",
+      "name" : "Strong",
+      "img_name" : "strong",
+      "scoreMultiplier" : 0,
       "timeHeadstart" : 0,
       "amountOfAlternatives" : 0
     }
