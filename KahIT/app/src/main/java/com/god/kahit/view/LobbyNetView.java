@@ -217,7 +217,9 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     private void onStartGameButtonAction() {
         if (lobbyNetViewModel.isHost()) {
-            Log.d(LOG_TAG, "onStartGameButtonAction: start game action called - not implemented yet!");
+            Log.d(LOG_TAG, "onStartGameButtonAction: start game action called - not implemented yet! Simply showing next activity"); //todo actually implement real game-start
+            Intent intent = new Intent(this, QuestionClass.class);
+            startActivity(intent);
         } else {
             if (startGameButton.getText().equals("Ready")) {
                 Log.d(LOG_TAG, "onStartGameButtonAction: player ready action called");
