@@ -46,7 +46,7 @@ public class ChooseGameView extends AppCompatActivity {
 
     public void launchSidenavTest(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, StoreView.class);
+        Intent intent = new Intent(this, QuestionView.class);
         startActivity(intent);
     }
 
