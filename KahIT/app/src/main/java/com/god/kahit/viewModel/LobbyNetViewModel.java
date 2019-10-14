@@ -220,7 +220,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
 
     public boolean areAllPlayersReady() {
         boolean allAreReady = true;
-        if (playerListForView.getValue() != null && playerListForView.getValue().size() > 0) {
+        if (playerListForView.getValue() != null && playerListForView.getValue().size() > 0) { //todo set minimum size to 1, to disable solo-game
             for (Pair<Player, Connection> playerConnectionPair : playerListForView.getValue()) {
                 if (!playerConnectionPair.first.isPlayerReady()) {
                     allAreReady = false;
