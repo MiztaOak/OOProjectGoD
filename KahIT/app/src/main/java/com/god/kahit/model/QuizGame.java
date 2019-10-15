@@ -42,7 +42,6 @@ public class QuizGame {
         listeners = new ArrayList<>();
         addNewPlayerToEmptyTeam("Player 1", "1");
         currentPlayer = teamList.get(0).getTeamMembers().get(0);
-        playerList.add(currentPlayer);
 
         //store = new Store();
         //lottery = new Lottery();

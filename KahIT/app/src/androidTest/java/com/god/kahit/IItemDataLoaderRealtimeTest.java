@@ -19,7 +19,7 @@ public class IItemDataLoaderRealtimeTest {
     public void setup(){
         dataLoaderRealtime = new ItemDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getContext());
         try {
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
