@@ -1,5 +1,7 @@
 package com.god.kahit;
 
+import android.os.Looper;
+
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
@@ -17,7 +19,13 @@ public class QuestionDataLoaderRealtimeTest {
     private QuestionDataLoaderRealtime dataLoaderRealtime;
     @Before
     public void setup(){
-        dataLoaderRealtime = new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getContext());
+
+        try {
+            dataLoaderRealtime = new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        }catch (Exception e){
+            Looper.prepare();
+            dataLoaderRealtime = new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        }
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
