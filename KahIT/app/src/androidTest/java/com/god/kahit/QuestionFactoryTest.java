@@ -33,32 +33,27 @@ public class QuestionFactoryTest {
     public void testQuestionDataLoader() {
         Map<Category, List<Question>> qMap;
         Category[] categories = {Category.Test};
-//        Assert.assertEquals(QuestionFactory.getQuestionMap(categories), null);
         qMap = QuestionFactory.getQuestionMap(categories);
-        for (int i = 0; i < categories.length; i++) {
-            List<Question> list = qMap.get(categories[i]);
-            Assert.assertNotEquals(list.size(), 0);
-            if (categories[i] == Category.Test) {
-                Assert.assertEquals(list.size(), 5);
-                Assert.assertEquals(list.get(0).getQuestion(), "Hur många ostar har Johan hemma?");
-                Assert.assertEquals(list.get(1).getQuestion(), "Test");
-                Assert.assertEquals(list.get(1).getAnswer(), "Test1");
-                Boolean[] tests = {false, false, false, false};
-                for (String alt : list.get(1).getAlternatives()) {
-                    if (alt.equals("Test1")) {
-                        tests[0] = true;
-                    } else if (alt.equals("Test2")) {
-                        tests[1] = true;
-                    } else if (alt.equals("Test3")) {
-                        tests[2] = true;
-                    } else if (alt.equals("Test4")) {
-                        tests[3] = true;
-                    }
-                }
-                for (Boolean t : tests) {
-                    Assert.assertTrue(t);
-                }
+        List<Question> list = qMap.get(Category.Test);
+        Assert.assertNotEquals(list.size(), 0);
+        Assert.assertEquals(list.size(), 5);
+        Assert.assertEquals(list.get(0).getQuestion(), "Hur många ostar har Johan hemma?");
+        Assert.assertEquals(list.get(1).getQuestion(), "Test");
+        Assert.assertEquals(list.get(1).getAnswer(), "Test1");
+        Boolean[] tests = {false, false, false, false};
+        for (String alt : list.get(1).getAlternatives()) {
+            if (alt.equals("Test1")) {
+                tests[0] = true;
+            } else if (alt.equals("Test2")) {
+                tests[1] = true;
+            } else if (alt.equals("Test3")) {
+                tests[2] = true;
+            } else if (alt.equals("Test4")) {
+                tests[3] = true;
             }
+        }
+        for (Boolean t : tests) {
+            Assert.assertTrue(t);
         }
     }
 
