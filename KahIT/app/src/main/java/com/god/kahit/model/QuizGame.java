@@ -24,8 +24,10 @@ public class QuizGame {
     private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
 
+    //TODO maybe move into constructor
     private String hostPlayerId = "iHost";
-    private Boolean gameIsStarted = false; //TODO maybe move into constructor
+    private Boolean gameIsStarted = false;
+    private String lobbyName = "My lobby";
 
     private List<QuizListener> listeners;
     /**
@@ -182,8 +184,8 @@ public class QuizGame {
      */
     public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            double scoreDelta = ((double)scorePerQuestion) * (((double) timeLeft) / ((double)question.getTime()));
-            currentPlayer.updateScore((int)scoreDelta);
+            double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
+            currentPlayer.updateScore((int) scoreDelta);
             //TODO if hotswap change currentPlayer
         }
     }
@@ -618,13 +620,13 @@ public class QuizGame {
      *
      * @param winnings a map with winnings.
      */
-    private void applyModifiers (Map<Player, Item> winnings) {
+    private void applyModifiers(Map<Player, Item> winnings) {
         for (Player player : getPlayers()) {
             if (winnings.get(player) instanceof Buff) {
                 player.setBuff((Buff) Objects.requireNonNull(winnings.get(player)));
-            } else if(winnings.get(player) instanceof Debuff) {
+            } else if (winnings.get(player) instanceof Debuff) {
                 player.setDebuff((Debuff) Objects.requireNonNull(winnings.get(player)));
-            }else {
+            } else {
                 player.setVanityItem((VanityItem) Objects.requireNonNull(winnings.get(player)));
             }
         }
@@ -640,7 +642,7 @@ public class QuizGame {
     public void applyModifier(Player player, Item item) {
         if (item instanceof Buff) {
             player.setBuff((Buff) item);
-        }else if(item instanceof Debuff){
+        } else if (item instanceof Debuff) {
             player.setDebuff((Debuff) item);
         } else {
             player.setVanityItem((VanityItem) item);
@@ -663,5 +665,13 @@ public class QuizGame {
 
     public void setHostPlayerId(String hostPlayerId) {
         this.hostPlayerId = hostPlayerId;
+    }
+
+    public String getLobbyName() {
+        return lobbyName;
+    }
+
+    public void setLobbyName(String lobbyName) {
+        this.lobbyName = lobbyName;
     }
 }
