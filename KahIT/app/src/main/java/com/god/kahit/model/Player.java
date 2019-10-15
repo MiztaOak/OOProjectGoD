@@ -37,8 +37,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         amountOfTime = debuff.getAmountOfTime() + amountOfTime;
         autoAnswer= debuff.getAutoAnswer();
     }
-    //TODO remove when done implemnting buffs and debuffs.
-    public void setModifier(Modifier modifier){}
+
     /**
      * A method that clears the effect of a Modifier after  it has been used
      */

@@ -32,6 +32,7 @@ public class QuizGame {
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
     private Player currentPlayer; //TODO add method that moves current user through the list of users
+
     private Store store;
     private Lottery lottery;
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
@@ -42,9 +43,7 @@ public class QuizGame {
         listeners = new ArrayList<>();
         addNewPlayerToEmptyTeam("Player 1", "1");
         currentPlayer = teamList.get(0).getTeamMembers().get(0);
-
-        //store = new Store();
-        //lottery = new Lottery();
+        store = new Store();
     }
 
     public void startGame() {
@@ -663,5 +662,9 @@ public class QuizGame {
 
     public void setHostPlayerId(String hostPlayerId) {
         this.hostPlayerId = hostPlayerId;
+    }
+
+    public Store getStore() {
+        return store;
     }
 }
