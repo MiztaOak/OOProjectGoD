@@ -14,6 +14,8 @@ import com.god.kahit.networkManager.Connection;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.lifecycle.Lifecycle;
@@ -171,7 +173,21 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
                 Log.d(TAG, String.format("filterPopulatedTeams: removed unpopulated team: '%s'", team.getTeamName()));
             }
         }
+
+        sortListById(popTeams);
+
         return popTeams;
+    }
+
+    private List<Team> sortListById(List idList) {
+        Collections.sort(idList, new Comparator<Team>() {
+            @Override
+            public int compare(Team o1, Team o2) {
+                return o1.getId().compareTo(o2.getId());
+            }
+        });
+
+        return idList;
     }
 
     public void setupNewLobbySession(Context context) {

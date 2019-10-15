@@ -72,7 +72,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             @Override
             public void onChanged(@Nullable List<Pair<Player, Connection>> integerStringMap) {
                 recyclerAdapter.notifyDataSetChanged();
-                updateTextAndButtonViews();
+                updateViewContent();
             }
         });
 
@@ -80,7 +80,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             @Override
             public void onChanged(@Nullable List<Team> teams) {
                 recyclerAdapter.notifyDataSetChanged();
-                updateTextAndButtonViews();
+                updateViewContent();
             }
         });
 
@@ -88,7 +88,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             @Override
             public void onChanged(String s) {
                 recyclerAdapter.notifyDataSetChanged();
-                updateTextAndButtonViews();
+                updateViewContent();
             }
         });
 
@@ -96,7 +96,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         setupRecyclerView();
         setupSpinner();
 
-        updateTextAndButtonViews();
+        updateViewContent();
         lobbyNetViewModel.resetPlayerData();
         lobbyNetViewModel.setupNewLobbySession(getApplicationContext());
 
@@ -132,7 +132,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         });
     }
 
-    private void updateTextAndButtonViews() {
+    private void updateViewContent() {
         sessionTypeTextView.setText(String.format("%s - id: '%s'", lobbyNetViewModel.isHost() ? "Host" : "Client", myPlayerId.getValue()));
 
         gameModeTextView.setText(String.format("Game mode: %s", "Epic")); //todo use actual current gamemode
@@ -143,19 +143,30 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         }
         nmbPlayersTextView.setText(String.format("Players: %s/%s", nmbPlayers, "8")); //todo get max players from quizGame
 
-        String buttonText;
-        if (lobbyNetViewModel.isHost()) {
-            buttonText = "Start game";
-        } else {
+        String readyButtonText;
+        if(lobbyNetViewModel.isHost()) {
+            readyButtonText = "Start game";
+        }else {
             Pair<Player, Connection> myPlayerConnectionPair = lobbyNetViewModel.getMe();
-            if (myPlayerConnectionPair != null && myPlayerConnectionPair.first.isPlayerReady()) {
-                buttonText = "Unready";
-            } else {
-                buttonText = "Ready";
+            Team myTeam = lobbyNetViewModel.getMyTeam();
+
+            if(myPlayerConnectionPair == null || myTeam == null) {
+                readyButtonText = "Ready";
+                changeTeamSpinner.setEnabled(true);
+            }else {
+                if(myPlayerConnectionPair.first.isPlayerReady()) {
+                    readyButtonText = "Unready";
+                    changeTeamSpinner.setBackgroundColor(0xAAAAAAAA);
+                    changeTeamSpinner.setEnabled(false);
+                }else {
+                    readyButtonText = "Ready";
+                    changeTeamSpinner.setBackgroundColor(teamColors.get(Integer.valueOf(myTeam.getId()) - 1));
+                    changeTeamSpinner.setEnabled(true);
+                }
             }
         }
 
-        startGameButton.setText(buttonText);
+        startGameButton.setText(readyButtonText);
         if (lobbyNetViewModel.isHost()) {
             startGameButton.setEnabled(lobbyNetViewModel.areAllPlayersReady());
         }
@@ -210,9 +221,9 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     private void doSilentSpinnerUpdate(int teamIdInt) {
         changeTeamSpinner.setOnItemSelectedListener(null);
-        changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt - 1));
         changeTeamSpinner.setSelection(teamIdInt - 1, false);
         changeTeamSpinner.setOnItemSelectedListener(this);
+        updateViewContent();
     }
 
     private void onStartGameButtonAction() {
