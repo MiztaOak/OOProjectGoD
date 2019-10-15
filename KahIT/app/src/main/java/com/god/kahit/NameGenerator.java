@@ -7,27 +7,19 @@ import java.util.Random;
  */
 public final class NameGenerator {
     private static final String[] COLORS =
-            new String[]{
+            new String[]{ //Max 5 chars
                     "Red",
-//                    "Orange",
-//                    "Yellow",
                     "Green",
                     "Blue",
-//                    "Indigo",
-//                    "Violet",
-//                    "Purple",
                     "Plum",
-//                    "Orchid",
-//                    "Magenta",
                     "Grey",
                     "White",
             };
 
     private static final String[] TREATS =
-            new String[]{
+            new String[]{ //Max 6 chars
                     "Alpha",
                     "Beta",
-                    "Cupcake",
                     "Donut",
                     "Eclair",
                     "Froyo",
@@ -35,15 +27,13 @@ public final class NameGenerator {
                     "Honey",
                     "Ice",
                     "Jelly",
-                    "Kit Kat",
-                    "Lollipop",
                     "Nougat",
                     "Oreo",
                     "Pie"
             };
 
     private static final String[] SPICE =
-            new String[]{
+            new String[]{ //Max 6 chars
                     "Ganja",
                     "Billie",
                     "Kikki",
@@ -58,9 +48,6 @@ public final class NameGenerator {
     private NameGenerator() {
     }
 
-    /**
-     * Generate a random Android agent codename
-     */
     public static String generatePlayerName() {
         String spice = SPICE[generator.nextInt(SPICE.length)];
         String color = COLORS[generator.nextInt(COLORS.length)];
