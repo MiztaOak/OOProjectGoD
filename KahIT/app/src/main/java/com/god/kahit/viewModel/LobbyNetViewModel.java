@@ -1,9 +1,9 @@
 package com.god.kahit.viewModel;
 
-import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import com.god.kahit.Events.LobbyNameChangeEvent;
 import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.Repository;
@@ -32,6 +32,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private MutableLiveData<List<Pair<Player, Connection>>> playerListForView;
     private MutableLiveData<List<Team>> teamListForView;
     private MutableLiveData<String> myPlayerId;
+    private MutableLiveData<String> lobbyName;
     private boolean isHost;
     private boolean hasStartedGame;
 
@@ -80,6 +81,16 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         return myPlayerId;
     }
 
+    public MutableLiveData<String> getLobbyName() {
+        if (lobbyName == null) {
+            lobbyName = new MutableLiveData<>();
+            if (isHost) {
+                lobbyName.setValue(repository.getRoomName());
+            }
+        }
+        return lobbyName;
+    }
+
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
         List<Team> teams = event.getTeams();
@@ -93,6 +104,12 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     public void onMyPlayerIdChangedEvent(MyPlayerIdChangedEvent event) {
         Log.d(TAG, String.format("onMyPlayerIdChangedEvent: event triggered, new id: '%s'", event.getNewPlayerId()));
         myPlayerId.setValue(event.getNewPlayerId());
+    }
+
+    @Subscribe
+    public void onLobbyNameChangeEvent(LobbyNameChangeEvent event) {
+        Log.d(TAG, String.format("onLobbyNameChangeEvent: event triggered, new name: '%s'", event.getLobbyName()));
+        lobbyName.setValue(event.getLobbyName());
     }
 
     public void restoreNetInCommunication() {
@@ -190,14 +207,8 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         return idList;
     }
 
-    public void setupNewLobbySession(Context context) {
-        if (isHost) {
-            repository.createNewHostPlayer();
-        }
-        repository.setupNetwork(context, isHost);
-        if (isHost) {
-            repository.startHostBeacon();
-        }
+    public void startHostBeacon() {
+        repository.startHostBeacon();
     }
 
     public void stopHostBeacon() {
@@ -232,6 +243,11 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     public void requestSetReady(boolean isReady) {
         Log.d(TAG, "requestSetReady: Triggered");
         repository.requestSetReady(isReady);
+    }
+
+    public void fireTeamChangeEvent() {
+        Log.d(TAG, "fireTeamChangeEvent: Triggered");
+        repository.fireTeamChangeEvent();
     }
 
     public boolean areAllPlayersReady() {

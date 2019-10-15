@@ -27,7 +27,6 @@ public class QuizGame {
     //TODO maybe move into constructor
     private String hostPlayerId = "iHost";
     private Boolean gameIsStarted = false;
-    private String lobbyName = "My lobby";
 
     private List<QuizListener> listeners;
     /**
@@ -665,13 +664,5 @@ public class QuizGame {
 
     public void setHostPlayerId(String hostPlayerId) {
         this.hostPlayerId = hostPlayerId;
-    }
-
-    public String getLobbyName() {
-        return lobbyName;
-    }
-
-    public void setLobbyName(String lobbyName) {
-        this.lobbyName = lobbyName;
     }
 }

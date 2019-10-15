@@ -39,7 +39,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     private Spinner changeTeamSpinner;
     private RecyclerView recyclerView;
     private TextView sessionTypeTextView;
-    private TextView roomNameTextView;
+    private TextView lobbyNameTextView;
     private TextView gameModeTextView;
     private TextView nmbPlayersTextView;
     private Button startGameButton;
@@ -51,6 +51,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     private MutableLiveData<List<Pair<Player, Connection>>> playerList;
     private MutableLiveData<List<Team>> teamList;
     private MutableLiveData<String> myPlayerId;
+    private MutableLiveData<String> lobbyName;
     private List<Integer> teamColors;
     private List<String> teamNumbers;
 
@@ -67,6 +68,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         playerList = lobbyNetViewModel.getPlayerListForView();
         teamList = lobbyNetViewModel.getTeamListForView();
         myPlayerId = lobbyNetViewModel.getMyPlayerId();
+        lobbyName = lobbyNetViewModel.getLobbyName();
 
         playerList.observe(this, new Observer<List<Pair<Player, Connection>>>() { //todo remove?
             @Override
@@ -92,17 +94,27 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             }
         });
 
+        lobbyName.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                updateViewContent();
+            }
+        });
+
+
         setupTextAndButtonViews();
         setupRecyclerView();
         setupSpinner();
 
         updateViewContent();
-        lobbyNetViewModel.resetPlayerData();
-        lobbyNetViewModel.setupNewLobbySession(getApplicationContext());
 
         BUS.register(this);
 
-        if (!lobbyNetViewModel.isHost()) { //Restore net in communication as all logic is setup
+        if (lobbyNetViewModel.isHost()) {
+            lobbyNetViewModel.fireTeamChangeEvent(); //Update list with host player
+            lobbyNetViewModel.startHostBeacon();
+        } else {
+            //Restore net in communication as all logic is setup
             lobbyNetViewModel.restoreNetInCommunication();
         }
     }
@@ -119,7 +131,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     private void setupTextAndButtonViews() {
         sessionTypeTextView = findViewById(R.id.lobbyNet_SessionType_textView);
-        roomNameTextView = findViewById(R.id.lobbyNetRoomName_textView);
+        lobbyNameTextView = findViewById(R.id.lobbyNetRoomName_textView);
         gameModeTextView = findViewById(R.id.lobbyNet_GameMode_textView);
         nmbPlayersTextView = findViewById(R.id.lobbyNet_nmb_players_textView);
         startGameButton = findViewById(R.id.lobbyNetStartButton);
@@ -135,6 +147,12 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     private void updateViewContent() {
         sessionTypeTextView.setText(String.format("%s - id: '%s'", lobbyNetViewModel.isHost() ? "Host" : "Client", myPlayerId.getValue()));
 
+        if (lobbyName.getValue() != null) {
+            lobbyNameTextView.setText(lobbyName.getValue());
+        } else {
+            lobbyNameTextView.setText("Default name");
+        }
+
         gameModeTextView.setText(String.format("Game mode: %s", "Epic")); //todo use actual current gamemode
 
         int nmbPlayers = 0;
@@ -144,21 +162,21 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         nmbPlayersTextView.setText(String.format("Players: %s/%s", nmbPlayers, "8")); //todo get max players from quizGame
 
         String readyButtonText;
-        if(lobbyNetViewModel.isHost()) {
+        if (lobbyNetViewModel.isHost()) {
             readyButtonText = "Start game";
-        }else {
+        } else {
             Pair<Player, Connection> myPlayerConnectionPair = lobbyNetViewModel.getMe();
             Team myTeam = lobbyNetViewModel.getMyTeam();
 
-            if(myPlayerConnectionPair == null || myTeam == null) {
+            if (myPlayerConnectionPair == null || myTeam == null) {
                 readyButtonText = "Ready";
                 changeTeamSpinner.setEnabled(true);
-            }else {
-                if(myPlayerConnectionPair.first.isPlayerReady()) {
+            } else {
+                if (myPlayerConnectionPair.first.isPlayerReady()) {
                     readyButtonText = "Unready";
                     changeTeamSpinner.setBackgroundColor(0xAAAAAAAA);
                     changeTeamSpinner.setEnabled(false);
-                }else {
+                } else {
                     readyButtonText = "Ready";
                     changeTeamSpinner.setBackgroundColor(teamColors.get(Integer.valueOf(myTeam.getId()) - 1));
                     changeTeamSpinner.setEnabled(true);

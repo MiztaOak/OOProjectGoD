@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:ignore="MissingDefaultResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +24,7 @@
             android:background="@drawable/light_border_rect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6">
+            app:layout_constraintTop_toBottomOf="@+id/createLobbyNet_textView_myProfile">
 
             <ImageButton
                 android:id="@+id/createLobbyNet_imageButton_picture"
@@ -52,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
-                    android:inputType="none"
+                    android:inputType="textNoSuggestions|text|textCapSentences"
                     android:maxLength="12"
                     android:maxLines="1"
                     android:selectAllOnFocus="true"
@@ -73,7 +75,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -90,7 +92,7 @@
             android:background="@drawable/light_border_rect"
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
             app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/textView3">
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/createLobbyNet_textInputLayout_roomName"
@@ -106,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
-                    android:inputType="none"
+                    android:inputType="textNoSuggestions|text|textCapSentences"
                     android:maxLength="12"
                     android:maxLines="1"
                     android:selectAllOnFocus="true"
@@ -178,7 +180,7 @@
             app:srcCompat="@drawable/kahit" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/createLobbyNet_textView_myProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My Profile"

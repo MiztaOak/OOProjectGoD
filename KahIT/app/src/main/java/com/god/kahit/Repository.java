@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.LobbyNameChangeEvent;
 import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.RoomChangeEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
@@ -53,7 +54,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return instance;
     }
 
-    public void setupNetwork(Context context, final boolean isHost) {
+    public void setupNetwork(Context context, final boolean isHost) { //Marking a parameter as final prohibits the reassignment of the parameter within the code block of the method
         networkManager = NetworkModule.getInstance(context, new NetworkCallback() {
             @Override
             public void onBytePayloadReceived(@NonNull String id, @NonNull byte[] receivedBytes) {
@@ -240,7 +241,9 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onLobbySyncStartEvent(@NonNull String targetPlayerId, @NonNull String roomName, @NonNull String gameModeId) {
                     Log.i(TAG, "onLobbySyncStartEvent: event triggered.");
-                    if (!networkManager.isMe(targetPlayerId)) {
+                    if (networkManager.isMe(targetPlayerId)) {
+                        BUS.post(new LobbyNameChangeEvent(networkManager.getConnectionHost().getName()));
+                    } else {
                         pauseNetInCommunication();
                     }
                 }
@@ -281,6 +284,64 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.getPlayers();
     }
 
+    public String getRoomName() {
+        if (networkManager != null) {
+            return networkManager.getPlayerName();
+        } else {
+            Log.i(TAG, "getRoomName: Attempt to call getPlayerName with null networkManager, skipping call");
+            return null;
+        }
+    }
+
+    public void setRoomName(String newRoomName) {
+        if (networkManager != null) {
+            networkManager.setPlayerName(newRoomName);
+        } else {
+            Log.i(TAG, String.format("setRoomName: Attempt to call setPlayerName with null" +
+                    " networkManager. Tried renaming it to: '%s', skipping call", newRoomName));
+        }
+    }
+
+    public String getHostPlayerName() {
+        Player hostPlayer = quizGame.getPlayer(quizGame.getHostPlayerId());
+        if (hostPlayer != null) {
+            return hostPlayer.getName();
+        } else {
+            Log.i(TAG, "getHostPlayerName: Attempt to call getName with null hostPlayer, returning null");
+            return null;
+        }
+    }
+
+    public void setHostPlayerName(String newPlayerName) {
+        Player hostPlayer = quizGame.getPlayer(quizGame.getHostPlayerId());
+
+        if (hostPlayer != null) {
+            hostPlayer.setName(newPlayerName);
+        } else {
+            Log.i(TAG, String.format("setHostPlayerName: Attempt to call setName with null" +
+                    " hostPlayer. Tried renaming it to: '%s', skipping call", newPlayerName));
+        }
+    }
+
+    public String getClientPlayerName() {
+        if (networkManager != null) {
+            return networkManager.getPlayerName();
+        } else {
+            Log.i(TAG, "getClientPlayerName: Attempt to call getPlayerName with null networkManager, returning null");
+            return null;
+        }
+    }
+
+    public void setClientPlayerName(String newPlayerName) {
+        if (networkManager != null) {
+            networkManager.setPlayerName(newPlayerName);
+        } else {
+            Log.i(TAG, String.format("setClientPlayerName: Attempt to call setPlayerName with " +
+                    "null networkManager. Tried renaming it to: '%s', " +
+                    "skipping call", newPlayerName));
+        }
+    }
+
     public boolean isRoundOver() {
         return quizGame.isRoundOver();
     }
@@ -308,7 +369,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private void handleLobbySyncProcedure(String senderId) {
         List<Player> playerList = quizGame.getPlayers();
 
-        packetHandler.broadcastLobbySyncStartPacket(senderId, "Loot Mansion", "epic"); //todo lobbySync replace with actual values
+        packetHandler.broadcastLobbySyncStartPacket(senderId, networkManager.getPlayerName(), "epic"); //todo lobbySync replace with actual values
         for (Player player : playerList) {
             //Sync players
             if (!player.getId().equals(senderId)) { //The joining player has already been notified of their
