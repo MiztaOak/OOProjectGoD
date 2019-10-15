@@ -84,7 +84,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName());
                     packetHandler.broadcastPlayerChangeTeam(connection.getId(), quizGame.getPlayerTeam(connection.getId()).getId());
                 } else {
-                    pauseNetInCommunication(); //Pause in-coming communication, letting client set up needed logic beforehand
+                    pauseNetInCommunication(); //Pause in-coming communication, letting client set up needed logic beforehand.
                     packetHandler.sendPlayerId(connection, connection.getId()); //Let host let their id
                     BUS.post(new GameJoinedLobbyEvent());
                 }
@@ -121,14 +121,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     quizGame.getPlayer(quizGame.getHostPlayerId()).setId(playerId);
                     quizGame.setHostPlayerId(playerId);
 
-                    packetHandler.broadcastLobbySyncStartPacket(senderId, "Loot Mansion", "epic"); //todo lobbySync replace with actual values
-
-                    //todo send all sync messages
-                    packetHandler.broadcastPlayerJoined(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).getName());
-                    packetHandler.broadcastPlayerChangeTeam(quizGame.getHostPlayerId(), quizGame.getPlayerTeam(quizGame.getHostPlayerId()).getId());
-                    packetHandler.broadcastLobbyReadyChange(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).isPlayerReady());
-
-                    packetHandler.broadcastLobbySyncEndPacket();
+                    handleLobbySyncProcedure(senderId);
 
                     BUS.post(new MyPlayerIdChangedEvent(playerId));
                 }
@@ -247,13 +240,15 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onLobbySyncStartEvent(@NonNull String targetPlayerId, @NonNull String roomName, @NonNull String gameModeId) {
                     Log.i(TAG, "onLobbySyncStartEvent: event triggered.");
-                    //todo implement onLobbySyncStartEvent
+                    if (!networkManager.isMe(targetPlayerId)) {
+                        pauseNetInCommunication();
+                    }
                 }
 
                 @Override
                 public void onLobbySyncEndEvent() {
                     Log.i(TAG, "onLobbySyncEndEvent: event triggered.");
-                    //todo implement onLobbySyncEndEvent
+                    clearNetInCommunicationQueue();
                 }
             });
         }
@@ -310,12 +305,53 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
-    public void pauseNetInCommunication() {
-        networkManager.setQueueIncomingPayloads(true);
+    private void handleLobbySyncProcedure(String senderId) {
+        List<Player> playerList = quizGame.getPlayers();
+
+        packetHandler.broadcastLobbySyncStartPacket(senderId, "Loot Mansion", "epic"); //todo lobbySync replace with actual values
+        for (Player player : playerList) {
+            //Sync players
+            if (!player.getId().equals(senderId)) { //The joining player has already been notified of their
+                packetHandler.broadcastPlayerJoined(player.getId(), player.getName());
+            }
+
+            //Sync player team
+            packetHandler.broadcastPlayerChangeTeam(player.getId(), quizGame.getPlayerTeam(player.getId()).getId());
+
+            //Sync player ready status
+            if (player.isPlayerReady()) {
+                packetHandler.broadcastLobbyReadyChange(player.getId(), player.isPlayerReady());
+            }
+        }
+
+        packetHandler.broadcastLobbySyncEndPacket();
+    }
+
+    private void clearNetInCommunicationQueue() {
+        if (networkManager != null) {
+            networkManager.clearPayloadQueue();
+        } else {
+            Log.i(TAG, "clearNetInCommunicationQueue: Attempt to call clearPayloadQueue with null networkManager, skipping call");
+
+        }
+    }
+
+    private void pauseNetInCommunication() {
+        if (networkManager != null) {
+            networkManager.setQueueIncomingPayloads(true);
+        } else {
+            Log.i(TAG, "pauseNetInCommunication: Attempt to call setQueueIncomingPayloads with null networkManager, skipping call");
+
+        }
     }
 
     public void restoreNetInCommunications() {
-        networkManager.processPayloadQueue();
+        if (networkManager != null) {
+            networkManager.processPayloadQueue();
+        } else {
+            Log.i(TAG, "restoreNetInCommunications: Attempt to call processPayloadQueue with null networkManager, skipping call");
+
+        }
     }
 
     public void startHostBeacon() {

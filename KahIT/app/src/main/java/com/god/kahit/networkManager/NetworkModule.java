@@ -5,6 +5,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.god.kahit.networkManager.Callbacks.NetworkCallback;
+import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
 import com.google.android.gms.nearby.connection.ConnectionInfo;
@@ -320,7 +321,9 @@ public class NetworkModule implements NetworkManager {
     }
 
     private void determineQueueOrHandle(@NonNull String s, @NonNull byte[] receivedBytes) {
-        if (isQueuingIncomingPayloads) {
+        int receivedPacketID = Integer.valueOf(Byte.toString(receivedBytes[0])); //todo figure if it can be done without dependency
+
+        if (isQueuingIncomingPayloads && receivedPacketID != EventLobbySyncEndPacket.PACKET_ID) { //todo figure if it can be done without dependency
             //Add payload data to payloadQueueList, remove oldest entry if max payload queue size has been reached
             if (payloadQueueList.size() > MAX_PAYLOAD_QUEUE_SIZE) {
                 Log.i(TAG, String.format("determineQueueOrHandle: ERROR maximum queue size reached: '%s', removing oldest payload.", MAX_PAYLOAD_QUEUE_SIZE));
@@ -336,6 +339,9 @@ public class NetworkModule implements NetworkManager {
 
     @Override
     public void processPayloadQueue() {
+        Log.i(TAG, String.format("processPayloadQueue: processing queued payloads." +
+                " Queue size: '%s'.", payloadQueueList.size()));
+
         //Pass a callback on each queued payload
         while (payloadQueueList.size() > 0) {
             Pair<String, byte[]> queuedPayload = payloadQueueList.remove(0);
@@ -345,7 +351,16 @@ public class NetworkModule implements NetworkManager {
         }
 
         //Reset do queue boolean when empty
+        isQueuingIncomingPayloads = false; //todo a tiny risk of a race condition. i.e incoming payload just after while-loop is complete
+        Log.i(TAG, "processPayloadQueue: set isQueueIncomingPayloads to false");
+    }
+
+    @Override
+    public void clearPayloadQueue() {
+        Log.i(TAG, String.format("clearPayloadQueue: cleared queued payloads. " +
+                "Number of cleared payloads: '%s'", payloadQueueList.size()));
         isQueuingIncomingPayloads = false;
+        payloadQueueList.clear();
     }
 
     private void startAdvertising() {
