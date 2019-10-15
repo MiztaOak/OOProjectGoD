@@ -1,6 +1,7 @@
 package com.god.kahit;
 
 import android.app.Instrumentation;
+import android.os.Looper;
 
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
@@ -25,7 +26,13 @@ public class QuizGameTest implements QuizListener {
 
     @Before
     public void setUp() throws InterruptedException {
-        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getContext()));
+        try{
+            QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        }catch (Exception e){
+            Looper.prepare();
+            QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        }
+
         quizGame = new QuizGame();
         TimeUnit.SECONDS.sleep(5);
     }
