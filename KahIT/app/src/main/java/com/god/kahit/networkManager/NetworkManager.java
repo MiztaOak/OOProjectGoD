@@ -18,6 +18,8 @@ public interface NetworkManager {
 
     void processPayloadQueue();
 
+    void clearPayloadQueue();
+
     boolean isScanning();
 
     boolean isHostBeaconActive();
