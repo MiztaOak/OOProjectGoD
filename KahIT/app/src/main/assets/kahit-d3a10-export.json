@@ -208,91 +208,84 @@
       }
     }
   },
-  "buffs" : {
-    "i0" : {
-      "price" : 150,
-      "type" : "Buff",
-      "name" : "Double Score",
-      "img_name" : "double_score",
-      "scoreMultiplier" : 2,
-      "timeHeadstart" : 0,
-      "amountOfAlternatives" : 0
+  "items" : {
+    "buffs" : {
+      "i0" : {
+        "price" : 150,
+        "type" : "Buff",
+        "name" : "Double Score",
+        "img_name" : "double_score",
+        "scoreMultiplier" : 2.0,
+        "timeHeadstart" : 0,
+        "amountOfAlternatives" : 0
+      },
+      "i1" : {
+        "price" : 120,
+        "type" : "Buff",
+        "name" : "Time Headstart",
+        "img_name" : "time_headstart",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : 5,
+        "amountOfAlternatives" : 0
+      },
+      "i2" : {
+        "price" : 100,
+        "type" : "Buff",
+        "name" : "Fifty Fifty",
+        "img_name" : "fifty_fifty",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : 0,
+        "amountOfAlternatives" : 2
+      }
+    }, 
+    "debuffs" : {
+      "i3" : {
+        "price" : 100,
+        "type" : "Debuff",
+        "name" : "Half Score",
+        "img_name" : "half_score",
+        "scoreMultiplier" : 0.5,
+        "timeHeadstart" : 0,
+        "autoAlt" : false
+      },
+      "i4" : {
+        "price" : 80,
+        "type" : "Debuff",
+        "name" : "Time is money",
+        "img_name" : "double_time",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : -5,
+        "autoAlt" : false
+      },
+      "i5" : {
+        "price" : 80,
+        "type" : "Debuff",
+        "name" : "Let the robot do it",
+        "img_name" : "binoculars",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : 0,
+        "autoAlt" : true
+      }
     },
-    "i1" : {
-      "price" : 120,
-      "type" : "Buff",
-      "name" : "Time Headstart",
-      "img_name" : "time_headstart",
-      "scoreMultiplier" : 1,
-      "timeHeadstart" : 5,
-      "amountOfAlternatives" : 0
-    },
-    "i2" : {
-      "price" : 100,
-      "type" : "Buff",
-      "name" : "Fifty Fifty",
-      "img_name" : "fifty_fifty",
-      "scoreMultiplier" : 1,
-      "timeHeadstart" : 0,
-      "amountOfAlternatives" : 2
-    }
-  }, 
-  "debuffs" : {
-    "i3" : {
-      "price" : 100,
-      "type" : "Debuff",
-      "name" : "Half Score",
-      "img_name" : "half_score",
-      "scoreMultiplier" : 1,
-      "timeHeadstart" : 0,
-      "amountOfAlternatives" : 0
-    },
-    "i4" : {
-      "price" : 80,
-      "type" : "Debuff",
-      "name" : "Time is money",
-      "img_name" : "double_time",
-      "scoreMultiplier" : 1,
-      "timeHeadstart" : -5,
-      "amountOfAlternatives" : 0
-    },
-    "i5" : {
-      "price" : 80,
-      "type" : "Debuff",
-      "name" : "Let the robot do it",
-      "img_name" : "binoculars",
-      "scoreMultiplier" : 1,
-      "timeHeadstart" : 0,
-      "amountOfAlternatives" : 0
-    }
-  },
-  "vanityItems" :{
-    "i6" : {
-      "price" : 150,
-      "type" : "Cosmetic",
-      "name" : "Number One",
-      "img_name" : "glove",
-      "scoreMultiplier" : 0,
-      "timeHeadstart" : 0,
-      "amountOfAlternatives" : 0
-    },
-    "i7" : {
-      "price" : 150,
-      "type" : "Cosmetic",
-      "name" : "Smart",
-      "img_name" : "knowladge",
-      "scoreMultiplier" : 0,
-      "timeHeadstart" : 0,
-      "amountOfAlternatives" : 0
-    },
-    "i8" : {
-      "price" : 150,
-      "type" : "Cosmetic",
-      "name" : "Strong",
-      "img_name" : "strong",
-      "scoreMultiplier" : 0,
-      "timeHeadstart" : 0,
-      "amountOfAlternatives" : 0
+    "vanityItems" :{
+      "i6" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Number One",
+        "img_name" : "glove"
+      },
+      "i7" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Smart",
+        "img_name" : "knowladge"
+      },
+      "i8" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Strong",
+        "img_name" : "strong"
+      }
     }
   }
 }

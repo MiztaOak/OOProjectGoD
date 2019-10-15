@@ -4,9 +4,10 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.god.kahit.model.Buff;
+import com.god.kahit.model.Debuff;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.IItemDataLoader;
-import com.god.kahit.model.Modifier;
 import com.god.kahit.model.VanityItem;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +35,10 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
     private DatabaseReference databaseReference;
 
     private static Map<String, String> itemImageNameMap;
-    private List<Item> itemList;
+
+    private List<Buff> buffList;
+    private List<Debuff> debuffList;
+    private List<VanityItem> vanityItemList;
 
     public ItemDataLoaderRealtime(Context context) {
         FirebaseApp.initializeApp(context);
@@ -44,7 +48,9 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         if (itemImageNameMap == null) {
             itemImageNameMap = new HashMap<>();
         }
-        itemList = new ArrayList<>();
+        buffList = new ArrayList<>();
+        debuffList = new ArrayList<>();
+        vanityItemList = new ArrayList<>();
 
         loadData();
     }
@@ -56,10 +62,26 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemList = new ArrayList<>();
-                for (DataSnapshot itemData : dataSnapshot.getChildren()) {
+                buffList = new ArrayList<>();
+                debuffList = new ArrayList<>();
+                vanityItemList = new ArrayList<>();
+
+                DataSnapshot buffData = dataSnapshot.child("buffs");
+                DataSnapshot debuffData = dataSnapshot.child("debuffs");
+                DataSnapshot vanityData = dataSnapshot.child("vanityItems");
+
+                for (DataSnapshot itemData : buffData.getChildren()) {
                     Item i = getItem(itemData);
-                    itemList.add(i);
+                    buffList.add((Buff) i);
+                }
+                for (DataSnapshot itemData : debuffData.getChildren()) {
+                    Item i = getItem(itemData);
+                    debuffList.add((Debuff) i);
+                }
+
+                for (DataSnapshot itemData : vanityData.getChildren()) {
+                    Item i = getItem(itemData);
+                    vanityItemList.add((VanityItem) i);
                 }
             }
 
@@ -72,6 +94,7 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
     /**
      * Method that takes the data for one item from a DataSnapshot and converts it into an item
+     *
      * @param itemData the DataSnapshot pointing at the data for the item
      * @return the item that the data was converted into
      */
@@ -83,28 +106,63 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
         itemImageNameMap.put(Objects.requireNonNull(name), Objects.requireNonNull(imgName));
 
-        if (itemData.child("scoreMultiplier").exists()) {
-            int scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).intValue();
+        if (itemData.child("scoreMultiplier").exists()) { //If there is a scoreMulti then its a buff or debuff
+            double scoreMultiplier;
+            if (itemData.child("scoreMultiplier").getValue() instanceof Long) {
+                scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).doubleValue();
+            } else {
+                scoreMultiplier = ((Double) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue()));
+            }
             int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
-            int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
-            return new Modifier(price, name, scoreMultiplier, timeHeadstart);
+            if (itemData.child("autoAlt").exists()) { //If autoAlt exists then its a debuff
+                boolean autorAlt = (Boolean) Objects.requireNonNull(itemData.child("autoAlt").getValue());
+                return new Debuff(price, name, scoreMultiplier, timeHeadstart, autorAlt);
+            } else {
+                int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
+                return new Buff(name, price, scoreMultiplier, timeHeadstart, amountOfAlternatives);
+            }
+
         }
         return new VanityItem(price, name);
     }
-    
+
     public static Map<String, String> getItemImageNameMap() {
         return itemImageNameMap;
     }
 
     @Override
-    public List<Item> getItems() {
-        if(itemList == null){
+    public List<Buff> getBuffs() {
+        if (buffList == null) {
             try {
                 TimeUnit.MILLISECONDS.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        return itemList;
+        return buffList;
+    }
+
+    @Override
+    public List<Debuff> getDebuffs() {
+        if (debuffList == null) {
+            try {
+                TimeUnit.MILLISECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return debuffList;
+    }
+
+    @Override
+    public List<VanityItem> getVanityItems() {
+        if (vanityItemList == null) {
+            try {
+                TimeUnit.MILLISECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return vanityItemList;
     }
 }
