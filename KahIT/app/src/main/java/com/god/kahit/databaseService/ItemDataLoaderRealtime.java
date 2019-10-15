@@ -1,9 +1,13 @@
 package com.god.kahit.databaseService;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.god.kahit.R;
 import com.god.kahit.model.Buff;
 import com.god.kahit.model.Debuff;
 import com.god.kahit.model.Item;
@@ -23,6 +27,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
 /**
  * A helper class for the Firebase realtime database, that loads the item data from the database and
  * and stores it inside of a list of items and a map that pairs the names of items and the names of
@@ -33,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 public class ItemDataLoaderRealtime implements IItemDataLoader {
     private FirebaseDatabase db;
     private DatabaseReference databaseReference;
-
     private static Map<String, String> itemImageNameMap;
 
     private List<Buff> buffList;
@@ -87,7 +92,7 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.w(TAG, "Failed to read value", databaseError.toException());
             }
         });
     }
