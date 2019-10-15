@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:ignore="MissingDefaultResource">
 
     <TextView
@@ -51,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:hint="hint"
                 android:imeOptions="actionDone"
-                android:inputType="none"
+                android:inputType="textNoSuggestions|text|textCapSentences"
                 android:maxLength="12"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"

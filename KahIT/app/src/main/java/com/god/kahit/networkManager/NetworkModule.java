@@ -78,7 +78,7 @@ public class NetworkModule implements NetworkManager {
     private void init(Context context, NetworkCallback networkCallback) {
         this.context = context;
         this.networkCallback = networkCallback;
-        playerName = CodenameGenerator.generate();
+        playerName = "Default name";
         connectionLinkedHashMap = new LinkedHashMap<>();
         payloadQueueList = new ArrayList<>();
         isHost = false;
