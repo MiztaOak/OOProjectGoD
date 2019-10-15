@@ -6,6 +6,8 @@ public abstract class HostEventCallback {
     public HostEventCallback() {
     }
 
+    public abstract void onReceivedMyConnectionId(@NonNull String playerId);
+
     public abstract void onPlayerNameChangeEvent(@NonNull String targetPlayerId, @NonNull String newName);
 
     public abstract void onLobbyReadyChangeEvent(@NonNull String targetPlayerId, @NonNull boolean newState);
@@ -24,6 +26,8 @@ public abstract class HostEventCallback {
 
     public abstract void onGameStartedEvent();
 
-    public abstract void onLobbySyncEvent(@NonNull String roomName, @NonNull String gameModeId);
+    public abstract void onLobbySyncStartEvent(@NonNull String targetPlayerId, @NonNull String roomName, @NonNull String gameModeId);
+
+    public abstract void onLobbySyncEndEvent();
 
 }

@@ -1,7 +1,7 @@
 package com.god.kahit.networkManager.Packets;
 
 public class EventPlayerChangeTeamPacket extends Packet {
-    public static final int PACKET_ID = 11;
+    public static final int PACKET_ID = 12;
 
     public EventPlayerChangeTeamPacket(String targetPlayerId, String newTeamId) {
         super(PACKET_ID, null);

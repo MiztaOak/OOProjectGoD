@@ -30,7 +30,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +53,9 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
     private List<String> teamNumbers;
 
     private Context context;
+    //TODO remove when done testing
+    private LayoutInflater layoutInflater;
+    private List<String> data;
 
     public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList,MutableLiveData<List<Integer>> teamNumberList, IOnPlayerClickListener iOnplayerclickListener) {
         this.context = c;
@@ -62,7 +64,10 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         this.iOnplayerclickListener = iOnplayerclickListener;
     }
 
-
+    public HotSwapRecyclerAdapter(Context context, List<String> data) {
+            this.layoutInflater = LayoutInflater.from(context);
+            this.data = data;
+    }
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
         IOnPlayerClickListener iOnplayerclickListener;

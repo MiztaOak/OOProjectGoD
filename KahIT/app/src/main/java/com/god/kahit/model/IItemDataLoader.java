@@ -7,5 +7,7 @@ import java.util.List;
  * @author Johan Ek
  */
 public interface IItemDataLoader {
-    List<Item> getItems();
+    List<Buff> getBuffs();
+    List<Debuff> getDebuffs();
+    List<VanityItem> getVanityItems();
 }

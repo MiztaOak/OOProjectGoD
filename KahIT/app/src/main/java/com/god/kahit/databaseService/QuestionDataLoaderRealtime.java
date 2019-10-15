@@ -1,23 +1,20 @@
 package com.god.kahit.databaseService;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.god.kahit.R;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.IQuestionDataLoader;
 import com.god.kahit.model.Question;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +25,6 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
-import static com.google.firebase.firestore.FirebaseFirestore.getInstance;
-
 
 /**
  * A helper class for the Firebase realtime database, that loads the question data from the database and
@@ -41,10 +36,19 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
     private DatabaseReference databaseReference;
     private Map<Category,List<Question>>  questions;
 
+    private Toast errorToast;
+    private Toast succesToast;
+
+    @SuppressLint("ShowToast")
     public QuestionDataLoaderRealtime(Context context){
         FirebaseApp.initializeApp(context);
         db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference("questions");
+
+
+        errorToast = Toast.makeText(context, context.getString(R.string.databaseError),Toast.LENGTH_LONG);
+        succesToast = Toast.makeText(context, context.getString(R.string.databaseConnect),Toast.LENGTH_LONG);
+
         questions = new HashMap<>();
         loadData();
     }
@@ -71,7 +75,24 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "Failed to read value", databaseError.toException());
+                errorToast.show();
             }
+        });
+
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean connected = dataSnapshot.getValue(Boolean.class);
+                if(connected){
+                    succesToast.show();
+                }else{
+                    errorToast.show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 
@@ -93,6 +114,7 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
             return questions.get(category);
         }
         else{
+            errorToast.show();
             return new ArrayList<>();
         }
     }

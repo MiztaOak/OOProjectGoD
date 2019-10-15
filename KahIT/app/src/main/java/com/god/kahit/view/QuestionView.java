@@ -4,22 +4,28 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.god.kahit.R;
 import com.god.kahit.viewModel.QuestionViewModel;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -27,8 +33,12 @@ public class QuestionView extends AppCompatActivity {
 
     private static final String LOG_TAG = QuestionView.class.getSimpleName();
     private final Handler h1 = new Handler();
+    private ImageView storeImage;
+    private DrawerLayout drawerLayout;
+    private Button choosePlayerButton;
+    NavigationView navigationView;
     //TODO FOLLOWING is ALL TEMPORARY and will be replaced by variables from Question.class. FROM:
-    int qTime = 20; //The total time the player1 has to answer.
+    int qTime = 2000; //The total time the player1 has to answer.
     int n = 5;  //The number of the question if in a sequence.
     int k = 11; //The total number of questions if in a sequence.
     String p1 = "The man with no name"; //The players name.
@@ -39,12 +49,20 @@ public class QuestionView extends AppCompatActivity {
     private QuestionViewModel model;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
-
         model = ViewModelProviders.of(this).get(QuestionViewModel.class);
-
+        storeImage = findViewById(R.id.storeImage);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigationView);
+        choosePlayerButton = findViewById(R.id.choosePlayerButton);
+        choosePlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initChoosePlayer(savedInstanceState);
+            }
+        });
         final Observer<String> questionTextObserver = new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -74,6 +92,9 @@ public class QuestionView extends AppCompatActivity {
 
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.qProgressBar);
 
+        initStore(savedInstanceState);
+        addDrawerListener();
+        addStoreImageAction();
         initAnswerTextViews();
         populateQuestionNum(n);
         populateTotalNumQuestions(k);
@@ -224,7 +245,73 @@ public class QuestionView extends AppCompatActivity {
         animation.start();
 
     }
+    /**
+     * A method that initiates the store by getting its layout and pasting it inside the side
+     * navigation
+     */
+    public void initStore(Bundle savedInstanceState){
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, StoreView.newInstance())
+                    .commitNow();
+        }
+    }
+    /**
+     * A method that adds an action to the drawer layout which changes the position of storeImage
+     * upon opening and closing
+     */
+    public void addDrawerListener(){
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View view, float v) {
+            }
 
+            @Override
+            public void onDrawerOpened( View view) {
+                navigationView.bringToFront();
+                storeImage.setX(0);
+            }
 
+            @Override
+            public void onDrawerClosed( View view) {
+                navigationView.bringToFront();
+                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+            }
+        });
+        storeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+    }
+    /**
+     * A method that adds action to the store image  which makes the store slides out when clicking
+     * on it
+     */
+    public void addStoreImageAction(){
+        storeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+    }
+
+    /**
+     * A method that initiates the a list to choose a player to debuff by getting its layout
+     * and pasting it inside the side navigation
+     */
+    public void initChoosePlayer(Bundle savedInstanceState){
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, ChoosePlayerToDebuffView.newInstance())
+                    .commitNow();
+        }
+    }
 }
 
