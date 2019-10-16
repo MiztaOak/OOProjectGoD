@@ -112,20 +112,6 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
         }
     }
 
-    private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        Button btnSubmitProblem;
-
-        public FooterViewHolder(View view) {
-            super(view);
-            btnSubmitProblem = (Button) view.findViewById(R.id.add_button1);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
-
     private void initTeamNumbers() {
         teamNumbers = new ArrayList<>();
         for (int i = 1; i < 9; i++) {
@@ -149,18 +135,12 @@ public class TeamArrangementRecyclerAdapter extends RecyclerView.Adapter<TeamArr
         View view;
         ViewHolder holder;
 
-        if (viewType == TYPE_ITEM) {
+
             view = inflater.inflate(
                     R.layout.player_row,
                     parent,
                     false);
 
-        } else {
-            view = inflater.inflate(
-                    R.layout.game_lobby_adapter_footer,
-                    parent,
-                    false);
-        }
 
 
         ViewHolder viewHolder = new ViewHolder(view, iOnplayerclickListener);
