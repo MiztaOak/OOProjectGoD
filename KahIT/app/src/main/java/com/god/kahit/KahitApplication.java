@@ -13,6 +13,6 @@ public class KahitApplication extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(false);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }
