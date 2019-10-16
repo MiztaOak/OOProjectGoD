@@ -163,6 +163,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.god.kahit.view.QuestionView" />
         </activity>
+
+        <service android:name=".backgroundMusicService.MusicService" android:stopWithTask="true" />
+
     </application>
 
     <!-- Required for Nearby Connections -->
