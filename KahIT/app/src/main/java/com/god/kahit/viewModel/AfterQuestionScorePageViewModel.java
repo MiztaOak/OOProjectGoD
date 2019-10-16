@@ -3,7 +3,7 @@ package com.god.kahit.viewModel;
 
 import android.util.Pair;
 
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 
 import java.util.ArrayList;

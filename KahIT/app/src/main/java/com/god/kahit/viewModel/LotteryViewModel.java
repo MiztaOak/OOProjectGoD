@@ -1,6 +1,6 @@
 package com.god.kahit.ViewModel;
 
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
 

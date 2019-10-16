@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.god.kahit.Events.GameJoinedLobbyEvent;
-import com.god.kahit.NameGenerator;
+import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.R;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.viewModel.JoinLobbyViewModel;
@@ -66,12 +66,13 @@ public class JoinLobbyNetView extends AppCompatActivity {
         setupRecyclerView();
         joinLobbyViewModel.resetPlayerData();
         joinLobbyViewModel.setupNetwork(getApplicationContext());
-        joinLobbyViewModel.startScan();
 
         //Force set player name
         playerNameTextInputEditText.setText(NameGenerator.generatePlayerName());
         playerNameTextInputEditText.requestFocus();
         playerNameTextInputEditText.clearFocus();
+
+        joinLobbyViewModel.startScan();
     }
 
     @Override

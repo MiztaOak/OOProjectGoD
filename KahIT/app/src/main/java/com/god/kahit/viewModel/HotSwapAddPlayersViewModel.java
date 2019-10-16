@@ -4,7 +4,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
 

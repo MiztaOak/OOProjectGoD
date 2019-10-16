@@ -3,7 +3,7 @@ package com.god.kahit.viewModel;
 import android.content.Context;
 
 import com.god.kahit.Events.RoomChangeEvent;
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.networkManager.Connection;
 
 import org.greenrobot.eventbus.Subscribe;
