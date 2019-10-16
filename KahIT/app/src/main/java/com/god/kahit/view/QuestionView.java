@@ -92,6 +92,14 @@ public class QuestionView extends AppCompatActivity {
         };
         model.getQuestionTime().observe(this, questionTimeObserver);
 
+        final Observer<String> playerNameObserver = new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                populatePlayerName(s);
+            }
+        };
+        model.getPlayerName().observe(this,playerNameObserver);
+
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.qProgressBar);
 
         initStore(savedInstanceState);
@@ -224,11 +232,21 @@ public class QuestionView extends AppCompatActivity {
         animation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final Animator animation) {
-                model.updateViewForBeginningOfAnimation(animation, answers);
+                final boolean isMoveOn = model.isMoveOn();
+                if(isMoveOn){
+                    model.updateViewForBeginningOfAnimation(animation, answers);
+                }
                 h1.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        launchAfterQuestionScorePageClass();
+                        if(isMoveOn){
+                            launchAfterQuestionScorePageClass();
+                        }else{
+                            model.repeatQuestion();
+                            model.resetColorOfTextView(answers);
+                            animation.start();
+                        }
+
                     }
                 }, 1000);
             }

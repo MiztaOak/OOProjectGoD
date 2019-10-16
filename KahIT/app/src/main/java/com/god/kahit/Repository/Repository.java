@@ -686,4 +686,13 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     public boolean isItemBought(int i) {
         return quizGame.getStore().isItemBought(i);
     }
+    
+    public String getCurrentPlayerName() {
+        return quizGame.getCurrentPlayer().getName();
+    }
+
+    public void incrementCurrentPlayer(){
+        quizGame.incrementCurrentPlayer();
+
+    }
 }
