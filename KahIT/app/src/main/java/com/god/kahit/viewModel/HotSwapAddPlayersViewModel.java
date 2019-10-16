@@ -1,10 +1,12 @@
 package com.god.kahit.viewModel;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.Repository;
 import com.god.kahit.model.Player;
+import com.god.kahit.model.Team;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -24,70 +26,60 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
 
     private static final String TAG = HotSwapAddPlayersViewModel.class.getSimpleName();
 
-    private MutableLiveData<List<Player>> playerListForView;
-    private MutableLiveData<List<Integer>> teamNumberForView;
+    private MutableLiveData<List<Pair<Player, Integer>>> playerListForView;
 
     public HotSwapAddPlayersViewModel() {
     }
 
-    public MutableLiveData<List<Player>> getPlayerListForView() {
+    public MutableLiveData<List<Pair<Player, Integer>>> getPlayerListForView() {
         if (playerListForView == null) {
             playerListForView = new MutableLiveData<>();
+            loadPlayerList();
         }
         return playerListForView;
     }
 
-    public MutableLiveData<List<Integer>> getTeamNumberForView() {
-        if (teamNumberForView == null) {
-            teamNumberForView = new MutableLiveData<>();
-            Repository.getInstance().fireTeamChangeEvent();
-        }
-        return teamNumberForView;
+    public void loadPlayerList() {
+        addNewPlayer();
+        addNewPlayer();
     }
 
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
-        List<Player> sortedPlayerList = new ArrayList<>();
-        List<Integer> teamNumberList = new ArrayList<>();
+        List<Pair<Player, Integer>> sortedPlayerList = new ArrayList<>();
 
-        //Already existing items added first in order.
-        if (playerListForView.getValue() != null)
-            for (Player player : playerListForView.getValue()) {
-                for (int i = 0; i < event.getTeams().size(); i++) {
-                    if (event.getTeams().get(i).getTeamMembers().contains(player)) {
-                        sortedPlayerList.add(player);
-                        teamNumberList.add(i);
+        String playerIdPrefix = "Player ";
+        int playerSuffix = 1;
+
+        while(sortedPlayerList.size() != Repository.getInstance().getPlayers().size()) {
+            outerLabel:
+            for (int i =0; i < event.getTeams().size(); i++) {
+                for(Player player : event.getTeams().get(i).getTeamMembers()) {
+                    if(player.getId().equals(playerIdPrefix + playerSuffix)) {
+                        sortedPlayerList.add(new Pair<>(player, (i + 1)));
+                        break outerLabel;
                     }
                 }
             }
-
-        //New additions to the list added.
-        for (int i = 0; i < event.getTeams().size(); i++) {
-            for (int j = 0; j < event.getTeams().get(i).getTeamMembers().size(); j++) {
-                if (!sortedPlayerList.contains(event.getTeams().get(i).getTeamMembers().get(j))) {
-                    sortedPlayerList.add(event.getTeams().get(i).getTeamMembers().get(j));
-                    teamNumberList.add(i);
-                }
-            }
+            playerSuffix++;
         }
         playerListForView.setValue(sortedPlayerList);
-        teamNumberForView.setValue(teamNumberList);
     }
 
     public void addNewPlayer() {
-        Repository.getInstance().addNewPlayer();
+        Repository.getInstance().addNewPlayerToEmptyTeam();
     }
 
     public void removePlayer(int position) {
-        Repository.getInstance().removePlayer(Objects.requireNonNull(playerListForView.getValue()).get(position));
+        Repository.getInstance().removePlayer(Objects.requireNonNull(playerListForView.getValue()).get(position).first);
     }
 
     public void resetPlayerData() {
         Repository.getInstance().resetPLayerData();
     }
 
-    public void updatePlayerData(int position, int newTeamId) {
-        Repository.getInstance().changeTeam(Objects.requireNonNull(playerListForView.getValue()).get(position), newTeamId);
+    public void onTeamChange(int position, int newTeamId) {
+        Repository.getInstance().changeTeam(Objects.requireNonNull(playerListForView.getValue()).get(position).first, newTeamId);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -111,6 +103,7 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
 
     @Override
     protected void onCleared() {
+        Repository.getInstance().resetPlayerData();
         super.onCleared();
         Log.d(TAG, "on cleared called");
     }

@@ -10,6 +10,7 @@
         android:id="@+id/chooseGameActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/custom_stripes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,15 +48,24 @@
                     android:layout_width="150dp"
                     android:layout_height="70dp"
                     android:layout_marginTop="30dp"
+                    android:backgroundTint="#00CBF8"
+                    android:textColor="@color/white"
+                    android:background="@drawable/play_button_selector"
+                    android:fontFamily="@font/bevietnamextrabolditalic"
+                    android:textSize="17sp"
                     android:onClick="launchJoinRoomClass"
                     android:text="join"
-                    android:textSize="17sp" />
+                     />
 
                 <Button
                     android:id="@+id/hsGmYouBetterRunButton"
                     android:layout_width="150dp"
                     android:layout_height="70dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bevietnamextrabolditalic"
+                    android:backgroundTint="#00CBF8"
                     android:layout_marginTop="30dp"
+                    android:background="@drawable/play_button_selector"
                     android:onClick="launchHostCreateRoomClass"
                     android:text="host"
                     android:textSize="17sp" />
@@ -64,6 +74,10 @@
                     android:id="@+id/storeButton"
                     android:layout_width="150dp"
                     android:layout_height="70dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bevietnamextrabolditalic"
+                    android:backgroundTint="#00CBF8"
+                    android:background="@drawable/play_button_selector"
                     android:layout_marginTop="30dp"
                     android:onClick="launchHotSwapGameModeClass"
                     android:text="hot swap"
@@ -99,6 +113,8 @@
                         android:id="@+id/sideNavButton"
                         android:layout_width="150dp"
                         android:layout_height="70dp"
+                        android:background="@drawable/play_button_selector"
+                        android:backgroundTint="#00CBF8"
                         android:layout_marginRight="15dp"
                         android:onClick="launchSidenavTest"
                         android:text="sidenav store" />
@@ -106,6 +122,8 @@
                     <Button
                         android:layout_width="150dp"
                         android:layout_height="70dp"
+                        android:backgroundTint="#00CBF8"
+                        android:background="@drawable/play_button_selector"
                         android:onClick="launchHotSwapGameModeClass"
                         android:text="Lottery"
                         android:textSize="17sp" />

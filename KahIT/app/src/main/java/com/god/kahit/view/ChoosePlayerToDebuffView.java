@@ -42,7 +42,7 @@ public class ChoosePlayerToDebuffView extends Fragment {
         players.add("Johan");
         RecyclerView recyclerView = getView().findViewById(R.id.playersList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new HotSwapRecyclerAdapter(this.getContext(), players);
+        //adapter = new HotSwapRecyclerAdapter(this.getContext(), players);
         //recyclerView.setAdapter(adapter);
         // TODO: Use the ViewModel
     }
