@@ -175,11 +175,10 @@ public class QuizGame {
      * @param question    - the question that was asked
      * @param timeLeft    - the time that was left when the user answered the question
      */
-    public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
+    public void enterAnswer(Player player, String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
             double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
-            currentPlayer.updateScore((int) scoreDelta);
-            //TODO if hotswap change currentPlayer
+            player.updateScore((int) scoreDelta);
         }
     }
 
@@ -214,6 +213,10 @@ public class QuizGame {
             }
         }
         return null;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public Team getPlayerTeam(String playerId) {
