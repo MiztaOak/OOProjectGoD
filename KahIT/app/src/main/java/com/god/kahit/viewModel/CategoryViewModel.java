@@ -1,7 +1,7 @@
 package com.god.kahit.viewModel;
 
 
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Category;
 
 import java.util.ArrayList;

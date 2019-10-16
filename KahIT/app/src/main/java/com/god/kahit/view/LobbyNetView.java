@@ -1,6 +1,8 @@
 package com.god.kahit.view;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -12,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.GameStartedEvent;
 import com.god.kahit.Events.TeamChangeEvent;
+import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -36,10 +40,12 @@ import static com.god.kahit.model.QuizGame.BUS;
 
 public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerListener, AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = LobbyNetView.class.getSimpleName();
+    private static final String START_GAME_BUTTON_COLOR = "#00CBF8";
+    private static final String START_GAME_BUTTON_COLOR_DISABLED = "#6A8990";
     private Spinner changeTeamSpinner;
     private RecyclerView recyclerView;
     private TextView sessionTypeTextView;
-    private TextView roomNameTextView;
+    private TextView lobbyNameTextView;
     private TextView gameModeTextView;
     private TextView nmbPlayersTextView;
     private Button startGameButton;
@@ -51,6 +57,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     private MutableLiveData<List<Pair<Player, Connection>>> playerList;
     private MutableLiveData<List<Team>> teamList;
     private MutableLiveData<String> myPlayerId;
+    private MutableLiveData<String> lobbyName;
     private List<Integer> teamColors;
     private List<String> teamNumbers;
 
@@ -67,12 +74,13 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         playerList = lobbyNetViewModel.getPlayerListForView();
         teamList = lobbyNetViewModel.getTeamListForView();
         myPlayerId = lobbyNetViewModel.getMyPlayerId();
+        lobbyName = lobbyNetViewModel.getLobbyName();
 
         playerList.observe(this, new Observer<List<Pair<Player, Connection>>>() { //todo remove?
             @Override
             public void onChanged(@Nullable List<Pair<Player, Connection>> integerStringMap) {
                 recyclerAdapter.notifyDataSetChanged();
-                updateTextAndButtonViews();
+                updateViewContent();
             }
         });
 
@@ -80,7 +88,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             @Override
             public void onChanged(@Nullable List<Team> teams) {
                 recyclerAdapter.notifyDataSetChanged();
-                updateTextAndButtonViews();
+                updateViewContent();
             }
         });
 
@@ -88,21 +96,31 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             @Override
             public void onChanged(String s) {
                 recyclerAdapter.notifyDataSetChanged();
-                updateTextAndButtonViews();
+                updateViewContent();
             }
         });
+
+        lobbyName.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                updateViewContent();
+            }
+        });
+
 
         setupTextAndButtonViews();
         setupRecyclerView();
         setupSpinner();
 
-        updateTextAndButtonViews();
-        lobbyNetViewModel.resetPlayerData();
-        lobbyNetViewModel.setupNewLobbySession(getApplicationContext());
+        updateViewContent();
 
         BUS.register(this);
 
-        if (!lobbyNetViewModel.isHost()) { //Restore net in communication as all logic is setup
+        if (lobbyNetViewModel.isHost()) {
+            lobbyNetViewModel.fireTeamChangeEvent(); //Update list with host player
+            lobbyNetViewModel.startHostBeacon();
+        } else {
+            //Restore net in communication as all logic is setup
             lobbyNetViewModel.restoreNetInCommunication();
         }
     }
@@ -119,7 +137,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     private void setupTextAndButtonViews() {
         sessionTypeTextView = findViewById(R.id.lobbyNet_SessionType_textView);
-        roomNameTextView = findViewById(R.id.lobbyNetRoomName_textView);
+        lobbyNameTextView = findViewById(R.id.lobbyNetRoomName_textView);
         gameModeTextView = findViewById(R.id.lobbyNet_GameMode_textView);
         nmbPlayersTextView = findViewById(R.id.lobbyNet_nmb_players_textView);
         startGameButton = findViewById(R.id.lobbyNetStartButton);
@@ -132,8 +150,14 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         });
     }
 
-    private void updateTextAndButtonViews() {
+    private void updateViewContent() {
         sessionTypeTextView.setText(String.format("%s - id: '%s'", lobbyNetViewModel.isHost() ? "Host" : "Client", myPlayerId.getValue()));
+
+        if (lobbyName.getValue() != null) {
+            lobbyNameTextView.setText(lobbyName.getValue());
+        } else {
+            lobbyNameTextView.setText("Default name");
+        }
 
         gameModeTextView.setText(String.format("Game mode: %s", "Epic")); //todo use actual current gamemode
 
@@ -143,19 +167,37 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         }
         nmbPlayersTextView.setText(String.format("Players: %s/%s", nmbPlayers, "8")); //todo get max players from quizGame
 
-        String buttonText;
+        String readyButtonText;
         if (lobbyNetViewModel.isHost()) {
-            buttonText = "Start game";
+            readyButtonText = "Start game";
+            if (lobbyNetViewModel.areAllPlayersReady()) {
+                startGameButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(START_GAME_BUTTON_COLOR)));
+                startGameButton.setEnabled(true);
+            } else {
+                startGameButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(START_GAME_BUTTON_COLOR_DISABLED)));
+                startGameButton.setEnabled(false);
+            }
         } else {
             Pair<Player, Connection> myPlayerConnectionPair = lobbyNetViewModel.getMe();
-            if (myPlayerConnectionPair != null && myPlayerConnectionPair.first.isPlayerReady()) {
-                buttonText = "Unready";
+            Team myTeam = lobbyNetViewModel.getMyTeam();
+
+            if (myPlayerConnectionPair == null || myTeam == null) {
+                readyButtonText = "Ready";
+                changeTeamSpinner.setEnabled(true);
             } else {
-                buttonText = "Ready";
+                if (myPlayerConnectionPair.first.isPlayerReady()) {
+                    readyButtonText = "Unready";
+                    changeTeamSpinner.setBackgroundColor(0xAAAAAAAA);
+                    changeTeamSpinner.setEnabled(false);
+                } else {
+                    readyButtonText = "Ready";
+                    changeTeamSpinner.setBackgroundColor(teamColors.get(Integer.valueOf(myTeam.getId()) - 1));
+                    changeTeamSpinner.setEnabled(true);
+                }
             }
         }
 
-        startGameButton.setText(buttonText);
+        startGameButton.setText(readyButtonText);
         if (lobbyNetViewModel.isHost()) {
             startGameButton.setEnabled(lobbyNetViewModel.areAllPlayersReady());
         }
@@ -210,16 +252,20 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     private void doSilentSpinnerUpdate(int teamIdInt) {
         changeTeamSpinner.setOnItemSelectedListener(null);
-        changeTeamSpinner.setBackgroundColor(teamColors.get(teamIdInt - 1));
         changeTeamSpinner.setSelection(teamIdInt - 1, false);
         changeTeamSpinner.setOnItemSelectedListener(this);
+        updateViewContent();
     }
 
     private void onStartGameButtonAction() {
         if (lobbyNetViewModel.isHost()) {
-            Log.d(LOG_TAG, "onStartGameButtonAction: start game action called - not implemented yet! Simply showing next activity"); //todo actually implement real game-start
-            Intent intent = new Intent(this, QuestionView.class);
-            startActivity(intent);
+            Log.d(LOG_TAG, "onStartGameButtonAction: start game action called");
+            if (lobbyNetViewModel.isHost()) {
+                lobbyNetViewModel.startGame();
+                Intent intent = new Intent(this, PreGameCountdownView.class);
+                startActivity(intent);
+            }
+
         } else {
             if (startGameButton.getText().equals("Ready")) {
                 Log.d(LOG_TAG, "onStartGameButtonAction: player ready action called");
@@ -244,24 +290,18 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     @Override
     public void onStop() {
         super.onStop();
-        BUS.unregister(this);
-        if (!lobbyNetViewModel.hasStartedGame()) {//todo close host beacon, and start again in onStart, maybe?
-            finish();
-        }
+        lobbyNetViewModel.stopHostBeacon();
     }
 
     @Override
-    protected void onDestroy() { //todo if player didnt start the game, and activity died, clearConnections too //todo check if game has begun, if so dont kill player data, only stop beacon
+    protected void onDestroy() {
         BUS.unregister(this);
-        lobbyNetViewModel.stopHostBeacon();
-        lobbyNetViewModel.clearConnections();//todo maybe check if has started game as not to kill all connections mid-game because of memory reclaim from android
-        lobbyNetViewModel.resetPlayerData();
         super.onDestroy();
     }
 
     @Override
     public void onClick(Player player) {
-        Log.d(LOG_TAG, "onClick: Player row delete button clicked!");
+        Log.d(LOG_TAG, "onClick: Player kick button clicked!");
         lobbyNetViewModel.removePlayer(player);
     }
 
@@ -302,6 +342,23 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         } else {
             Log.d(LOG_TAG, "onTeamChangeEvent: myTeam == null, unable to update spinner background - skipping");
         }
+    }
+
+    @Subscribe
+    public void onTimedOut(TimedOutEvent event) {
+        if (lobbyNetViewModel.isHost()) { //Client is handled through onGameLostConnectionEvent
+            Intent intent = new Intent(this, ChooseGameView.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Subscribe
+    public void onGameStart(GameStartedEvent event) {
+        Intent intent = new Intent(this, PreGameCountdownView.class);
+        startActivity(intent);
+        finish();
     }
 }
 

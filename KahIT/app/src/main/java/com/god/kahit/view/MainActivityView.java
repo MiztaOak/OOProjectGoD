@@ -10,8 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository;
-import com.google.firebase.database.FirebaseDatabase;
+import com.god.kahit.Repository.Repository;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -50,6 +49,7 @@ public class MainActivityView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         Repository.getInstance().startNewGameInstance(getApplicationContext());
+        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
     }
 
     @Override
@@ -58,6 +58,7 @@ public class MainActivityView extends AppCompatActivity {
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
+        Repository.getInstance().resetApp();
     }
 
     /**
@@ -92,12 +93,6 @@ public class MainActivityView extends AppCompatActivity {
     public void launchSettingsView(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, SettingsView.class);
-        startActivity(intent);
-    }
-
-    public void launchPreGameCountdownView(View view) {
-        Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, PreGameCountdownView.class);
         startActivity(intent);
     }
 

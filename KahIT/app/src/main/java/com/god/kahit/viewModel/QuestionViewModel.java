@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuizListener;
 import com.god.kahit.view.QuestionView;
@@ -90,14 +90,14 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers) {
         if (!isQuestionAnswered) {
             String alternative = answers.get(answers.indexOf(view)).getText().toString();
-            long timeLeft = animation.getDuration()-animation.getCurrentPlayTime();
+            long timeLeft = animation.getDuration() - animation.getCurrentPlayTime();
             greyOutAnswersTextView(answers);
             indexOfClickedView = answers.indexOf(view);
             answers.get(indexOfClickedView).setBackgroundResource(R.color.blue);
             if (currentQuestion.isCorrectAnswer(alternative)) {
                 correctAnswerWasGiven = true;
             }
-            Repository.getInstance().sendAnswer(alternative, currentQuestion, timeLeft/1000);
+            Repository.getInstance().sendAnswer(alternative, currentQuestion, timeLeft / 1000);
             isQuestionAnswered = true;
         }
     }

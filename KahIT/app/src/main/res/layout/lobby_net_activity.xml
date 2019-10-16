@@ -5,6 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/custom_stripes"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:ignore="MissingDefaultResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,33 +103,47 @@
             android:layout_marginBottom="2dp"
             android:text="Team"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/lobbyNetTeamRecyclerView"
-            app:layout_constraintStart_toStartOf="@+id/lobbyNetTeamRecyclerView" />
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout6" />
 
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="2dp"
             android:text="Player list"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/lobbyNetTeamRecyclerView"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout6" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lobbyNetTeamRecyclerView"
-            android:layout_width="364dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout6"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginBottom="60dp"
             android:background="@drawable/light_border"
             app:layout_constraintBottom_toTopOf="@+id/lobbyNetStartButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lobbyNet_GameMode_textView"
-            tools:itemCount="2"
-            tools:listitem="@layout/team_container" />
+            app:layout_constraintTop_toBottomOf="@+id/lobbyNet_GameMode_textView">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lobbyNetTeamRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/light_border"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="2"
+                tools:listitem="@layout/team_container" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textViewMyTeam"
@@ -165,7 +182,7 @@
             android:text="All players must be ready to start the game"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lobbyNetTeamRecyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
         <Button
             android:id="@+id/lobbyNetStartButton"
@@ -173,6 +190,10 @@
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
+            android:backgroundTint="#00CBF8"
+            android:textColor="@color/white"
+            android:fontFamily="@font/bevietnamextrabolditalic"
+            android:background="@drawable/play_button_selector"
             android:text="start game"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
