@@ -307,7 +307,22 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
-        quizGame.enterAnswer(givenAnswer, question, timeLeft);
+        Player player = quizGame.getCurrentPlayer();
+        if (player != null) { //Hotswap
+            quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
+            //todo add move to next player if hotswap
+        } else { //Network
+            if (networkManager != null) {
+                if (networkManager.isHost()) { //Enables solo play, as host doesn't know its own id in that case
+                    player = quizGame.getPlayer(quizGame.getHostPlayerId());
+                } else {
+                    player = quizGame.getPlayer(networkManager.getPlayerId());
+                }
+                quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
+            } else {
+                Log.i(TAG, "sendAnswer: Attempt to call getPlayerId with null networkManager, skipping call");
+            }
+        }
     }
 
     public List<Player> getPlayers() {

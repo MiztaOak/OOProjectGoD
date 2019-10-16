@@ -39,7 +39,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
     }
 
     private void setupRecycler() {
-        recyclerView = findViewById(R.id.aqspScoreView);
+        recyclerView = findViewById(R.id.aqspScoreRecyclerView);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
@@ -66,13 +66,13 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         animator.pause();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         animator.resume();
     }

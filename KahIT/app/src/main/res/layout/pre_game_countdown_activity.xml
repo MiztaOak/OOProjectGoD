@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/custom_stripes"
     tools:context=".view.PreGameCountdownView">
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="124dp"
-        android:layout_height="91dp"
-        android:src="@mipmap/kahit_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.025" />
+        app:srcCompat="@drawable/kahit" />
 
     <TextView
         android:id="@+id/cdTextView"
@@ -23,8 +22,8 @@
         android:layout_height="90dp"
         android:gravity="center"
         android:text="X seconds remaining.."
+        android:textAlignment="center"
         android:textSize="30sp"
-        android:textColor="@color/lightgrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
