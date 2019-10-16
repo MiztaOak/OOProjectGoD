@@ -1,5 +1,7 @@
 package com.god.kahit;
 
+import android.os.Looper;
+
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
@@ -25,7 +27,12 @@ public class QuestionFactoryTest {
 
     @Before
     public void setUp() throws InterruptedException {
-        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        try{
+            QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        }catch (Exception e){
+            Looper.prepare();
+            QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+        }
         TimeUnit.SECONDS.sleep(5);
     }
 
