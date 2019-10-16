@@ -18,8 +18,10 @@ public class ItemFactory {
      */
     static List<Item> createStoreItems(int size) {
         ArrayList<Item> itemList = new ArrayList<>();
-        itemList.addAll(loadBuffs(3));
-        itemList.addAll(loadDeBuffs(3));
+        System.out.println(dataLoader.getBuffs().size()+ ".....  + + + + + ++ + + + + + + + +");
+        //itemList.addAll(loadBuffs(size));
+        //itemList.addAll(loadDeBuffs(size));
+        //itemList.addAll(loadVanityItems(size));
         return itemList;
     }
 

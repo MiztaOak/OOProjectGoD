@@ -12,24 +12,33 @@ import java.util.List;
  */
 public class Store { //todo implement a method to restock store?
     private List<Item> storeItems;
+    private List<Item> boughtItems;
+
     private Player player; //todo remove local instance of player
 
     public Store() {
-        this.storeItems = ItemFactory.createStoreItems(6);
+        this.storeItems = ItemFactory.createStoreItems(3);
         this.player= new Player("Anas", String.valueOf(500));
     }
+    public boolean isItemBuyable(int i, Player player){
+        return(player.getScore() >= storeItems.get(i).getPrice());
+    }
+    public void buy(int i, Player player) {
+        Item item = storeItems.get(i);
+        boughtItems.add(item);
+        player.setScore(player.getScore() - item.getPrice());
+        setItemToPlayer(item, player);
+    }
 
-    public void buy(Item item, Player player) { //todo pass along a player parameter
+    private void setItemToPlayer(Item item, Player player){
         if (item instanceof Buff) {
             player.setBuff((Buff) item);
         }else if(item instanceof Debuff){
             player.setDebuff((Debuff) item);
         } else {
-            player.setModifier((Modifier) item);
-            //player.setVanityItem((VanityItem) item);
+            player.setVanityItem((VanityItem) item);
         }
-    } //todo It is store's responsibility to check if current user has enough points (money)
-
+    }
     public Player getPlayer() {
         return player;
     } //todo remove
@@ -41,12 +50,19 @@ public class Store { //todo implement a method to restock store?
 
     public List<Item> getStoreItems() {
         if(storeItems == null){
-            this.storeItems = ItemFactory.createStoreItems(6);
+            this.storeItems = ItemFactory.createStoreItems(3);
         }
         return storeItems;
     }
 
     public void setStoreItems(List<Item> storeItems) {
         this.storeItems = storeItems;
+    }
+    public List<Item> getBoughtItems() {
+        return boughtItems;
+    }
+
+    public void setBoughtItems(List<Item> boughtItems) {
+        this.boughtItems = boughtItems;
     }
 }
