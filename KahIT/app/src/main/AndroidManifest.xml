@@ -38,6 +38,7 @@
         </activity>
         <activity
             android:name=".view.PreGameCountdownView"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
@@ -46,6 +47,7 @@
         </activity>
         <activity
             android:name=".view.CategoryView"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
@@ -55,6 +57,7 @@
         <activity
             android:name=".view.LotteryView"
             android:exported="true"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
@@ -82,6 +85,7 @@
         </activity>
         <activity
             android:name=".view.CreateLobbyNetView"
+            android:noHistory="true"
             android:parentActivityName=".view.ChooseGameView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -109,6 +113,7 @@
         </activity>
         <activity
             android:name=".view.JoinLobbyNetView"
+            android:noHistory="true"
             android:parentActivityName=".view.ChooseGameView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -119,6 +124,7 @@
         </activity>
         <activity
             android:name=".view.QuestionView"
+            android:noHistory="true"
             android:parentActivityName=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -128,6 +134,7 @@
         </activity>
         <activity
             android:name=".view.ScorePageView"
+            android:noHistory="true"
             android:parentActivityName=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -155,6 +162,7 @@
         </activity>
         <activity
             android:name=".view.AfterQuestionScorePageView"
+            android:noHistory="true"
             android:parentActivityName=".view.QuestionView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

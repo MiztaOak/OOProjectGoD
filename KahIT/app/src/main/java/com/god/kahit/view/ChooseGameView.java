@@ -6,17 +6,23 @@ import android.util.Log;
 import android.view.View;
 
 import com.god.kahit.R;
+import com.god.kahit.Repository.Repository;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ChooseGameView extends AppCompatActivity {
-
     private static final String LOG_TAG = ChooseGameView.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_game_activity);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Repository.getInstance().resetApp(); //todo move to a viewModel?
     }
 
     public void launchBackMainActivityClass(View view) {

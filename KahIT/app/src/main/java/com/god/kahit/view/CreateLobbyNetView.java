@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.god.kahit.NameGenerator;
+import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.R;
 import com.god.kahit.viewModel.CreateLobbyNetViewModel;
 import com.google.android.material.textfield.TextInputEditText;

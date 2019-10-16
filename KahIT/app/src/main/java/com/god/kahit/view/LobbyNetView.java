@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.TeamChangeEvent;
+import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -273,24 +274,18 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     @Override
     public void onStop() {
         super.onStop();
-        BUS.unregister(this);
-        if (!lobbyNetViewModel.hasStartedGame()) {//todo close host beacon, and start again in onStart, maybe?
-            finish();
-        }
+        lobbyNetViewModel.stopHostBeacon();
     }
 
     @Override
-    protected void onDestroy() { //todo if player didnt start the game, and activity died, clearConnections too //todo check if game has begun, if so dont kill player data, only stop beacon
+    protected void onDestroy() {
         BUS.unregister(this);
-        lobbyNetViewModel.stopHostBeacon();
-        lobbyNetViewModel.clearConnections();//todo maybe check if has started game as not to kill all connections mid-game because of memory reclaim from android
-        lobbyNetViewModel.resetPlayerData();
         super.onDestroy();
     }
 
     @Override
     public void onClick(Player player) {
-        Log.d(LOG_TAG, "onClick: Player row delete button clicked!");
+        Log.d(LOG_TAG, "onClick: Player kick button clicked!");
         lobbyNetViewModel.removePlayer(player);
     }
 
@@ -332,5 +327,16 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             Log.d(LOG_TAG, "onTeamChangeEvent: myTeam == null, unable to update spinner background - skipping");
         }
     }
+
+    @Subscribe
+    public void onTimedOut(TimedOutEvent event) {
+        if (lobbyNetViewModel.isHost()) { //Client is handled through onGameLostConnectionEvent
+            Intent intent = new Intent(this, ChooseGameView.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+    }
+
 }
 

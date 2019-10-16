@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuizListener;
 import com.god.kahit.view.QuestionView;

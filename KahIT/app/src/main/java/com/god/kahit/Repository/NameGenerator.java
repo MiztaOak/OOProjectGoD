@@ -1,4 +1,4 @@
-package com.god.kahit;
+package com.god.kahit.Repository;
 
 import java.util.Random;
 

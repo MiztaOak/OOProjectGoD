@@ -1,6 +1,8 @@
-package com.god.kahit;
+package com.god.kahit.Repository;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.god.kahit.Events.GameJoinedLobbyEvent;
@@ -8,6 +10,7 @@ import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.LobbyNameChangeEvent;
 import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.RoomChangeEvent;
+import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
@@ -41,6 +44,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
     private QuizGame quizGame;
+    private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;
 
@@ -52,6 +56,32 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             instance = new Repository();
         }
         return instance;
+    }
+
+    public void setupAppLifecycleObserver(final Context context) {
+        if (appLifecycleHandler == null) {
+            Log.i(TAG, "setupAppLifecycleObserver: called");
+            appLifecycleHandler = new AppLifecycleHandler(context, new AppLifecycleCallback() {
+                @Override
+                public void onAppForegrounded() {
+                }
+
+                @Override
+                public void onAppBackgrounded() {
+                }
+
+                @Override
+                public void onAppTimedOut() {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            clearConnections();
+                            BUS.post(new TimedOutEvent());
+                        }
+                    });
+                }
+            });
+        }
     }
 
     public void setupNetwork(Context context, final boolean isHost) { //Marking a parameter as final prohibits the reassignment of the parameter within the code block of the method
@@ -295,6 +325,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void setRoomName(String newRoomName) {
         if (networkManager != null) {
+            Log.i(TAG, String.format("setRoomName: setting roomName to: '%s'", newRoomName));
             networkManager.setPlayerName(newRoomName);
         } else {
             Log.i(TAG, String.format("setRoomName: Attempt to call setPlayerName with null" +
@@ -316,6 +347,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         Player hostPlayer = quizGame.getPlayer(quizGame.getHostPlayerId());
 
         if (hostPlayer != null) {
+            Log.i(TAG, String.format("setHostPlayerName: setting playerName to: '%s'", newPlayerName));
             hostPlayer.setName(newPlayerName);
         } else {
             Log.i(TAG, String.format("setHostPlayerName: Attempt to call setName with null" +
@@ -334,6 +366,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void setClientPlayerName(String newPlayerName) {
         if (networkManager != null) {
+            Log.i(TAG, String.format("setClientPlayerName: setting playerName to: '%s'", newPlayerName));
             networkManager.setPlayerName(newPlayerName);
         } else {
             Log.i(TAG, String.format("setClientPlayerName: Attempt to call setPlayerName with " +
@@ -417,6 +450,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void startHostBeacon() {
         if (networkManager != null) {
+            appLifecycleHandler.setActive(true);
             networkManager.startHostBeacon();
         } else {
             Log.i(TAG, "startHostBeacon: Attempt to call startHostBeacon with null networkManager, skipping call");
@@ -433,6 +467,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void startScan() {
         if (networkManager != null) {
+            appLifecycleHandler.setActive(true);
             networkManager.startScan();
         } else {
             Log.i(TAG, "startScan: Attempt to call startScan with null networkManager, skipping call");
@@ -452,6 +487,19 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             networkManager.stopAllConnections();
         } else {
             Log.i(TAG, "clearConnections: Attempt to call stopAllConnections with null networkManager, skipping call");
+        }
+    }
+
+    public void resetApp() {
+        if (networkManager != null) {
+            Log.i(TAG, "resetApp: performing a reset of networkManager and player data");
+            networkManager.cleanStop();
+            networkManager = null;
+            packetHandler = null;
+            quizGame.resetPlayerData();
+            appLifecycleHandler.setActive(false);
+        } else {
+            Log.i(TAG, "resetApp: Attempt to call cleanStop with null networkManager, skipping call");
         }
     }
 

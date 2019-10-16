@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.CallSuper;
@@ -51,6 +51,7 @@ public class MainActivityView extends AppCompatActivity {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         setContentView(R.layout.main_activity);
         Repository.getInstance().startNewGameInstance(getApplicationContext());
+        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
     }
 
     @Override
@@ -59,6 +60,7 @@ public class MainActivityView extends AppCompatActivity {
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
+        Repository.getInstance().resetApp();
     }
 
     /**

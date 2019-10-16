@@ -556,6 +556,9 @@ public class NetworkModule implements NetworkManager {
             connectionsClient.stopAdvertising();
             isHostBeaconActive = false;
             stopAllConnections();
+            payloadQueueList.clear();
+            isQueuingIncomingPayloads = false;
+            connectionLinkedHashMap.clear();
             connectionsClient = null; //Expect null pointer exceptions if continued use of module
             networkModule = null; //Clear own instance reference
         }
