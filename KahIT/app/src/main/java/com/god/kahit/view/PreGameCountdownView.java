@@ -1,5 +1,6 @@
 package com.god.kahit.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ public class PreGameCountdownView extends AppCompatActivity {
             @Override
             public void onFinish() {
                 preGameCountdownTimer.finishToastMessage();
+                Intent intent = new Intent(getApplicationContext(), QuestionView.class);
+                startActivity(intent);
             }
         };
     }

@@ -77,6 +77,9 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     public MutableLiveData<String> getMyPlayerId() {
         if (myPlayerId == null) {
             myPlayerId = new MutableLiveData<>();
+            if (isHost) {
+                myPlayerId.setValue(repository.getHostPlayerId());
+            }
         }
         return myPlayerId;
     }
@@ -233,6 +236,13 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
 
     public void setHasStartedGame(boolean hasStartedGame) {
         this.hasStartedGame = hasStartedGame;
+    }
+
+    public void startGame() {
+        if (isHost) {
+            repository.broadcastStartGame();
+        }
+        repository.startGame();
     }
 
     public void requestTeamChange(String teamId) {
