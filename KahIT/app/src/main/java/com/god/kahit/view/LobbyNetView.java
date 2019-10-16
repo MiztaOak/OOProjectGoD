@@ -1,6 +1,8 @@
 package com.god.kahit.view;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.GameStartedEvent;
 import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.R;
@@ -37,6 +40,8 @@ import static com.god.kahit.model.QuizGame.BUS;
 
 public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerListener, AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = LobbyNetView.class.getSimpleName();
+    private static final String START_GAME_BUTTON_COLOR = "#00CBF8";
+    private static final String START_GAME_BUTTON_COLOR_DISABLED = "#6A8990";
     private Spinner changeTeamSpinner;
     private RecyclerView recyclerView;
     private TextView sessionTypeTextView;
@@ -165,6 +170,13 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         String readyButtonText;
         if (lobbyNetViewModel.isHost()) {
             readyButtonText = "Start game";
+            if (lobbyNetViewModel.areAllPlayersReady()) {
+                startGameButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(START_GAME_BUTTON_COLOR)));
+                startGameButton.setEnabled(true);
+            } else {
+                startGameButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(START_GAME_BUTTON_COLOR_DISABLED)));
+                startGameButton.setEnabled(false);
+            }
         } else {
             Pair<Player, Connection> myPlayerConnectionPair = lobbyNetViewModel.getMe();
             Team myTeam = lobbyNetViewModel.getMyTeam();
@@ -247,9 +259,13 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
 
     private void onStartGameButtonAction() {
         if (lobbyNetViewModel.isHost()) {
-            Log.d(LOG_TAG, "onStartGameButtonAction: start game action called - not implemented yet! Simply showing next activity"); //todo actually implement real game-start
-            Intent intent = new Intent(this, QuestionView.class);
-            startActivity(intent);
+            Log.d(LOG_TAG, "onStartGameButtonAction: start game action called");
+            if (lobbyNetViewModel.isHost()) {
+                lobbyNetViewModel.startGame();
+                Intent intent = new Intent(this, PreGameCountdownView.class);
+                startActivity(intent);
+            }
+
         } else {
             if (startGameButton.getText().equals("Ready")) {
                 Log.d(LOG_TAG, "onStartGameButtonAction: player ready action called");
@@ -338,5 +354,11 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         }
     }
 
+    @Subscribe
+    public void onGameStart(GameStartedEvent event) {
+        Intent intent = new Intent(this, PreGameCountdownView.class);
+        startActivity(intent);
+        finish();
+    }
 }
 

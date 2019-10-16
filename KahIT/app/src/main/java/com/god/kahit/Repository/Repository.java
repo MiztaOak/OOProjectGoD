@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.GameStartedEvent;
 import com.god.kahit.Events.LobbyNameChangeEvent;
 import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.RoomChangeEvent;
@@ -265,7 +266,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onGameStartedEvent() {
                     Log.i(TAG, "onGameStartedEvent: event triggered.");
-                    //todo implement onGameStartedEvent
+                    BUS.post(new GameStartedEvent());
                 }
 
                 @Override
@@ -295,6 +296,15 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void addQuizListener(QuizListener quizListener) {
         quizGame.addListener(quizListener);
+    }
+
+    public void broadcastStartGame() {
+        if (packetHandler != null) {
+            packetHandler.broadcastGameStarted();
+        } else {
+            Log.i(TAG, "broadcastStartGame: Attempt to call broadcastGameStarted with " +
+                    "null packetHandler, skipping call");
+        }
     }
 
     public void startGame() {
@@ -346,6 +356,10 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             Log.i(TAG, String.format("setRoomName: Attempt to call setPlayerName with null" +
                     " networkManager. Tried renaming it to: '%s', skipping call", newRoomName));
         }
+    }
+
+    public String getHostPlayerId() {
+        return quizGame.getHostPlayerId();
     }
 
     public String getHostPlayerName() {
