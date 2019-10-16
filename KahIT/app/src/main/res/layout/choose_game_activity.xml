@@ -50,11 +50,12 @@
                     android:layout_marginTop="30dp"
                     android:backgroundTint="#00CBF8"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/bevietnamextrabolditalic"
                     android:background="@drawable/play_button_selector"
+                    android:fontFamily="@font/bevietnamextrabolditalic"
+                    android:textSize="17sp"
                     android:onClick="launchJoinRoomClass"
                     android:text="join"
-                    android:textSize="17sp" />
+                     />
 
                 <Button
                     android:id="@+id/hsGmYouBetterRunButton"

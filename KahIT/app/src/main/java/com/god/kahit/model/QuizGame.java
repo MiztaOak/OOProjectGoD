@@ -32,7 +32,6 @@ public class QuizGame {
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
     private Player currentPlayer; //TODO add method that moves current user through the list of users
-    private Store store;
     private Lottery lottery;
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
@@ -40,11 +39,6 @@ public class QuizGame {
         teamList = new ArrayList<>(MAX_ALLOWED_PLAYERS);
         playerList = new ArrayList<>();
         listeners = new ArrayList<>();
-        addNewPlayerToEmptyTeam("Player 1", "1");
-        currentPlayer = teamList.get(0).getTeamMembers().get(0);
-
-        //store = new Store();
-        //lottery = new Lottery();
     }
 
     public void startGame() {
@@ -267,12 +261,12 @@ public class QuizGame {
 
     /**
      * Checks if a empty team exists, if not it creates one if the total number of teams are below specified Integer.
-     * A new player is then created with the use of the parameters if less then specified maximum allowed players and adds it to the first empty team that is found.
+     * A new player is then created with the use of the parameters if less then specified integer and adds it to the first empty team that is found.
      * Said player is also added to the playerList.
      * Method then posts the change on the BUS with a teamChangeEvent.
      *
      * @param name for the new player.
-     * @param id   for the new player.
+     * @param id for the new player.
      */
     public void addNewPlayerToEmptyTeam(String name, String id) {
         if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
@@ -294,7 +288,7 @@ public class QuizGame {
      * Method then posts the change on the BUS with a teamChangeEvent.
      */
     public void addNewPlayerToEmptyTeam() {
-        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) { //TODO should this be checked here or in the network or some other place
+        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
             createNewTeam(teamList.size());
         }
         if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
@@ -341,9 +335,9 @@ public class QuizGame {
     public void createNewTeam(int teamNumber) {
         List<Player> players = new ArrayList<>();
         String teamName = "Team " + (teamNumber + 1);
-        String id = Integer.toString(teamNumber + 1);
+        String id = teamName;
         Team team = new Team(players, teamName, id);
-        teamList.add(teamNumber, team);
+        teamList.add(team);
     }
 
     /**
@@ -368,11 +362,6 @@ public class QuizGame {
      * @return
      */
     public Player createNewPlayer(String name, String id) {
-        String copy = name.replaceAll("\\s", ""); //Removes all whitespace so that it can be tested if it contains any characters.
-        if (isParamStringEmpty(copy)) {
-            name = getNewPlayerName();
-        }
-
         int i = playerList.size();
         while (isPlayerNameTaken(name)) {
             name = "Player " + i;
@@ -399,19 +388,7 @@ public class QuizGame {
         return new Player(name, id);
     }
 
-    /**
-     * Checks if a String contains any characters.
-     *
-     * @param string to be checked.
-     * @return true if string is empty, false if string contains one or more characters.
-     */
-    public boolean isParamStringEmpty(String string) {
-        if (string.equals("")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     /**
      * Creates a new player name.
@@ -419,7 +396,7 @@ public class QuizGame {
      * @return new name.
      */
     private String getNewPlayerName() {
-        return "Player " + (playerList.size());
+        return "Player " + (playerList.size() + 1 );
     }
 
     /**
@@ -547,15 +524,18 @@ public class QuizGame {
      * @param player     The player that needs to change team.
      * @param newTeamNum The index for the new team.
      */
-    public void changeTeam(Player player, int newTeamNum) { //todo use team id when that is implemented
+    public void changeTeam(Player player, int newTeamNum) {
+
+        for (Team team : teamList) {
+            team.removePlayer(player);
+        }
+
         try {
             teamList.get(newTeamNum);
         } catch (IndexOutOfBoundsException e) {
             createNewTeam(newTeamNum);
         }
-        for (Team team : teamList) {
-            team.removePlayer(player);
-        }
+
         teamList.get(newTeamNum).getTeamMembers().add(player);
         fireTeamChangeEvent();
     }
