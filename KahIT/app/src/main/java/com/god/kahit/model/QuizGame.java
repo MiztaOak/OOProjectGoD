@@ -23,10 +23,9 @@ public class QuizGame {
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
-
-    //TODO maybe move into constructor
+    private Store store; //TODO should this be here??
     private String hostPlayerId = "iHost";
-    private Boolean gameIsStarted = false;
+    private Boolean gameIsStarted = false; //TODO maybe move into constructor
 
     private List<QuizListener> listeners;
     /**
@@ -48,7 +47,7 @@ public class QuizGame {
             indexMap = new HashMap<>();
             currentCategory = Category.Mix;
             loadIndexMap();
-
+            store = new Store();
             gameIsStarted = true;
         }
     }
@@ -175,10 +174,11 @@ public class QuizGame {
      * @param question    - the question that was asked
      * @param timeLeft    - the time that was left when the user answered the question
      */
-    public void enterAnswer(Player player, String givenAnswer, Question question, long timeLeft) {
+    public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
-            player.updateScore((int) scoreDelta);
+            double scoreDelta = ((double)scorePerQuestion) * (((double) timeLeft) / ((double)question.getTime()));
+            currentPlayer.updateScore((int)scoreDelta);
+            //TODO if hotswap change currentPlayer
         }
     }
 
@@ -213,10 +213,6 @@ public class QuizGame {
             }
         }
         return null;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
     }
 
     public Team getPlayerTeam(String playerId) {
@@ -602,13 +598,13 @@ public class QuizGame {
      *
      * @param winnings a map with winnings.
      */
-    private void applyModifiers(Map<Player, Item> winnings) {
+    private void applyModifiers (Map<Player, Item> winnings) {
         for (Player player : getPlayers()) {
             if (winnings.get(player) instanceof Buff) {
                 player.setBuff((Buff) Objects.requireNonNull(winnings.get(player)));
-            } else if (winnings.get(player) instanceof Debuff) {
+            } else if(winnings.get(player) instanceof Debuff) {
                 player.setDebuff((Debuff) Objects.requireNonNull(winnings.get(player)));
-            } else {
+            }else {
                 player.setVanityItem((VanityItem) Objects.requireNonNull(winnings.get(player)));
             }
         }
@@ -624,7 +620,7 @@ public class QuizGame {
     public void applyModifier(Player player, Item item) {
         if (item instanceof Buff) {
             player.setBuff((Buff) item);
-        } else if (item instanceof Debuff) {
+        }else if(item instanceof Debuff){
             player.setDebuff((Debuff) item);
         } else {
             player.setVanityItem((VanityItem) item);
@@ -647,5 +643,12 @@ public class QuizGame {
 
     public void setHostPlayerId(String hostPlayerId) {
         this.hostPlayerId = hostPlayerId;
+    }
+
+    public Store getStore() {
+        if(store == null){
+            store = new Store();
+        }
+        return store;
     }
 }

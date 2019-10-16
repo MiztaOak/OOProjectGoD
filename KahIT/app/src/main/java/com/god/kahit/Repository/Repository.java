@@ -21,6 +21,7 @@ import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.QuizListener;
+import com.god.kahit.model.Store;
 import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
 import com.god.kahit.networkManager.Callbacks.HostEventCallback;
 import com.god.kahit.networkManager.Callbacks.NetworkCallback;
@@ -47,6 +48,8 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;
+    //TODO remove player when done testing
+    Player p = new Player("anas", "123");
 
     private Repository() {
     }
@@ -611,4 +614,35 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.getAllItems();
     }
 
+    public QuizGame getQuizGame() {
+        return quizGame;
+    }
+
+    public List<Item> getStoreItems(){
+        return quizGame.getStore().getStoreItems();
+    }
+
+    public List<Item> getBoughtItems(){
+        return quizGame.getStore().getBoughtItems();
+    }
+    public int getPlayerScore(){
+        return p.getScore();
+    }
+    public boolean isItemBuyable(int i){
+        return quizGame.getStore().isItemBuyable(i, p);
+    }
+    public void buy(int i){
+        quizGame.getStore().buy(i, p);
+    }
+    public String getItemName(int i){
+        return getStoreItems().get(i).getName();
+    }
+
+    public int getItemPrice(int i){
+        return getStoreItems().get(i).getPrice();
+    }
+
+    public boolean isItemBought(int i){
+        return quizGame.getStore().isItemBought(i);
+    }
 }
