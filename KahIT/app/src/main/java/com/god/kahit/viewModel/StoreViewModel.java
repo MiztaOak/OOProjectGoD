@@ -1,6 +1,8 @@
 package com.god.kahit.viewModel;
 
+import com.god.kahit.Repository;
 import com.god.kahit.model.Item;
+import com.god.kahit.model.Player;
 import com.god.kahit.model.Store;
 
 import java.util.List;
@@ -8,25 +10,31 @@ import java.util.List;
 import androidx.lifecycle.ViewModel;
 
 public class StoreViewModel extends ViewModel {
-    public int i = 0;
-    private Store storeModel = new Store();
-    public boolean isItemBuyable(Item item){
-        return (!(item.getPrice() > storeModel.getPlayer().getScore()));
+    public boolean isItemBuyable(int i) {
+        return Repository.getInstance().isItemBuyable(i);
     }
+
     public void buy(int i) {
-        storeModel.getPlayer().setScore((storeModel.getPlayer().getScore() - (storeModel.getStoreItems().get(i).getPrice())));
-        storeModel.buy(storeModel.getStoreItems().get(i), storeModel.getPlayer());
+        Repository.getInstance().buy(i);
     }
 
     public List<Item> getStoreItems() {
-        return storeModel.getStoreItems();
+        return Repository.getInstance().getStoreItems();
     }
 
-    public Store getStoreModel() {
-        return storeModel;
+    public String getItemName(int i){
+        return Repository.getInstance().getItemName(i);
     }
 
-    public void setStoreModel(Store storeModel) {
-        this.storeModel = storeModel;
+    public int getItemPrice(int i){
+        return Repository.getInstance().getItemPrice(i);
+    }
+
+    public int getPlayerPoints() {
+        return Repository.getInstance().getPlayerScore();
+    }
+    public boolean isItemBought(int i){
+
+        return Repository.getInstance().isItemBought(i);
     }
 }

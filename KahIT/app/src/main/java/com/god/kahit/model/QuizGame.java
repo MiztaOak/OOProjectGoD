@@ -23,7 +23,7 @@ public class QuizGame {
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
-
+    private Store store; //TODO should this be here??
     private String hostPlayerId = "iHost";
     private Boolean gameIsStarted = false; //TODO maybe move into constructor
 
@@ -47,7 +47,7 @@ public class QuizGame {
             indexMap = new HashMap<>();
             currentCategory = Category.Mix;
             loadIndexMap();
-
+            store = new Store();
             gameIsStarted = true;
         }
     }
@@ -643,5 +643,12 @@ public class QuizGame {
 
     public void setHostPlayerId(String hostPlayerId) {
         this.hostPlayerId = hostPlayerId;
+    }
+
+    public Store getStore() {
+        if(store == null){
+            store = new Store();
+        }
+        return store;
     }
 }
