@@ -34,6 +34,8 @@ public class StoreView extends Fragment {
     private TextView pointsText;
     private ArrayList<ImageView> itemsIcons = new ArrayList<>();
     private List<Button> itemButtons = new ArrayList<>();
+    private ArrayList<ImageView> boughtItemsIcons = new ArrayList<>();
+
     public static StoreView newInstance() {
         return new StoreView();
     }
@@ -58,10 +60,13 @@ public class StoreView extends Fragment {
     public void initializeStoreView() {
         findItemIcons();
         findItemButtons();
+        findBoughtItemIcons();
         populateItemIcons();
         setPointsText();
         setButtonText();
         addActionsToButtons();
+        disableBoughtItems();
+
     }
     /**
      *A method that iterates through the list of items and get their names and their image source to set them correctly in the view
@@ -99,11 +104,22 @@ public class StoreView extends Fragment {
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton4));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton5));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton6));
-        /*
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton7));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton8));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton9));
-         */
+    }
+    private void findBoughtItemIcons() {
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon10));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon11));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon12));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon13));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon14));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon15));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon16));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon17));
+        boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon18));
+
+
     }
     /**
      * A method that updates the taxt the old the value of a player's points which changes after
@@ -112,7 +128,7 @@ public class StoreView extends Fragment {
     @SuppressLint("SetTextI18n")
     public void setPointsText() {
         pointsText = Objects.requireNonNull(getView()).findViewById(R.id.pointsText);
-        pointsText.setText("Points:" + storeViewModel.getStoreModel().getPlayer().getScore());
+        pointsText.setText("Points:" + storeViewModel.getPlayerPoints());
     }
     /**
      * A method that sets an action to each button that has been add to itemButtons list. The action
@@ -137,17 +153,20 @@ public class StoreView extends Fragment {
      */
     @SuppressLint("SetTextI18n")
     public void buy(Button itemButton){
-        if (storeViewModel.isItemBuyable(storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)))){
-            storeViewModel.buy(itemButtons.indexOf(itemButton));
-            Toast toast = Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
-                "You got " + storeViewModel.getStoreItems().get(itemButtons.indexOf(itemButton)).getName(),
-                Toast.LENGTH_LONG);
-            toast.show();
-            itemButton.setEnabled(false);
-            itemsIcons.get(itemButtons.indexOf(itemButton)).setImageResource(R.drawable.checkmark);
-            pointsText.setText("Points: " + storeViewModel.getStoreModel().getPlayer().getScore());
+        int i = itemButtons.indexOf(itemButton);
+        if (storeViewModel.isItemBuyable(i)){
+            storeViewModel.buy(i);
+            showToast(i);
+            setPointsText();
             disableButtons();
+            disableBoughtItems();
         }
+    }
+    private void showToast(int i){
+        Toast toast = Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
+            "You got " + storeViewModel.getStoreItems().get(i).getName(),
+            Toast.LENGTH_LONG);
+        toast.show();
     }
     /**
      * A method that disables the buttons used to buy items when the player's points are lower than
@@ -156,7 +175,7 @@ public class StoreView extends Fragment {
     public void disableButtons(){
 
         for (int i = 0; i < itemButtons.size(); i++) {
-            if(!storeViewModel.isItemBuyable(storeViewModel.getStoreItems().get(i))){
+            if(!storeViewModel.isItemBuyable(i)){
                 itemButtons.get(i).setEnabled(false);
             }
         }
@@ -167,7 +186,20 @@ public class StoreView extends Fragment {
     @SuppressLint("SetTextI18n")
     public void setButtonText(){
         for (int i = 0; i < itemButtons.size(); i++) {
-            itemButtons.get(i).setText(Integer.toString(storeViewModel.getStoreItems().get(i).getPrice()));
+            itemButtons.get(i).setText(Integer.toString(storeViewModel.getItemPrice(i)));
         }
+    }
+
+    private void disableBoughtItems(){
+        for(int i = 0; i < itemButtons.size(); i++){
+            if (storeViewModel.isItemBought(i)){
+                setDisableEffect(i);
+            }
+        }
+
+    }
+    private void setDisableEffect(int i){
+        itemButtons.get(i).setEnabled(false);
+        boughtItemsIcons.get(i).setVisibility(View.VISIBLE);
     }
 }
