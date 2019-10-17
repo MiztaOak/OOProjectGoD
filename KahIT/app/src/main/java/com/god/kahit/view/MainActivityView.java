@@ -70,7 +70,8 @@ public class MainActivityView extends AppCompatActivity {
         return true;
     }
 
-    
+
+
 
     @Override
     protected void onStart() {
