@@ -4,8 +4,8 @@ public class Modifier extends Item {
     private double scoreMultiplier;
     private int amountOfTime;
 
-    public Modifier(int price, String name, double scoreMultiplier, int amountOfTime){
-        super(price, name);
+    public Modifier(int price, String name, double scoreMultiplier, int amountOfTime, String id){
+        super(price, name, id);
         this.scoreMultiplier = scoreMultiplier;
         this.amountOfTime = amountOfTime;
     }

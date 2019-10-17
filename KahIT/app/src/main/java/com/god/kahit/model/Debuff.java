@@ -10,8 +10,8 @@ package com.god.kahit.model;
  */
 public class Debuff extends Modifier {
     private Boolean autoAnswer;
-    public Debuff(int price, String name, double scoreMultiplier, int timeHeadstart, boolean autoAnswer){
-        super(price, name, scoreMultiplier, timeHeadstart);
+    public Debuff(int price, String name, double scoreMultiplier, int timeHeadstart, boolean autoAnswer, String id){
+        super(price, name, scoreMultiplier, timeHeadstart, id);
         this.autoAnswer = autoAnswer;
     }
 

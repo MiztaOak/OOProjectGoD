@@ -3,8 +3,10 @@ package com.god.kahit;
 import android.app.Instrumentation;
 import android.os.Looper;
 
+import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
+import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
@@ -28,9 +30,11 @@ public class QuizGameTest implements QuizListener {
     public void setUp() throws InterruptedException {
         try{
             QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+            ItemFactory.setDataLoader(new ItemDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
         }catch (Exception e){
             Looper.prepare();
             QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
+            ItemFactory.setDataLoader(new ItemDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
         }
 
         quizGame = new QuizGame();
