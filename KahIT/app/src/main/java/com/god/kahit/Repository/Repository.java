@@ -615,7 +615,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return null;
     }
 
-    public void changeTeam(Player player, int newTeamId) {
+    public void changeTeam(Player player, String newTeamId) {
         quizGame.changeTeam(player, newTeamId);
     }
 

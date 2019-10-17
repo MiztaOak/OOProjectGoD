@@ -382,12 +382,6 @@ public class QuizGame {
      */
     public Player createNewPlayer() {
         String name = getNewPlayerName();
-
-        int i = playerList.size();
-        while (isPlayerNameTaken(name)) {
-            name = "Player " + i;
-            i++;
-        }
         String id = name;
 
         return new Player(name, id);
@@ -400,7 +394,12 @@ public class QuizGame {
      * @return new name.
      */
     private String getNewPlayerName() {
-        return "Player " + (playerList.size() + 1);
+        String namePrefix = "Player ";
+        int i = 1;
+        while (isPlayerNameTaken(namePrefix + i)) {
+            i++;
+        }
+        return namePrefix + i;
     }
 
     /**
@@ -427,8 +426,6 @@ public class QuizGame {
         if (getTotalAmountOfPlayers() > 1) { //TODO should we not instead check if player is current player, or is it wrong to have no players
             for (int i = 0; i < teamList.size(); i++) {
                 teamList.get(i).getTeamMembers().remove(player);
-
-//                removeTeamIfEmpty(teamList.get(i)); //Would clear team name, don't want that
             }
             playerList.remove(player);
 
