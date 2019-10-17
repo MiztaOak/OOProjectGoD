@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
     private List<Integer> mColors;
@@ -21,11 +21,11 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-
         View row;
 
-            row = super.getDropDownView(position, convertView, parent);
-            row.setBackgroundColor(mColors.get(position));
+        row = super.getDropDownView(position, convertView, parent);
+        row.setBackgroundColor(mColors.get(position));
+//            row.setBackgroundTintList(ColorStateList.valueOf(mColors.get(position)));
 
         return row;
     }

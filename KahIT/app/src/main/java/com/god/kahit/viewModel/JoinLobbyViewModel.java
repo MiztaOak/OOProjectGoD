@@ -3,7 +3,7 @@ package com.god.kahit.viewModel;
 import android.content.Context;
 
 import com.god.kahit.Events.RoomChangeEvent;
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.networkManager.Connection;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -21,7 +21,7 @@ import static com.god.kahit.model.QuizGame.BUS;
 public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = JoinLobbyViewModel.class.getSimpleName();
 
-    MutableLiveData<List<Connection>> roomListForView;
+    private MutableLiveData<List<Connection>> roomListForView;
     private Repository repository;
 
     public JoinLobbyViewModel() {
@@ -59,6 +59,10 @@ public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
         return roomListForView;
     }
 
+    public void resetPlayerData() {
+        repository.resetPlayerData();
+    }
+
     public void setupNetwork(Context context) {
         repository.setupNetwork(context, false);
     }
@@ -77,5 +81,13 @@ public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
 
     public void clearConnections() {
         repository.clearConnections();
+    }
+
+    public String getPlayerName() {
+        return repository.getClientPlayerName();
+    }
+
+    public void setPlayerName(String newPlayerName) {
+        repository.setClientPlayerName(newPlayerName);
     }
 }
