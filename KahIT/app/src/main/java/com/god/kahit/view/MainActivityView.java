@@ -50,6 +50,7 @@ public class MainActivityView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         Repository.getInstance().startNewGameInstance(getApplicationContext());
+        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
         
         startMusic();
         startHomeButtonListener();
