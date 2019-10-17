@@ -21,13 +21,13 @@ import androidx.core.content.ContextCompat;
 
 import com.god.kahit.R;
 import com.god.kahit.Repository;
-import com.god.kahit.backgroundMusicService.HomeWatcher;
+import com.god.kahit.backgroundMusicService.HomeButtonClickedListener;
 import com.god.kahit.backgroundMusicService.MusicService;
 import com.god.kahit.backgroundMusicService.OnHomePressedListener;
 
 public class MainActivityView extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityView.class.getSimpleName();
-    HomeWatcher mHomeWatcher;
+    HomeButtonClickedListener mHomeWatcher;
 
 
     private static final String[] REQUIRED_PERMISSIONS =
@@ -46,11 +46,9 @@ public class MainActivityView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         Repository.getInstance().startNewGameInstance(getApplicationContext());
-
-
+        
         startMusic();
-        startHomeWatcher();
-
+        startHomeButtonListener();
     }
 
 
@@ -138,9 +136,9 @@ public class MainActivityView extends AppCompatActivity {
     }
 
 
-    private void startHomeWatcher() {
-        //Start HomeWatcher
-        mHomeWatcher = new HomeWatcher(this);
+    private void startHomeButtonListener() {
+        //Start HomeButtonClickedListener
+        mHomeWatcher = new HomeButtonClickedListener(this);
         mHomeWatcher.setOnHomePressedListener(new OnHomePressedListener() {
             @Override
             public void onHomePressed() {
@@ -156,7 +154,7 @@ public class MainActivityView extends AppCompatActivity {
                 }
             }
         });
-        mHomeWatcher.startWatch();
+        mHomeWatcher.start();
     }
 
 

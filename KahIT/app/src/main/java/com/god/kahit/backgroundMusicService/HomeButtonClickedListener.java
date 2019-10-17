@@ -5,15 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class HomeWatcher {
 
-    //static final String TAG = "hg";
+/** A class who helps pausing music when home button clicked */
+
+public class HomeButtonClickedListener {
+
+
     private Context mContext;
     private IntentFilter mFilter;
     private OnHomePressedListener mListener;
     private InnerReceiver mRecevier;
 
-    public HomeWatcher(Context context) {
+    public HomeButtonClickedListener(Context context) {
         mContext = context;
         mFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
     }
@@ -23,13 +26,13 @@ public class HomeWatcher {
         mRecevier = new InnerReceiver();
     }
 
-    public void startWatch() {
+    public void start() {
         if (mRecevier != null) {
             mContext.registerReceiver(mRecevier, mFilter);
         }
     }
 
-    public void stopWatch() {
+    public void stop() {
         if (mRecevier != null) {
             mContext.unregisterReceiver(mRecevier);
         }
