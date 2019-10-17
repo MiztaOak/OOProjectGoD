@@ -217,7 +217,8 @@
         "img_name" : "double_score",
         "scoreMultiplier" : 2.0,
         "timeHeadstart" : 0,
-        "amountOfAlternatives" : 0
+        "amountOfAlternatives" : 0,
+        "id" : "i0"
       },
       "i1" : {
         "price" : 120,
@@ -226,7 +227,8 @@
         "img_name" : "time_headstart",
         "scoreMultiplier" : 1.0,
         "timeHeadstart" : 5,
-        "amountOfAlternatives" : 0
+        "amountOfAlternatives" : 0,
+        "id" : "i1"
       },
       "i2" : {
         "price" : 100,
@@ -235,7 +237,8 @@
         "img_name" : "fifty_fifty",
         "scoreMultiplier" : 1.0,
         "timeHeadstart" : 0,
-        "amountOfAlternatives" : 2
+        "amountOfAlternatives" : 2,
+        "id" : "i2"
       }
     }, 
     "debuffs" : {
@@ -246,7 +249,8 @@
         "img_name" : "half_score",
         "scoreMultiplier" : 0.5,
         "timeHeadstart" : 0,
-        "autoAlt" : false
+        "autoAlt" : false,
+        "id" : "i3"
       },
       "i4" : {
         "price" : 80,
@@ -255,7 +259,8 @@
         "img_name" : "double_time",
         "scoreMultiplier" : 1.0,
         "timeHeadstart" : -5,
-        "autoAlt" : false
+        "autoAlt" : false,
+        "id" : "i4"
       },
       "i5" : {
         "price" : 80,
@@ -264,7 +269,8 @@
         "img_name" : "binoculars",
         "scoreMultiplier" : 1.0,
         "timeHeadstart" : 0,
-        "autoAlt" : true
+        "autoAlt" : true,
+        "id" : "i5"
       }
     },
     "vanityItems" :{
@@ -272,19 +278,22 @@
         "price" : 150,
         "type" : "Cosmetic",
         "name" : "Number One",
-        "img_name" : "glove"
+        "img_name" : "glove",
+        "id" : "i6"
       },
       "i7" : {
         "price" : 150,
         "type" : "Cosmetic",
         "name" : "Smart",
-        "img_name" : "knowladge"
+        "img_name" : "knowladge",
+        "id" : "i7"
       },
       "i8" : {
         "price" : 150,
         "type" : "Cosmetic",
         "name" : "Strong",
-        "img_name" : "strong"
+        "img_name" : "strong",
+        "id" : "i8"
       }
     }
   }
