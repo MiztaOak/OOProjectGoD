@@ -32,7 +32,7 @@ import com.god.kahit.backgroundMusicService.OnHomePressedListener;
 public class MainActivityView extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityView.class.getSimpleName();
 
-    HomeButtonClickedListener mHomeWatcher;
+  //  HomeButtonClickedListener mHomeWatcher;
 
     private static final String[] REQUIRED_PERMISSIONS =
             new String[]{
@@ -52,8 +52,9 @@ public class MainActivityView extends AppCompatActivity {
         Repository.getInstance().startNewGameInstance(getApplicationContext());
         Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
 
-        startMusic();
-        startHomeButtonListener();
+        Repository.getInstance().setupAudioHandler(getApplicationContext());
+
+
     }
 
 
@@ -70,8 +71,6 @@ public class MainActivityView extends AppCompatActivity {
         }
         return true;
     }
-
-
 
 
     @Override
@@ -123,121 +122,5 @@ public class MainActivityView extends AppCompatActivity {
         Intent intent = new Intent(this, AboutKahitView.class);
         startActivity(intent);
     }
-
-
-
-
-    public void startMusic() {
-
-        //BIND Music Service
-        doBindService();
-        Intent music = new Intent();
-        music.setClass(this, MusicService.class);
-        startService(music);
-    }
-
-
-    private void startHomeButtonListener() {
-        //Start HomeButtonClickedListener
-        mHomeWatcher = new HomeButtonClickedListener(this);
-        mHomeWatcher.setOnHomePressedListener(new OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-                if (mServ != null) {
-                    mServ.pauseMusic();
-                }
-            }
-
-            @Override
-            public void onHomeLongPressed() {
-                if (mServ != null) {
-                    mServ.pauseMusic();
-                }
-            }
-        });
-        mHomeWatcher.start();
-    }
-
-
-
-    // public void onPause() { super.onPause(); if (mp != null) mp.pause(); }
-  /* @Override
-   protected void onResume() {
-       if(mp != null && !mp.isPlaying())
-           mp.start();
-       super.onResume();
-   }*/
-
-
-    //Bind/Unbind music service
-    private boolean mIsBound = false;
-    private MusicService mServ;
-    private ServiceConnection Scon = new ServiceConnection() {
-
-        public void onServiceConnected(ComponentName name, IBinder
-                binder) {
-            mServ = ((MusicService.ServiceBinder) binder).getService();
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            mServ = null;
-        }
-    };
-
-
-    void doBindService() {
-        bindService(new Intent(this, MusicService.class),
-                Scon, Context.BIND_AUTO_CREATE);
-        mIsBound = true;
-    }
-
-    void doUnbindService() {
-        if (mIsBound) {
-            unbindService(Scon);
-            mIsBound = false;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (mServ != null) {
-            mServ.resumeMusic();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //Detect idle screen
-        PowerManager pm = (PowerManager)
-                getSystemService(Context.POWER_SERVICE);
-        boolean isScreenOn = false;
-        if (pm != null) {
-            isScreenOn = pm.isScreenOn();
-        }
-
-        if (!isScreenOn) {
-            if (mServ != null) {
-                mServ.pauseMusic();
-            }
-        }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        //UNBIND music service
-        doUnbindService();
-        Intent music = new Intent();
-        music.setClass(this, MusicService.class);
-        stopService(music);
-
-    }
-
 
 }

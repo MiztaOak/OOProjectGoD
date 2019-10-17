@@ -1,16 +1,15 @@
 package com.god.kahit.backgroundMusicService;
 
+
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
-
-
 import com.god.kahit.R;
-
 
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
 
@@ -18,13 +17,9 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     MediaPlayer mPlayer;
     private int length = 0;
 
-    public MusicService() {
-    }
 
-    public class ServiceBinder extends Binder {
-        public MusicService getService() {
-            return MusicService.this;
-        }
+    public MusicService(MediaPlayer mPlayer) {
+        this.mPlayer = mPlayer;
     }
 
     @Override
@@ -35,8 +30,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mPlayer = MediaPlayer.create(this, R.raw.pre_game_song);
         mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {
@@ -60,6 +53,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mPlayer != null) {
             mPlayer.start();
+
         }
         return START_NOT_STICKY;
     }
@@ -83,18 +77,17 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     }
 
     public void startMusic() {
-        mPlayer = MediaPlayer.create(this, R.raw.pre_game_song);
-        mPlayer.setOnErrorListener(this);
+       mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {
             mPlayer.setLooping(true);
             mPlayer.setVolume(50, 50);
             mPlayer.start();
         }
-
     }
 
     public void stopMusic() {
+
         if (mPlayer != null) {
             mPlayer.stop();
             mPlayer.release();
@@ -127,5 +120,11 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             }
         }
         return false;
+    }
+
+    public class ServiceBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
     }
 }
