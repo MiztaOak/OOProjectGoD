@@ -3,8 +3,8 @@ package com.god.kahit.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
@@ -12,6 +12,7 @@ import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -20,15 +21,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlayerClickListener {
+public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwapViewHolderClickListener {
 
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
-    RecyclerView.LayoutManager layoutManager;
-    MutableLiveData<List<Player>> playerListMutableLiveData;
-    MutableLiveData<List<Integer>> integerListMutableLiveData;
+
+    MutableLiveData<List<Pair<Player, Integer>>> playerListMutableLiveData;
+
     HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
-    ItemTouchHelper.SimpleCallback simpleItemTouchCallback;
-    private RecyclerView recyclerView;
+    HotSwapTouchHelper simpleItemTouchCallback;
     private RecyclerView.Adapter recyclerAdapter;
 
     @Override
@@ -41,47 +41,19 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
         hotSwapAddPlayersViewModel.onCreate();
 
         playerListMutableLiveData = hotSwapAddPlayersViewModel.getPlayerListForView();
-        hotSwapAddPlayersViewModel.getPlayerListForView().observe(this, new Observer<List<Player>>() {
+        hotSwapAddPlayersViewModel.getPlayerListForView().observe(this, new Observer<List<Pair<Player, Integer>>>() {
             @Override
-            public void onChanged(List<Player> playerList) {
+            public void onChanged(List<Pair<Player, Integer>> playerList) {
                 recyclerAdapter.notifyDataSetChanged();
             }
         });
 
-        integerListMutableLiveData = hotSwapAddPlayersViewModel.getTeamNumberForView();
-        hotSwapAddPlayersViewModel.getTeamNumberForView().observe(this, new Observer<List<Integer>>() {
+        simpleItemTouchCallback = new HotSwapTouchHelper(this) {
             @Override
-            public void onChanged(List<Integer> integers) {
-                recyclerAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-
-        Button addTeamButton = findViewById(R.id.addTeamButton);
-
-        addTeamButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hotSwapAddPlayersViewModel.addNewPlayer();
-            }
-        });
-
-        simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // CusrsorViewHolder cViewHolder = (CursorViewHolder)viewHolder;
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 hotSwapAddPlayersViewModel.removePlayer(viewHolder.getAdapterPosition());
-                recyclerAdapter.notifyDataSetChanged();
             }
         };
-
-
 
         setupRecyclerView();
     }
@@ -90,23 +62,22 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IOnPlaye
      * Sets up the recyclerView with it's adaptor HotSwapRecyclerAdapter.
      */
     private void setupRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
-        recyclerAdapter = new HotSwapRecyclerAdapter(this, playerListMutableLiveData, integerListMutableLiveData, this);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        recyclerAdapter = new HotSwapRecyclerAdapter(this, playerListMutableLiveData, this);
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(this.recyclerView);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
-    public void onPlayerClick(int position) {
-        //hotSwapAddPlayersViewModel.removePlayer(position);
+    public void onAddPlayer() {
+        hotSwapAddPlayersViewModel.addNewPlayer();
     }
 
     @Override
     public void onTeamSelected(int position, int newTeamId) {
-        hotSwapAddPlayersViewModel.updatePlayerData(position, newTeamId);
+        hotSwapAddPlayersViewModel.onTeamChange(position, newTeamId);
     }
 
     @Override

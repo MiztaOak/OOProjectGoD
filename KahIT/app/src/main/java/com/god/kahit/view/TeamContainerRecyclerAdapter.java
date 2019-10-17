@@ -90,7 +90,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
         holder.headerConstraintLayout.setBackgroundTintList(ColorStateList.valueOf(teamColorRGB));
 
         //Set player name, if local player also add additional string
-        holder.playerNameTextView.setText((isMe ? "(ME):" : "") + holderPlayer.getName());
+        holder.playerNameTextView.setText((isMe ? "ME:" : "") + holderPlayer.getName());
 
         //Set 'kick'-button to visible if host and not local player
         holder.playerKickButton.setVisibility((isHost && !isMe) ? View.VISIBLE : View.GONE);

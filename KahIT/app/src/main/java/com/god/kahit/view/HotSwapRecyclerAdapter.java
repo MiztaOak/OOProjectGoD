@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,137 +25,35 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Helper class for the HotSwapAddPlayerView it works as a recyclerAdapter for the RecyclerView.
  */
-public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecyclerAdapter.itemViewHolder> {
+public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String LOG_TAG = HotSwapRecyclerAdapter.class.getSimpleName();
-    private static final int TYPE_ITEM = 0;
-    private static final int TYPE_FOOTER = 1;
-    private static final int TYPE_DIVIDER = 2;
 
-    private IOnPlayerClickListener iOnplayerclickListener;
+    private static final int FOOTER_VIEW = 1;
 
-    private MutableLiveData<List<Player>> playerList;
-    private MutableLiveData<List<Integer>> teamNumberList;
+    private IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
+
+    private MutableLiveData<List<Pair<Player, Integer>>> playerList;
 
     private List<Integer> teamColors;
     private List<String> teamNumbers;
 
     private Context context;
-    //TODO remove when done testing
-    private LayoutInflater layoutInflater;
-    private List<String> data;
 
-    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Player>> playerList,MutableLiveData<List<Integer>> teamNumberList, IOnPlayerClickListener iOnplayerclickListener) {
+    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
         this.context = c;
         this.playerList = playerList;
-        this.teamNumberList = teamNumberList;
-        this.iOnplayerclickListener = iOnplayerclickListener;
-    }
-
-    public HotSwapRecyclerAdapter(Context context, List<String> data) {
-            this.layoutInflater = LayoutInflater.from(context);
-            this.data = data;
-    }
-    public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener{
-
-        IOnPlayerClickListener iOnplayerclickListener;
-        public ConstraintLayout row;
-        public TextView textView;
-        public ImageView img;
-        //public Button add;
-        public Button remove;
-        public Spinner spin;
-        //View.OnClickListener onClickListener; //TODO
-
-
-        public itemViewHolder(@NonNull View itemView, IOnPlayerClickListener iOnplayerclickListener) {
-            super(itemView);
-            this.iOnplayerclickListener = iOnplayerclickListener;
-
-            row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
-            textView = (TextView) itemView.findViewById(R.id.player_name);
-            img = (ImageView) itemView.findViewById(R.id.player_image);
-            //add = itemView.findViewById(R.id.add_button);
-            //remove = itemView.findViewById(R.id.remove_Player_Button1);
-            spin = (Spinner) itemView.findViewById(R.id.spinner2);
-
-
-            //add.setOnClickListener(this); //TODO remove
-            //remove.setOnClickListener(this);
-            //spin.setOnClickListener();
-            //itemView.setOnClickListener(this);
-
-            initTeamColors();
-            initTeamNumbers();
-
-            //spin.setSelection(getIndex(spin, 3));
-
-            spin.setAdapter(new CustomSpinnerAdapter(
-                    context,
-                    R.layout.spinner_item,
-                    R.id.text1,
-                    teamNumbers,
-                    teamColors));
-
-            spin.setOnItemSelectedListener(this);
-        }
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            iOnplayerclickListener.onTeamSelected(getAdapterPosition(), position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            iOnplayerclickListener.onPlayerClick(getAdapterPosition());
-        }
-
-        ItemTouchHelper.SimpleCallback ith = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                iOnplayerclickListener.onPlayerClick(i);
-            }
-        };
-    }
-
-    private class FooterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-
-        Button btnSubmitProblem;
-
-        public FooterViewHolder(View view) {
-            super(view);
-            //row = (ConstraintLayout) itemView.findViewById(R.id.a_row);
-            btnSubmitProblem = (Button) view.findViewById(R.id.add_button1);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
+        this.iHotSwapViewHolderClickListener = iHotSwapViewHolderClickListener;
     }
 
     private void initTeamNumbers() {
@@ -172,62 +71,73 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         }
     }
 
+    private int manipulateColor(int color, float factor) {
+        int a = Color.alpha(color);
+        int r = Math.round(Color.red(color) * factor);
+        int g = Math.round(Color.green(color) * factor);
+        int b = Math.round(Color.blue(color) * factor);
+        return Color.argb(a,
+                Math.min(r, 255),
+                Math.min(g, 255),
+                Math.min(b, 255));
+    }
+
     @Override
-    public itemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view ;
-        itemViewHolder holder;
+        View view;
 
-        if (viewType == TYPE_ITEM) {
+        if (viewType == FOOTER_VIEW) {
+            view = inflater.inflate(
+                    R.layout.hs_lobby_footer,
+                    parent,
+                    false);
+            return new FooterViewHolder(view, iHotSwapViewHolderClickListener);
+        } else {
             view = inflater.inflate(
                     R.layout.player_row,
                     parent,
                     false);
-
-        } else {
-            view = inflater.inflate(
-                    R.layout.game_lobby_adapter_footer,
-                    parent,
-                    false);
+            return new ItemViewHolder(view);
         }
-
-
-        return new itemViewHolder(view, iOnplayerclickListener);
     }
 
     @Override
-    public void onBindViewHolder(itemViewHolder itemViewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        try {
+            if (viewHolder instanceof ItemViewHolder) {
+                TextView textView = ((ItemViewHolder) viewHolder).textView;
+                ImageView imageView = ((ItemViewHolder) viewHolder).img;
+                Resources res = context.getResources();
 
+                ((ItemViewHolder) viewHolder).spin.setSelection(Objects.requireNonNull(playerList.getValue()).get(i).second - 1);
 
-        TextView textView = itemViewHolder.textView;
-        ImageView imageView = itemViewHolder.img;
-        Resources res = context.getResources();
+                setRowLayout((ItemViewHolder) viewHolder);
 
-        itemViewHolder.spin.setSelection(Objects.requireNonNull(teamNumberList.getValue()).get(i));
-        itemViewHolder.row.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
-        itemViewHolder.spin.setBackgroundColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()));
+                textView.setText(playerList.getValue().get(i).first.getName());
 
+                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
+                imageView.setImageDrawable(drawable);
+                Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1);
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
+                roundedBitmapDrawable.setCircular(true);
+                imageView.setImageDrawable(roundedBitmapDrawable);
+            } else if (viewHolder instanceof FooterViewHolder) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setRowLayout(ItemViewHolder itemViewHolder) {
         GradientDrawable gd = new GradientDrawable();
-        gd.setColor(teamColors.get(i));
-        gd.setCornerRadius(60);
+        gd.setCornerRadius(30);
+        gd.setColor(manipulateColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()), 0.8f));
         itemViewHolder.row.setBackground(gd);
         itemViewHolder.spin.setBackground(gd);
-
-        textView.setText(Objects.requireNonNull(playerList.getValue()).get(i).getName());
-
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
-        imageView.setImageDrawable(drawable);
-        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1);
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
-        roundedBitmapDrawable.setCircular(true);
-        imageView.setImageDrawable(roundedBitmapDrawable);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (position == playerList.getValue().size()) ? 1 : 0; //todo footer
     }
 
     @Override
@@ -235,6 +145,74 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<HotSwapRecycler
         if (null == playerList.getValue() || playerList.getValue().size() == 0) {
             return 0;
         }
-        return playerList.getValue().size(); // + 1 //TODO COMMENT Footer
+        return playerList.getValue().size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == Objects.requireNonNull(playerList.getValue()).size()) {
+            return FOOTER_VIEW;
+        }
+        return super.getItemViewType(position);
+    }
+
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements AdapterView.OnItemSelectedListener {
+
+        ConstraintLayout row;
+        TextView textView;
+        ImageView img;
+        Spinner spin;
+        TextView spinnerText;
+
+        public ItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            row = itemView.findViewById(R.id.a_row);
+            textView = itemView.findViewById(R.id.player_name);
+            img = itemView.findViewById(R.id.player_image);
+            spin = itemView.findViewById(R.id.spinner2);
+            spinnerText = itemView.findViewById(R.id.text1);
+
+            initTeamColors();
+            initTeamNumbers();
+
+            spin.setAdapter(new CustomSpinnerAdapter(
+                    context,
+                    R.layout.spinner_item_hotswap,
+                    R.id.text1,
+                    teamNumbers,
+                    teamColors));
+
+            spin.setOnItemSelectedListener(this);
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            int i = getAdapterPosition();
+            if (position != (Objects.requireNonNull(playerList.getValue()).get(getAdapterPosition()).second - 1)) {
+                iHotSwapViewHolderClickListener.onTeamSelected(getAdapterPosition(), position);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+    }
+
+    private class FooterViewHolder extends RecyclerView.ViewHolder {
+        IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
+
+        public FooterViewHolder(View view, final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
+            super(view);
+            this.iHotSwapViewHolderClickListener = iHotSwapViewHolderClickListener;
+
+            Button addPlayer = (Button) view.findViewById(R.id.footerButton);
+            addPlayer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iHotSwapViewHolderClickListener.onAddPlayer();
+                }
+            });
+        }
     }
 }

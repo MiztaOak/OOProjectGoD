@@ -59,6 +59,7 @@
             android:layout_height="90dp"
             android:background="@drawable/play_button_selector"
             android:backgroundTint="#00CBF8"
+            android:fontFamily="@font/bevietnamextrabolditalic"
             android:lineSpacingExtra="8sp"
             android:onClick="launchChooseGameClass"
             android:text="PLAY"
@@ -66,25 +67,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
-            android:fontFamily="@font/bevietnamextrabolditalic"
             android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mLogoImageView" />
-
-        <Button
-            android:id="@+id/countdown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/play_button_selector"
-            android:backgroundTint="@color/white"
-            android:onClick="launchPreGameCountdownView"
-            android:text="pre-game countdown"
-            android:typeface="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mPlayButton" />
 
         <Button
             android:id="@+id/mAboutKahitButton"
@@ -92,11 +78,11 @@
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
-            android:typeface="normal"
             android:background="@drawable/play_button_selector"
             android:backgroundTint="@color/white"
-            android:text="About KahIt"
             android:onClick="launchAboutKahitView"
+            android:text="About KahIt"
+            android:typeface="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

@@ -1,6 +1,6 @@
 package com.god.kahit.view;
 
-public interface IOnPlayerClickListener {
-    void onPlayerClick(int position);
+public interface IHotSwapViewHolderClickListener {
+    void onAddPlayer();
     void onTeamSelected(int position, int newTeamId);
 }

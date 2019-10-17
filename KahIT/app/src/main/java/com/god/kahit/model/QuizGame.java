@@ -23,16 +23,17 @@ public class QuizGame {
     private Deque<Question> roundQuestions;
     private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
+    private Store store; //TODO should this be here??
 
+    //TODO maybe move into constructor
     private String hostPlayerId = "iHost";
-    private Boolean gameIsStarted = false; //TODO maybe move into constructor
+    private Boolean gameIsStarted = false;
 
     private List<QuizListener> listeners;
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
     private Player currentPlayer; //TODO add method that moves current user through the list of users
-    private Store store;
     private Lottery lottery;
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
@@ -40,11 +41,6 @@ public class QuizGame {
         teamList = new ArrayList<>(MAX_ALLOWED_PLAYERS);
         playerList = new ArrayList<>();
         listeners = new ArrayList<>();
-        addNewPlayerToEmptyTeam("Player 1", "1");
-        currentPlayer = teamList.get(0).getTeamMembers().get(0);
-
-        //store = new Store();
-        //lottery = new Lottery();
     }
 
     public void startGame() {
@@ -53,7 +49,7 @@ public class QuizGame {
             indexMap = new HashMap<>();
             currentCategory = Category.Mix;
             loadIndexMap();
-
+            store = new Store();
             gameIsStarted = true;
         }
     }
@@ -180,11 +176,10 @@ public class QuizGame {
      * @param question    - the question that was asked
      * @param timeLeft    - the time that was left when the user answered the question
      */
-    public void enterAnswer(String givenAnswer, Question question, long timeLeft) {
+    public void enterAnswer(Player player, String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            double scoreDelta = ((double)scorePerQuestion) * (((double) timeLeft) / ((double)question.getTime()));
-            currentPlayer.updateScore((int)scoreDelta);
-            //TODO if hotswap change currentPlayer
+            double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
+            player.updateScore((int) scoreDelta);
         }
     }
 
@@ -219,6 +214,10 @@ public class QuizGame {
             }
         }
         return null;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public Team getPlayerTeam(String playerId) {
@@ -267,7 +266,7 @@ public class QuizGame {
 
     /**
      * Checks if a empty team exists, if not it creates one if the total number of teams are below specified Integer.
-     * A new player is then created with the use of the parameters if less then specified maximum allowed players and adds it to the first empty team that is found.
+     * A new player is then created with the use of the parameters if less then specified integer and adds it to the first empty team that is found.
      * Said player is also added to the playerList.
      * Method then posts the change on the BUS with a teamChangeEvent.
      *
@@ -294,7 +293,7 @@ public class QuizGame {
      * Method then posts the change on the BUS with a teamChangeEvent.
      */
     public void addNewPlayerToEmptyTeam() {
-        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) { //TODO should this be checked here or in the network or some other place
+        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
             createNewTeam(teamList.size());
         }
         if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
@@ -343,7 +342,7 @@ public class QuizGame {
         String teamName = "Team " + (teamNumber + 1);
         String id = Integer.toString(teamNumber + 1);
         Team team = new Team(players, teamName, id);
-        teamList.add(teamNumber, team);
+        teamList.add(team);
     }
 
     /**
@@ -368,11 +367,6 @@ public class QuizGame {
      * @return
      */
     public Player createNewPlayer(String name, String id) {
-        String copy = name.replaceAll("\\s", ""); //Removes all whitespace so that it can be tested if it contains any characters.
-        if (isParamStringEmpty(copy)) {
-            name = getNewPlayerName();
-        }
-
         int i = playerList.size();
         while (isPlayerNameTaken(name)) {
             name = "Player " + i;
@@ -388,30 +382,11 @@ public class QuizGame {
      */
     public Player createNewPlayer() {
         String name = getNewPlayerName();
-
-        int i = playerList.size();
-        while (isPlayerNameTaken(name)) {
-            name = "Player " + i;
-            i++;
-        }
         String id = name;
 
         return new Player(name, id);
     }
 
-    /**
-     * Checks if a String contains any characters.
-     *
-     * @param string to be checked.
-     * @return true if string is empty, false if string contains one or more characters.
-     */
-    public boolean isParamStringEmpty(String string) {
-        if (string.equals("")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Creates a new player name.
@@ -419,7 +394,12 @@ public class QuizGame {
      * @return new name.
      */
     private String getNewPlayerName() {
-        return "Player " + (playerList.size());
+        String namePrefix = "Player ";
+        int i = 1;
+        while (isPlayerNameTaken(namePrefix + i)) {
+            i++;
+        }
+        return namePrefix + i;
     }
 
     /**
@@ -446,8 +426,6 @@ public class QuizGame {
         if (getTotalAmountOfPlayers() > 1) { //TODO should we not instead check if player is current player, or is it wrong to have no players
             for (int i = 0; i < teamList.size(); i++) {
                 teamList.get(i).getTeamMembers().remove(player);
-
-//                removeTeamIfEmpty(teamList.get(i)); //Would clear team name, don't want that
             }
             playerList.remove(player);
 
@@ -547,15 +525,18 @@ public class QuizGame {
      * @param player     The player that needs to change team.
      * @param newTeamNum The index for the new team.
      */
-    public void changeTeam(Player player, int newTeamNum) { //todo use team id when that is implemented
+    public void changeTeam(Player player, int newTeamNum) {
+
+        for (Team team : teamList) {
+            team.removePlayer(player);
+        }
+
         try {
             teamList.get(newTeamNum);
         } catch (IndexOutOfBoundsException e) {
             createNewTeam(newTeamNum);
         }
-        for (Team team : teamList) {
-            team.removePlayer(player);
-        }
+
         teamList.get(newTeamNum).getTeamMembers().add(player);
         fireTeamChangeEvent();
     }
@@ -618,13 +599,13 @@ public class QuizGame {
      *
      * @param winnings a map with winnings.
      */
-    private void applyModifiers (Map<Player, Item> winnings) {
+    private void applyModifiers(Map<Player, Item> winnings) {
         for (Player player : getPlayers()) {
             if (winnings.get(player) instanceof Buff) {
                 player.setBuff((Buff) Objects.requireNonNull(winnings.get(player)));
-            } else if(winnings.get(player) instanceof Debuff) {
+            } else if (winnings.get(player) instanceof Debuff) {
                 player.setDebuff((Debuff) Objects.requireNonNull(winnings.get(player)));
-            }else {
+            } else {
                 player.setVanityItem((VanityItem) Objects.requireNonNull(winnings.get(player)));
             }
         }
@@ -640,7 +621,7 @@ public class QuizGame {
     public void applyModifier(Player player, Item item) {
         if (item instanceof Buff) {
             player.setBuff((Buff) item);
-        }else if(item instanceof Debuff){
+        } else if (item instanceof Debuff) {
             player.setDebuff((Debuff) item);
         } else {
             player.setVanityItem((VanityItem) item);
@@ -663,5 +644,12 @@ public class QuizGame {
 
     public void setHostPlayerId(String hostPlayerId) {
         this.hostPlayerId = hostPlayerId;
+    }
+
+    public Store getStore() {
+        if (store == null) {
+            store = new Store();
+        }
+        return store;
     }
 }

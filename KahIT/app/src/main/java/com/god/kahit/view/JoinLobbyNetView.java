@@ -1,14 +1,22 @@
 package com.god.kahit.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.god.kahit.Events.GameJoinedLobbyEvent;
+import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.R;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.viewModel.JoinLobbyViewModel;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -29,10 +37,14 @@ public class JoinLobbyNetView extends AppCompatActivity {
     private JoinLobbyViewModel joinLobbyViewModel;
     private RecyclerView recyclerView;
 
+    private TextInputEditText playerNameTextInputEditText;
     private RecyclerView.Adapter recyclerAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private String prevPlayerName;
+
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.join_lobbynet_activity);
@@ -50,11 +62,18 @@ public class JoinLobbyNetView extends AppCompatActivity {
             }
         });
 
+        setupViewContent();
         setupRecyclerView();
+        joinLobbyViewModel.resetPlayerData();
         joinLobbyViewModel.setupNetwork(getApplicationContext());
+
+        //Force set player name
+        playerNameTextInputEditText.setText(NameGenerator.generatePlayerName());
+        playerNameTextInputEditText.requestFocus();
+        playerNameTextInputEditText.clearFocus();
+
         joinLobbyViewModel.startScan();
     }
-
 
     @Override
     public void onStart() {
@@ -68,6 +87,62 @@ public class JoinLobbyNetView extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         BUS.unregister(this);
+    }
+
+    private void setupViewContent() {
+        playerNameTextInputEditText = findViewById(R.id.createLobbyNet_textInputEditText_playerName);
+
+        playerNameTextInputEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    //Force hide keyboard
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(playerNameTextInputEditText.getWindowToken(), 0);
+                    playerNameTextInputEditText.clearFocus();
+                }
+                return false; //Hide keyboard, in case some devices don't beforehand
+            }
+        });
+
+        playerNameTextInputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Editable editableText = playerNameTextInputEditText.getText();
+                if (editableText == null) {
+                    return;
+                }
+
+                if (!hasFocus) {
+                    String inputString = editableText.toString();
+                    inputString = cleanInputString(inputString);
+
+                    if (inputString != null) {
+                        playerNameTextInputEditText.setText(inputString);
+                        joinLobbyViewModel.setPlayerName(inputString);
+                    } else {
+                        playerNameTextInputEditText.setText(prevPlayerName);
+                    }
+                } else {
+                    prevPlayerName = editableText.toString();
+                }
+            }
+        });
+    }
+
+    private String cleanInputString(String inputText) {
+        inputText = inputText.replace(";", "");
+        inputText = inputText.trim(); //Remove leading and trailing spaces
+
+        if (inputText.length() > 0) {
+            return inputText;
+        } else {
+            return null;
+        }
+    }
+
+    private void updateViewContent() {
+        playerNameTextInputEditText.setText(joinLobbyViewModel.getPlayerName());
     }
 
     private void setupRecyclerView() {
@@ -104,6 +179,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
     public void onLobbyJoinedEvent(GameJoinedLobbyEvent event) {
         Log.d(LOG_TAG, "onLobbyJoinedEvent: event triggered");
         joinLobbyViewModel.stopScan();
+
         Intent intent = new Intent(this, LobbyNetView.class);
         intent.putExtra("isHostBoolean", false);
         startActivity(intent);

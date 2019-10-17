@@ -33,15 +33,16 @@ public class QuestionView extends AppCompatActivity {
 
     private static final String LOG_TAG = QuestionView.class.getSimpleName();
     private final Handler h1 = new Handler();
-    private ImageView storeImage;
-    private DrawerLayout drawerLayout;
-    private Button choosePlayerButton;
     NavigationView navigationView;
     //TODO FOLLOWING is ALL TEMPORARY and will be replaced by variables from Question.class. FROM:
     int qTime = 2000; //The total time the player1 has to answer.
     int n = 5;  //The number of the question if in a sequence.
     int k = 11; //The total number of questions if in a sequence.
     String p1 = "The man with no name"; //The players name.
+    private TextView questionNmbTextView;
+    private ImageView storeImage;
+    private DrawerLayout drawerLayout;
+    private Button choosePlayerButton;
     private ObjectAnimator animation;
     private ArrayList<TextView> answers = new ArrayList<>();
     //TODO TO:
@@ -53,6 +54,7 @@ public class QuestionView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
         model = ViewModelProviders.of(this).get(QuestionViewModel.class);
+        questionNmbTextView = findViewById(R.id.qNumOfQuesTextView);
         storeImage = findViewById(R.id.storeImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
@@ -96,8 +98,7 @@ public class QuestionView extends AppCompatActivity {
         addDrawerListener();
         addStoreImageAction();
         initAnswerTextViews();
-        populateQuestionNum(n);
-        populateTotalNumQuestions(k);
+        updateQuestionNmbTextView(n, k);
         populatePlayerName(p1);
         model.nextQuestion();
         startTimer(progressBar, qTime);
@@ -149,13 +150,13 @@ public class QuestionView extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         animation.pause();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         animation.resume();
     }
@@ -200,23 +201,13 @@ public class QuestionView extends AppCompatActivity {
     }
 
     /**
-     * Sets the questions number.
-     *
-     * @param i equals to the number of the question asked, e.g. 4 out of 10 where 4 is i.
-     */
-    public void populateQuestionNum(int i) {
-        TextView num = findViewById(R.id.qNumOfQuesTextView);
-        num.setText(String.valueOf(i));
-    }
-
-    /**
      * Sets the number of total questions.
      *
-     * @param i equals to the total number of questions in a series of questions.
+     * @param curNmbQuestion    equals to the current question index in a series of questions.
+     * @param totalNmbQuestions equals to the total number of questions in a series of questions.
      */
-    public void populateTotalNumQuestions(int i) {
-        TextView num = findViewById(R.id.textView9);
-        num.setText(("of " + i));
+    public void updateQuestionNmbTextView(int curNmbQuestion, int totalNmbQuestions) {
+        questionNmbTextView.setText(String.format("Question %s of %s", curNmbQuestion, totalNmbQuestions));
     }
 
     /**
@@ -245,35 +236,37 @@ public class QuestionView extends AppCompatActivity {
         animation.start();
 
     }
+
     /**
      * A method that initiates the store by getting its layout and pasting it inside the side
      * navigation
      */
-    public void initStore(Bundle savedInstanceState){
+    public void initStore(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, StoreView.newInstance())
                     .commitNow();
         }
     }
+
     /**
      * A method that adds an action to the drawer layout which changes the position of storeImage
      * upon opening and closing
      */
-    public void addDrawerListener(){
+    public void addDrawerListener() {
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View view, float v) {
             }
 
             @Override
-            public void onDrawerOpened( View view) {
+            public void onDrawerOpened(View view) {
                 navigationView.bringToFront();
                 storeImage.setX(0);
             }
 
             @Override
-            public void onDrawerClosed( View view) {
+            public void onDrawerClosed(View view) {
                 navigationView.bringToFront();
                 storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
             }
@@ -289,11 +282,12 @@ public class QuestionView extends AppCompatActivity {
             }
         });
     }
+
     /**
      * A method that adds action to the store image  which makes the store slides out when clicking
      * on it
      */
-    public void addStoreImageAction(){
+    public void addStoreImageAction() {
         storeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -306,7 +300,7 @@ public class QuestionView extends AppCompatActivity {
      * A method that initiates the a list to choose a player to debuff by getting its layout
      * and pasting it inside the side navigation
      */
-    public void initChoosePlayer(Bundle savedInstanceState){
+    public void initChoosePlayer(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, ChoosePlayerToDebuffView.newInstance())

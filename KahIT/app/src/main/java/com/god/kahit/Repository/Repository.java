@@ -1,12 +1,17 @@
-package com.god.kahit;
+package com.god.kahit.Repository;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.GameStartedEvent;
+import com.god.kahit.Events.LobbyNameChangeEvent;
 import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.RoomChangeEvent;
+import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
@@ -39,7 +44,10 @@ import static com.god.kahit.model.QuizGame.BUS;
 public class Repository { //todo implement a strategy pattern, as we got two different states, host & non-host
     private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
+    //TODO remove player when done testing
+    Player p = new Player("anas", "123");
     private QuizGame quizGame;
+    private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;
 
@@ -53,7 +61,33 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return instance;
     }
 
-    public void setupNetwork(Context context, final boolean isHost) {
+    public void setupAppLifecycleObserver(final Context context) {
+        if (appLifecycleHandler == null) {
+            Log.i(TAG, "setupAppLifecycleObserver: called");
+            appLifecycleHandler = new AppLifecycleHandler(context, new AppLifecycleCallback() {
+                @Override
+                public void onAppForegrounded() {
+                }
+
+                @Override
+                public void onAppBackgrounded() {
+                }
+
+                @Override
+                public void onAppTimedOut() {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            clearConnections();
+                            BUS.post(new TimedOutEvent());
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    public void setupNetwork(Context context, final boolean isHost) { //Marking a parameter as final prohibits the reassignment of the parameter within the code block of the method
         networkManager = NetworkModule.getInstance(context, new NetworkCallback() {
             @Override
             public void onBytePayloadReceived(@NonNull String id, @NonNull byte[] receivedBytes) {
@@ -84,7 +118,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName());
                     packetHandler.broadcastPlayerChangeTeam(connection.getId(), quizGame.getPlayerTeam(connection.getId()).getId());
                 } else {
-                    pauseNetInCommunication(); //Pause in-coming communication, letting client set up needed logic beforehand
+                    pauseNetInCommunication(); //Pause in-coming communication, letting client set up needed logic beforehand.
                     packetHandler.sendPlayerId(connection, connection.getId()); //Let host let their id
                     BUS.post(new GameJoinedLobbyEvent());
                 }
@@ -121,14 +155,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     quizGame.getPlayer(quizGame.getHostPlayerId()).setId(playerId);
                     quizGame.setHostPlayerId(playerId);
 
-                    packetHandler.broadcastLobbySyncStartPacket(senderId, "Loot Mansion", "epic"); //todo lobbySync replace with actual values
-
-                    //todo send all sync messages
-                    packetHandler.broadcastPlayerJoined(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).getName());
-                    packetHandler.broadcastPlayerChangeTeam(quizGame.getHostPlayerId(), quizGame.getPlayerTeam(quizGame.getHostPlayerId()).getId());
-                    packetHandler.broadcastLobbyReadyChange(quizGame.getHostPlayerId(), quizGame.getPlayer(quizGame.getHostPlayerId()).isPlayerReady());
-
-                    packetHandler.broadcastLobbySyncEndPacket();
+                    handleLobbySyncProcedure(senderId);
 
                     BUS.post(new MyPlayerIdChangedEvent(playerId));
                 }
@@ -241,19 +268,23 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onGameStartedEvent() {
                     Log.i(TAG, "onGameStartedEvent: event triggered.");
-                    //todo implement onGameStartedEvent
+                    BUS.post(new GameStartedEvent());
                 }
 
                 @Override
                 public void onLobbySyncStartEvent(@NonNull String targetPlayerId, @NonNull String roomName, @NonNull String gameModeId) {
                     Log.i(TAG, "onLobbySyncStartEvent: event triggered.");
-                    //todo implement onLobbySyncStartEvent
+                    if (networkManager.isMe(targetPlayerId)) {
+                        BUS.post(new LobbyNameChangeEvent(networkManager.getConnectionHost().getName()));
+                    } else {
+                        pauseNetInCommunication();
+                    }
                 }
 
                 @Override
                 public void onLobbySyncEndEvent() {
                     Log.i(TAG, "onLobbySyncEndEvent: event triggered.");
-                    //todo implement onLobbySyncEndEvent
+                    clearNetInCommunicationQueue();
                 }
             });
         }
@@ -269,6 +300,15 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.addListener(quizListener);
     }
 
+    public void broadcastStartGame() {
+        if (packetHandler != null) {
+            packetHandler.broadcastGameStarted();
+        } else {
+            Log.i(TAG, "broadcastStartGame: Attempt to call broadcastGameStarted with " +
+                    "null packetHandler, skipping call");
+        }
+    }
+
     public void startGame() {
         quizGame.startGame();
         quizGame.startRound();
@@ -279,11 +319,91 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
-        quizGame.enterAnswer(givenAnswer, question, timeLeft);
+        Player player = quizGame.getCurrentPlayer();
+        if (player != null) { //Hotswap
+            quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
+            //todo add move to next player if hotswap
+        } else { //Network
+            if (networkManager != null) {
+                if (networkManager.isHost()) { //Enables solo play, as host doesn't know its own id in that case
+                    player = quizGame.getPlayer(quizGame.getHostPlayerId());
+                } else {
+                    player = quizGame.getPlayer(networkManager.getPlayerId());
+                }
+                quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
+            } else {
+                Log.i(TAG, "sendAnswer: Attempt to call getPlayerId with null networkManager, skipping call");
+            }
+        }
     }
 
     public List<Player> getPlayers() {
         return quizGame.getPlayers();
+    }
+
+    public String getRoomName() {
+        if (networkManager != null) {
+            return networkManager.getPlayerName();
+        } else {
+            Log.i(TAG, "getRoomName: Attempt to call getPlayerName with null networkManager, skipping call");
+            return null;
+        }
+    }
+
+    public void setRoomName(String newRoomName) {
+        if (networkManager != null) {
+            Log.i(TAG, String.format("setRoomName: setting roomName to: '%s'", newRoomName));
+            networkManager.setPlayerName(newRoomName);
+        } else {
+            Log.i(TAG, String.format("setRoomName: Attempt to call setPlayerName with null" +
+                    " networkManager. Tried renaming it to: '%s', skipping call", newRoomName));
+        }
+    }
+
+    public String getHostPlayerId() {
+        return quizGame.getHostPlayerId();
+    }
+
+    public String getHostPlayerName() {
+        Player hostPlayer = quizGame.getPlayer(quizGame.getHostPlayerId());
+        if (hostPlayer != null) {
+            return hostPlayer.getName();
+        } else {
+            Log.i(TAG, "getHostPlayerName: Attempt to call getName with null hostPlayer, returning null");
+            return null;
+        }
+    }
+
+    public void setHostPlayerName(String newPlayerName) {
+        Player hostPlayer = quizGame.getPlayer(quizGame.getHostPlayerId());
+
+        if (hostPlayer != null) {
+            Log.i(TAG, String.format("setHostPlayerName: setting playerName to: '%s'", newPlayerName));
+            hostPlayer.setName(newPlayerName);
+        } else {
+            Log.i(TAG, String.format("setHostPlayerName: Attempt to call setName with null" +
+                    " hostPlayer. Tried renaming it to: '%s', skipping call", newPlayerName));
+        }
+    }
+
+    public String getClientPlayerName() {
+        if (networkManager != null) {
+            return networkManager.getPlayerName();
+        } else {
+            Log.i(TAG, "getClientPlayerName: Attempt to call getPlayerName with null networkManager, returning null");
+            return null;
+        }
+    }
+
+    public void setClientPlayerName(String newPlayerName) {
+        if (networkManager != null) {
+            Log.i(TAG, String.format("setClientPlayerName: setting playerName to: '%s'", newPlayerName));
+            networkManager.setPlayerName(newPlayerName);
+        } else {
+            Log.i(TAG, String.format("setClientPlayerName: Attempt to call setPlayerName with " +
+                    "null networkManager. Tried renaming it to: '%s', " +
+                    "skipping call", newPlayerName));
+        }
     }
 
     public boolean isRoundOver() {
@@ -310,16 +430,58 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
-    public void pauseNetInCommunication() {
-        networkManager.setQueueIncomingPayloads(true);
+    private void handleLobbySyncProcedure(String senderId) {
+        List<Player> playerList = quizGame.getPlayers();
+
+        packetHandler.broadcastLobbySyncStartPacket(senderId, networkManager.getPlayerName(), "epic"); //todo lobbySync replace with actual values
+        for (Player player : playerList) {
+            //Sync players
+            if (!player.getId().equals(senderId)) { //The joining player has already been notified of their
+                packetHandler.broadcastPlayerJoined(player.getId(), player.getName());
+            }
+
+            //Sync player team
+            packetHandler.broadcastPlayerChangeTeam(player.getId(), quizGame.getPlayerTeam(player.getId()).getId());
+
+            //Sync player ready status
+            if (player.isPlayerReady()) {
+                packetHandler.broadcastLobbyReadyChange(player.getId(), player.isPlayerReady());
+            }
+        }
+
+        packetHandler.broadcastLobbySyncEndPacket();
+    }
+
+    private void clearNetInCommunicationQueue() {
+        if (networkManager != null) {
+            networkManager.clearPayloadQueue();
+        } else {
+            Log.i(TAG, "clearNetInCommunicationQueue: Attempt to call clearPayloadQueue with null networkManager, skipping call");
+
+        }
+    }
+
+    private void pauseNetInCommunication() {
+        if (networkManager != null) {
+            networkManager.setQueueIncomingPayloads(true);
+        } else {
+            Log.i(TAG, "pauseNetInCommunication: Attempt to call setQueueIncomingPayloads with null networkManager, skipping call");
+
+        }
     }
 
     public void restoreNetInCommunications() {
-        networkManager.processPayloadQueue();
+        if (networkManager != null) {
+            networkManager.processPayloadQueue();
+        } else {
+            Log.i(TAG, "restoreNetInCommunications: Attempt to call processPayloadQueue with null networkManager, skipping call");
+
+        }
     }
 
     public void startHostBeacon() {
         if (networkManager != null) {
+            appLifecycleHandler.setActive(true);
             networkManager.startHostBeacon();
         } else {
             Log.i(TAG, "startHostBeacon: Attempt to call startHostBeacon with null networkManager, skipping call");
@@ -336,6 +498,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void startScan() {
         if (networkManager != null) {
+            appLifecycleHandler.setActive(true);
             networkManager.startScan();
         } else {
             Log.i(TAG, "startScan: Attempt to call startScan with null networkManager, skipping call");
@@ -355,6 +518,19 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             networkManager.stopAllConnections();
         } else {
             Log.i(TAG, "clearConnections: Attempt to call stopAllConnections with null networkManager, skipping call");
+        }
+    }
+
+    public void resetApp() {
+        if (networkManager != null) {
+            Log.i(TAG, "resetApp: performing a reset of networkManager and player data");
+            networkManager.cleanStop();
+            networkManager = null;
+            packetHandler = null;
+            quizGame.resetPlayerData();
+            appLifecycleHandler.setActive(false);
+        } else {
+            Log.i(TAG, "resetApp: Attempt to call cleanStop with null networkManager, skipping call");
         }
     }
 
@@ -439,7 +615,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return null;
     }
 
-    public void changeTeam(Player player, int newTeamId) {
+    public void changeTeam(Player player, String newTeamId) {
         quizGame.changeTeam(player, newTeamId);
     }
 
@@ -451,4 +627,39 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.getAllItems();
     }
 
+    public QuizGame getQuizGame() {
+        return quizGame;
+    }
+
+    public List<Item> getStoreItems() {
+        return quizGame.getStore().getStoreItems();
+    }
+
+    public List<Item> getBoughtItems() {
+        return quizGame.getStore().getBoughtItems();
+    }
+
+    public int getPlayerScore() {
+        return p.getScore();
+    }
+
+    public boolean isItemBuyable(int i) {
+        return quizGame.getStore().isItemBuyable(i, p);
+    }
+
+    public void buy(int i) {
+        quizGame.getStore().buy(i, p);
+    }
+
+    public String getItemName(int i) {
+        return getStoreItems().get(i).getName();
+    }
+
+    public int getItemPrice(int i) {
+        return getStoreItems().get(i).getPrice();
+    }
+
+    public boolean isItemBought(int i) {
+        return quizGame.getStore().isItemBought(i);
+    }
 }
