@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
 import com.god.kahit.R;
@@ -13,11 +14,12 @@ import com.god.kahit.R;
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
 
     private final IBinder mBinder = new ServiceBinder();
-    MediaPlayer mPlayer = new MediaPlayer();
+    MediaPlayer mPlayer;
     private int length = 0;
 
 
-    public MusicService() {
+    public MusicService(MediaPlayer mPlayer) {
+        this.mPlayer = mPlayer;
     }
 
     @Override
@@ -28,8 +30,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mPlayer = MediaPlayer.create(this, R.raw.pre_game_song); //replace with your song name!
         mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {
@@ -77,16 +77,13 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     }
 
     public void startMusic() {
-
-        mPlayer = MediaPlayer.create(this, R.raw.pre_game_song);
-        mPlayer.setOnErrorListener(this);
+       mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {
             mPlayer.setLooping(true);
             mPlayer.setVolume(50, 50);
             mPlayer.start();
         }
-
     }
 
     public void stopMusic() {
