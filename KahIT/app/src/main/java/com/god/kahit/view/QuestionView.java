@@ -54,11 +54,13 @@ public class QuestionView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
         model = ViewModelProviders.of(this).get(QuestionViewModel.class);
+
         questionNmbTextView = findViewById(R.id.qNumOfQuesTextView);
         storeImage = findViewById(R.id.storeImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         choosePlayerButton = findViewById(R.id.choosePlayerButton);
+
         choosePlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

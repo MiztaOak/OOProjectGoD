@@ -54,6 +54,9 @@ public class QuizGame {
             store = new Store();
             gameIsStarted = true;
         }
+        if(isHowSwap && currentPlayer != playerList.get(0)){ //Makes sure that current player is set in hotswap mode
+            currentPlayer = playerList.get(0);
+        }
     }
 
     public void endGame() {
