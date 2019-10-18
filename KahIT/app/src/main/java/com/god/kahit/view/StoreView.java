@@ -65,8 +65,8 @@ public class StoreView extends Fragment {
         setPointsText();
         setButtonText();
         addActionsToButtons();
+        disableButtons();
         disableBoughtItems();
-
     }
     /**
      *A method that iterates through the list of items and get their names and their image source to set them correctly in the view
@@ -159,7 +159,7 @@ public class StoreView extends Fragment {
             showToast(i);
             setPointsText();
             disableButtons();
-            disableBoughtItems();
+            setDisableEffect(i);
         }
     }
     private void showToast(int i){
@@ -173,7 +173,6 @@ public class StoreView extends Fragment {
      * the price of an item
      */
     public void disableButtons(){
-
         for (int i = 0; i < itemButtons.size(); i++) {
             if(!storeViewModel.isItemBuyable(i)){
                 itemButtons.get(i).setEnabled(false);
@@ -189,15 +188,15 @@ public class StoreView extends Fragment {
             itemButtons.get(i).setText(Integer.toString(storeViewModel.getItemPrice(i)));
         }
     }
-
+    //TODO javaDoc
     private void disableBoughtItems(){
         for(int i = 0; i < itemButtons.size(); i++){
             if (storeViewModel.isItemBought(i)){
                 setDisableEffect(i);
             }
         }
-
     }
+    //TODO javaDoc
     private void setDisableEffect(int i){
         itemButtons.get(i).setEnabled(false);
         boughtItemsIcons.get(i).setVisibility(View.VISIBLE);

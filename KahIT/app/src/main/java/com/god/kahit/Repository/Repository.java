@@ -698,6 +698,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public List<Item> getStoreItems() {
+        p.clearModifier();
         return quizGame.getStore().getStoreItems();
     }
 

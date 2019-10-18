@@ -15,7 +15,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     public Player(String name, String id) {
         this.name = name;
         this.id = id;
-        this.score = 500; //TODO remove when done testing
+        this.score = 5000; //TODO remove when done testing
         this.playerReady = false;
     }
 
@@ -37,8 +37,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         amountOfTime = debuff.getAmountOfTime() + amountOfTime;
         autoAnswer= debuff.getAutoAnswer();
     }
-    //TODO remove when done implemnting buffs and debuffs.
-    public void setModifier(Modifier modifier){}
+
     /**
      * A method that clears the effect of a Modifier after  it has been used
      */
@@ -51,6 +50,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
 
     public void updateScore(int points) { //todo rename to addScore
         this.score += points*scoreMultiplier;
+        clearModifier();
     } //TODO add calculation that takes current buff into account
 
     public String getName() {
