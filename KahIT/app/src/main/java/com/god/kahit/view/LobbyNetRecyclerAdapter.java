@@ -73,7 +73,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
     public void onBindViewHolder(@NonNull LobbyNetRecyclerAdapter.ItemViewHolder holder, int i) {
         Team holderTeam = Objects.requireNonNull(teamList.getValue()).get(i);
 
-        holder.teamHeaderConstraintLayout.setBackgroundTintList(ColorStateList.valueOf(teamColors.get(Integer.valueOf(holderTeam.getId())-1)));
+        holder.teamHeaderConstraintLayout.setBackgroundTintList(ColorStateList.valueOf(teamColors.get(Integer.valueOf(holderTeam.getId()) - 1)));
         holder.teamNameTextView.setText(holderTeam.getTeamName());
         holder.teamNameTextInputLayout.setVisibility(View.GONE);
         holder.teamNameTextView.setVisibility(View.VISIBLE);

@@ -1,25 +1,38 @@
 package com.god.kahit.view;
 
+
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+
 import com.god.kahit.R;
-import com.god.kahit.Repository;
-import com.google.firebase.database.FirebaseDatabase;
+import com.god.kahit.Repository.Repository;
+
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+
+import com.god.kahit.backgroundMusicService.HomeButtonClickedListener;
+import com.god.kahit.backgroundMusicService.MusicService;
+import com.god.kahit.backgroundMusicService.OnHomePressedListener;
+
 public class MainActivityView extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityView.class.getSimpleName();
+
+  //  HomeButtonClickedListener mHomeWatcher;
 
     private static final String[] REQUIRED_PERMISSIONS =
             new String[]{
@@ -31,6 +44,19 @@ public class MainActivityView extends AppCompatActivity {
             };
 
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
+        Repository.getInstance().startNewGameInstance(getApplicationContext());
+
+        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
+        Repository.getInstance().setupAudioHandler(getApplicationContext());
+
+    }
+
+
 
     /**
      * Returns true if the app was granted all the permissions. Otherwise, returns false.
@@ -45,12 +71,6 @@ public class MainActivityView extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-        Repository.getInstance().startNewGameInstance(getApplicationContext());
-    }
 
     @Override
     protected void onStart() {
@@ -58,6 +78,7 @@ public class MainActivityView extends AppCompatActivity {
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
+        Repository.getInstance().resetApp();
     }
 
     /**
@@ -95,15 +116,10 @@ public class MainActivityView extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchPreGameCountdownView(View view) {
-        Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, PreGameCountdownView.class);
-        startActivity(intent);
-    }
-
     public void launchAboutKahitView(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, AboutKahitView.class);
         startActivity(intent);
     }
+
 }

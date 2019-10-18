@@ -147,4 +147,5 @@
     <color name="black">#000000</color>
     <color name="white2">#e5e5e5</color>
     <color name="transparent">#00000000</color>
+    <color name="kahitStandard">#00CBF8</color>
 </resources>

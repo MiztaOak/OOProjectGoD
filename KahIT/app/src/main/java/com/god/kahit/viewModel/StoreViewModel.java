@@ -1,9 +1,7 @@
 package com.god.kahit.viewModel;
 
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
-import com.god.kahit.model.Player;
-import com.god.kahit.model.Store;
 
 import java.util.List;
 
@@ -22,18 +20,19 @@ public class StoreViewModel extends ViewModel {
         return Repository.getInstance().getStoreItems();
     }
 
-    public String getItemName(int i){
+    public String getItemName(int i) {
         return Repository.getInstance().getItemName(i);
     }
 
-    public int getItemPrice(int i){
+    public int getItemPrice(int i) {
         return Repository.getInstance().getItemPrice(i);
     }
 
     public int getPlayerPoints() {
         return Repository.getInstance().getPlayerScore();
     }
-    public boolean isItemBought(int i){
+
+    public boolean isItemBought(int i) {
 
         return Repository.getInstance().isItemBought(i);
     }

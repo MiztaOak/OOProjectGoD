@@ -4,7 +4,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.Repository;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
 
@@ -56,7 +56,7 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
             for (int i =0; i < event.getTeams().size(); i++) {
                 for(Player player : event.getTeams().get(i).getTeamMembers()) {
                     if(player.getId().equals(playerIdPrefix + playerSuffix)) {
-                        sortedPlayerList.add(new Pair<>(player, (i + 1)));
+                        sortedPlayerList.add(new Pair<>(player, Integer.valueOf(event.getTeams().get(i).getId())));
                         break outerLabel;
                     }
                 }
@@ -79,7 +79,7 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
     }
 
     public void onTeamChange(int position, int newTeamId) {
-        Repository.getInstance().changeTeam(Objects.requireNonNull(playerListForView.getValue()).get(position).first, newTeamId);
+        Repository.getInstance().changeTeam(Objects.requireNonNull(playerListForView.getValue()).get(position).first, String.valueOf(newTeamId + 1));
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

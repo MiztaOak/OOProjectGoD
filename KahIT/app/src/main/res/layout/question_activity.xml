@@ -5,9 +5,11 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/custom_stripes"
     android:fitsSystemWindows="true"
     tools:context=".view.MainActivityView"
     tools:ignore="MissingDefaultResource">
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="match_parent"
@@ -48,60 +50,24 @@
         <ImageView
             android:id="@+id/qLogoImageView"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="90dp"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/kahit" />
 
-        <ImageView
-            android:id="@+id/storeImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/storeimage"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/shoppingcart" />
-
         <TextView
             android:id="@+id/qNumOfQuesTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="#"
+            android:text="Question 1 of 10"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.132" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="of 10"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/qNumOfQuesTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@+id/qNumOfQuesTextView"
-            app:layout_constraintTop_toTopOf="@+id/qNumOfQuesTextView" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Question"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/qNumOfQuesTextView"
-            app:layout_constraintEnd_toStartOf="@+id/qNumOfQuesTextView"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/qNumOfQuesTextView" />
 
         <TextView
             android:id="@+id/qHotSwapCaseTextView"
@@ -118,17 +84,22 @@
         <TextView
             android:id="@+id/qQuestionTextView"
             style="@android:style/Widget.TextView.SpinnerItem"
-            android:layout_width="395sp"
-            android:layout_height="225sp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:width="1dp"
+            android:background="@drawable/light_border"
+            android:backgroundTint="@color/white"
             android:gravity="center"
             android:shadowColor="@android:color/darker_gray"
             android:text="TEXT"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/qAnswer1TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qHotSwapCaseTextView"
             app:layout_constraintVertical_bias="0.326" />
 
         <TextView
@@ -235,6 +206,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/storeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/storeimage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/shoppingcart" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

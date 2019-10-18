@@ -13,10 +13,12 @@ package com.god.kahit.model;
 public abstract class Item {
     private int price;
     private String name;
+    private final String id;
 
-    public Item(int price, String name) {
+    public Item(int price, String name,String id) {
         this.price = price;
         this.name = name;
+        this.id = id;
     }
 
     public String getName() {
@@ -27,4 +29,7 @@ public abstract class Item {
         return price;
     }
 
+    public String getId() {
+        return id;
+    }
 }
