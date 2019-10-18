@@ -2,9 +2,6 @@ package com.god.kahit.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +9,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.god.kahit.R;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
@@ -22,23 +24,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-
 /**
- * StoreView a class for the view of the store where players can buy items
- * The items that are in the store will be the same for all players
+ * @responsibility: a fragment class for the view of the store where players can buy items.
+ * This fragment class is included in the QuestionView class.
+ * @used-by: This class is used in the following classes:
+ * QuestionView.
+ * @author: Anas Alkoutli
  */
 public class StoreView extends Fragment {
     private StoreViewModel storeViewModel = new StoreViewModel();
-    private TextView pointsText;
     private ArrayList<ImageView> itemsIcons = new ArrayList<>();
     private List<Button> itemButtons = new ArrayList<>();
     private ArrayList<ImageView> boughtItemsIcons = new ArrayList<>();
 
-    public static StoreView newInstance() {
-        return new StoreView();
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,13 +49,22 @@ public class StoreView extends Fragment {
         super.onActivityCreated(savedInstanceState);
         storeViewModel = ViewModelProviders.of(this).get(StoreViewModel.class);
         initializeStoreView();
-        // TODO: Use the ViewModel
     }
+
+    /**
+     * A method that returns a creates a new StoreView object and returns it.
+     *
+     * @return : A StoreView that the method created.
+     */
+    static StoreView newInstance() {
+        return new StoreView();
+    }
+
     /**
      * A method that calls all other methods that the view requires.
      * This method gets called upon creating the view
      */
-    public void initializeStoreView() {
+    private void initializeStoreView() {
         findItemIcons();
         findItemButtons();
         findBoughtItemIcons();
@@ -65,14 +72,15 @@ public class StoreView extends Fragment {
         setPointsText();
         setButtonText();
         addActionsToButtons();
+        disableButtons();
         disableBoughtItems();
-
     }
+
     /**
-     *A method that iterates through the list of items and get their names and their image source to set them correctly in the view
+     * A method that iterates through the list of items and get their names and their image source to set them correctly in the view
      */
-    public void populateItemIcons() {
-        Map<String,String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
+    private void populateItemIcons() {
+        Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
         for (int i = 0; i < storeViewModel.getStoreItems().size(); i++) {
             int resId = getResources().getIdentifier(imageNameMap.get(storeViewModel.getStoreItems().get(i).getName()), "drawable", getActivity().getPackageName());
             itemsIcons.get(i).setImageResource(resId);
@@ -82,7 +90,7 @@ public class StoreView extends Fragment {
     /**
      * A method that finds all the imageViews and adds them to a list of imageViews
      */
-    public void findItemIcons() {
+    private void findItemIcons() {
         itemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon));
         itemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon2));
         itemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon3));
@@ -94,10 +102,11 @@ public class StoreView extends Fragment {
         itemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon9));
 
     }
+
     /**
      * A method that finds all the buttons and adds them to a list of buttons
      */
-    public void findItemButtons() {
+    private void findItemButtons() {
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton2));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton3));
@@ -108,6 +117,7 @@ public class StoreView extends Fragment {
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton8));
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton9));
     }
+
     private void findBoughtItemIcons() {
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon10));
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon11));
@@ -121,20 +131,22 @@ public class StoreView extends Fragment {
 
 
     }
+
     /**
      * A method that updates the taxt the old the value of a player's points which changes after
      * buying an item or answering a question
      */
     @SuppressLint("SetTextI18n")
-    public void setPointsText() {
-        pointsText = Objects.requireNonNull(getView()).findViewById(R.id.pointsText);
+    private void setPointsText() {
+        TextView pointsText = Objects.requireNonNull(getView()).findViewById(R.id.pointsText);
         pointsText.setText("Points:" + storeViewModel.getPlayerPoints());
     }
+
     /**
      * A method that sets an action to each button that has been add to itemButtons list. The action
      * is a method call that lets the user buy an item
      */
-    public void addActionsToButtons() {
+    private void addActionsToButtons() {
         for (final Button itemButton : itemButtons) {
             itemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -144,61 +156,73 @@ public class StoreView extends Fragment {
             });
         }
     }
+
     /**
      * A method that lets the user buy an item from store and displays that the item has been
      * bought by a graphical confirmation and a toast message
      *
      * @param itemButton is which button has been clicked which is need in order to buy the
-     * associated item
+     *                   associated item
      */
     @SuppressLint("SetTextI18n")
-    public void buy(Button itemButton){
+    private void buy(Button itemButton) {
         int i = itemButtons.indexOf(itemButton);
-        if (storeViewModel.isItemBuyable(i)){
+        if (storeViewModel.isItemBuyable(i)) {
             storeViewModel.buy(i);
             showToast(i);
             setPointsText();
             disableButtons();
-            disableBoughtItems();
+            setDisableEffect(i);
         }
     }
-    private void showToast(int i){
+
+    private void showToast(int i) {
         Toast toast = Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
-            "You got " + storeViewModel.getStoreItems().get(i).getName(),
-            Toast.LENGTH_LONG);
+                "You got " + storeViewModel.getItemName(i),
+                Toast.LENGTH_LONG);
         toast.show();
     }
+
     /**
      * A method that disables the buttons used to buy items when the player's points are lower than
      * the price of an item
      */
-    public void disableButtons(){
-
+    private void disableButtons() {
         for (int i = 0; i < itemButtons.size(); i++) {
-            if(!storeViewModel.isItemBuyable(i)){
+            if (!storeViewModel.isItemBuyable(i)) {
                 itemButtons.get(i).setEnabled(false);
             }
         }
     }
+
     /**
      * A method that sets the text of a button to the price of the item associated to it
      */
     @SuppressLint("SetTextI18n")
-    public void setButtonText(){
+    private void setButtonText() {
         for (int i = 0; i < itemButtons.size(); i++) {
             itemButtons.get(i).setText(Integer.toString(storeViewModel.getItemPrice(i)));
         }
     }
 
-    private void disableBoughtItems(){
-        for(int i = 0; i < itemButtons.size(); i++){
-            if (storeViewModel.isItemBought(i)){
+    /**
+     * A method that checks which items are bought to be disabled.
+     */
+    private void disableBoughtItems() {
+        for (int i = 0; i < itemButtons.size(); i++) {
+            if (storeViewModel.isItemBought(i)) {
                 setDisableEffect(i);
             }
         }
-
     }
-    private void setDisableEffect(int i){
+
+    /**
+     * A method that disables a bought item so only one player can buy the item
+     * until the store gets restocked.
+     *
+     * @param i: The index of the item to be disabled.
+     */
+    private void setDisableEffect(int i) {
         itemButtons.get(i).setEnabled(false);
         boughtItemsIcons.get(i).setVisibility(View.VISIBLE);
     }
