@@ -108,6 +108,7 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
         String name = (String) itemData.child("name").getValue();
         String imgName = (String) itemData.child("img_name").getValue();
+        String id = (String) itemData.child("id").getValue();
 
         itemImageNameMap.put(Objects.requireNonNull(name), Objects.requireNonNull(imgName));
 
@@ -121,14 +122,14 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
             int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
             if (itemData.child("autoAlt").exists()) { //If autoAlt exists then its a debuff
                 boolean autorAlt = (Boolean) Objects.requireNonNull(itemData.child("autoAlt").getValue());
-                return new Debuff(price, name, scoreMultiplier, timeHeadstart, autorAlt);
+                return new Debuff(price, name, scoreMultiplier, timeHeadstart, autorAlt,id);
             } else {
                 int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
-                return new Buff(name, price, scoreMultiplier, timeHeadstart, amountOfAlternatives);
+                return new Buff(name, price, scoreMultiplier, timeHeadstart, amountOfAlternatives, id);
             }
 
         }
-        return new VanityItem(price, name);
+        return new VanityItem(price, name, id);
     }
 
     public static Map<String, String> getItemImageNameMap() {

@@ -32,6 +32,7 @@ import com.god.kahit.networkManager.NetworkManager;
 import com.god.kahit.networkManager.NetworkModule;
 import com.god.kahit.networkManager.PacketHandler;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,9 +51,30 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;
+    private AudioHandler audioHandler;
 
     private Repository() {
     }
+
+    public void setupAudioHandler(Context context){
+        if (audioHandler == null){
+            audioHandler = new AudioHandler(context);
+        }
+    }
+
+    public void startMusic(){
+        audioHandler.startMusic();
+    }
+    public void stopMusic(){
+        audioHandler.stopMusic();
+    }
+    public void resumeMusic(){
+        audioHandler.resumeMusic();
+    }
+    public void pauseMusic(){
+        audioHandler.pauseMusic();
+    }
+
 
     public static Repository getInstance() {
         if (instance == null) {
@@ -67,10 +89,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             appLifecycleHandler = new AppLifecycleHandler(context, new AppLifecycleCallback() {
                 @Override
                 public void onAppForegrounded() {
+                    resumeMusic();
                 }
 
                 @Override
                 public void onAppBackgrounded() {
+                   pauseMusic();
                 }
 
                 @Override

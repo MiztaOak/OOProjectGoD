@@ -11,8 +11,8 @@ package com.god.kahit.model;
 
 public class Buff extends Modifier {
     private int amountOfAlternatives;
-    public Buff(String name, int price, double scoerMultiplier, int amountOfTime, int amountOfalternatives){
-        super(price, name, scoerMultiplier, amountOfTime);
+    public Buff(String name, int price, double scoerMultiplier, int amountOfTime, int amountOfalternatives, String id){
+        super(price, name, scoerMultiplier, amountOfTime, id);
         this.amountOfAlternatives = amountOfalternatives;
 
     }
