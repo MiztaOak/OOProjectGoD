@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.GameStartedEvent;
@@ -32,13 +34,10 @@ import com.god.kahit.networkManager.NetworkManager;
 import com.god.kahit.networkManager.NetworkModule;
 import com.god.kahit.networkManager.PacketHandler;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
 
 import static com.god.kahit.model.QuizGame.BUS;
 
@@ -56,22 +55,25 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private Repository() {
     }
 
-    public void setupAudioHandler(Context context){
-        if (audioHandler == null){
+    public void setupAudioHandler(Context context) {
+        if (audioHandler == null) {
             audioHandler = new AudioHandler(context);
         }
     }
 
-    public void startMusic(){
+    public void startMusic() {
         audioHandler.startMusic();
     }
-    public void stopMusic(){
+
+    public void stopMusic() {
         audioHandler.stopMusic();
     }
-    public void resumeMusic(){
+
+    public void resumeMusic() {
         audioHandler.resumeMusic();
     }
-    public void pauseMusic(){
+
+    public void pauseMusic() {
         audioHandler.pauseMusic();
     }
 
@@ -94,7 +96,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
                 @Override
                 public void onAppBackgrounded() {
-                   pauseMusic();
+                    pauseMusic();
                 }
 
                 @Override
@@ -622,6 +624,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void fireRoomChangeEvent() {
+        //TODO: see comments below
         //Get all connections
         Connection[] roomsArr = networkManager.getConnections();
         List<Connection> rooms = new ArrayList<>(Arrays.asList(roomsArr));
@@ -693,39 +696,72 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.getAllItems();
     }
 
-    public QuizGame getQuizGame() {
-        return quizGame;
-    }
-
+    /**
+     * A method that returns the items in store.
+     *
+     * @return : A list of items.
+     */
     public List<Item> getStoreItems() {
-        p.clearModifier();
         return quizGame.getStore().getStoreItems();
     }
 
-    public List<Item> getBoughtItems() {
-        return quizGame.getStore().getBoughtItems();
-    }
-
+    /**
+     * A method that returns the players score.
+     *
+     * @return : int value of player's score.
+     */
+    //TODO player most be removed from this class
     public int getPlayerScore() {
         return p.getScore();
     }
 
+    /**
+     * A method that returns if the player is able to buy an item.
+     *
+     * @param i: the index of the item the player wishes to buy.
+     * @return : boolean which indicates if a player is able to buy the item.
+     */
+    //TODO player most be removed from this class
     public boolean isItemBuyable(int i) {
         return quizGame.getStore().isItemBuyable(i, p);
     }
 
+    /**
+     * A method that let's the player buy an item.
+     *
+     * @param i: the index of the item the player wishes to buy.
+     */
+    //TODO player most be removed from this class
     public void buy(int i) {
         quizGame.getStore().buy(i, p);
     }
 
+    /**
+     * A method that returns the name of an item.
+     *
+     * @param i: the index of the item.
+     * @return : A string with the name of the item.
+     */
     public String getItemName(int i) {
         return getStoreItems().get(i).getName();
     }
 
+    /**
+     * A method that returns the price of an item.
+     *
+     * @param i: the index of the item.
+     * @return : int with the price of the item.
+     */
     public int getItemPrice(int i) {
         return getStoreItems().get(i).getPrice();
     }
 
+    /**
+     * A method that returns if an item is bought or available to buy
+     *
+     * @param i: The index of the item.
+     * @return : boolean which indicates if the item is bought or not.
+     */
     public boolean isItemBought(int i) {
         return quizGame.getStore().isItemBought(i);
     }

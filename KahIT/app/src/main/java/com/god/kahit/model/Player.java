@@ -50,7 +50,6 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
 
     public void updateScore(int points) { //todo rename to addScore
         this.score += points*scoreMultiplier;
-        clearModifier();
     } //TODO add calculation that takes current buff into account
 
     public String getName() {

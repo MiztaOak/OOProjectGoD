@@ -191,6 +191,7 @@ public class QuizGame {
             double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
             player.updateScore((int) scoreDelta);
         }
+        player.clearModifier();
     }
 
     /**
