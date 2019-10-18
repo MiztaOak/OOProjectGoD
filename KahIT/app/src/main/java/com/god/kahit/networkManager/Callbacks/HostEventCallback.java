@@ -30,4 +30,16 @@ public abstract class HostEventCallback {
 
     public abstract void onLobbySyncEndEvent();
 
+    public abstract void onShowQuestionEvent(@NonNull String questionId);
+
+    public abstract void onShowRoundStatsEvent();
+
+    public abstract void onShowCategorySelectionEvent(@NonNull String[] categoryIds);
+
+    public abstract void onShowLotteryEvent(@NonNull String[][] playersWonItemsMatrix);
+
+    public abstract void onShowGameResultsEvent();
+
+    public abstract void onCategoryPlayerVoteEvent(@NonNull String targetPlayerId, @NonNull String categoryId);
+
 }
