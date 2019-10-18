@@ -2,10 +2,10 @@ package com.god.kahit.networkManager.Packets;
 
 import java.util.Arrays;
 
-public class EventLobbyReadyChangePacket extends Packet {
+public class EventPlayerReadyChangePacket extends Packet {
     public static final int PACKET_ID = 6;
 
-    public EventLobbyReadyChangePacket(String targetPlayerId, boolean newState) {
+    public EventPlayerReadyChangePacket(String targetPlayerId, boolean newState) {
         super(PACKET_ID, null);
         setPacketContent(createContent(targetPlayerId, newState)); //Super constructor must be called before anything else
     }

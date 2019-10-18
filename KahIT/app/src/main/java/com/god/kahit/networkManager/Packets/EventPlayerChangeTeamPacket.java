@@ -30,6 +30,4 @@ public class EventPlayerChangeTeamPacket extends Packet {
 
         return (targetPlayerId + ";" + newTeamId).getBytes(); //Use semi-colon as separator
     }
-
-
 }

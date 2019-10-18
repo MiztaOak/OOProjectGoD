@@ -4,23 +4,32 @@ import android.util.Log;
 
 import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
 import com.god.kahit.networkManager.Callbacks.HostEventCallback;
+import com.god.kahit.networkManager.Packets.EventCategoryPlayerVotePacket;
 import com.god.kahit.networkManager.Packets.EventGameStartedPacket;
-import com.god.kahit.networkManager.Packets.EventLobbyReadyChangePacket;
 import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
 import com.god.kahit.networkManager.Packets.EventLobbySyncStartPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerChangeTeamPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerJoinedPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerLeftPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerNameChangePacket;
+import com.god.kahit.networkManager.Packets.EventPlayerReadyChangePacket;
+import com.god.kahit.networkManager.Packets.EventShowCategorySelectionPacket;
+import com.god.kahit.networkManager.Packets.EventShowGameResultsPacket;
+import com.god.kahit.networkManager.Packets.EventShowLotteryPacket;
+import com.god.kahit.networkManager.Packets.EventShowQuestionPacket;
+import com.god.kahit.networkManager.Packets.EventShowRoundStatsPacket;
 import com.god.kahit.networkManager.Packets.EventTeamCreatedPacket;
 import com.god.kahit.networkManager.Packets.EventTeamDeletedPacket;
 import com.god.kahit.networkManager.Packets.EventTeamNameChangePacket;
 import com.god.kahit.networkManager.Packets.Packet;
 import com.god.kahit.networkManager.Packets.PlayerIdPacket;
-import com.god.kahit.networkManager.Packets.RequestLobbyReadyChangePacket;
+import com.god.kahit.networkManager.Packets.RequestCategoryPlayerVotePacket;
 import com.god.kahit.networkManager.Packets.RequestPlayerChangeTeamPacket;
 import com.god.kahit.networkManager.Packets.RequestPlayerNameChangePacket;
+import com.god.kahit.networkManager.Packets.RequestPlayerReadyChangePacket;
 import com.god.kahit.networkManager.Packets.RequestTeamNameChangePacket;
+
+import java.util.Arrays;
 
 public class PacketHandler {
     private static final String TAG = "PacketHandler";
@@ -69,11 +78,11 @@ public class PacketHandler {
                 handleEventPlayerNameChangePacket(payload);
                 break;
 
-            case (RequestLobbyReadyChangePacket.PACKET_ID): //5
+            case (RequestPlayerReadyChangePacket.PACKET_ID): //5
                 handleRequestLobbyReadyChangePacket(id, payload);
                 break;
 
-            case (EventLobbyReadyChangePacket.PACKET_ID): //6
+            case (EventPlayerReadyChangePacket.PACKET_ID): //6
                 handleEventLobbyReadyChangePacket(payload);
                 break;
 
@@ -111,6 +120,28 @@ public class PacketHandler {
 
             case (EventGameStartedPacket.PACKET_ID): //15
                 handleEventGameStartedPacket();
+                break;
+
+            case (EventShowQuestionPacket.PACKET_ID): //16
+                handleEventShowQuestionPacket(payload);
+                break;
+            case (EventShowRoundStatsPacket.PACKET_ID): //17
+                handleEventShowRoundStatsPacket();
+                break;
+            case (EventShowCategorySelectionPacket.PACKET_ID): //18
+                handleEventShowCategorySelectionPacket(payload);
+                break;
+            case (EventShowLotteryPacket.PACKET_ID): //19
+                handleEventShowLotteryPacket(payload);
+                break;
+            case (EventShowGameResultsPacket.PACKET_ID): //20
+                handleEventShowGameResultsPacket();
+                break;
+            case (EventCategoryPlayerVotePacket.PACKET_ID): //21
+                handleEventCategoryPlayerVotePacket(payload);
+                break;
+            case (RequestCategoryPlayerVotePacket.PACKET_ID): //22
+                handleRequestCategoryPlayerVotePacket(id, payload);
                 break;
 
             default:
@@ -175,8 +206,8 @@ public class PacketHandler {
     }
 
     private void handleRequestLobbyReadyChangePacket(String senderId, byte[] payload) {
-        boolean newState = RequestLobbyReadyChangePacket.getNewState(payload);
-        Log.i(TAG, String.format("RequestLobbyReadyChangePacket: Received player ready state change request from '%s'. New state is '%s'", senderId, newState));
+        boolean newState = RequestPlayerReadyChangePacket.getNewState(payload);
+        Log.i(TAG, String.format("RequestPlayerReadyChangePacket: Received player ready state change request from '%s'. New state is '%s'", senderId, newState));
 
         if (clientRequestsCallback != null) {
             clientRequestsCallback.onLobbyReadyChangeRequest(senderId, newState);
@@ -184,8 +215,8 @@ public class PacketHandler {
     }
 
     private void handleEventLobbyReadyChangePacket(byte[] payload) {
-        String targetPlayerId = EventLobbyReadyChangePacket.getTargetPlayerId(payload);
-        boolean newState = EventLobbyReadyChangePacket.getNewState(payload);
+        String targetPlayerId = EventPlayerReadyChangePacket.getTargetPlayerId(payload);
+        boolean newState = EventPlayerReadyChangePacket.getNewState(payload);
         Log.i(TAG, String.format("handleEventLobbyReadyChangePacket: Received LobbyReadyChange. targetPlayerId: '%s', new state: '%s'", targetPlayerId, newState));
         if (hostEventCallback != null) {
             hostEventCallback.onLobbyReadyChangeEvent(targetPlayerId, newState);
@@ -277,6 +308,68 @@ public class PacketHandler {
         }
     }
 
+    private void handleEventShowQuestionPacket(byte[] payload) {
+        String questionId = EventShowQuestionPacket.getQuestionId(payload);
+        Log.i(TAG, String.format("handleEventShowQuestionPacket: Received EventShowQuestionPacket. questionId: %s", questionId));
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onShowQuestionEvent(questionId);
+        }
+    }
+
+    private void handleEventShowRoundStatsPacket() {
+        Log.i(TAG, "handleEventShowRoundStatsPacket: Received EventShowRoundStatsPacket");
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onShowRoundStatsEvent();
+        }
+    }
+
+    private void handleEventShowCategorySelectionPacket(byte[] payload) {
+        String[] categoryIds = EventShowCategorySelectionPacket.getCategoryIds(payload);
+        Log.i(TAG, String.format("handleEventShowCategorySelectionPacket: Received EventShowCategorySelectionPacket. categoryIds: %s", Arrays.toString(categoryIds)));
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onShowCategorySelectionEvent(categoryIds);
+        }
+    }
+
+    private void handleEventShowLotteryPacket(byte[] payload) {
+        String[][] playersWonItemsMatrix = EventShowLotteryPacket.getPlayersWonItemsMatrix(payload);
+        Log.i(TAG, String.format("handleEventShowLotteryPacket: Received EventShowLotteryPacket. playersWonItemsMatrix: %s", Arrays.toString(playersWonItemsMatrix))); //todo print actual values?
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onShowLotteryEvent(playersWonItemsMatrix);
+        }
+    }
+
+    private void handleEventShowGameResultsPacket() {
+        Log.i(TAG, "handleEventShowGameResultsPacket: Received EventShowGameResultsPacket");
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onShowGameResultsEvent();
+        }
+    }
+
+    private void handleEventCategoryPlayerVotePacket(byte[] payload) {
+        String targetPlayerId = EventCategoryPlayerVotePacket.getTargetPlayerId(payload);
+        String categoryId = EventCategoryPlayerVotePacket.getCategoryId(payload);
+        Log.i(TAG, String.format("handleEventCategoryPlayerVotePacket: Received EventCategoryPlayerVotePacket. targetPlayerId: %s, categoryId: '%s'", targetPlayerId, categoryId));
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onCategoryPlayerVoteEvent(targetPlayerId, categoryId);
+        }
+    }
+
+    private void handleRequestCategoryPlayerVotePacket(String senderId, byte[] payload) {
+        String categoryId = RequestCategoryPlayerVotePacket.getCategoryId(payload);
+        Log.i(TAG, String.format("handleRequestCategoryPlayerVotePacket: Received RequestCategoryPlayerVotePacket from '%s'. categoryId: '%s'", senderId, categoryId));
+
+        if (clientRequestsCallback != null) {
+            clientRequestsCallback.onCategoryPlayerVoteRequest(senderId, categoryId);
+        }
+    }
+
     // ====================== Send methods ======================
 
     public void sendPlayerId(Connection connection, String playerId) {
@@ -292,8 +385,8 @@ public class PacketHandler {
     }
 
     public void sendRequestReadyStatus(boolean newState) {
-        Log.i(TAG, String.format("sendRequestReadyStatus: sending RequestLobbyReadyChangePacket to host: '%s'", networkManager.getConnectionHost().getId()));
-        Packet packet = new RequestLobbyReadyChangePacket(newState);
+        Log.i(TAG, String.format("sendRequestReadyStatus: sending RequestPlayerReadyChangePacket to host: '%s'", networkManager.getConnectionHost().getId()));
+        Packet packet = new RequestPlayerReadyChangePacket(newState);
         networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
@@ -314,6 +407,10 @@ public class PacketHandler {
     }
 
     public void sendRequestAnswerQuestion(String answerID) {
+        //todo implement
+    }
+
+    public void sendRequestCategoryVote(String categoryId) {
         //todo implement
     }
 
@@ -350,8 +447,8 @@ public class PacketHandler {
     }
 
     public void broadcastLobbyReadyChange(String targetPlayerId, boolean newState) {
-        Log.i(TAG, String.format("broadcastLobbyReadyChange: broadcasting EventLobbyReadyChangePacket. targetPlayerId: '%s', newState: '%s'", targetPlayerId, newState));
-        Packet packet = new EventLobbyReadyChangePacket(targetPlayerId, newState);
+        Log.i(TAG, String.format("broadcastLobbyReadyChange: broadcasting EventPlayerReadyChangePacket. targetPlayerId: '%s', newState: '%s'", targetPlayerId, newState));
+        Packet packet = new EventPlayerReadyChangePacket(targetPlayerId, newState);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
@@ -397,4 +494,39 @@ public class PacketHandler {
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    public void broadcastShowQuestion(String questionId) {
+        Log.i(TAG, String.format("broadcastShowQuestion: broadcasting EventShowQuestionPacket. questionId: '%s'", questionId));
+        Packet packet = new EventShowQuestionPacket(questionId);
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
+
+    public void broadcastShowRoundStats() {
+        Log.i(TAG, "broadcastShowRoundStats: broadcasting EventShowRoundStatsPacket.");
+        Packet packet = new EventShowRoundStatsPacket();
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
+
+    public void broadcastShowCategorySelection(String[] categoryIds) {
+        Log.i(TAG, String.format("broadcastShowCategorySelection: broadcasting EventShowCategorySelectionPacket. categoryIds: '%s'", Arrays.toString(categoryIds)));
+        Packet packet = new EventShowCategorySelectionPacket(categoryIds);
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
+
+    public void broadcastShowLottery(String[][] playersWonItemsMatrix) {
+        Log.i(TAG, String.format("broadcastShowLottery: broadcasting EventShowLotteryPacket. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix))); //todo show actual values inside matrix?
+        Packet packet = new EventShowLotteryPacket(playersWonItemsMatrix);
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
+
+    public void broadcastShowGameResults() {
+        Log.i(TAG, "broadcastShowGameResults: broadcasting EventShowGameResultsPacket.");
+        Packet packet = new EventShowGameResultsPacket();
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
+
+    public void broadcastCategoryPlayerVote(String targetPlayerId, String categoryId) {
+        Log.i(TAG, String.format("broadcastCategoryPlayerVote: broadcasting EventCategoryPlayerVotePacket. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
+        Packet packet = new EventCategoryPlayerVotePacket(targetPlayerId, categoryId);
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
 }

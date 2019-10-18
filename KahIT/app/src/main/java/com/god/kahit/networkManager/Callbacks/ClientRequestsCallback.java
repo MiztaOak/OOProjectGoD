@@ -16,4 +16,5 @@ public abstract class ClientRequestsCallback {
 
     public abstract void onPlayerTeamChangeRequest(@NonNull String targetPlayerId, @NonNull String newTeamId);
 
+    public abstract void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId, @NonNull String categoryId);
 }

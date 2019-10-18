@@ -215,6 +215,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     quizGame.changeTeam(quizGame.getPlayer(targetPlayerId), newTeamId);
                     packetHandler.broadcastPlayerChangeTeam(targetPlayerId, newTeamId);
                 }
+
+                @Override
+                public void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId, @NonNull String categoryId) {
+                    Log.i(TAG, String.format("onCategoryPlayerVoteRequest: event triggered. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
+                    //todo implement
+                }
             });
         } else {
             packetHandler = new PacketHandler(networkManager, new HostEventCallback() {
@@ -309,6 +315,42 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 public void onLobbySyncEndEvent() {
                     Log.i(TAG, "onLobbySyncEndEvent: event triggered.");
                     clearNetInCommunicationQueue();
+                }
+
+                @Override
+                public void onShowQuestionEvent(@NonNull String questionId) {
+                    Log.i(TAG, String.format("onShowQuestionEvent: event triggered. questionId: '%s'", questionId));
+                    //todo implement onShowQuestionEvent
+                }
+
+                @Override
+                public void onShowRoundStatsEvent() {
+                    Log.i(TAG, "onShowRoundStatsEvent: event triggered.");
+                    //todo implement onShowRoundStatsEvent
+                }
+
+                @Override
+                public void onShowCategorySelectionEvent(@NonNull String[] categoryIds) {
+                    Log.i(TAG, String.format("onShowCategorySelectionEvent: event triggered. categoryIds: '%s'", Arrays.toString(categoryIds)));
+                    //todo implement onShowCategorySelectionEvent
+                }
+
+                @Override
+                public void onShowLotteryEvent(@NonNull String[][] playersWonItemsMatrix) {
+                    Log.i(TAG, String.format("onShowLotteryEvent: event triggered. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix))); //todo show actual values of matrix
+                    //todo implement onShowLotteryEvent
+                }
+
+                @Override
+                public void onShowGameResultsEvent() {
+                    Log.i(TAG, "onShowGameResultsEvent: event triggered.");
+                    //todo implement onShowGameResultsEvent
+                }
+
+                @Override
+                public void onCategoryPlayerVoteEvent(@NonNull String targetPlayerId, @NonNull String categoryId) {
+                    Log.i(TAG, String.format("onCategoryPlayerVoteEvent: event triggered. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
+                    //todo implement onCategoryPlayerVoteEvent
                 }
             });
         }
