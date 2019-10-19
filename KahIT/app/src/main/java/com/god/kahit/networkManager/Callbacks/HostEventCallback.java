@@ -10,7 +10,7 @@ public abstract class HostEventCallback {
 
     public abstract void onPlayerNameChangeEvent(@NonNull String targetPlayerId, @NonNull String newName);
 
-    public abstract void onLobbyReadyChangeEvent(@NonNull String targetPlayerId, @NonNull boolean newState);
+    public abstract void onPlayerReadyChangeEvent(@NonNull String targetPlayerId, @NonNull boolean newState);
 
     public abstract void onTeamNameChangeEvent(@NonNull String teamId, @NonNull String newTeamName);
 

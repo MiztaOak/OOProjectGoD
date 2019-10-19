@@ -55,8 +55,8 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void onDestroy() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onStop() {
         BUS.unregister(this);
     }
 
@@ -247,12 +247,12 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
 
     public void requestTeamChange(String teamId) {
         Log.d(TAG, "requestTeamChange: Triggered");
-        repository.requestChangeMyTeam(teamId, isHost);
+        repository.changeMyTeam(teamId, isHost);
     }
 
     public void requestSetReady(boolean isReady) {
         Log.d(TAG, "requestSetReady: Triggered");
-        repository.requestSetReady(isReady);
+        repository.setMyReadyStatus(isReady);
     }
 
     public void fireTeamChangeEvent() {
@@ -264,7 +264,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         boolean allAreReady = true;
         if (playerListForView.getValue() != null && playerListForView.getValue().size() > 0) { //todo set minimum size to 1, to disable solo-game
             for (Pair<Player, Connection> playerConnectionPair : playerListForView.getValue()) {
-                if (!playerConnectionPair.first.isPlayerReady()) {
+                if (!playerConnectionPair.first.isReady()) {
                     allAreReady = false;
                     break;
                 }

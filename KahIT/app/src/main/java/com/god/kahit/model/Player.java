@@ -9,14 +9,14 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     private int amountOfAlternatives;
     private boolean autoAnswer;
     private VanityItem vanityItem;
-    private boolean playerReady; //TODO check if this really is needed in the model since it should prob be in lobby
+    private boolean isReady; //TODO check if this really is needed in the model since it should prob be in lobby
 
 
     public Player(String name, String id) {
         this.name = name;
         this.id = id;
-        this.score = 5000; //TODO remove when done testing
-        this.playerReady = false;
+        this.score = 500; //TODO remove when done testing
+        this.isReady = false;
     }
 
 
@@ -37,7 +37,8 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         amountOfTime = debuff.getAmountOfTime() + amountOfTime;
         autoAnswer= debuff.getAutoAnswer();
     }
-
+    //TODO remove when done implemnting buffs and debuffs.
+    public void setModifier(Modifier modifier){}
     /**
      * A method that clears the effect of a Modifier after  it has been used
      */
@@ -68,12 +69,12 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         this.score = score;
     }
 
-    public boolean isPlayerReady() {
-        return playerReady;
+    public boolean isReady() {
+        return isReady;
     }
 
-    public void setPlayerReady(boolean playerReady) {
-        this.playerReady = playerReady;
+    public void setReady(boolean ready) {
+        this.isReady = ready;
     }
 
     public double getScoreMultiplier() {

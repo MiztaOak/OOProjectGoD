@@ -159,6 +159,15 @@ public class QuizGame {
         }
     }
 
+    public Question getNextQuestion() {
+        if (!roundQuestions.isEmpty()) {
+            return (roundQuestions.peek());
+        } else {
+            startRound(); //TODO is this expected?
+            return roundQuestions.peek();
+        }
+    }
+
     /**
      * Method that broadcasts the current question to all listeners of the QuizListener interface
      *
@@ -268,7 +277,7 @@ public class QuizGame {
         team = getTeam(teamId);
         if (team != null && playerList.size() < MAX_ALLOWED_PLAYERS) {
             Player player = createNewPlayer(playerName, playerId);
-            player.setPlayerReady(readyStatus);
+            player.setReady(readyStatus);
             playerList.add(player);
             team.addPlayer(player);
             fireTeamChangeEvent();
@@ -476,7 +485,7 @@ public class QuizGame {
      * @param name   the new name for the player.
      */
     public void changePlayerName(Player player, String name) {
-        if (!player.isPlayerReady()) {
+        if (!player.isReady()) {
             for (Player player1 : playerList) {
                 if (player1.equals(player)) {
                     player.setName(name);
@@ -502,6 +511,12 @@ public class QuizGame {
         teamList.clear();
         playerList.clear();
         currentPlayer = null;
+    }
+
+    public void resetPlayerReady() {
+        for (Player player : playerList) {
+            player.setReady(false);
+        }
     }
 
     public void changeTeam(Player player, String newTeamId) {
@@ -568,7 +583,7 @@ public class QuizGame {
     public boolean checkAllPlayersReady() { //todo remove ready-related stuff from player, move responsibility to viewModel
         for (int i = 0; i < teamList.size(); i++) {
             for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
-                if (!teamList.get(i).getTeamMembers().get(j).isPlayerReady()) {
+                if (!teamList.get(i).getTeamMembers().get(j).isReady()) {
                     return false;
                 }
             }
@@ -586,7 +601,7 @@ public class QuizGame {
         for (int i = 0; i < teamList.size(); i++) {
             for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
                 if (teamList.get(i).getTeamMembers().get(j).equals(player)) {
-                    teamList.get(i).getTeamMembers().get(j).setPlayerReady(state);
+                    teamList.get(i).getTeamMembers().get(j).setReady(state);
                     break;
                 }
             }

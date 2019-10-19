@@ -10,7 +10,7 @@ public abstract class ClientRequestsCallback {
 
     public abstract void onPlayerNameChangeRequest(@NonNull String targetPlayerId, @NonNull String newName);
 
-    public abstract void onLobbyReadyChangeRequest(@NonNull String targetPlayerId, @NonNull boolean newState);
+    public abstract void onPlayerReadyChangeRequest(@NonNull String targetPlayerId, @NonNull boolean newState);
 
     public abstract void onTeamNameChangeRequest(@NonNull String teamId, @NonNull String newTeamName);
 
