@@ -100,7 +100,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
             holder.playerReadyTextView.setVisibility(View.INVISIBLE);
         }
 
-        if (holderPlayer.isPlayerReady()) {
+        if (holderPlayer.isReady()) {
             holder.playerReadyTextView.setBackgroundTintList(ColorStateList.valueOf(READY_COLOR_GREEN));
             holder.playerReadyTextView.setText("R");
         } else {

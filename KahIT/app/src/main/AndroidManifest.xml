@@ -137,6 +137,7 @@
         </activity>
         <activity
             android:name=".view.LobbyNetView"
+            android:noHistory="true"
             android:parentActivityName=".view.MainActivityView"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

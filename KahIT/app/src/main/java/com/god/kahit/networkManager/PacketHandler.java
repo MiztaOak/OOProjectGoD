@@ -79,11 +79,11 @@ public class PacketHandler {
                 break;
 
             case (RequestPlayerReadyChangePacket.PACKET_ID): //5
-                handleRequestLobbyReadyChangePacket(id, payload);
+                handleRequestPlayerReadyChangePacket(id, payload);
                 break;
 
             case (EventPlayerReadyChangePacket.PACKET_ID): //6
-                handleEventLobbyReadyChangePacket(payload);
+                handleEventPlayerReadyChangePacket(payload);
                 break;
 
             case (RequestTeamNameChangePacket.PACKET_ID): //7
@@ -205,21 +205,21 @@ public class PacketHandler {
         }
     }
 
-    private void handleRequestLobbyReadyChangePacket(String senderId, byte[] payload) {
+    private void handleRequestPlayerReadyChangePacket(String senderId, byte[] payload) {
         boolean newState = RequestPlayerReadyChangePacket.getNewState(payload);
         Log.i(TAG, String.format("RequestPlayerReadyChangePacket: Received player ready state change request from '%s'. New state is '%s'", senderId, newState));
 
         if (clientRequestsCallback != null) {
-            clientRequestsCallback.onLobbyReadyChangeRequest(senderId, newState);
+            clientRequestsCallback.onPlayerReadyChangeRequest(senderId, newState);
         }
     }
 
-    private void handleEventLobbyReadyChangePacket(byte[] payload) {
+    private void handleEventPlayerReadyChangePacket(byte[] payload) {
         String targetPlayerId = EventPlayerReadyChangePacket.getTargetPlayerId(payload);
         boolean newState = EventPlayerReadyChangePacket.getNewState(payload);
-        Log.i(TAG, String.format("handleEventLobbyReadyChangePacket: Received LobbyReadyChange. targetPlayerId: '%s', new state: '%s'", targetPlayerId, newState));
+        Log.i(TAG, String.format("handleEventPlayerReadyChangePacket: Received EventPlayerReadyChangePacket. targetPlayerId: '%s', new state: '%s'", targetPlayerId, newState));
         if (hostEventCallback != null) {
-            hostEventCallback.onLobbyReadyChangeEvent(targetPlayerId, newState);
+            hostEventCallback.onPlayerReadyChangeEvent(targetPlayerId, newState);
         }
     }
 
@@ -446,8 +446,8 @@ public class PacketHandler {
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
-    public void broadcastLobbyReadyChange(String targetPlayerId, boolean newState) {
-        Log.i(TAG, String.format("broadcastLobbyReadyChange: broadcasting EventPlayerReadyChangePacket. targetPlayerId: '%s', newState: '%s'", targetPlayerId, newState));
+    public void broadcastPlayerReadyChange(String targetPlayerId, boolean newState) {
+        Log.i(TAG, String.format("broadcastPlayerReadyChange: broadcasting EventPlayerReadyChangePacket. targetPlayerId: '%s', newState: '%s'", targetPlayerId, newState));
         Packet packet = new EventPlayerReadyChangePacket(targetPlayerId, newState);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }

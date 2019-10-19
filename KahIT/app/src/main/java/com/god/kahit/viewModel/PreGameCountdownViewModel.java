@@ -9,17 +9,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.god.kahit.Events.NewViewEvent;
+import com.god.kahit.Repository.Repository;
+import com.god.kahit.view.QuestionView;
+
 import androidx.lifecycle.ViewModel;
+
+import static com.god.kahit.model.QuizGame.BUS;
 
 
 public class PreGameCountdownViewModel extends ViewModel {
     private static final int TOAST_MESSAGE_TEXT_SIZE = 60;
     private static final String TOAST_MESSAGE_TEXT_COLOR = "#00CBF8";
     private Context context;
+    private Repository repository;
     private Toast toast;
 
-    public PreGameCountdownViewModel(Context context) {
-        this.context = context;
+    public PreGameCountdownViewModel() {
+        repository = Repository.getInstance();
     }
 
     /**
@@ -54,4 +61,21 @@ public class PreGameCountdownViewModel extends ViewModel {
         toast.show();
     }
 
+    public boolean isHost() {
+        return repository.isHost();
+    }
+
+    public void sendIsReady() {
+        repository.setMyReadyStatus(true);
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public void showNextView() {
+        Class<?> newViewClass = QuestionView.class;
+        repository.broadcastShowNewView(newViewClass);
+        BUS.post(new NewViewEvent(newViewClass)); //todo get actual next view
+    }
 }
