@@ -8,8 +8,27 @@
     <string name="debuffs">DeBuffs</string>
     <string name="storeimage">storeImage</string>
     <string name="cosmetic_items">Cosmetic Items</string>
-    <string name="aboutKahitText">Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? Kiki, do you love me? </string>
-    <string name="databaseError">An error has occurred when attempting to connect to the database. Please restart the application to retry the connection. Local data will be used if present.</string>
+    <string name="aboutKahitText">
+        Welcome To KahIt! \nKahIt is a quiz-game app that developed by 5 IT students of Chalmers university.
+        How to play: First you need to choose between host, join or hotswap game.
+        For host case: You need to fill in your info and create a game then let other players join you.
+        For join case: You need to fill in your info and join a game.
+        For hotswap case: Hotswap is basically when many players can play on the same phone.
+        Every player has its own turn to answer the question and the result will be shown at the end of every question.
+        When the game starts: You have many rounds that 5 questions in each round.
+        After each round you are gonna get a randomized item(Buff or Debuff) that you can use by the wheel of luck(or lottery).
+        Debuffs are the items that the player can send to other players and negatively affect them.
+        While Buffs are the items that players positively can affect themselves.
+        On the other hand, players can buy those items from the store. Store cart is always available during the game.
+        Note that the items are shared with all players, that means when any player buys an item so this item is no longer available for other players. Be quick!
+        Vanity item is a picture you can buy to change your own profile picture.
+        After the game has finished, score page will show up.
+        Good luck and remember, be quick!
+        Best regards,
+        /KahIt developers.
+            </string>
+    <string name="databaseError">An error has occurred when attempting to connect to the database.
+        Please restart the application to retry the connection. Local data will be used if present.</string>
     <string name="databaseConnect">The connection to the database has been regained</string>
     <string name="HotSwap">Hot Swap</string>
     <string name="add_new_player">Add new Player</string>

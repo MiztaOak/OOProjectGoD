@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.GameStartedEvent;
@@ -31,14 +33,12 @@ import com.god.kahit.networkManager.ConnectionType;
 import com.god.kahit.networkManager.NetworkManager;
 import com.god.kahit.networkManager.NetworkModule;
 import com.god.kahit.networkManager.PacketHandler;
+import com.god.kahit.view.SettingsView;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
 
 import static com.god.kahit.model.QuizGame.BUS;
 
@@ -53,26 +53,38 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private PacketHandler packetHandler;
     private AudioHandler audioHandler;
 
+
     private Repository() {
     }
 
-    public void setupAudioHandler(Context context){
-        if (audioHandler == null){
+    public void setupAudioHandler(Context context) {
+        if (audioHandler == null) {
             audioHandler = new AudioHandler(context);
         }
     }
 
-    public void startMusic(){
+    public void startMusic() {
         audioHandler.startMusic();
     }
-    public void stopMusic(){
+
+    public void stopMusic() {
         audioHandler.stopMusic();
     }
-    public void resumeMusic(){
+
+    public void resumeMusic() {
         audioHandler.resumeMusic();
     }
-    public void pauseMusic(){
+
+    public void pauseMusic() {
         audioHandler.pauseMusic();
+    }
+
+    public boolean getMusicState(){
+        return audioHandler.getMusicState();
+    }
+
+    public void setMusicState(boolean music){
+        audioHandler.setMusicState(music);
     }
 
 
@@ -89,12 +101,13 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             appLifecycleHandler = new AppLifecycleHandler(context, new AppLifecycleCallback() {
                 @Override
                 public void onAppForegrounded() {
-                    resumeMusic();
+                    if (getMusicState())
+                        resumeMusic();
                 }
 
                 @Override
                 public void onAppBackgrounded() {
-                   pauseMusic();
+                    pauseMusic();
                 }
 
                 @Override

@@ -8,24 +8,40 @@ import com.god.kahit.backgroundMusicService.MusicService;
 
 public class AudioHandler {
     private MusicService mService;
+    private boolean music;
 
-    public AudioHandler(Context context){
+
+    public AudioHandler(Context context) {
         mService = new MusicService(MediaPlayer.create(context, R.raw.pre_game_song));
+        music = true;
+        //todo reading music state from database
     }
 
-    public void startMusic(){
+    public void startMusic() {
         mService.startMusic();
+
     }
 
-    public void stopMusic(){
+    public void stopMusic() {
         mService.stopMusic();
+
     }
 
-    public void resumeMusic(){
+    public void resumeMusic() {
         mService.resumeMusic();
+
     }
 
-    public void pauseMusic(){
+    public void pauseMusic() {
         mService.pauseMusic();
+
+    }
+
+    public boolean getMusicState() {
+        return music;
+    }
+
+    public void setMusicState(boolean music){
+        this.music = music;
     }
 }
