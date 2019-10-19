@@ -23,11 +23,14 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     private MutableLiveData<String> questionText;
     private MutableLiveData<List<String>> questionAlts;
     private MutableLiveData<Integer> questionTime;
+    private MutableLiveData<String> playerName;
     private Question currentQuestion;
     private boolean isQuestionAnswered;
 
     private int indexOfClickedView = -1;
     private boolean correctAnswerWasGiven = false;
+
+    private int numOfRepeats = 0;
 
     public QuestionViewModel() {
         Repository.getInstance().addQuizListener(this);
@@ -57,6 +60,13 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         return questionTime;
     }
 
+    public MutableLiveData<String> getPlayerName(){
+        if(playerName == null){
+            playerName = new MutableLiveData<>();
+        }
+        return playerName;
+    }
+
     /**
      * Method that request a new question from model
      */
@@ -70,14 +80,17 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
      * @param q - the question that is being received
      */
     @Override
-    public void receiveQuestion(Question q) {
+    public void receiveQuestion(Question q, int n) {
         currentQuestion = q;
+        numOfRepeats = n;
         isQuestionAnswered = false;
         correctAnswerWasGiven = false;
         indexOfClickedView = -1;
         questionText.setValue(q.getQuestion());
         questionAlts.setValue(q.getAlternatives());
         questionTime.setValue(currentQuestion.getTime());
+
+        playerName.setValue(Repository.getInstance().getCurrentPlayerName());
     }
 
     /**
@@ -122,9 +135,22 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         }
     }
 
-    private void resetColorOfTextView(List<TextView> answers) {
+    public void resetColorOfTextView(List<TextView> answers) {
         for (int i = 0; i < answers.size(); i++) {
             answers.get(i).setBackgroundResource(R.color.colorPrimary);
         }
+    }
+
+    public boolean isMoveOn(){
+        numOfRepeats--;
+        return numOfRepeats <= 0;
+    }
+
+    public void repeatQuestion(){
+        isQuestionAnswered = false;
+        indexOfClickedView = -1;
+        correctAnswerWasGiven = false;
+        Repository.getInstance().incrementCurrentPlayer();
+        playerName.setValue(Repository.getInstance().getCurrentPlayerName());
     }
 }

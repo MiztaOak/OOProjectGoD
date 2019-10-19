@@ -1,10 +1,17 @@
 package com.god.kahit.model;
 
-public class Modifier extends Item {
+/**
+ * @responsibility: This is an abstract class used to group up the shared values
+ * between Buffs and Debuffs.
+ * @used-by: This class is used in the following classes:
+ * Buffs and Debuffs.
+ * @author: Anas Alkoutli
+ */
+abstract class Modifier extends Item {
     private double scoreMultiplier;
     private int amountOfTime;
 
-    public Modifier(int price, String name, double scoreMultiplier, int amountOfTime, String id){
+    Modifier(int price, String name, double scoreMultiplier, int amountOfTime, String id) {
         super(price, name, id);
         this.scoreMultiplier = scoreMultiplier;
         this.amountOfTime = amountOfTime;

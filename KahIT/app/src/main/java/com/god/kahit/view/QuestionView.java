@@ -15,19 +15,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.god.kahit.R;
-import com.god.kahit.viewModel.QuestionViewModel;
-import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.god.kahit.R;
+import com.god.kahit.viewModel.QuestionViewModel;
+import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionView extends AppCompatActivity {
 
@@ -54,11 +54,13 @@ public class QuestionView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
         model = ViewModelProviders.of(this).get(QuestionViewModel.class);
+
         questionNmbTextView = findViewById(R.id.qNumOfQuesTextView);
         storeImage = findViewById(R.id.storeImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         choosePlayerButton = findViewById(R.id.choosePlayerButton);
+
         choosePlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +93,14 @@ public class QuestionView extends AppCompatActivity {
             }
         };
         model.getQuestionTime().observe(this, questionTimeObserver);
+
+        final Observer<String> playerNameObserver = new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                populatePlayerName(s);
+            }
+        };
+        model.getPlayerName().observe(this,playerNameObserver);
 
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.qProgressBar);
 
@@ -224,11 +234,21 @@ public class QuestionView extends AppCompatActivity {
         animation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final Animator animation) {
-                model.updateViewForBeginningOfAnimation(animation, answers);
+                final boolean isMoveOn = model.isMoveOn();
+                if(isMoveOn){
+                    model.updateViewForBeginningOfAnimation(animation, answers);
+                }
                 h1.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        launchAfterQuestionScorePageClass();
+                        if(isMoveOn){
+                            launchAfterQuestionScorePageClass();
+                        }else{
+                            model.repeatQuestion();
+                            model.resetColorOfTextView(answers);
+                            animation.start();
+                        }
+
                     }
                 }, 1000);
             }
