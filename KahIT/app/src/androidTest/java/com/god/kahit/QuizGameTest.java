@@ -52,7 +52,7 @@ public class QuizGameTest implements QuizListener {
     }
 
     @Override
-    public void receiveQuestion(Question q) {
+    public void receiveQuestion(Question q,int n) {
         Assert.assertEquals(q.getCategory(), Category.History);
     }
 }

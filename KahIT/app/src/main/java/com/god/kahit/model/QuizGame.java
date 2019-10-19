@@ -27,7 +27,9 @@ public class QuizGame {
 
     //TODO maybe move into constructor
     private String hostPlayerId = "iHost";
-    private Boolean gameIsStarted = false;
+    private boolean gameIsStarted = false;
+    private boolean isHowSwap = true; //TODO replace with gamemode or something
+
 
     private List<QuizListener> listeners;
     /**
@@ -51,6 +53,9 @@ public class QuizGame {
             loadIndexMap();
             store = new Store();
             gameIsStarted = true;
+        }
+        if(isHowSwap && currentPlayer != playerList.get(0)){ //Makes sure that current player is set in hotswap mode
+            currentPlayer = playerList.get(0);
         }
     }
 
@@ -161,7 +166,12 @@ public class QuizGame {
      */
     private void broadCastQuestion(Question question) {
         for (QuizListener quizListener : listeners) {
-            quizListener.receiveQuestion(question);
+            if(isHowSwap){
+                quizListener.receiveQuestion(question,playerList.size());
+            }else{
+                quizListener.receiveQuestion(question,1);
+            }
+
         }
     }
 
@@ -181,6 +191,7 @@ public class QuizGame {
             double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
             player.updateScore((int) scoreDelta);
         }
+        player.clearModifier();
     }
 
     /**
@@ -646,10 +657,19 @@ public class QuizGame {
         this.hostPlayerId = hostPlayerId;
     }
 
+
     public Store getStore() {
         if (store == null) {
             store = new Store();
         }
         return store;
+    }
+
+    public void incrementCurrentPlayer(){
+        if(playerList.indexOf(currentPlayer)+1 < playerList.size()){
+            currentPlayer = playerList.get(playerList.indexOf(currentPlayer)+1);
+        }else{
+            currentPlayer = playerList.get(0);
+        }
     }
 }
