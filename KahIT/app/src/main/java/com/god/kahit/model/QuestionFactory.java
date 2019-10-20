@@ -8,6 +8,8 @@ import java.util.Map;
 /**
  * A factory class used to create questions
  *
+ * Used by: QuizGame
+ *
  * @author Johan Ek
  */
 public class QuestionFactory {
