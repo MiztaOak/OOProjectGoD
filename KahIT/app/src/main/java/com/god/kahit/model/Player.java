@@ -15,7 +15,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     public Player(String name, String id) {
         this.name = name;
         this.id = id;
-        this.score = 5000; //TODO remove when done testing
+        this.score = 0;
         this.isReady = false;
     }
 

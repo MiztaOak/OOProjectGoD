@@ -24,6 +24,7 @@ public class QuizGame {
     private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
     private Store store; //TODO should this be here??
+    private Category[] categorySelectionArray; //todo find a better way
 
     //TODO maybe move into constructor
     private String hostPlayerId = "iHost";
@@ -265,11 +266,11 @@ public class QuizGame {
     }
 
     public void setCurrentCategory(String categoryId) {
-        for (Category category : Category.values()) {
-            System.out.println(String.format("Quizgame - setCurrentCategory: categoryId: '%s' == category.getId(): '%s'", categoryId, category.getId()));
-            if (category.getId().equals(categoryId)) {
-                setCurrentCategory(category);
-            }
+        Category category = getCategory(categoryId);
+        if (category != null) {
+            setCurrentCategory(category);
+        } else {
+
         }
         System.out.println("Quizgame - setCurrentCategory: found no match to categoryId, unable to set " +
                 "current category, skipping call");
@@ -277,6 +278,39 @@ public class QuizGame {
 
     public void setCurrentCategory(Category currentCategory) {
         this.currentCategory = currentCategory;
+    }
+
+    private Category getCategory(String categoryId) {
+        for (Category category : Category.values()) {
+            if (category.getId().equals(categoryId)) {
+                return category;
+            }
+        }
+
+        System.out.println("Quizgame - getCategory: found no match to categoryId, returning null");
+        return null;
+    }
+
+    public void generateRandomCategoryArray(int arraySize) {
+        List<Category> categories;
+        categories = new ArrayList<>(Category.getRealCategories());
+        categories.remove(currentCategory);
+        Collections.shuffle(categories);
+        categories = categories.subList(0, arraySize);
+        categorySelectionArray = categories.toArray(new Category[0]);
+    }
+
+    public Category[] getCategorySelectionArray() {
+        return categorySelectionArray;
+    }
+
+    public void setCategorySelectionArray(String[] categoryIdSelectionArray) {
+        Category[] categories = new Category[categoryIdSelectionArray.length];
+        for (int i = 0; i < categoryIdSelectionArray.length; i++) {
+            categories[i] = getCategory(categoryIdSelectionArray[i]);
+        }
+
+        categorySelectionArray = categories;
     }
 
     public void setNumOfQuestions(int numOfQuestions) {

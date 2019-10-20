@@ -5,6 +5,7 @@ import android.util.Log;
 import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
 import com.god.kahit.networkManager.Callbacks.HostEventCallback;
 import com.god.kahit.networkManager.Packets.EventCategoryPlayerVotePacket;
+import com.god.kahit.networkManager.Packets.EventCategoryVoteResultPacket;
 import com.god.kahit.networkManager.Packets.EventGameStartedPacket;
 import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
 import com.god.kahit.networkManager.Packets.EventLobbySyncStartPacket;
@@ -152,11 +153,15 @@ public class PacketHandler {
                 handleRequestCategoryPlayerVotePacket(id, payload);
                 break;
 
-            case (EventPlayerAnsweredQuestionPacket.PACKET_ID): //23
+            case (EventCategoryVoteResultPacket.PACKET_ID): //23
+                handleEventCategoryVoteResultPacket(payload);
+                break;
+
+            case (EventPlayerAnsweredQuestionPacket.PACKET_ID): //24
                 handleEventPlayerAnsweredQuestionPacket(payload);
                 break;
 
-            case (RequestPlayerAnswerQuestionPacket.PACKET_ID): //24
+            case (RequestPlayerAnswerQuestionPacket.PACKET_ID): //25
                 handleRequestPlayerAnswerQuestionPacket(id, payload);
                 break;
 
@@ -387,6 +392,15 @@ public class PacketHandler {
         }
     }
 
+    private void handleEventCategoryVoteResultPacket(byte[] payload) {
+        String categoryId = EventCategoryVoteResultPacket.getCategoryId(payload);
+        Log.i(TAG, String.format("handleEventCategoryVoteResultPacket: Received EventCategoryVoteResultPacket. categoryId: '%s'", categoryId));
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onCategoryVoteResultEvent(categoryId);
+        }
+    }
+
     private void handleEventPlayerAnsweredQuestionPacket(byte[] payload) {
         String targetPlayerId = EventPlayerAnsweredQuestionPacket.getTargetPlayerId(payload);
         String categoryId = EventPlayerAnsweredQuestionPacket.getCategoryId(payload);
@@ -463,7 +477,9 @@ public class PacketHandler {
     }
 
     public void sendRequestCategoryVote(String categoryId) {
-        //todo implement
+        Log.i(TAG, String.format("sendRequestCategoryVote: sending RequestCategoryPlayerVotePacket to host: '%s'", networkManager.getConnectionHost().getId()));
+        Packet packet = new RequestCategoryPlayerVotePacket(categoryId);
+        networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
     // ====================== Broadcast methods ======================
@@ -580,6 +596,12 @@ public class PacketHandler {
     public void broadcastCategoryPlayerVote(String targetPlayerId, String categoryId) {
         Log.i(TAG, String.format("broadcastCategoryPlayerVote: broadcasting EventCategoryPlayerVotePacket. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
         Packet packet = new EventCategoryPlayerVotePacket(targetPlayerId, categoryId);
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
+
+    public void broadcastCategoryVoteResult(String categoryId) {
+        Log.i(TAG, String.format("broadcastCategoryVoteResult: broadcasting EventCategoryVoteResultPacket. categoryId: '%s'", categoryId));
+        Packet packet = new EventCategoryVoteResultPacket(categoryId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 

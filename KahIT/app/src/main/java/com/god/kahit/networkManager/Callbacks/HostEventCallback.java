@@ -52,6 +52,8 @@ public abstract class HostEventCallback {
     public abstract void onCategoryPlayerVoteEvent(@NonNull String targetPlayerId,
                                                    @NonNull String categoryId);
 
+    public abstract void onCategoryVoteResultEvent(@NonNull String categoryId);
+
     public abstract void onPlayerAnsweredQuestionEvent(@NonNull String targetPlayerId,
                                                        @NonNull String categoryId,
                                                        @NonNull String questionId,

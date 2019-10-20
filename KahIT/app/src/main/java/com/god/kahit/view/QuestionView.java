@@ -68,7 +68,6 @@ public class QuestionView extends AppCompatActivity {
         setupListeners(savedInstanceState);
         setupStore(savedInstanceState);
 
-        updateQuestionNmbTextView(questionNmb++, totNmbQuestions); //todo implement real values
         model.nextQuestion();
         startTimer(progressBar, questionDuration);
     }
@@ -187,6 +186,7 @@ public class QuestionView extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         hasQuestionBeenShown = false;
+        updateQuestionNmbTextView(questionNmb++, totNmbQuestions); //todo implement real values
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
@@ -387,7 +387,7 @@ public class QuestionView extends AppCompatActivity {
                 public void run() {
                     model.sendIsReady();
                 }
-            }, 1000);
+            }, 1250);
             hasQuestionBeenShown = true;
         } else if (model.isHost() && hasQuestionBeenShown) {
             Log.d(LOG_TAG, "onAllPlayersReadyEvent: event triggered, showing next view.");
