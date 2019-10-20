@@ -9,14 +9,16 @@ import android.os.IBinder;
 import android.widget.Toast;
 
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
-
     private final IBinder mBinder = new ServiceBinder();
     private MediaPlayer mPlayer;
     private int length = 0;
 
+    public MusicService() { //Fixes lint error //todo Is this the only way?
 
+    }
 
     public MusicService(MediaPlayer mPlayer) {
+        super();
         this.mPlayer = mPlayer;
     }
 
@@ -34,19 +36,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.setLooping(true);
             mPlayer.setVolume(50, 50);
         }
-
-
-        mPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-
-            public boolean onError(MediaPlayer mp, int what, int
-                    extra) {
-                onError(mPlayer, what, extra);
-                return true;
-            }
-        });
     }
-
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -62,7 +52,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             if (mPlayer.isPlaying()) {
                 mPlayer.pause();
                 length = mPlayer.getCurrentPosition();
-
             }
         }
     }
@@ -72,7 +61,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             if (!mPlayer.isPlaying()) {
                 mPlayer.seekTo(length);
                 mPlayer.start();
-
             }
         }
     }
@@ -84,7 +72,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.setLooping(true);
             mPlayer.setVolume(50, 50);
             mPlayer.start();
-
         }
     }
 
@@ -94,7 +81,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
-
         }
     }
 
@@ -107,13 +93,11 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
                 mPlayer.release();
             } finally {
                 mPlayer = null;
-
             }
         }
     }
 
     public boolean onError(MediaPlayer mp, int what, int extra) {
-
         Toast.makeText(this, "Music player failed", Toast.LENGTH_SHORT).show();
         if (mPlayer != null) {
             try {
@@ -125,7 +109,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
         }
         return false;
     }
-
 
     public class ServiceBinder extends Binder {
         public MusicService getService() {
