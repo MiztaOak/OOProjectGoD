@@ -2,37 +2,26 @@ package com.god.kahit.view;
 
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-
-import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
-
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-
-import com.god.kahit.backgroundMusicService.HomeButtonClickedListener;
-import com.god.kahit.backgroundMusicService.MusicService;
-import com.god.kahit.backgroundMusicService.OnHomePressedListener;
+import com.god.kahit.R;
+import com.god.kahit.Repository.Repository;
 
 public class MainActivityView extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityView.class.getSimpleName();
 
-  //  HomeButtonClickedListener mHomeWatcher;
+    //  HomeButtonClickedListener mHomeWatcher;
 
     private static final String[] REQUIRED_PERMISSIONS =
             new String[]{
@@ -54,8 +43,8 @@ public class MainActivityView extends AppCompatActivity {
         Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
         Repository.getInstance().setupAudioHandler(getApplicationContext());
 
-    }
 
+    }
 
 
     /**

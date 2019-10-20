@@ -62,6 +62,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private PacketHandler packetHandler;
     private AudioHandler audioHandler;
 
+
     private Repository() {
     }
 
@@ -94,13 +95,22 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         audioHandler.pauseMusic();
     }
 
+    public boolean getMusicState() {
+        return audioHandler.getMusicState();
+    }
+
+    public void setMusicState(boolean music) {
+        audioHandler.setMusicState(music);
+    }
+
     public void setupAppLifecycleObserver(final Context context) {
         if (appLifecycleHandler == null) {
             Log.i(TAG, "setupAppLifecycleObserver: called");
             appLifecycleHandler = new AppLifecycleHandler(context, new AppLifecycleCallback() {
                 @Override
                 public void onAppForegrounded() {
-                    resumeMusic();
+                    if (getMusicState())
+                        resumeMusic();
                 }
 
                 @Override

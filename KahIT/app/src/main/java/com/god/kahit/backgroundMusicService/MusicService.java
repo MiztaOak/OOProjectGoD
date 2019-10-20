@@ -38,6 +38,8 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
         }
     }
 
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mPlayer != null) {
@@ -52,6 +54,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             if (mPlayer.isPlaying()) {
                 mPlayer.pause();
                 length = mPlayer.getCurrentPosition();
+
             }
         }
     }
@@ -61,6 +64,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             if (!mPlayer.isPlaying()) {
                 mPlayer.seekTo(length);
                 mPlayer.start();
+
             }
         }
     }
@@ -72,6 +76,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.setLooping(true);
             mPlayer.setVolume(50, 50);
             mPlayer.start();
+
         }
     }
 
@@ -81,6 +86,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
+
         }
     }
 
@@ -93,6 +99,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
                 mPlayer.release();
             } finally {
                 mPlayer = null;
+
             }
         }
     }
@@ -109,6 +116,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
         }
         return false;
     }
+
 
     public class ServiceBinder extends Binder {
         public MusicService getService() {
