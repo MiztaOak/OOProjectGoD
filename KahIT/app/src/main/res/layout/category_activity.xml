@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/kahit" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/categoryActivity_voteCategory_textView"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:gravity="center"
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8">
+        app:layout_constraintTop_toBottomOf="@+id/categoryActivity_voteCategory_textView">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -51,8 +51,9 @@
 
             <ImageButton
                 android:id="@+id/cButton1"
-                android:layout_width="196dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"
@@ -62,8 +63,9 @@
 
             <ImageButton
                 android:id="@+id/cButton2"
-                android:layout_width="210dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"
@@ -80,8 +82,9 @@
 
             <ImageButton
                 android:id="@+id/cButton3"
-                android:layout_width="197dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"
@@ -91,8 +94,9 @@
 
             <ImageButton
                 android:id="@+id/cButton4"
-                android:layout_width="212dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:maxWidth="100dp"
                 android:maxHeight="100dp"

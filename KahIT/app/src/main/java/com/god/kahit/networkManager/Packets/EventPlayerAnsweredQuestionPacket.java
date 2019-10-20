@@ -1,7 +1,7 @@
 package com.god.kahit.networkManager.Packets;
 
 public class EventPlayerAnsweredQuestionPacket extends Packet {
-    public static final int PACKET_ID = 23;
+    public static final int PACKET_ID = 24;
 
     public EventPlayerAnsweredQuestionPacket(String targetPlayerId, String categoryId, String questionId, String givenAnswer, String timeLeft) {
         super(PACKET_ID, null);

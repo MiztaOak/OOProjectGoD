@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.god.kahit.Events.AllPlayersReadyEvent;
+import com.god.kahit.Events.CategoryVoteResultEvent;
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.GameStartedEvent;
@@ -13,6 +14,7 @@ import com.god.kahit.Events.LobbyNameChangeEvent;
 import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.Events.PlayerAnsweredQuestionEvent;
+import com.god.kahit.Events.PlayerVotedCategoryEvent;
 import com.god.kahit.Events.RoomChangeEvent;
 import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
@@ -164,7 +166,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     //Remove player completely only if game is in lobby
                     Player player = quizGame.getPlayer(id);
                     quizGame.removePlayer(player);
-                    packetHandler.broadcastPlayerLeft(id);
+                    if (packetHandler != null) {
+                        packetHandler.broadcastPlayerLeft(id);
+                    } else {
+                        Log.i(TAG, "onConnectionLost: attempt to call broadcastPlayerLeft on null packetHandler, ignoring call");
+                    }
                 } else if (!isHost) {
                     BUS.post(new GameLostConnectionEvent()); //todo implement
                 }
@@ -228,7 +234,13 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId, @NonNull String categoryId) {
                     Log.i(TAG, String.format("onCategoryPlayerVoteRequest: event triggered. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
-                    //todo implement
+                    Player player = quizGame.getPlayer(targetPlayerId);
+                    if (player != null) {
+                        packetHandler.broadcastCategoryPlayerVote(targetPlayerId, categoryId);
+                        BUS.post(new PlayerVotedCategoryEvent(player, categoryId));
+                    } else {
+                        Log.i(TAG, String.format("onCategoryPlayerVoteRequest: Target player (id: '%s') does not exist in quizGame! Skipping player vote category request", targetPlayerId));
+                    }
                 }
 
                 @Override
@@ -350,21 +362,19 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     Log.i(TAG, String.format("onShowQuestionEvent: event triggered. categoryId: '%s', questionId: '%s'", categoryId, questionId));
                     quizGame.setNextQuestion(categoryId, questionId);
                     BUS.post(new NewViewEvent(QuestionView.class));
-                    //todo implement onShowQuestionEvent
                 }
 
                 @Override
                 public void onShowRoundStatsEvent() {
                     Log.i(TAG, "onShowRoundStatsEvent: event triggered.");
                     BUS.post(new NewViewEvent(AfterQuestionScorePageView.class));
-                    //todo implement onShowRoundStatsEvent
                 }
 
                 @Override
                 public void onShowCategorySelectionEvent(@NonNull String[] categoryIds) {
                     Log.i(TAG, String.format("onShowCategorySelectionEvent: event triggered. categoryIds: '%s'", Arrays.toString(categoryIds)));
+                    quizGame.setCategorySelectionArray(categoryIds);
                     BUS.post(new NewViewEvent(CategoryView.class));
-                    //todo implement onShowCategorySelectionEvent
                 }
 
                 @Override
@@ -384,7 +394,18 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onCategoryPlayerVoteEvent(@NonNull String targetPlayerId, @NonNull String categoryId) {
                     Log.i(TAG, String.format("onCategoryPlayerVoteEvent: event triggered. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
-                    //todo implement onCategoryPlayerVoteEvent
+                    Player player = quizGame.getPlayer(targetPlayerId);
+                    if (player != null) {
+                        BUS.post(new PlayerVotedCategoryEvent(player, categoryId));
+                    } else {
+                        Log.i(TAG, String.format("onCategoryPlayerVoteEvent: Target player (id: '%s') does not exist in quizGame! Skipping player vote category event", targetPlayerId));
+                    }
+                }
+
+                @Override
+                public void onCategoryVoteResultEvent(@NonNull String categoryId) {
+                    Log.i(TAG, String.format("onCategoryVoteResultEvent: event triggered. categoryId: '%s'", categoryId));
+                    BUS.post(new CategoryVoteResultEvent(categoryId));
                 }
 
                 @Override
@@ -433,16 +454,24 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         } else if (newViewClassString.equals(AfterQuestionScorePageView.class.getSimpleName())) {
             packetHandler.broadcastShowRoundStats();
         } else if (newViewClassString.equals(CategoryView.class.getSimpleName())) {
-            String[] categoriesArr = new String[4]; //todo dynamically populate categories for user to vote between
-            categoriesArr[0] = "c6";
-            categoriesArr[1] = "c11";
-            categoriesArr[2] = "c2";
-            categoriesArr[3] = "c13";
+            quizGame.generateRandomCategoryArray(4);
+            Category[] categories = quizGame.getCategorySelectionArray();
+            String[] categoriesArr = new String[categories.length];
+            for (int i = 0; i < categories.length; i++) {
+                categoriesArr[i] = categories[i].getId();
+            }
             packetHandler.broadcastShowCategorySelection(categoriesArr);
         } else {
             Log.e(TAG, "broadcastShowNewView: newViewClass.getSimpleName() does not " +
                     "equal to any case, has it not been implemented yet?, skipping call");
         }
+    }
+
+    public void broadcastCategoryVoteResult(Category category) {
+        Log.i(TAG, String.format("broadcastCategoryVoteResult: called. categoryId: '%s'", category.getId()));
+
+        quizGame.setCurrentCategory(category);
+        packetHandler.broadcastCategoryVoteResult(category.getId());
     }
 
     public void startGame() {
@@ -479,6 +508,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             } else {
                 Log.i(TAG, "sendAnswer: Attempt to call getPlayerId with null networkManager, skipping call");
             }
+        }
+    }
+
+    public void sendCategoryVote(String categoryId) {
+        if (packetHandler != null) {
+            packetHandler.sendRequestCategoryVote(categoryId);
+        } else {
+            Log.i(TAG, "sendCategoryVote: Attempt to call sendRequestCategoryVote with null packetHandler, skipping call");
         }
     }
 
@@ -525,7 +562,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.getHostPlayerId();
     }
 
-    private Player getHostPlayer() {
+    public Player getHostPlayer() {
         return quizGame.getPlayer(getHostPlayerId());
     }
 
@@ -536,6 +573,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         } else {
             requestSetReady(isReady);
         }
+    }
+
+    public void generateRandomCategoryArray(int size) {
+        quizGame.generateRandomCategoryArray(size);
+    }
+
+    public Category[] getCategorySelectionArray() {
+        return quizGame.getCategorySelectionArray();
     }
 
     private void setPlayerReady(Player player, boolean isReady) {
