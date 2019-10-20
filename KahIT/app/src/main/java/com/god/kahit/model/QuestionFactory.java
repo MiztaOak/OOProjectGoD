@@ -1,12 +1,13 @@
 package com.god.kahit.model;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * A factory class used to create questions
+ *
  * @author Johan Ek
  */
 public class QuestionFactory {
@@ -25,11 +26,29 @@ public class QuestionFactory {
         if (dataLoader == null)
             return null;
         Map<Category, List<Question>> questions = new HashMap<>();
-        for (int i = 0; i < categories.length; i++) {
-            questions.put(categories[i], dataLoader.getQuestionList(categories[i]));
+        for (Category category : categories) {
+            questions.put(category, getQuestionList(category));
         }
 
         return questions;
+    }
+
+    /**
+     * Method that copies the questions from the dataLoader to avoid any strange alias errors
+     *
+     * @param category The category that the questions should have
+     * @return a list of questions that all share the same category and is a copy of the list from
+     * the dataLoader
+     */
+    private static List<Question> getQuestionList(Category category) {
+        List<Question> loadedQuestions = dataLoader.getQuestionList(category);
+        List<Question> createdQuestions = new ArrayList<>();
+
+        for (Question q : loadedQuestions) {
+            createdQuestions.add(new Question(q.getCategory(), q.getQuestion(), q.getAnswer(), q.getAlternatives(), q.getTime()));
+        }
+
+        return createdQuestions;
     }
 
     /**
@@ -39,7 +58,7 @@ public class QuestionFactory {
      */
     static Map<Category, List<Question>> getFullQuestionMap() {
         List<Category> categories = Category.getRealCategories();
-        return getQuestionMap((Category[])categories.toArray());
+        return getQuestionMap((Category[]) categories.toArray());
     }
 
     /**
