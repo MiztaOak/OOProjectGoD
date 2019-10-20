@@ -1,14 +1,22 @@
 package com.god.kahit.model;
 
+import com.god.kahit.ItemDataLoaderMock;
+import com.god.kahit.QuestionDataLoaderMock;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class QuizGameTest {
+    QuizGame quizGame;
 
     @Before
     public void setUp() throws Exception {
+        ItemFactory.setDataLoader(new ItemDataLoaderMock());
+        QuestionFactory.setDataLoader(new QuestionDataLoaderMock());
+
+        quizGame = new QuizGame();
     }
 
     @Test
