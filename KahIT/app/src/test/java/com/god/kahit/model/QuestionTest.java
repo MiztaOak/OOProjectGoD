@@ -1,11 +1,11 @@
 package com.god.kahit.model;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class QuestionTest {
@@ -24,5 +24,19 @@ public class QuestionTest {
             scram = question.scrambleAlternatives(stringList);
         }while (!scram.equals(stringList));
         assertTrue(true);
+    }
+
+    @Test
+    public void isCorrectAnswer(){
+        Category category = Category.Gaming;
+        String questionText = "Test";
+
+        String wrongAnswer = "WrongAnswer";
+        String correctAnswer = "CorrectAnswer";
+
+        Question question = new Question(category,questionText,correctAnswer,new ArrayList<String>(),1);
+
+        Assert.assertFalse(question.isCorrectAnswer(wrongAnswer));
+        Assert.assertTrue(question.isCorrectAnswer(correctAnswer));
     }
 }
