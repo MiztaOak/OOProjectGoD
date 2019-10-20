@@ -1,15 +1,17 @@
 package com.god.kahit.viewModel;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuizListener;
-import com.god.kahit.view.QuestionView;
+import com.god.kahit.view.AfterQuestionScorePageView;
 
 import java.util.List;
 
@@ -17,26 +19,151 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class QuestionViewModel extends ViewModel implements LifecycleObserver, QuizListener {
-    private static final String TAG = QuestionView.class.getSimpleName();
+import static com.god.kahit.model.QuizGame.BUS;
 
+public class QuestionViewModel extends ViewModel implements LifecycleObserver, QuizListener {
+    private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
+    private Repository repository;
     private MutableLiveData<String> questionText;
     private MutableLiveData<List<String>> questionAlts;
     private MutableLiveData<Integer> questionTime;
     private MutableLiveData<String> playerName;
     private Question currentQuestion;
-    private boolean isQuestionAnswered;
 
     private int indexOfClickedView = -1;
+    private boolean isQuestionAnswered;
     private boolean correctAnswerWasGiven = false;
 
     private int numOfRepeats = 0;
 
     public QuestionViewModel() {
-        Repository.getInstance().addQuizListener(this);
-        if (Repository.getInstance().isRoundOver()) {
-            Repository.getInstance().startGame();
+        repository = Repository.getInstance();
+        repository.addQuizListener(this);
+        if (repository.isRoundOver()) {
+            repository.startGame();
         }
+    }
+
+    /**
+     * Method that request a new question from model
+     */
+    public void nextQuestion() {
+        repository.nextQuestion();
+    }
+
+    public boolean isHotSwap() {
+        return repository.isHotSwap();
+    }
+
+    public boolean isHost() {
+        return repository.isHost();
+    }
+
+    public boolean isMe(Player player) {
+        return repository.isMe(player.getId());
+    }
+
+    /**
+     * Method that receives a question from the model using the quizListener interface
+     *
+     * @param q - the question that is being received
+     */
+    @Override
+    public void receiveQuestion(Question q, int n) {
+        currentQuestion = q;
+        numOfRepeats = n;
+        isQuestionAnswered = false;
+        correctAnswerWasGiven = false;
+        indexOfClickedView = -1;
+        questionText.setValue(q.getQuestion());
+        questionAlts.setValue(q.getAlternatives());
+        questionTime.setValue(currentQuestion.getTime());
+
+        playerName.setValue(repository.getCurrentPlayerName());
+    }
+
+    /**
+     * Method that is run when the user presses one of the alternatives in the questionActivity
+     *
+     * @param view      - the view that the user pressed
+     * @param animation - the animation of the progressbar
+     * @param answers   - a list with all of the alternative buttons
+     */
+    public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers) {
+        if (!isQuestionAnswered) {
+            String alternative = answers.get(answers.indexOf(view)).getText().toString();
+            long timeLeft = animation.getDuration() - animation.getCurrentPlayTime();
+            if (isHotSwap()) {
+                greyOutAnswersTextView(answers);
+            }
+            indexOfClickedView = answers.indexOf(view);
+            colorSelectedAnswerTextView(answers);
+            if (currentQuestion.isCorrectAnswer(alternative)) {
+                correctAnswerWasGiven = true;
+            }
+            repository.sendAnswer(alternative, currentQuestion, timeLeft / 1000);
+            isQuestionAnswered = true;
+        }
+    }
+
+    public void colorSelectedAnswerTextView(List<TextView> answers) {
+        answers.get(indexOfClickedView).setBackgroundResource(R.color.blue);
+    }
+
+    /**
+     * sets a new backgroundColor for the non-selected answers.
+     */
+    public void greyOutAnswersTextView(List<TextView> answers) {
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setBackgroundResource(R.color.lightgrey);
+            answers.get(i).setEnabled(false);
+        }
+    }
+
+    public void updateViewForBeginningOfAnimation(final List<TextView> answers) {
+        greyOutAnswersTextView(answers);
+        if (indexOfClickedView >= 0) {
+            if (correctAnswerWasGiven) {
+                answers.get(indexOfClickedView).setBackgroundResource(R.color.green);
+            } else {
+                answers.get(indexOfClickedView).setBackgroundResource(R.color.red);
+            }
+        }
+    }
+
+    public void resetColorOfTextView(List<TextView> answers) {
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setBackgroundResource(R.color.colorPrimary);
+            answers.get(i).setEnabled(true);
+        }
+    }
+
+    public void sendIsReady() {
+        Log.d(LOG_TAG, "sendIsReady: called. Now waiting for server..");
+        repository.setMyReadyStatus(true);
+    }
+
+    public void resetPlayersReady() {
+        repository.resetPlayersReady();
+    }
+
+    public void showNextView() {
+        Class<?> newViewClass = AfterQuestionScorePageView.class; //todo get actual next view, it's not always AfterQuestionScorePageView
+        repository.broadcastShowNewView(newViewClass);
+        BUS.post(new NewViewEvent(newViewClass));
+    }
+
+    public boolean isMoveOn() {
+        numOfRepeats--;
+        return numOfRepeats <= 0;
+    }
+
+    public void repeatQuestion() {
+        isQuestionAnswered = false;
+        indexOfClickedView = -1;
+        correctAnswerWasGiven = false;
+        repository.incrementCurrentPlayer();
+        playerName.setValue(repository.getCurrentPlayerName());
     }
 
     public MutableLiveData<String> getQuestionText() {
@@ -60,97 +187,10 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         return questionTime;
     }
 
-    public MutableLiveData<String> getPlayerName(){
-        if(playerName == null){
+    public MutableLiveData<String> getPlayerName() {
+        if (playerName == null) {
             playerName = new MutableLiveData<>();
         }
         return playerName;
-    }
-
-    /**
-     * Method that request a new question from model
-     */
-    public void nextQuestion() {
-        Repository.getInstance().nextQuestion();
-    }
-
-    /**
-     * Method that receives a question from the model using the quizListener interface
-     *
-     * @param q - the question that is being received
-     */
-    @Override
-    public void receiveQuestion(Question q, int n) {
-        currentQuestion = q;
-        numOfRepeats = n;
-        isQuestionAnswered = false;
-        correctAnswerWasGiven = false;
-        indexOfClickedView = -1;
-        questionText.setValue(q.getQuestion());
-        questionAlts.setValue(q.getAlternatives());
-        questionTime.setValue(currentQuestion.getTime());
-
-        playerName.setValue(Repository.getInstance().getCurrentPlayerName());
-    }
-
-    /**
-     * Method that is run when the user presses one of the alternatives in the questionActivity
-     *
-     * @param view      - the view that the user pressed
-     * @param animation - the animation of the progressbar
-     * @param answers   - a list with all of the alternative buttons
-     */
-    public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers) {
-        if (!isQuestionAnswered) {
-            String alternative = answers.get(answers.indexOf(view)).getText().toString();
-            long timeLeft = animation.getDuration() - animation.getCurrentPlayTime();
-            greyOutAnswersTextView(answers);
-            indexOfClickedView = answers.indexOf(view);
-            answers.get(indexOfClickedView).setBackgroundResource(R.color.blue);
-            if (currentQuestion.isCorrectAnswer(alternative)) {
-                correctAnswerWasGiven = true;
-            }
-            Repository.getInstance().sendAnswer(alternative, currentQuestion, timeLeft / 1000);
-            isQuestionAnswered = true;
-        }
-    }
-
-    /**
-     * sets a new backgroundColor for the non-selected answers.
-     */
-    private void greyOutAnswersTextView(List<TextView> answers) {
-        for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setBackgroundResource(R.color.lightgrey);
-        }
-    }
-
-    public void updateViewForBeginningOfAnimation(final Animator animation, final List<TextView> answers) {
-        greyOutAnswersTextView(answers);
-        if (indexOfClickedView >= 0) {
-            if (correctAnswerWasGiven) {
-                answers.get(indexOfClickedView).setBackgroundResource(R.color.green);
-            } else {
-                answers.get(indexOfClickedView).setBackgroundResource(R.color.red);
-            }
-        }
-    }
-
-    public void resetColorOfTextView(List<TextView> answers) {
-        for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setBackgroundResource(R.color.colorPrimary);
-        }
-    }
-
-    public boolean isMoveOn(){
-        numOfRepeats--;
-        return numOfRepeats <= 0;
-    }
-
-    public void repeatQuestion(){
-        isQuestionAnswered = false;
-        indexOfClickedView = -1;
-        correctAnswerWasGiven = false;
-        Repository.getInstance().incrementCurrentPlayer();
-        playerName.setValue(Repository.getInstance().getCurrentPlayerName());
     }
 }

@@ -6,15 +6,27 @@ public abstract class ClientRequestsCallback {
     public ClientRequestsCallback() {
     }
 
-    public abstract void onReceivedMyConnectionId(@NonNull String senderId, @NonNull String playerId);
+    public abstract void onReceivedMyConnectionId(@NonNull String senderId,
+                                                  @NonNull String playerId);
 
-    public abstract void onPlayerNameChangeRequest(@NonNull String targetPlayerId, @NonNull String newName);
+    public abstract void onPlayerNameChangeRequest(@NonNull String targetPlayerId,
+                                                   @NonNull String newName);
 
-    public abstract void onPlayerReadyChangeRequest(@NonNull String targetPlayerId, @NonNull boolean newState);
+    public abstract void onPlayerReadyChangeRequest(@NonNull String targetPlayerId,
+                                                    boolean newState);
 
-    public abstract void onTeamNameChangeRequest(@NonNull String teamId, @NonNull String newTeamName);
+    public abstract void onTeamNameChangeRequest(@NonNull String teamId,
+                                                 @NonNull String newTeamName);
 
-    public abstract void onPlayerTeamChangeRequest(@NonNull String targetPlayerId, @NonNull String newTeamId);
+    public abstract void onPlayerTeamChangeRequest(@NonNull String targetPlayerId,
+                                                   @NonNull String newTeamId);
 
-    public abstract void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId, @NonNull String categoryId);
+    public abstract void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId,
+                                                     @NonNull String categoryId);
+
+    public abstract void onPlayerAnsweredQuestionRequest(@NonNull String targetPlayerId,
+                                                         @NonNull String categoryId,
+                                                         @NonNull String questionId,
+                                                         @NonNull String givenAnswer,
+                                                         long timeLeft);
 }
