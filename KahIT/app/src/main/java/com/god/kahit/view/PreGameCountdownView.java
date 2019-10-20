@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import static com.god.kahit.model.QuizGame.BUS;
 
-
 /**
  * A class that shows a countdown timer before starting the game
  */
@@ -82,8 +81,10 @@ public class PreGameCountdownView extends AppCompatActivity {
 
     @Subscribe
     public void onNewViewEvent(NewViewEvent event) {
+        preGameCountdownViewModel.resetPlayersReady();
         Intent intent = new Intent(getApplicationContext(), event.getNewViewClass());
         startActivity(intent);
+        finish();
     }
 
     @Subscribe

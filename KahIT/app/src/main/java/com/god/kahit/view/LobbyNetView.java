@@ -264,6 +264,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
                 lobbyNetViewModel.startGame();
                 Intent intent = new Intent(this, PreGameCountdownView.class);
                 startActivity(intent);
+                finish();
             }
 
         } else {

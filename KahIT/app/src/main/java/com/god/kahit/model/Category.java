@@ -13,69 +13,95 @@ import java.util.List;
  */
 public enum Category {
     Science {
+        @Override
         public String toString() {
             return "science";
         }
+        @Override
         public String getId() { return "c1";}
     }, History {
+        @Override
         public String toString() {
             return "history";
         }
+        @Override
         public String getId() { return "c2";}
     }, Nature {
+        @Override
         public String toString() {
             return "nature";
         }
+        @Override
         public String getId() { return "c3";}
     }, Test {
+        @Override
         public String toString() {
             return "test";
         }
+        @Override
         public String getId() { return "c4";}
     }, Mix {
+        @Override
         public String toString() {
             return "mix";
         }
+        @Override
         public String getId() { return "c5";}
     }, Celebrities {
+        @Override
         public String toString() {
             return "celebrities";
         }
+        @Override
         public String getId() { return "c6";}
     }, Gaming {
+        @Override
         public String toString() {
             return "gaming";
         }
+        @Override
         public String getId() { return "c7";}
     }, Geography {
+        @Override
         public String toString() {
             return "geography";
         }
+        @Override
         public String getId() { return "c8";}
     }, Language {
+        @Override
         public String toString() {
             return "language";
         }
+        @Override
         public String getId() { return "c9";}
     }, Literature {
+        @Override
         public String toString() {
             return "literature";
         }
+        @Override
         public String getId() { return "c10";}
     }, Movies {
+        @Override
         public String toString() {
             return "movies";
         }
+        @Override
         public String getId() { return "c11";}
     }, Religion {
+        @Override
         public String toString() {
             return "religion";
         }
+        @Override
         public String getId() { return "c12";}
     }, Sports {
+        @Override
         public String toString() {
             return "sports";
         }
+        @Override
         public String getId() { return "c13";}
     };
 
@@ -127,4 +153,6 @@ public enum Category {
         return Arrays.asList(Science, History, Nature, Celebrities, Gaming, Geography, Language,
                 Literature, Movies, Religion, Sports);
     }
+
+    public abstract String getId();
 }

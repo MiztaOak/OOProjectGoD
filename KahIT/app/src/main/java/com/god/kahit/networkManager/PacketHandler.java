@@ -8,6 +8,7 @@ import com.god.kahit.networkManager.Packets.EventCategoryPlayerVotePacket;
 import com.god.kahit.networkManager.Packets.EventGameStartedPacket;
 import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
 import com.god.kahit.networkManager.Packets.EventLobbySyncStartPacket;
+import com.god.kahit.networkManager.Packets.EventPlayerAnsweredQuestionPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerChangeTeamPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerJoinedPacket;
 import com.god.kahit.networkManager.Packets.EventPlayerLeftPacket;
@@ -24,6 +25,7 @@ import com.god.kahit.networkManager.Packets.EventTeamNameChangePacket;
 import com.god.kahit.networkManager.Packets.Packet;
 import com.god.kahit.networkManager.Packets.PlayerIdPacket;
 import com.god.kahit.networkManager.Packets.RequestCategoryPlayerVotePacket;
+import com.god.kahit.networkManager.Packets.RequestPlayerAnswerQuestionPacket;
 import com.god.kahit.networkManager.Packets.RequestPlayerChangeTeamPacket;
 import com.god.kahit.networkManager.Packets.RequestPlayerNameChangePacket;
 import com.god.kahit.networkManager.Packets.RequestPlayerReadyChangePacket;
@@ -125,23 +127,37 @@ public class PacketHandler {
             case (EventShowQuestionPacket.PACKET_ID): //16
                 handleEventShowQuestionPacket(payload);
                 break;
+
             case (EventShowRoundStatsPacket.PACKET_ID): //17
                 handleEventShowRoundStatsPacket();
                 break;
+
             case (EventShowCategorySelectionPacket.PACKET_ID): //18
                 handleEventShowCategorySelectionPacket(payload);
                 break;
+
             case (EventShowLotteryPacket.PACKET_ID): //19
                 handleEventShowLotteryPacket(payload);
                 break;
+
             case (EventShowGameResultsPacket.PACKET_ID): //20
                 handleEventShowGameResultsPacket();
                 break;
+
             case (EventCategoryPlayerVotePacket.PACKET_ID): //21
                 handleEventCategoryPlayerVotePacket(payload);
                 break;
+
             case (RequestCategoryPlayerVotePacket.PACKET_ID): //22
                 handleRequestCategoryPlayerVotePacket(id, payload);
+                break;
+
+            case (EventPlayerAnsweredQuestionPacket.PACKET_ID): //23
+                handleEventPlayerAnsweredQuestionPacket(payload);
+                break;
+
+            case (RequestPlayerAnswerQuestionPacket.PACKET_ID): //24
+                handleRequestPlayerAnswerQuestionPacket(id, payload);
                 break;
 
             default:
@@ -309,11 +325,12 @@ public class PacketHandler {
     }
 
     private void handleEventShowQuestionPacket(byte[] payload) {
+        String categoryId = EventShowQuestionPacket.getCategoryId(payload);
         String questionId = EventShowQuestionPacket.getQuestionId(payload);
-        Log.i(TAG, String.format("handleEventShowQuestionPacket: Received EventShowQuestionPacket. questionId: %s", questionId));
+        Log.i(TAG, String.format("handleEventShowQuestionPacket: Received EventShowQuestionPacket. categoryId: '%s', questionId: %s", categoryId, questionId));
 
         if (hostEventCallback != null) {
-            hostEventCallback.onShowQuestionEvent(questionId);
+            hostEventCallback.onShowQuestionEvent(categoryId, questionId);
         }
     }
 
@@ -370,6 +387,39 @@ public class PacketHandler {
         }
     }
 
+    private void handleEventPlayerAnsweredQuestionPacket(byte[] payload) {
+        String targetPlayerId = EventPlayerAnsweredQuestionPacket.getTargetPlayerId(payload);
+        String categoryId = EventPlayerAnsweredQuestionPacket.getCategoryId(payload);
+        String questionId = EventPlayerAnsweredQuestionPacket.getQuestionId(payload);
+        String givenAnswer = EventPlayerAnsweredQuestionPacket.getGivenAnswer(payload);
+        String timeLeft = EventPlayerAnsweredQuestionPacket.getTimeLeft(payload);
+        Log.i(TAG, String.format("handleEventPlayerAnsweredQuestionPacket: Received " +
+                "EventPlayerAnsweredQuestionPacket. targetPlayerId: %s, " +
+                "categoryId: '%s', questionId: '%s', givenAnswer: '%s', " +
+                "timeLeft: '%s'", targetPlayerId, categoryId, questionId, givenAnswer, timeLeft));
+
+        if (hostEventCallback != null) {
+            hostEventCallback.onPlayerAnsweredQuestionEvent(targetPlayerId, categoryId,
+                    questionId, givenAnswer, Long.valueOf(timeLeft));
+        }
+    }
+
+    private void handleRequestPlayerAnswerQuestionPacket(String senderId, byte[] payload) {
+        String categoryId = RequestPlayerAnswerQuestionPacket.getCategoryId(payload);
+        String questionId = RequestPlayerAnswerQuestionPacket.getQuestionId(payload);
+        String givenAnswer = RequestPlayerAnswerQuestionPacket.getGivenAnswer(payload);
+        String timeLeft = RequestPlayerAnswerQuestionPacket.getTimeLeft(payload);
+        Log.i(TAG, String.format("handleRequestPlayerAnswerQuestionPacket: Received " +
+                        "RequestPlayerAnswerQuestionPacket from '%s'. categoryId: '%s', " +
+                        "questionId: '%s', givenAnswer: '%s', timeLeft: '%s'", senderId,
+                categoryId, questionId, givenAnswer, timeLeft));
+
+        if (clientRequestsCallback != null) {
+            clientRequestsCallback.onPlayerAnsweredQuestionRequest(senderId, categoryId, questionId,
+                    givenAnswer, Long.valueOf(timeLeft));
+        }
+    }
+
     // ====================== Send methods ======================
 
     public void sendPlayerId(Connection connection, String playerId) {
@@ -406,8 +456,10 @@ public class PacketHandler {
         //todo implement
     }
 
-    public void sendRequestAnswerQuestion(String answerID) {
-        //todo implement
+    public void sendRequestAnswerQuestion(String categoryId, String questionId, String givenAnswer, String timeLeft) {
+        Log.i(TAG, String.format("sendRequestAnswerQuestion: sending RequestPlayerAnswerQuestionPacket to host: '%s'", networkManager.getConnectionHost().getId()));
+        Packet packet = new RequestPlayerAnswerQuestionPacket(categoryId, questionId, givenAnswer, timeLeft);
+        networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
     public void sendRequestCategoryVote(String categoryId) {
@@ -416,7 +468,8 @@ public class PacketHandler {
 
     // ====================== Broadcast methods ======================
 
-    public void broadcastLobbySyncStartPacket(String targetPlayerId, String roomName, String gameModeId) {
+    public void broadcastLobbySyncStartPacket(String targetPlayerId, String roomName,
+                                              String gameModeId) {
         Log.i(TAG, String.format("broadcastLobbySyncStartPacket: broadcasting " +
                 "EventLobbySyncStartPacket. targetPlayerId: '%s', roomName: '%s', " +
                 "gameModeId: '%s'", targetPlayerId, roomName, gameModeId));
@@ -494,9 +547,9 @@ public class PacketHandler {
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
-    public void broadcastShowQuestion(String questionId) {
-        Log.i(TAG, String.format("broadcastShowQuestion: broadcasting EventShowQuestionPacket. questionId: '%s'", questionId));
-        Packet packet = new EventShowQuestionPacket(questionId);
+    public void broadcastShowQuestion(String categoryId, String questionId) {
+        Log.i(TAG, String.format("broadcastShowQuestion: broadcasting EventShowQuestionPacket. categoryId: '%s', questionId: '%s'", categoryId, questionId));
+        Packet packet = new EventShowQuestionPacket(categoryId, questionId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
@@ -527,6 +580,19 @@ public class PacketHandler {
     public void broadcastCategoryPlayerVote(String targetPlayerId, String categoryId) {
         Log.i(TAG, String.format("broadcastCategoryPlayerVote: broadcasting EventCategoryPlayerVotePacket. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
         Packet packet = new EventCategoryPlayerVotePacket(targetPlayerId, categoryId);
+        networkManager.broadcastBytePayload(packet.getBuiltPacket());
+    }
+
+    public void broadcastPlayerAnsweredQuestion(String targetPlayerId, String categoryId,
+                                                String questionId, String givenAnswer,
+                                                String timeLeft) {
+        Log.i(TAG, String.format("broadcastPlayerAnsweredQuestion: broadcasting " +
+                "EventPlayerAnsweredQuestionPacket. targetPlayerId: %s, " +
+                "categoryId: '%s', questionId: '%s', givenAnswer: '%s', " +
+                "timeLeft: '%s'", targetPlayerId, categoryId, questionId, givenAnswer, timeLeft));
+
+        Packet packet = new EventPlayerAnsweredQuestionPacket(targetPlayerId, categoryId,
+                questionId, givenAnswer, timeLeft);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 }

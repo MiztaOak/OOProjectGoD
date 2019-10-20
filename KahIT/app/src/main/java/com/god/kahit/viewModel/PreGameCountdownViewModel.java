@@ -69,6 +69,10 @@ public class PreGameCountdownViewModel extends ViewModel {
         repository.setMyReadyStatus(true);
     }
 
+    public void resetPlayersReady() {
+        repository.resetPlayersReady();
+    }
+
     public void setContext(Context context) {
         this.context = context;
     }
@@ -76,6 +80,6 @@ public class PreGameCountdownViewModel extends ViewModel {
     public void showNextView() {
         Class<?> newViewClass = QuestionView.class;
         repository.broadcastShowNewView(newViewClass);
-        BUS.post(new NewViewEvent(newViewClass)); //todo get actual next view
+        BUS.post(new NewViewEvent(newViewClass));
     }
 }
