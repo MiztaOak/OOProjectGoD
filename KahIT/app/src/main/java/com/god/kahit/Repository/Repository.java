@@ -450,9 +450,17 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         Log.i(TAG, String.format("broadcastShowNewView: called. newViewClass: '%s'", newViewClassString));
 
         if (newViewClassString.equals(QuestionView.class.getSimpleName())) {
-            packetHandler.broadcastShowQuestion(quizGame.getNextQuestionCategoryId(), quizGame.getNextQuestionId());
+            if (packetHandler != null) {
+                packetHandler.broadcastShowQuestion(quizGame.getNextQuestionCategoryId(), quizGame.getNextQuestionId());
+            } else {
+                Log.i(TAG, "broadcastShowNewView: attempt to call broadcastShowQuestion on null packetHandler, skipping call");
+            }
         } else if (newViewClassString.equals(AfterQuestionScorePageView.class.getSimpleName())) {
-            packetHandler.broadcastShowRoundStats();
+            if (packetHandler != null) {
+                packetHandler.broadcastShowRoundStats();
+            } else {
+                Log.i(TAG, "broadcastShowNewView: attempt to call broadcastShowRoundStats on null packetHandler, skipping call");
+            }
         } else if (newViewClassString.equals(CategoryView.class.getSimpleName())) {
             quizGame.generateRandomCategoryArray(4);
             Category[] categories = quizGame.getCategorySelectionArray();
@@ -460,7 +468,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             for (int i = 0; i < categories.length; i++) {
                 categoriesArr[i] = categories[i].getId();
             }
-            packetHandler.broadcastShowCategorySelection(categoriesArr);
+            if (packetHandler != null) {
+                packetHandler.broadcastShowCategorySelection(categoriesArr);
+            } else {
+                Log.i(TAG, "broadcastShowNewView: attempt to call broadcastShowCategorySelection on null packetHandler, skipping call");
+            }
         } else {
             Log.e(TAG, "broadcastShowNewView: newViewClass.getSimpleName() does not " +
                     "equal to any case, has it not been implemented yet?, skipping call");
@@ -471,7 +483,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         Log.i(TAG, String.format("broadcastCategoryVoteResult: called. categoryId: '%s'", category.getId()));
 
         quizGame.setCurrentCategory(category);
-        packetHandler.broadcastCategoryVoteResult(category.getId());
+        if (packetHandler != null) {
+            packetHandler.broadcastCategoryVoteResult(category.getId());
+        } else {
+            Log.i(TAG, "broadcastShowNewView: attempt to call broadcastShowCategorySelection on null packetHandler, skipping call");
+        }
     }
 
     public void startGame() {
@@ -500,7 +516,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     player = quizGame.getPlayer(quizGame.getHostPlayerId());
                     quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
                     BUS.post(new PlayerAnsweredQuestionEvent(player, givenAnswer));
-                    packetHandler.broadcastPlayerAnsweredQuestion(player.getId(), categoryId, questionId, givenAnswer, strTimeLeft);
+
+                    if (packetHandler != null) {
+                        packetHandler.broadcastPlayerAnsweredQuestion(player.getId(), categoryId, questionId, givenAnswer, strTimeLeft);
+                    } else {
+                        Log.i(TAG, "sendAnswer: Attempt to call broadcastPlayerAnsweredQuestion with null packetHandler, skipping call");
+                    }
                 } else {
                     packetHandler.sendRequestAnswerQuestion(categoryId, questionId, givenAnswer, strTimeLeft);
                 }
@@ -551,7 +572,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public boolean isHost() {
-        return getHostPlayerId().equals(getClientPlayerId());
+        if (networkManager != null) {
+            return networkManager.isHost();
+        } else {
+            return false;
+        }
+//        return getHostPlayerId().equals(getClientPlayerId());
     }
 
     public boolean isHotSwap() {
@@ -569,7 +595,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     public void setMyReadyStatus(boolean isReady) {
         if (isHost()) {
             setPlayerReady(getHostPlayer(), isReady);
-            packetHandler.broadcastPlayerReadyChange(getHostPlayerId(), isReady);
+            if (packetHandler != null) {
+                packetHandler.broadcastPlayerReadyChange(getHostPlayerId(), isReady);
+            } else {
+                Log.i(TAG, "setMyReadyStatus: Attempt to call broadcastPlayerReadyChange with null packetHandler, skipping call");
+            }
         } else {
             requestSetReady(isReady);
         }
