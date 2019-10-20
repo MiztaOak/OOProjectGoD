@@ -9,14 +9,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class QuizGameTest {
-    QuizGame quizGame;
+    //QuizGame quizGame;
 
     @Before
     public void setUp() throws Exception {
         ItemFactory.setDataLoader(new ItemDataLoaderMock());
         QuestionFactory.setDataLoader(new QuestionDataLoaderMock());
 
-        quizGame = new QuizGame();
+       // quizGame = new QuizGame();
     }
 
     @Test
