@@ -34,21 +34,6 @@ public class MainActivityView extends AppCompatActivity {
 
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-        Repository.getInstance().startNewGameInstance(getApplicationContext());
-        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
-
-        Repository.getInstance().setupAudioHandler(getApplicationContext());
-
-        //  if (SettingsView.musicSwitch.isChecked())
-        //    Repository.getInstance().startMusic();
-
-    }
-
-
     /**
      * Returns true if the app was granted all the permissions. Otherwise, returns false.
      */
@@ -62,6 +47,16 @@ public class MainActivityView extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
+        Repository.getInstance().startNewGameInstance(getApplicationContext());
+        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
+
+        Repository.getInstance().setupAudioHandler(getApplicationContext());
+
+    }
 
     @Override
     protected void onStart() {

@@ -25,6 +25,9 @@
         After the game has finished, score page will show up.
         Good luck and remember, be quick!
         Best regards,
+        References:
+        Music from https://filmmusic.io
+        License: CC BY (http://creativecommons.org/licenses/by/4.0/)
         /KahIt developers.
             </string>
     <string name="databaseError">An error has occurred when attempting to connect to the database.

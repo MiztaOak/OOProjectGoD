@@ -20,37 +20,40 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     }
 
 
-
     /**
      * A method that sets the values of effects of a Buff to players own values
      */
     public void setBuff(Buff buff) {
-        scoreMultiplier = buff.getScoreMultiplier() *scoreMultiplier;
+        scoreMultiplier = buff.getScoreMultiplier() * scoreMultiplier;
         amountOfTime = buff.getAmountOfTime() + amountOfTime;
         this.amountOfAlternatives = buff.getAmountOfAlternatives();
     }
+
     /**
      * A method that sets the values of effects of a Debuff to players own values
      */
     public void setDebuff(Debuff debuff) {
-        scoreMultiplier = debuff.getScoreMultiplier() *scoreMultiplier;
+        scoreMultiplier = debuff.getScoreMultiplier() * scoreMultiplier;
         amountOfTime = debuff.getAmountOfTime() + amountOfTime;
-        autoAnswer= debuff.getAutoAnswer();
+        autoAnswer = debuff.getAutoAnswer();
     }
-    //TODO remove when done implemnting buffs and debuffs.
-    public void setModifier(Modifier modifier){}
+
+    //TODO remove when done implementing buffs and debuffs.
+    public void setModifier(Modifier modifier) {
+    }
+
     /**
      * A method that clears the effect of a Modifier after  it has been used
      */
-    public void clearModifier(){
+    public void clearModifier() {
         this.scoreMultiplier = 1;
         this.amountOfTime = 0;
         this.amountOfAlternatives = 0;
         this.autoAnswer = false;
     }
 
-    public void updateScore(int points) { //todo rename to addScore
-        this.score += points*scoreMultiplier;
+    public void addScore(int points) {
+        this.score += points * scoreMultiplier;
     } //TODO add calculation that takes current buff into account
 
     public String getName() {

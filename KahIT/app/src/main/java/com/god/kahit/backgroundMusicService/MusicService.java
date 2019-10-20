@@ -8,12 +8,14 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.widget.Toast;
 
+/**
+ * A class that takes care of music service in the background
+ */
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
 
     private final IBinder mBinder = new ServiceBinder();
     private MediaPlayer mPlayer;
-    private int length = 0;
-
+    private int length = 0; // To keep tracking the current position of the song. To use it when music is paused.
 
 
     public MusicService(MediaPlayer mPlayer) {
@@ -45,7 +47,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             }
         });
     }
-
 
 
     @Override

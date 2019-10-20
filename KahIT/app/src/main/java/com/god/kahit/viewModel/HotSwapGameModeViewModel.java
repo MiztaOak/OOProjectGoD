@@ -1,10 +1,10 @@
 package com.god.kahit.viewModel;
 
-import java.util.List;
-
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.List;
 
 public class HotSwapGameModeViewModel extends ViewModel implements LifecycleObserver {
 

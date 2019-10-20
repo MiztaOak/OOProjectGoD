@@ -3,14 +3,14 @@ package com.god.kahit.viewModel;
 
 import android.util.Pair;
 
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
 
 public class AfterQuestionScorePageViewModel extends ViewModel implements LifecycleObserver {
 

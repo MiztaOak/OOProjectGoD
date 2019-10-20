@@ -1,5 +1,9 @@
 package com.god.kahit.viewModel;
 
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
@@ -7,10 +11,10 @@ import com.god.kahit.model.Player;
 import java.util.List;
 import java.util.Map;
 
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+/**
+ * Lottery viewModel takes care of liveData
+ */
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = LotteryViewModel.class.getSimpleName();
@@ -39,7 +43,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public MutableLiveData<List<Player>> getPlayerListLiveData() {
-        if(playerListLiveData == null) {
+        if (playerListLiveData == null) {
             playerListLiveData = new MutableLiveData<>();
             loadPlayerListLiveData();
         }

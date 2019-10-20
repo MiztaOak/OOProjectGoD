@@ -3,22 +3,21 @@ package com.god.kahit.viewModel;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Events.TeamChangeEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
-import com.god.kahit.model.Team;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.model.QuizGame.BUS;
 
@@ -51,11 +50,11 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
         String playerIdPrefix = "Player ";
         int playerSuffix = 1;
 
-        while(sortedPlayerList.size() != Repository.getInstance().getPlayers().size()) {
+        while (sortedPlayerList.size() != Repository.getInstance().getPlayers().size()) {
             outerLabel:
-            for (int i =0; i < event.getTeams().size(); i++) {
-                for(Player player : event.getTeams().get(i).getTeamMembers()) {
-                    if(player.getId().equals(playerIdPrefix + playerSuffix)) {
+            for (int i = 0; i < event.getTeams().size(); i++) {
+                for (Player player : event.getTeams().get(i).getTeamMembers()) {
+                    if (player.getId().equals(playerIdPrefix + playerSuffix)) {
                         sortedPlayerList.add(new Pair<>(player, Integer.valueOf(event.getTeams().get(i).getId())));
                         break outerLabel;
                     }

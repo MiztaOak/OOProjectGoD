@@ -33,7 +33,6 @@ import com.god.kahit.networkManager.ConnectionType;
 import com.god.kahit.networkManager.NetworkManager;
 import com.god.kahit.networkManager.NetworkModule;
 import com.god.kahit.networkManager.PacketHandler;
-import com.god.kahit.view.SettingsView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +54,13 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
 
     private Repository() {
+    }
+
+    public static Repository getInstance() {
+        if (instance == null) {
+            instance = new Repository();
+        }
+        return instance;
     }
 
     public void setupAudioHandler(Context context) {
@@ -79,20 +85,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         audioHandler.pauseMusic();
     }
 
-    public boolean getMusicState(){
+    public boolean getMusicState() {
         return audioHandler.getMusicState();
     }
 
-    public void setMusicState(boolean music){
+    public void setMusicState(boolean music) {
         audioHandler.setMusicState(music);
-    }
-
-
-    public static Repository getInstance() {
-        if (instance == null) {
-            instance = new Repository();
-        }
-        return instance;
     }
 
     public void setupAppLifecycleObserver(final Context context) {

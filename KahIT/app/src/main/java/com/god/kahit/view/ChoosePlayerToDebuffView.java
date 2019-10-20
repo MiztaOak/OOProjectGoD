@@ -19,10 +19,12 @@ import java.util.ArrayList;
 
 public class ChoosePlayerToDebuffView extends Fragment {
     private ChoosePlayerToDebuffViewModel viewModel = new ChoosePlayerToDebuffViewModel();
+    private HotSwapRecyclerAdapter adapter;
+
     public static ChoosePlayerToDebuffView newInstance() {
         return new ChoosePlayerToDebuffView();
     }
-    private HotSwapRecyclerAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

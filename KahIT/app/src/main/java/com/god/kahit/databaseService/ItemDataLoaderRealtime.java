@@ -1,17 +1,14 @@
 package com.god.kahit.databaseService;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.god.kahit.R;
 import com.god.kahit.model.Buff;
 import com.god.kahit.model.Debuff;
-import com.god.kahit.model.Item;
 import com.god.kahit.model.IItemDataLoader;
+import com.god.kahit.model.Item;
 import com.god.kahit.model.VanityItem;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -37,10 +34,9 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
  * @author Johan Ek
  */
 public class ItemDataLoaderRealtime implements IItemDataLoader {
+    private static Map<String, String> itemImageNameMap;
     private FirebaseDatabase db;
     private DatabaseReference databaseReference;
-    private static Map<String, String> itemImageNameMap;
-
     private List<Buff> buffList;
     private List<Debuff> debuffList;
     private List<VanityItem> vanityItemList;
@@ -58,6 +54,10 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         vanityItemList = new ArrayList<>();
 
         loadData();
+    }
+
+    public static Map<String, String> getItemImageNameMap() {
+        return itemImageNameMap;
     }
 
     /**
@@ -129,10 +129,6 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
         }
         return new VanityItem(price, name);
-    }
-
-    public static Map<String, String> getItemImageNameMap() {
-        return itemImageNameMap;
     }
 
     @Override

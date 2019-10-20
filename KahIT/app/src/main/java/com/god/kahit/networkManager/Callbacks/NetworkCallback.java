@@ -1,9 +1,9 @@
 package com.god.kahit.networkManager.Callbacks;
 
+import androidx.annotation.NonNull;
+
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.networkManager.ConnectionState;
-
-import androidx.annotation.NonNull;
 
 public abstract class NetworkCallback {
     public NetworkCallback() {

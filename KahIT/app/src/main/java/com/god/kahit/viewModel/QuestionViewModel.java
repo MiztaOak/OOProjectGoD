@@ -5,6 +5,10 @@ import android.animation.ObjectAnimator;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Question;
@@ -12,10 +16,6 @@ import com.god.kahit.model.QuizListener;
 import com.god.kahit.view.QuestionView;
 
 import java.util.List;
-
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 public class QuestionViewModel extends ViewModel implements LifecycleObserver, QuizListener {
     private static final String TAG = QuestionView.class.getSimpleName();

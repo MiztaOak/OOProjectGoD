@@ -1,11 +1,11 @@
 package com.god.kahit.viewModel;
 
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 
 import java.util.List;
-
-import androidx.lifecycle.ViewModel;
 
 public class StoreViewModel extends ViewModel {
     public boolean isItemBuyable(int i) {

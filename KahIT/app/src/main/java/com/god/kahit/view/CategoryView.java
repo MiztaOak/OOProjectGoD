@@ -6,14 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.god.kahit.R;
 import com.god.kahit.viewModel.CategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 public class CategoryView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();

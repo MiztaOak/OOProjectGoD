@@ -1,22 +1,21 @@
 package com.god.kahit.view;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.god.kahit.R;
 import com.god.kahit.networkManager.Connection;
 
 import java.util.List;
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class JoinLobbyNetRecyclerAdapter extends RecyclerView.Adapter<JoinLobbyNetRecyclerAdapter.ItemViewHolder> {
     private static final String TAG = JoinLobbyNetRecyclerAdapter.class.getSimpleName();

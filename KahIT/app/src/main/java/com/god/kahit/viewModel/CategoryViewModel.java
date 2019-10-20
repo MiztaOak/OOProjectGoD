@@ -1,15 +1,15 @@
 package com.god.kahit.viewModel;
 
 
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Category;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
 
 public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     private List<Category> categories;
@@ -23,7 +23,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
         categories = new ArrayList<>(Category.getRealCategories());
         categories.remove(currentCategory);
         Collections.shuffle(categories);
-        categories = categories.subList(0,4);
+        categories = categories.subList(0, 4);
     }
 
     public void setCategory(int index) {

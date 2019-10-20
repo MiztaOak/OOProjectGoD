@@ -3,6 +3,12 @@ package com.god.kahit.viewModel;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Events.LobbyNameChangeEvent;
 import com.god.kahit.Events.MyPlayerIdChangedEvent;
 import com.god.kahit.Events.TeamChangeEvent;
@@ -17,12 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.model.QuizGame.BUS;
 

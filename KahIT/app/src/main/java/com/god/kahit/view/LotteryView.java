@@ -11,18 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.god.kahit.R;
-import com.god.kahit.databaseService.ItemDataLoaderRealtime;
-import com.god.kahit.viewModel.LotteryViewModel;
-import com.god.kahit.model.Item;
-import com.god.kahit.model.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,11 +19,20 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.god.kahit.R;
+import com.god.kahit.databaseService.ItemDataLoaderRealtime;
+import com.god.kahit.model.Item;
+import com.god.kahit.model.Player;
+import com.god.kahit.viewModel.LotteryViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+
 /**
- * Lottery page that shows up players' name and the randomized item(Buff or Debuff) that they get *
- * the concept of "items" means which Buffs or Debuffs that the player gets *
- * Debuffs are the items that player can send to other players and negatively affect them *
- * Buffs are the items that players positively can affect themselves *
+ *
  */
 public class LotteryView extends AppCompatActivity {
     LotteryViewModel lotteryViewModel;
@@ -46,9 +43,7 @@ public class LotteryView extends AppCompatActivity {
     List<ImageView> playerImageViews = new ArrayList<>();
     List<TextView> playerNameTxtViews = new ArrayList<>();
 
-    private Random random;
     private int count = 0;
-    private int maxCount = 10;
 
     private MutableLiveData<Map<Player, Item>> mapWinningsLiveData;
     private MutableLiveData<List<Item>> itemListLiveData;
@@ -59,14 +54,21 @@ public class LotteryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lottery_activity);
 
+        initInstanceVariables();
+        initLiveData();
+        initLottery();
+
+    }
+
+    private void initInstanceVariables() {
         constraintLayout = findViewById(R.id.lotteryActivity);
-
-
         lotteryViewModel = ViewModelProviders.of(this).get(LotteryViewModel.class);
         mapWinningsLiveData = lotteryViewModel.getMapWinningsLiveData();
         itemListLiveData = lotteryViewModel.getItemListLiveData();
         playerListLiveData = lotteryViewModel.getPlayerListLiveData();
+    }
 
+    private void initLiveData() {
         lotteryViewModel.getMapWinningsLiveData().observe(this, new Observer<Map<Player, Item>>() {
             @Override
             public void onChanged(Map<Player, Item> playerItemMap) {
@@ -87,9 +89,8 @@ public class LotteryView extends AppCompatActivity {
 
             }
         });
-        initLottery();
-
     }
+
 
     private void initLottery() {
         populateLayoutViewDynamically();
@@ -181,8 +182,7 @@ public class LotteryView extends AppCompatActivity {
 
     public void setUpTextViewList(int index, int xImageCoordinates, int yImageCoordinates) {
         ConstraintLayout.LayoutParams layoutParams;
-        // getting same layoutParams of imageViewList and using it for textViewList
-        layoutParams = (ConstraintLayout.LayoutParams) imageViewList.get(index).getLayoutParams();
+        layoutParams = (ConstraintLayout.LayoutParams) imageViewList.get(index).getLayoutParams();  // getting same layoutParams of imageViewList and using it for textViewList
         // adding extra coordinates to show the textName below the image
         textViewList.get(index).setX(xImageCoordinates + 10);
         textViewList.get(index).setY(yImageCoordinates + 200);
@@ -194,7 +194,11 @@ public class LotteryView extends AppCompatActivity {
         count++;
     }
 
+    /**
+     * checks if the lottery is done after maxCount times
+     */
     private boolean isDone() {
+        int maxCount = 10;
         return count >= maxCount;
     }
 
@@ -218,14 +222,12 @@ public class LotteryView extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O) //todo Hmm..? Results in crash with api 24?
             @Override
             public void run() {
-                // checks if the lottery is done after maxCount times
-                if (!isDone()) {
+                if (!isDone()) {  // checks if the lottery is done after maxCount times
                     incCounter();
                     for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
                         setItemImage(playerIndex);
                     }
-                    // When each player has been updated with a random image, run this thread again after set delay
-                    handler.postDelayed(this, delay);
+                    handler.postDelayed(this, delay);  // When each player has been updated with a random image, run this thread again after set delay
 
                 } else { // When lottery has finished
                     for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
@@ -242,21 +244,16 @@ public class LotteryView extends AppCompatActivity {
     }
 
     /**
-     *
      * @param index
      */
     private void setItemImage(int index) {
-        random = new Random();
-        // Gets a random number from the list size
-        int randomNumber = random.nextInt(Objects.requireNonNull(itemListLiveData.getValue()).size());
-        // Getting an imageId(or image) with a random number
-        int imgId = getImageId(randomNumber);
-        // allocates the image to the user "index"
-        playerImageViews.get(index).setImageResource(imgId);
+        Random random = new Random();
+        int randomNumber = random.nextInt(Objects.requireNonNull(itemListLiveData.getValue()).size());  // Gets a random number from the list size
+        int imgId = getImageId(randomNumber);  // Getting an imageId(or image) with a random number
+        playerImageViews.get(index).setImageResource(imgId);  // allocates the image to the user "index"
     }
 
     /**
-     *
      * @param index
      */
     private void setWonItemImage(int index) { //TODO ImageSource removed.
@@ -264,10 +261,7 @@ public class LotteryView extends AppCompatActivity {
         String string = map.get(Objects.requireNonNull(Objects.requireNonNull(
                 mapWinningsLiveData.getValue()).get(Objects.requireNonNull(
                 playerListLiveData.getValue()).get(index))).getName());
-        int i = getResources().getIdentifier(
-                string,
-                "drawable",
-                getPackageName());
+        int i = getResources().getIdentifier(string, "drawable", getPackageName());
         playerImageViews.get(index).setImageResource(i);
     }
 

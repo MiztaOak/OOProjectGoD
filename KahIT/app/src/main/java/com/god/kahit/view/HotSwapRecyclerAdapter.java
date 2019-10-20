@@ -17,13 +17,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.god.kahit.R;
-import com.god.kahit.model.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -31,6 +24,13 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.god.kahit.R;
+import com.god.kahit.model.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Helper class for the HotSwapAddPlayerView it works as a recyclerAdapter for the RecyclerView.
@@ -65,7 +65,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void initTeamColors() {
         teamColors = new ArrayList<>();
-        int retrieve[] = context.getResources().getIntArray(R.array.androidcolors);
+        int[] retrieve = context.getResources().getIntArray(R.array.androidcolors);
         for (int re : retrieve) {
             teamColors.add(re);
         }
@@ -206,7 +206,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(view);
             this.iHotSwapViewHolderClickListener = iHotSwapViewHolderClickListener;
 
-            Button addPlayer = (Button) view.findViewById(R.id.footerButton);
+            Button addPlayer = view.findViewById(R.id.footerButton);
             addPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

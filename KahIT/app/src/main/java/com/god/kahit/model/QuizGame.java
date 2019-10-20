@@ -179,7 +179,7 @@ public class QuizGame {
     public void enterAnswer(Player player, String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
             double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
-            player.updateScore((int) scoreDelta);
+            player.addScore((int) scoreDelta);
         }
     }
 

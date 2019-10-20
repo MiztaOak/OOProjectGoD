@@ -2,10 +2,10 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
-import com.god.kahit.Repository.Repository;
-
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
+
+import com.god.kahit.Repository.Repository;
 
 public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = CreateLobbyNetViewModel.class.getSimpleName();

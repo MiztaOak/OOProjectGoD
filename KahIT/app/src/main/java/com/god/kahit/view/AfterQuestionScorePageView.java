@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
-import com.god.kahit.R;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.god.kahit.R;
 
 public class AfterQuestionScorePageView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();

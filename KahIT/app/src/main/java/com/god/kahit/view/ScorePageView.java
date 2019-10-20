@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.god.kahit.R;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.god.kahit.R;
 
 public class ScorePageView extends AppCompatActivity {
 

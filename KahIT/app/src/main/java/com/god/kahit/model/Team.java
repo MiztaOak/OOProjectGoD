@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Team { //todo use package-private instead of public on many of the methods
     private final List<Player> teamMembers;
+    private final String id;
     private int teamScore; //todo replace with a method that calc average player score
     private String teamName;
-    private final String id;
     //todo add method to set/get teamId
 
     public Team(List<Player> teamMembers, String teamName, String id) {

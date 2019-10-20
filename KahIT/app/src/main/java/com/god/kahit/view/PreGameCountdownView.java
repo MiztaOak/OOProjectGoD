@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.god.kahit.R;
 import com.god.kahit.viewModel.PreGameCountdownViewModel;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * A class that shows a countdown timer before starting the game

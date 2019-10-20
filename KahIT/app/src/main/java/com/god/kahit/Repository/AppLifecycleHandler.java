@@ -6,14 +6,14 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AppLifecycleHandler implements LifecycleEventObserver {
     private static final String TAG = AppLifecycleHandler.class.getSimpleName();

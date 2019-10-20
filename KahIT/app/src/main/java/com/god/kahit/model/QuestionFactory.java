@@ -1,12 +1,12 @@
 package com.god.kahit.model;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * A factory class used to create questions
+ *
  * @author Johan Ek
  */
 public class QuestionFactory {
@@ -39,7 +39,7 @@ public class QuestionFactory {
      */
     static Map<Category, List<Question>> getFullQuestionMap() {
         List<Category> categories = Category.getRealCategories();
-        return getQuestionMap((Category[])categories.toArray());
+        return getQuestionMap((Category[]) categories.toArray());
     }
 
     /**

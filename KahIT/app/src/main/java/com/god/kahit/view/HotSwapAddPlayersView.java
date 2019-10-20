@@ -6,12 +6,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
-import com.god.kahit.R;
-import com.god.kahit.model.Player;
-import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -20,6 +14,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.god.kahit.R;
+import com.god.kahit.model.Player;
+import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
+
+import java.util.List;
 
 public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwapViewHolderClickListener {
 
@@ -62,7 +62,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
      * Sets up the recyclerView with it's adaptor HotSwapRecyclerAdapter.
      */
     private void setupRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.hsApPlayersRecyclerView);
         recyclerAdapter = new HotSwapRecyclerAdapter(this, playerListMutableLiveData, this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

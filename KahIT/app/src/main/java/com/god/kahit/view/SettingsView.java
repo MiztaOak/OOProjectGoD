@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
 
+/**
+ * A class that takes care of app settings
+ */
 public class SettingsView extends AppCompatActivity {
 
 
@@ -24,12 +27,16 @@ public class SettingsView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        initMusicSwitch();
 
+    }
+
+    private void initMusicSwitch() {
         musicSwitch = new Switch(this);
         musicSwitch = findViewById(R.id.sLLmusicSwitch);
-        SharedPreferences sharedpreferences = getSharedPreferences("save", MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences("save", MODE_PRIVATE); // to save the state of the switch
         switchCheckListener();
-        musicSwitch.setChecked(sharedpreferences.getBoolean("value", true));
+        musicSwitch.setChecked(sharedpreferences.getBoolean("value", true));  // giving a default state "on"
 
     }
 
@@ -38,14 +45,14 @@ public class SettingsView extends AppCompatActivity {
         musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (musicSwitch.isChecked()) {
-                    // saving state of the switch button
-                    saveSwitchButtonStateWhenOn();
+                    // saving "on" state of the switch button when home button is clicked
+                    saveSwitchStateWhenOn();
                     // turn on music
                     turnMusicOn();
 
                 } else {
-                    // saving state of the switch button
-                    saveSwitchButtonStateWhenOff();
+                    // saving "off" state of the switch button when home button is clicked
+                    saveSwitchStateWhenOff();
                     //turn off music
                     turnMusicOff();
 
@@ -54,14 +61,14 @@ public class SettingsView extends AppCompatActivity {
         });
     }
 
-    private void saveSwitchButtonStateWhenOff() {
+    private void saveSwitchStateWhenOff() {
         SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
         editor.putBoolean("value", false);
         editor.apply();
         musicSwitch.setChecked(false);
     }
 
-    private void saveSwitchButtonStateWhenOn() {
+    private void saveSwitchStateWhenOn() {
         SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
         editor.putBoolean("value", true);
         editor.apply();

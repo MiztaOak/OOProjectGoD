@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
+
 import com.god.kahit.networkManager.Callbacks.NetworkCallback;
 import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
 import com.google.android.gms.nearby.Nearby;
@@ -25,8 +27,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 /*
 Notes:

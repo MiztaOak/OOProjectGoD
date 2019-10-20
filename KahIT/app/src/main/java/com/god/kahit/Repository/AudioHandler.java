@@ -6,13 +6,17 @@ import android.media.MediaPlayer;
 import com.god.kahit.R;
 import com.god.kahit.backgroundMusicService.MusicService;
 
+/**
+ * A class that takes care of the audio in the app
+ */
 public class AudioHandler {
     private MusicService mService;
-    private boolean music;
+    private boolean music; //to know the current music state
 
 
     public AudioHandler(Context context) {
-        mService = new MusicService(MediaPlayer.create(context, R.raw.pre_game_song));
+        mService = new MusicService(MediaPlayer.create(context, R.raw.nature3));
+        mService.onCreate(); //calling onCreate to keep audioHandler updated with music settings
         music = true;
         //todo reading music state from database
     }
@@ -41,7 +45,7 @@ public class AudioHandler {
         return music;
     }
 
-    public void setMusicState(boolean music){
+    public void setMusicState(boolean music) {
         this.music = music;
     }
 }
