@@ -468,7 +468,7 @@ public class QuizGame {
     }
 
     /**
-     * Checks if name is empty and generates a new name until no other player has the same name.
+     * If hotSwap, checks if name is empty and generates a new name until no other player has the same name.
      * Then it returns a player with specified name and id.
      * In the event of a name being used by another player it returns a player with a generated name.
      *
@@ -478,9 +478,11 @@ public class QuizGame {
      */
     public Player createNewPlayer(String name, String id) {
         int i = playerList.size();
-        while (isPlayerNameTaken(name)) {
-            name = "Player " + i;
-            i++;
+        if (isHotSwap) {
+            while (isPlayerNameTaken(name)) {
+                name = "Player " + i;
+                i++;
+            }
         }
         return new Player(name, id);
     }
