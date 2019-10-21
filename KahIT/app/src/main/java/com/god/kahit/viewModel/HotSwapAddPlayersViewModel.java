@@ -74,10 +74,6 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
         Repository.getInstance().removePlayer(Objects.requireNonNull(playerListForView.getValue()).get(position).first);
     }
 
-    public void resetPlayerData() {
-        Repository.getInstance().resetPlayerData();
-    }
-
     public void onTeamChange(int position, int newTeamId) {
         Repository.getInstance().changeTeam(Objects.requireNonNull(playerListForView.getValue()).get(position).first, String.valueOf(newTeamId + 1));
     }
@@ -99,12 +95,5 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {
         BUS.unregister(this);
-    }
-
-    @Override
-    protected void onCleared() {
-        Repository.getInstance().resetPlayerData();
-        super.onCleared();
-        Log.d(TAG, "on cleared called");
     }
 }

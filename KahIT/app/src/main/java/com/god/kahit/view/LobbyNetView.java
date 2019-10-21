@@ -185,7 +185,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
                 readyButtonText = "Ready";
                 changeTeamSpinner.setEnabled(true);
             } else {
-                if (myPlayerConnectionPair.first.isPlayerReady()) {
+                if (myPlayerConnectionPair.first.isReady()) {
                     readyButtonText = "Unready";
                     changeTeamSpinner.setBackgroundColor(0xAAAAAAAA);
                     changeTeamSpinner.setEnabled(false);
@@ -264,6 +264,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
                 lobbyNetViewModel.startGame();
                 Intent intent = new Intent(this, PreGameCountdownView.class);
                 startActivity(intent);
+                finish();
             }
 
         } else {

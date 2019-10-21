@@ -113,24 +113,30 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         itemImageNameMap.put(Objects.requireNonNull(name), Objects.requireNonNull(imgName));
 
         if (itemData.child("scoreMultiplier").exists()) { //If there is a scoreMulti then its a buff or debuff
-            double scoreMultiplier;
-            if (itemData.child("scoreMultiplier").getValue() instanceof Long) {
-                scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).doubleValue();
-            } else {
-                scoreMultiplier = ((Double) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue()));
-            }
-            int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
-            if (itemData.child("autoAlt").exists()) { //If autoAlt exists then its a debuff
-                boolean autorAlt = (Boolean) Objects.requireNonNull(itemData.child("autoAlt").getValue());
-                return new Debuff(price, name, scoreMultiplier, timeHeadstart, autorAlt,id);
-            } else {
-                int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
-                return new Buff(name, price, scoreMultiplier, timeHeadstart, amountOfAlternatives, id);
-            }
-
+            return createBufforDebuff(itemData,price, name,id);
         }
         return new VanityItem(price, name, id);
     }
+
+    private Item createBufforDebuff(DataSnapshot itemData, int price, String name, String id){
+        double scoreMultiplier;
+        if (itemData.child("scoreMultiplier").getValue() instanceof Long) {
+            scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).doubleValue();
+        } else {
+            scoreMultiplier = ((Double) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue()));
+        }
+
+        int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
+
+        if (itemData.child("autoAlt").exists()) { //If autoAlt exists then its a debuff
+            boolean autorAlt = (Boolean) Objects.requireNonNull(itemData.child("autoAlt").getValue());
+            return new Debuff(price, name, scoreMultiplier, timeHeadstart, autorAlt,id);
+        }
+
+        int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
+        return new Buff(name, price, scoreMultiplier, timeHeadstart, amountOfAlternatives, id);
+    }
+
 
     public static Map<String, String> getItemImageNameMap() {
         return itemImageNameMap;

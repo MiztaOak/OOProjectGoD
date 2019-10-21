@@ -1,6 +1,5 @@
 package com.god.kahit.view;
 
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.god.kahit.R;
+import com.god.kahit.model.Player;
 
 import java.util.List;
 
@@ -15,10 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.ViewHolder> {
-    private List<Pair<String, String>> playerScoreDeltaList;
+    private List<Player> playerList;
+    private String myPlayerId;
 
-    public ScorePageAdapter(List<Pair<String, String>> playerScoreDeltaList) {
-        this.playerScoreDeltaList = playerScoreDeltaList;
+    public ScorePageAdapter(List<Player> playerList, String myPlayerId) {
+        this.playerList = playerList;
+        this.myPlayerId = myPlayerId;
     }
 
     @NonNull
@@ -36,23 +38,25 @@ public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.View
         TextView nameView = viewHolder.name;
         TextView scoreDelta = viewHolder.score;
 
-        nameView.setText(playerScoreDeltaList.get(i).first);
-        scoreDelta.setText(playerScoreDeltaList.get(i).second);
+        Player player = playerList.get(i);
+
+        nameView.setText(String.format(player.getId().equals(myPlayerId) ? "ME:%s" : "%s", player.getName()));
+        scoreDelta.setText(String.format("%d", playerList.get(i).getScore()));
     }
 
     @Override
     public int getItemCount() {
-        if (playerScoreDeltaList != null) {
-            return playerScoreDeltaList.size();
+        if (playerList != null) {
+            return playerList.size();
         } else {
             return 0;
         }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
-        public TextView score;
-        public ImageView img;
+        private TextView name;
+        private TextView score;
+        private ImageView img;
 
         public ViewHolder(@NonNull View view) {
             super(view);

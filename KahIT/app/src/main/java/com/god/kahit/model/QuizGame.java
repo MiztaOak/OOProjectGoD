@@ -24,10 +24,13 @@ public class QuizGame {
     private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
     private Store store; //TODO should this be here??
+    private Category[] categorySelectionArray; //todo find a better way
 
     //TODO maybe move into constructor
     private String hostPlayerId = "iHost";
-    private Boolean gameIsStarted = false;
+    private boolean gameIsStarted = false;
+    private boolean isHotSwap = false; //TODO replace with gamemode or something
+
 
     private List<QuizListener> listeners;
     /**
@@ -51,6 +54,9 @@ public class QuizGame {
             loadIndexMap();
             store = new Store();
             gameIsStarted = true;
+        }
+        if (isHotSwap && currentPlayer != playerList.get(0)) { //Makes sure that current player is set in hotswap mode
+            currentPlayer = playerList.get(0);
         }
     }
 
@@ -154,6 +160,60 @@ public class QuizGame {
         }
     }
 
+    public String getNextQuestionCategoryId() {
+        if (!roundQuestions.isEmpty()) {
+            return roundQuestions.peek().getCategory().getId();
+        } else {
+            startRound(); //TODO is this expected?
+            return roundQuestions.peek().getCategory().getId();
+        }
+    }
+
+    public String getNextQuestionId() {
+        if (!roundQuestions.isEmpty()) {
+            return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
+        } else {
+            startRound(); //TODO is this expected?
+            return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
+        }
+    }
+
+    public void setNextQuestion(String categoryId, String questionIndex) {
+        setCurrentCategory(categoryId);
+        Category category = getCurrentCategory();
+        Question question = getQuestion(category, Integer.valueOf(questionIndex));
+        roundQuestions.addFirst(question);
+    }
+
+    public int getQuestionIndex(Category category, Question question) {
+        List<Question> questionList = questionMap.get(category);
+        if (questionList == null) {
+            System.out.println("Quizgame - getQuestionIndex: questionList == null, unable to " +
+                    "find sought question. returning -1.");
+            return -1;
+        }
+
+        return questionList.indexOf(question);
+    }
+
+    public Question getQuestion(Category category, int questionIndex) {
+        List<Question> questionList = questionMap.get(category);
+        if (questionList == null) {
+            System.out.println(String.format("Quizgame - getQuestion: questionList == null, unable to " +
+                    "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
+            return null;
+        }
+
+        if (questionList.size() < questionIndex) {
+            System.out.println(String.format("Quizgame - getQuestion: questionList.size < questionIndex, unable to " +
+                    "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
+
+            return null;
+        }
+
+        return questionList.get(questionIndex);
+    }
+
     /**
      * Method that broadcasts the current question to all listeners of the QuizListener interface
      *
@@ -161,7 +221,12 @@ public class QuizGame {
      */
     private void broadCastQuestion(Question question) {
         for (QuizListener quizListener : listeners) {
-            quizListener.receiveQuestion(question);
+            if (isHotSwap) {
+                quizListener.receiveQuestion(question, playerList.size());
+            } else {
+                quizListener.receiveQuestion(question, 1);
+            }
+
         }
     }
 
@@ -200,8 +265,52 @@ public class QuizGame {
         return currentCategory;
     }
 
+    public void setCurrentCategory(String categoryId) {
+        Category category = getCategory(categoryId);
+        if (category != null) {
+            setCurrentCategory(category);
+        } else {
+
+        }
+        System.out.println("Quizgame - setCurrentCategory: found no match to categoryId, unable to set " +
+                "current category, skipping call");
+    }
+
     public void setCurrentCategory(Category currentCategory) {
         this.currentCategory = currentCategory;
+    }
+
+    private Category getCategory(String categoryId) {
+        for (Category category : Category.values()) {
+            if (category.getId().equals(categoryId)) {
+                return category;
+            }
+        }
+
+        System.out.println("Quizgame - getCategory: found no match to categoryId, returning null");
+        return null;
+    }
+
+    public void generateRandomCategoryArray(int arraySize) {
+        List<Category> categories;
+        categories = new ArrayList<>(Category.getRealCategories());
+        categories.remove(currentCategory);
+        Collections.shuffle(categories);
+        categories = categories.subList(0, arraySize);
+        categorySelectionArray = categories.toArray(new Category[0]);
+    }
+
+    public Category[] getCategorySelectionArray() {
+        return categorySelectionArray;
+    }
+
+    public void setCategorySelectionArray(String[] categoryIdSelectionArray) {
+        Category[] categories = new Category[categoryIdSelectionArray.length];
+        for (int i = 0; i < categoryIdSelectionArray.length; i++) {
+            categories[i] = getCategory(categoryIdSelectionArray[i]);
+        }
+
+        categorySelectionArray = categories;
     }
 
     public void setNumOfQuestions(int numOfQuestions) {
@@ -258,7 +367,7 @@ public class QuizGame {
         team = getTeam(teamId);
         if (team != null && playerList.size() < MAX_ALLOWED_PLAYERS) {
             Player player = createNewPlayer(playerName, playerId);
-            player.setPlayerReady(readyStatus);
+            player.setReady(readyStatus);
             playerList.add(player);
             team.addPlayer(player);
             fireTeamChangeEvent();
@@ -359,7 +468,7 @@ public class QuizGame {
     }
 
     /**
-     * Checks if name is empty and generates a new name until no other player has the same name.
+     * If hotSwap, checks if name is empty and generates a new name until no other player has the same name.
      * Then it returns a player with specified name and id.
      * In the event of a name being used by another player it returns a player with a generated name.
      *
@@ -369,9 +478,11 @@ public class QuizGame {
      */
     public Player createNewPlayer(String name, String id) {
         int i = playerList.size();
-        while (isPlayerNameTaken(name)) {
-            name = "Player " + i;
-            i++;
+        if (isHotSwap) {
+            while (isPlayerNameTaken(name)) {
+                name = "Player " + i;
+                i++;
+            }
         }
         return new Player(name, id);
     }
@@ -466,7 +577,7 @@ public class QuizGame {
      * @param name   the new name for the player.
      */
     public void changePlayerName(Player player, String name) {
-        if (!player.isPlayerReady()) {
+        if (!player.isReady()) {
             for (Player player1 : playerList) {
                 if (player1.equals(player)) {
                     player.setName(name);
@@ -492,6 +603,12 @@ public class QuizGame {
         teamList.clear();
         playerList.clear();
         currentPlayer = null;
+    }
+
+    public void resetPlayerReady() {
+        for (Player player : playerList) {
+            player.setReady(false);
+        }
     }
 
     public void changeTeam(Player player, String newTeamId) {
@@ -556,32 +673,13 @@ public class QuizGame {
      * @return
      */
     public boolean checkAllPlayersReady() { //todo remove ready-related stuff from player, move responsibility to viewModel
-        for (int i = 0; i < teamList.size(); i++) {
-            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
-                if (!teamList.get(i).getTeamMembers().get(j).isPlayerReady()) {
-                    return false;
-                }
+        for (Player player : playerList) {
+            if (!player.isReady()) {
+                return false;
             }
         }
-        return true;
-    }
 
-    /**
-     * sets the players boolean.
-     *
-     * @param player the affected player.
-     * @param state  the boolean value to be set.
-     */
-    public void setIsPlayerReady(Player player, boolean state) {  //todo remove ready-related stuff from player, move responsibility to viewModel
-        for (int i = 0; i < teamList.size(); i++) {
-            for (int j = 0; j < teamList.get(i).getTeamMembers().size(); j++) {
-                if (teamList.get(i).getTeamMembers().get(j).equals(player)) {
-                    teamList.get(i).getTeamMembers().get(j).setPlayerReady(state);
-                    break;
-                }
-            }
-        }
-        fireTeamChangeEvent();
+        return true;
     }
 
     /**
@@ -647,10 +745,27 @@ public class QuizGame {
         this.hostPlayerId = hostPlayerId;
     }
 
+
     public Store getStore() {
         if (store == null) {
             store = new Store();
         }
         return store;
+    }
+
+    public void incrementCurrentPlayer() {
+        if (playerList.indexOf(currentPlayer) + 1 < playerList.size()) {
+            currentPlayer = playerList.get(playerList.indexOf(currentPlayer) + 1);
+        } else {
+            currentPlayer = playerList.get(0);
+        }
+    }
+
+    public boolean isHotSwap() {
+        return isHotSwap;
+    }
+
+    public void setHotSwap(boolean hotSwap) {
+        isHotSwap = hotSwap;
     }
 }
