@@ -138,6 +138,14 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
         }
     }
 
+    public String getMyPlayerId() {
+        if(isHost()) {
+            return repository.getHostPlayerId();
+        }else {
+            return repository.getClientPlayerId();
+        }
+    }
+
     public void sendIsReady() {
         Log.d(LOG_TAG, "sendIsReady: called. Now waiting for server..");
         repository.setMyReadyStatus(true);
