@@ -170,7 +170,8 @@ public class QuizGame {
     }
 
     /**
-     * Method called for the outside of the model to report the given answer on a question
+     * Method called from the outside of the model to report the given answer on a question
+     * It calls a method that updates the score of a player and then clears the modifier of a player
      *
      * @param givenAnswer the alternative that the user choose to provide
      * @param question    - the question that was asked
