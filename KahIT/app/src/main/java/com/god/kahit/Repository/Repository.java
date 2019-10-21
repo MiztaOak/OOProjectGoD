@@ -689,6 +689,10 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.setCurrentCategory(currentCategory);
     }
 
+    public void setIsHotSwap(boolean isHotSwap) {
+        quizGame.setHotSwap(isHotSwap);
+    }
+
     public void resetPlayerData() {
         Log.i(TAG, "resetPlayerData: called.");
         quizGame.resetPlayerData();
@@ -803,6 +807,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.resetPlayerData();
         quizGame.endGame();
         appLifecycleHandler.setActive(false);
+        quizGame.setHotSwap(false);
 
         if (networkManager != null) {
             networkManager.cleanStop();

@@ -51,7 +51,12 @@ public class PreGameCountdownView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        sessionTypeTextView.setText(String.format("%s - id: '%s'", preGameCountdownViewModel.isHost() ? "Host" : "Client", preGameCountdownViewModel.getMyPlayerId()));
+        if (preGameCountdownViewModel.isHotSwap()) {
+            sessionTypeTextView.setText("Hotswap mode");
+        } else {
+            sessionTypeTextView.setText(String.format("%s - id: '%s'", preGameCountdownViewModel.isHost() ? "Host" : "Client", preGameCountdownViewModel.getMyPlayerId()));
+        }
+
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
