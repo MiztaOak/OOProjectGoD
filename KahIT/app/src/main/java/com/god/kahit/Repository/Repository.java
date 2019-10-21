@@ -20,6 +20,7 @@ import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
+import com.god.kahit.model.Debuff;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Player;
@@ -938,8 +939,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
      */
     //TODO player most be removed from this class
     public int getPlayerScore() {
-        p = quizGame.getCurrentPlayer();
-        return p.getScore();
+        return quizGame.getCurrentPlayer().getScore();
     }
 
     /**
@@ -950,7 +950,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
      */
     //TODO player most be removed from this class
     public boolean isItemBuyable(int i) {
-        return quizGame.getStore().isItemBuyable(i, p);
+        return quizGame.getStore().isItemBuyable(i, quizGame.getCurrentPlayer());
     }
 
     /**
@@ -960,7 +960,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
      */
     //TODO player most be removed from this class
     public void buy(int i) {
-        quizGame.getStore().buy(i, p);
+        quizGame.getStore().buy(i, quizGame.getCurrentPlayer());
     }
 
     /**
@@ -993,6 +993,27 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.getStore().isItemBought(i);
     }
 
+    /**
+     * A method that checks if the current player has the fifty fifty buff.
+     *
+     * @return : boolean which indicates if a player has the buff or not.
+     */
+    public boolean halfTheAlternatives(){
+        return (quizGame.getCurrentPlayer().getAmountOfAlternatives() != 0);
+    }
+
+    /**
+     * A method that rendomizes a player to debuff.
+     * @param debuff: which debuff to debuff a player with.
+     */
+    public void debuffPlayer(Debuff debuff){
+        int index = (int) (Math.random()*(quizGame.getPlayers().size()));
+        quizGame.getPlayers().get(index).setDebuff(debuff);
+    }
+
+    public boolean isAutoAnswer(){
+        return quizGame.getCurrentPlayer().isAutoAnswer();
+    }
     public String getCurrentPlayerName() {
         if (isHost()) {
             return getHostPlayerName();

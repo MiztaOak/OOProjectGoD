@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
+public class  Player { //todo revise with better use of access-modifiers. e.i not public everywhere
     private String id;
     private String name;
     private int score;
@@ -60,13 +60,12 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
      * @param time: How mush time it took the player to answer.
      * @param questionTime: How much time each question has.
      */
-    void updateScore(int time, int questionTime) {
-        int playerTime = (time +amountOfTime)/questionTime;
+    void updateScore(long time, int questionTime) {
+        double playerTime = (((double)time) +((double)amountOfTime))/((double)questionTime);
         if (playerTime > 1){
-            playerTime = 1;
+            playerTime = (double) 1;
         }
-    //TODO FIX THIS
-        this.score += (int)(500*(playerTime)*scoreMultiplier);
+        this.score += (500*(playerTime)*scoreMultiplier);
     }
 
     public String getName() {

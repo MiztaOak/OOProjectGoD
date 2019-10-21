@@ -245,7 +245,7 @@ public class QuizGame {
     public void enterAnswer(Player player, String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
         }
-            player.updateScore((int) timeLeft, question.getTime());
+            player.updateScore(timeLeft, question.getTime());
         player.clearModifier();
     }
 

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Lottery {
-    List<Item> itemList;
-    Map<Player, Item> winnings;
+    private List<Item> itemList;
+    private Map<Player, Item> winnings;
 
     public Lottery() {
         this.itemList = ItemFactory.createStoreItems(3);
@@ -25,7 +25,7 @@ public class Lottery {
         }
         return winnings;
     }
-
+    //TODO is this needed?
     public Map<Player, Item> getWinnings() {
         return winnings;
     }
