@@ -1,9 +1,9 @@
 package com.god.kahit.networkManager.Packets;
 
-public class RequestLobbyReadyChangePacket extends Packet {
+public class RequestPlayerReadyChangePacket extends Packet {
     public static final int PACKET_ID = 5;
 
-    public RequestLobbyReadyChangePacket(boolean newState) {
+    public RequestPlayerReadyChangePacket(boolean newState) {
         super(PACKET_ID, null);
         setPacketContent(createContent(newState)); //Super constructor must be called before anything else
     }

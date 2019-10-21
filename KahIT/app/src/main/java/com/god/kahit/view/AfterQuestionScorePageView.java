@@ -9,13 +9,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.god.kahit.Events.AllPlayersReadyEvent;
+import com.god.kahit.Events.GameLostConnectionEvent;
+import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.R;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.god.kahit.model.QuizGame.BUS;
 
 public class AfterQuestionScorePageView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
@@ -36,6 +44,32 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
 
         setupRecycler();
         startTimer(progressBar);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        BUS.unregister(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        animator.pause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        animator.resume();
     }
 
     private void setupRecycler() {
@@ -65,18 +99,6 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        animator.pause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        animator.resume();
-    }
-
     public void launchQuestionClass() {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, QuestionView.class);
@@ -100,13 +122,51 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (model.isRoundOver()) {
-                    launchCategoryView();
+                if (model.isHotSwap()) {
+                    if (model.isRoundOver()) {
+                        launchCategoryView();
+                    } else {
+                        launchQuestionClass();
+                    }
                 } else {
-                    launchQuestionClass();
+                    model.sendIsReady();
                 }
             }
         });
         animator.start();
+    }
+
+    @Subscribe
+    public void onNewViewEvent(NewViewEvent event) {
+        model.resetPlayersReady();
+        Intent intent = new Intent(getApplicationContext(), event.getNewViewClass());
+        startActivity(intent);
+        finish();
+    }
+
+    @Subscribe
+    public void onAllPlayersReadyEvent(AllPlayersReadyEvent event) {
+//        countdownTextView.setText("All players ready!"); //todo show waiting for server etc
+        if (model.isHost()) {
+            Log.d(LOG_TAG, "onAllPlayersReadyEvent: event triggered, showing next view.");
+            model.showNextView();
+        }
+    }
+
+    @Subscribe
+    public void onGameLostConnectionEvent(GameLostConnectionEvent event) {
+        if (!model.isHost()) {
+            Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered");
+
+            Toast.makeText(getApplicationContext(), "Lost connection to game!",
+                    Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(this, ChooseGameView.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } else {
+            Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered, but I am host - skipping");
+        }
     }
 }

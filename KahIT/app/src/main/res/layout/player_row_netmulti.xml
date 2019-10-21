@@ -36,7 +36,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:fontFamily="@font/bevietnamextrabolditalic"
             android:gravity="center_vertical"
             android:minWidth="175dp"
@@ -49,7 +48,7 @@
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/playerRow_net_ready_textView"
+            app:layout_constraintEnd_toStartOf="@+id/playerRow_net_kick_linearLayout"
             app:layout_constraintStart_toEndOf="@+id/playerRow_image_imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
