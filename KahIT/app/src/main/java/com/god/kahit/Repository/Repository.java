@@ -55,8 +55,8 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
     //TODO remove player when done testing
-    Player p = new Player("anas", "123");
     private QuizGame quizGame;
+    Player p;
     private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;
@@ -938,6 +938,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
      */
     //TODO player most be removed from this class
     public int getPlayerScore() {
+        p = quizGame.getCurrentPlayer();
         return p.getScore();
     }
 
