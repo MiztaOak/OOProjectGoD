@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.god.kahit.Events.AllPlayersReadyEvent;
@@ -30,6 +31,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
     private com.god.kahit.viewModel.AfterQuestionScorePageViewModel model;
     private ObjectAnimator animator;
 
+    private TextView sessionTypeTextView;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -40,6 +42,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         setContentView(R.layout.after_question_score_page_activity);
 
         model = ViewModelProviders.of(this).get(com.god.kahit.viewModel.AfterQuestionScorePageViewModel.class);
+        sessionTypeTextView = findViewById(R.id.aqsp_SessionType_textView);
         final ProgressBar progressBar = findViewById(R.id.aqspProgressbar);
 
         setupRecycler();
@@ -49,6 +52,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
@@ -79,7 +83,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents(), model.getMyId());
+        recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents(), model.getMyPlayerId());
         recyclerView.setAdapter(recyclerAdapter);
     }
 

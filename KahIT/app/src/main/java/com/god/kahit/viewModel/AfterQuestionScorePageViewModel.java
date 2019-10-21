@@ -36,7 +36,7 @@ public class AfterQuestionScorePageViewModel extends ViewModel implements Lifecy
         return playerList;
     }
 
-    public String getMyId() {
+    public String getMyPlayerId() {
         if (isHost()) {
             return repository.getHostPlayerId();
         } else {

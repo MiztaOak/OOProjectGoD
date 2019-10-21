@@ -30,6 +30,7 @@ import static com.god.kahit.model.QuizGame.BUS;
 
 public class CategoryView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
+    private TextView sessionTypeTextView;
     private TextView categoryInfoTextView;
     private List<ImageButton> categoryButtons;
     private CategoryViewModel model;
@@ -41,6 +42,7 @@ public class CategoryView extends AppCompatActivity {
 
         model = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
+        sessionTypeTextView = findViewById(R.id.c_SessionType_textView);
         categoryInfoTextView = findViewById(R.id.categoryActivity_voteCategory_textView);
 
         categoryButtons = new ArrayList<>();
@@ -114,6 +116,7 @@ public class CategoryView extends AppCompatActivity {
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
+        sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
         categoryInfoTextView.setText("Vote for next category");
         resetCategoryButtons();
         addPicturesToButton();
