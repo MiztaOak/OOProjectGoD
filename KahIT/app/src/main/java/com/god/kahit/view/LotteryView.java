@@ -49,9 +49,7 @@ public class LotteryView extends AppCompatActivity {
     List<ImageView> playerImageViews = new ArrayList<>();
     List<TextView> playerNameTxtViews = new ArrayList<>();
 
-    private Random random;
     private int count = 0;
-    private int maxCount = 10;
 
     private MutableLiveData<Map<Player, Item>> mapWinningsLiveData;
     private MutableLiveData<List<Item>> itemListLiveData;
@@ -69,6 +67,9 @@ public class LotteryView extends AppCompatActivity {
         mapWinningsLiveData = lotteryViewModel.getMapWinningsLiveData();
         itemListLiveData = lotteryViewModel.getItemListLiveData();
         playerListLiveData = lotteryViewModel.getPlayerListLiveData();
+
+        populateLayoutViewDynamically();
+        displayLottery();
 
         lotteryViewModel.getMapWinningsLiveData().observe(this, new Observer<Map<Player, Item>>() {
             @Override
@@ -90,13 +91,13 @@ public class LotteryView extends AppCompatActivity {
 
             }
         });
-        initLottery();
+
+
 
     }
 
     private void initLottery() {
-        populateLayoutViewDynamically();
-        displayLottery();
+
     }
 
 
@@ -198,6 +199,7 @@ public class LotteryView extends AppCompatActivity {
     }
 
     private boolean isDone() {
+        int maxCount = 10;
         return count >= maxCount;
     }
 
@@ -251,7 +253,7 @@ public class LotteryView extends AppCompatActivity {
      * @param index
      */
     private void setItemImage(int index) {
-        random = new Random();
+        Random random = new Random();
         // Gets a random number from the list size
         int randomNumber = random.nextInt(Objects.requireNonNull(itemListLiveData.getValue()).size());
         // Getting an imageId(or image) with a random number
