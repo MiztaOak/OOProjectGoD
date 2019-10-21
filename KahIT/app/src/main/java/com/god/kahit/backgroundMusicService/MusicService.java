@@ -8,10 +8,17 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.widget.Toast;
 
+/**
+ * @responsibility: This class is responsible for the Music in the game.
+ * <p>
+ * used-by: This class is used in the following classes:
+ * AudioHandler.
+ * @author: Oussama Anadani
+ */
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
     private final IBinder mBinder = new ServiceBinder();
     private MediaPlayer mPlayer;
-    private int length = 0;
+    private int length = 0; // to know the current position of the song, when song is paused.
 
     public MusicService() { //Fixes lint error //todo Is this the only way?
 
