@@ -10,9 +10,7 @@ import android.widget.Toast;
 
 /**
  * @responsibility: This class is responsible for the Music in the game.
- * <p>
- * used-by: This class is used in the following classes:
- * AudioHandler.
+ * @used-by: AudioHandler.
  * @author: Oussama Anadani
  */
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
@@ -37,6 +35,10 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     @Override
     public void onCreate() {
         super.onCreate();
+        musicSettings();
+    }
+
+    public void musicSettings() {
         mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {
@@ -49,7 +51,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mPlayer != null) {
             mPlayer.start();
-
         }
         return START_NOT_STICKY;
     }
