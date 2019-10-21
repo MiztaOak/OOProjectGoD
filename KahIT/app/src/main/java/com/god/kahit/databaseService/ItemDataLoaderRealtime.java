@@ -34,6 +34,8 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
  * and stores it inside of a list of items and a map that pairs the names of items and the names of
  * their images
  *
+ * used by: LotteryView, StoreView, Repository
+ *
  * @author Johan Ek
  */
 public class ItemDataLoaderRealtime implements IItemDataLoader {

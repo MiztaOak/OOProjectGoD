@@ -30,7 +30,7 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
  * A helper class for the Firebase realtime database, that loads the question data from the database and
  * and stores it inside of a map similar to the one found in QuizGame
  *
- * used by: QuestionFactory
+ * used by: Repository
  *
  * @author Johan Ek
  */

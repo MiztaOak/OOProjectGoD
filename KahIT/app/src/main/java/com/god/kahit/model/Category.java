@@ -9,6 +9,9 @@ import java.util.List;
  * loading resources such as values form a database or images and an getId method that returns a unique
  * id that is used in network communication.
  *
+ * used by: Question, QuizGame, CategoryViewModel, IQuestionDataLoader, PlayerVotedCategory,
+ * QuestionDataLoaderRealtime, QuestionFactory, Repository
+ *
  * @author Johan Ek
  */
 public enum Category {
