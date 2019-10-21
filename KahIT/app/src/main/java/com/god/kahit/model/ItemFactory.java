@@ -10,7 +10,7 @@ import java.util.List;
  * @used-by: This class is used in the following classes:
  * Lottery, Store and Repository.
  *
- * @author: Anas Alkoutli
+ * @author: Anas Alkoutli & Johan Ek
  */
 public class ItemFactory {
     private static IItemDataLoader dataLoader;
@@ -21,6 +21,9 @@ public class ItemFactory {
      * @return list of items
      */
     static List<Item> createStoreItems(int size) {
+        if(dataLoader == null){
+            return new ArrayList<>();
+        }
         ArrayList<Item> itemList = new ArrayList<>();
         itemList.addAll(loadBuffs(size));
         itemList.addAll(loadDeBuffs(size));
@@ -43,8 +46,28 @@ public class ItemFactory {
      */
     static private List<Buff> loadBuffs(int n){
         List<Buff> loadedItems = dataLoader.getBuffs();
+        List<Buff> createdItems = new ArrayList<>();
         Collections.shuffle(loadedItems);
-        return loadedItems.subList(0,n);
+        for(int i = 0; i < n; i++){
+            createdItems.add(createBuff(loadedItems.get(i)));
+        }
+        return createdItems;
+    }
+
+    /**
+     * Method that copies a buff
+     * @param dataBuff the buff that will be copied
+     * @return the copy of dataBuff
+     */
+    private static Buff createBuff(Buff dataBuff){
+        String name = dataBuff.getName();
+        int price = dataBuff.getPrice();
+        double scoreMulti = dataBuff.getScoreMultiplier();
+        int amountOfAlts = dataBuff.getAmountOfAlternatives();
+        int amountOfTime = dataBuff.getAmountOfTime();
+        String id = dataBuff.getId();
+
+        return new Buff(name,price,scoreMulti,amountOfTime,amountOfAlts,id);
     }
 
     /**
@@ -55,7 +78,28 @@ public class ItemFactory {
     static private List<Debuff> loadDeBuffs(int n){
         List<Debuff> loadedItems = dataLoader.getDebuffs();
         Collections.shuffle(loadedItems);
-        return loadedItems.subList(0,n);
+        List<Debuff> createdItems = new ArrayList<>();
+        Collections.shuffle(loadedItems);
+        for(int i = 0; i < n; i++){
+            createdItems.add(createDebuff(loadedItems.get(i)));
+        }
+        return createdItems;
+    }
+
+    /**
+     * Method that copies a debuff
+     * @param dataDebuff the debuff that will be copied
+     * @return the copy of dataDebuff
+     */
+    private static Debuff createDebuff(Debuff dataDebuff){
+        String name = dataDebuff.getName();
+        int price = dataDebuff.getPrice();
+        double scoreMulti = dataDebuff.getScoreMultiplier();
+        int amountOfTime = dataDebuff.getAmountOfTime();
+        String id = dataDebuff.getId();
+        boolean autoMode = dataDebuff.getAutoAnswer();
+
+        return new Debuff(price,name,scoreMulti,amountOfTime,autoMode,id);
     }
 
     /**
@@ -66,6 +110,24 @@ public class ItemFactory {
     static private List<VanityItem> loadVanityItems(int n){
         List<VanityItem> loadedItems = dataLoader.getVanityItems();
         Collections.shuffle(loadedItems);
-        return loadedItems.subList(0,n);
+        List<VanityItem> createdItems = new ArrayList<>();
+        Collections.shuffle(loadedItems);
+        for(int i = 0; i < n; i++){
+            createdItems.add(createVanityItem(loadedItems.get(i)));
+        }
+        return createdItems;
+    }
+
+    /**
+     * Method that copies a vanity item
+     * @param dataVanityItem the vanity item that will be copied
+     * @return a copy of dataVanityItem
+     */
+    private static VanityItem createVanityItem(VanityItem dataVanityItem){
+        String name = dataVanityItem.getName();
+        int price = dataVanityItem.getPrice();
+        String id = dataVanityItem.getId();
+
+        return new VanityItem(price,name,id);
     }
 }
