@@ -2,10 +2,12 @@ package com.god.kahit.view;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -38,6 +40,7 @@ import androidx.lifecycle.ViewModelProviders;
  * Buffs are the items that players positively can affect themselves *
  */
 public class LotteryView extends AppCompatActivity {
+    private static final String LOG_TAG =  LotteryView.class.getSimpleName();
     LotteryViewModel lotteryViewModel;
     ConstraintLayout constraintLayout;
 
@@ -239,6 +242,7 @@ public class LotteryView extends AppCompatActivity {
                 }
             }
         }, delay);
+        launchCategoryView();
     }
 
     /**
@@ -290,5 +294,10 @@ public class LotteryView extends AppCompatActivity {
 
     }
 
-
+    public void launchCategoryView() {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, CategoryView.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }

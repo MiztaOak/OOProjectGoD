@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * A class that represents a question. The class holds all data that a question needs and methods
+ * for scrambling the alternatives and telling if the answer that was given is correct
+ *
+ * used by: IQuestionDataLoader, QuestionDataLoaderRealtime, QuestionFactory, QuestionViewModel,
+ * QuizGame, QuizListener, Repository
+ *
+ * @author Johan Ek & Jakob Ewerstrand
+ */
 public class Question {
     private final Category category;
     private final String question;
