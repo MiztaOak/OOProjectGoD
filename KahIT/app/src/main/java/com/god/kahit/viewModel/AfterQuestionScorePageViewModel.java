@@ -2,7 +2,6 @@ package com.god.kahit.viewModel;
 
 
 import android.util.Log;
-import android.util.Pair;
 
 import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.Repository.Repository;
@@ -11,6 +10,8 @@ import com.god.kahit.view.CategoryView;
 import com.god.kahit.view.QuestionView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.lifecycle.LifecycleObserver;
@@ -26,13 +27,22 @@ public class AfterQuestionScorePageViewModel extends ViewModel implements Lifecy
         repository = Repository.getInstance();
     }
 
-    public List<Pair<String, String>> getScoreScreenContents() {
-        List<Pair<String, String>> pairList = new ArrayList<>();
-        for (Player player : Repository.getInstance().getPlayers()) {
-            Pair<String, String> tuple = new Pair<>(player.getName(), Integer.toString(player.getScore()));
-            pairList.add(tuple);
-        }
-        return pairList;
+    public List<Player> getScoreScreenContents() {
+        List<Player> playerList = new ArrayList<>();
+        playerList.addAll(repository.getPlayers());
+
+        sortPlayerList(playerList);
+
+        return playerList;
+    }
+
+    private void sortPlayerList(List<Player> playerList) {
+        Collections.sort(playerList, new Comparator<Player>() {
+            @Override
+            public int compare(Player o1, Player o2) {
+                return o2.getScore() - o1.getScore();
+            }
+        });
     }
 
     public boolean isRoundOver() {
