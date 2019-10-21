@@ -115,9 +115,9 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchCategoryView() {
+    public void launchLotteryView() {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, CategoryView.class);
+        Intent intent = new Intent(this, LotteryView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -133,7 +133,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 if (model.isHotSwap()) {
                     if (model.isRoundOver()) {
-                        launchCategoryView();
+                        launchLotteryView();
                     } else {
                         launchQuestionClass();
                     }
