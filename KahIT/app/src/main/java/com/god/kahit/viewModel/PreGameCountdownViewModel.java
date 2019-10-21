@@ -9,15 +9,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.view.QuestionView;
 
-import androidx.lifecycle.ViewModel;
-
 import static com.god.kahit.model.QuizGame.BUS;
 
-
+/**
+ * @responsibility: A class that places a countdown timer in center of the layout
+ * @used-by: PreGameCountdownView.
+ * @author: Oussama Anadani, Mats Cedervall
+ */
 public class PreGameCountdownViewModel extends ViewModel {
     private static final int TOAST_MESSAGE_TEXT_SIZE = 60;
     private static final String TOAST_MESSAGE_TEXT_COLOR = "#00CBF8";

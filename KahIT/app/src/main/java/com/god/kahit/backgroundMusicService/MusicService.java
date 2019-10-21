@@ -10,9 +10,7 @@ import android.widget.Toast;
 
 /**
  * @responsibility: This class is responsible for the Music in the game.
- * <p>
- * used-by: This class is used in the following classes:
- * AudioHandler.
+ * @used-by: AudioHandler.
  * @author: Oussama Anadani
  */
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
@@ -37,6 +35,10 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     @Override
     public void onCreate() {
         super.onCreate();
+        musicSettings();
+    }
+
+    public void musicSettings() {
         mPlayer.setOnErrorListener(this);
 
         if (mPlayer != null) {
@@ -45,13 +47,10 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
         }
     }
 
-
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mPlayer != null) {
             mPlayer.start();
-
         }
         return START_NOT_STICKY;
     }
@@ -61,7 +60,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             if (mPlayer.isPlaying()) {
                 mPlayer.pause();
                 length = mPlayer.getCurrentPosition();
-
             }
         }
     }
@@ -71,7 +69,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             if (!mPlayer.isPlaying()) {
                 mPlayer.seekTo(length);
                 mPlayer.start();
-
             }
         }
     }
@@ -83,7 +80,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.setLooping(true);
             mPlayer.setVolume(50, 50);
             mPlayer.start();
-
         }
     }
 
@@ -93,7 +89,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
-
         }
     }
 
@@ -106,7 +101,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
                 mPlayer.release();
             } finally {
                 mPlayer = null;
-
             }
         }
     }

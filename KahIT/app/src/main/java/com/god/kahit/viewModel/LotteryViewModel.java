@@ -11,6 +11,11 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * @responsibility: This class is responsible for the LiveDAta of lottery in the game.
+ * @used-by: LotteryView
+ * @author: Jakob Ewerstrand
+ */
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = LotteryViewModel.class.getSimpleName();
