@@ -116,7 +116,12 @@ public class CategoryView extends AppCompatActivity {
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
-        sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
+
+        if (model.isHotSwap()) {
+            sessionTypeTextView.setText("Hotswap mode");
+        } else {
+            sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
+        }
         categoryInfoTextView.setText("Vote for next category");
         resetCategoryButtons();
         addPicturesToButton();

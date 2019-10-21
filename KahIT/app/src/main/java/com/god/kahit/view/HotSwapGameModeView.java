@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.god.kahit.R;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.viewModel.HotSwapGameModeViewModel;
 
 import java.util.List;
@@ -50,5 +51,11 @@ public class HotSwapGameModeView extends AppCompatActivity {
         Intent intent = new Intent(this, ChooseGameView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Repository.getInstance().setIsHotSwap(true);
     }
 }

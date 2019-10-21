@@ -52,7 +52,12 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
+        if (model.isHotSwap()) {
+            sessionTypeTextView.setText("Hotswap mode");
+        }else {
+            sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
+        }
+
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
