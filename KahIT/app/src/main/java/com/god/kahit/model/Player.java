@@ -48,8 +48,15 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         this.autoAnswer = false;
     }
 
-    public void updateScore(int points) { //todo rename to addScore
-        this.score += points*scoreMultiplier;
+    public void updateScore(int time, int questionTime) {
+        if ((time +(amountOfTime)/questionTime) > 1){
+
+
+        }
+        int score = 500*(time +(amountOfTime)/questionTime);
+        score *= scoreMultiplier;
+
+        this.score = score;
     } //TODO add calculation that takes current buff into account
 
     public String getName() {
