@@ -65,8 +65,20 @@ public class PreGameCountdownViewModel extends ViewModel {
         return repository.isHost();
     }
 
+    public boolean isHotSwap() {
+        return repository.isHotSwap();
+    }
+
     public void sendIsReady() {
         repository.setMyReadyStatus(true);
+    }
+
+    public String getMyPlayerId() {
+        if (isHost()) {
+            return repository.getHostPlayerId();
+        } else {
+            return repository.getClientPlayerId();
+        }
     }
 
     public void resetPlayersReady() {

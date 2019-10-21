@@ -80,12 +80,6 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
         hotSwapAddPlayersViewModel.onTeamChange(position, newTeamId);
     }
 
-    @Override
-    protected void onDestroy() {
-        hotSwapAddPlayersViewModel.resetPlayerData();
-        super.onDestroy();
-    }
-
     public void launchBackHotSwapGameModeClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, HotSwapGameModeView.class);

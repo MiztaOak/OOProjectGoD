@@ -221,8 +221,8 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: event triggered. callback from: '%s', new state: '%s'", targetPlayerId, String.valueOf(newState)));
                     Player targetPlayer = quizGame.getPlayer(targetPlayerId);
                     if (targetPlayer != null) {
-                        setPlayerReady(targetPlayer, newState);
                         packetHandler.broadcastPlayerReadyChange(targetPlayerId, newState);  //todo only pass to quizGame, let it trigger a broadcast
+                        setPlayerReady(targetPlayer, newState);
                     } else {
                         Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: targetPlayer was not found. targetPlayerId: '%s', new state: '%s' - ignoring request", targetPlayerId, newState));
                     }
@@ -699,6 +699,10 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.setCurrentCategory(currentCategory);
     }
 
+    public void setIsHotSwap(boolean isHotSwap) {
+        quizGame.setHotSwap(isHotSwap);
+    }
+
     public void resetPlayerData() {
         Log.i(TAG, "resetPlayerData: called.");
         quizGame.resetPlayerData();
@@ -813,6 +817,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.resetPlayerData();
         quizGame.endGame();
         appLifecycleHandler.setActive(false);
+        quizGame.setHotSwap(false);
 
         if (networkManager != null) {
             networkManager.cleanStop();

@@ -28,6 +28,7 @@ public class PreGameCountdownView extends AppCompatActivity {
     private static final long COUNTDOWN_DURATION = 5000;
     private static final long ONE_SECOND = 1000;
     private PreGameCountdownViewModel preGameCountdownViewModel;
+    private TextView sessionTypeTextView;
     private TextView countdownTextView;
     private CountDownTimer counter;
 
@@ -39,6 +40,7 @@ public class PreGameCountdownView extends AppCompatActivity {
         preGameCountdownViewModel = ViewModelProviders.of(this).get(PreGameCountdownViewModel.class);
         preGameCountdownViewModel.setContext(getApplicationContext());
 
+        sessionTypeTextView = findViewById(R.id.cd_SessionType_textView);
         countdownTextView = findViewById(R.id.cdTextView);
 
         preGameCountdownViewModel.startToastMessage();
@@ -49,6 +51,12 @@ public class PreGameCountdownView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (preGameCountdownViewModel.isHotSwap()) {
+            sessionTypeTextView.setText("Hotswap mode");
+        } else {
+            sessionTypeTextView.setText(String.format("%s - id: '%s'", preGameCountdownViewModel.isHost() ? "Host" : "Client", preGameCountdownViewModel.getMyPlayerId()));
+        }
+
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }

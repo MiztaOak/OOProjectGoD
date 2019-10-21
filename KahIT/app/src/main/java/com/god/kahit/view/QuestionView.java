@@ -42,6 +42,7 @@ public class QuestionView extends AppCompatActivity {
     private final Handler h1 = new Handler();
     private QuestionViewModel model;
     private NavigationView navigationView;
+    private TextView sessionTypeTextView;
     private TextView questionNmbTextView;
     private TextView playerNameTextView;
     private ImageView storeImage;
@@ -73,6 +74,7 @@ public class QuestionView extends AppCompatActivity {
     }
 
     private void initLayoutViews() {
+        sessionTypeTextView = findViewById(R.id.q_SessionType_textView);
         questionNmbTextView = findViewById(R.id.qNumOfQuesTextView);
         playerNameTextView = findViewById(R.id.qHotSwapCaseTextView);
         storeImage = findViewById(R.id.storeImage);
@@ -186,6 +188,13 @@ public class QuestionView extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         hasQuestionBeenShown = false;
+
+        if (model.isHotSwap()) {
+            sessionTypeTextView.setText("Hotswap mode");
+        } else {
+            sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
+        }
+
         updateQuestionNmbTextView(questionNmb++, totNmbQuestions); //todo implement real values
         if (!BUS.isRegistered(this)) {
             BUS.register(this);

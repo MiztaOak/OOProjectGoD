@@ -59,6 +59,14 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
         repository.setMyReadyStatus(true);
     }
 
+    public String getMyPlayerId() {
+        if (isHost()) {
+            return repository.getHostPlayerId();
+        } else {
+            return repository.getClientPlayerId();
+        }
+    }
+
     public void resetPlayersReady() {
         repository.resetPlayersReady();
     }
