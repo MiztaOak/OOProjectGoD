@@ -79,7 +79,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents());
+        recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents(), model.getMyId());
         recyclerView.setAdapter(recyclerAdapter);
     }
 

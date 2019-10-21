@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.ViewHolder> {
     private List<Player> playerList;
+    private String myPlayerId;
 
-    public ScorePageAdapter(List<Player> playerList) {
+    public ScorePageAdapter(List<Player> playerList, String myPlayerId) {
         this.playerList = playerList;
+        this.myPlayerId = myPlayerId;
     }
 
     @NonNull
@@ -36,7 +38,9 @@ public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.View
         TextView nameView = viewHolder.name;
         TextView scoreDelta = viewHolder.score;
 
-        nameView.setText(playerList.get(i).getName());
+        Player player = playerList.get(i);
+
+        nameView.setText(String.format(player.getId().equals(myPlayerId) ? "ME:%s" : "%s", player.getName()));
         scoreDelta.setText(String.format("%d", playerList.get(i).getScore()));
     }
 
