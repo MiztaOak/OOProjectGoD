@@ -65,7 +65,8 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         if (playerTime > 1){
             playerTime = 1;
         }
-        this.score= (int)(500*(playerTime)*scoreMultiplier);
+    //TODO FIX THIS
+        this.score += (int)(500*(playerTime)*scoreMultiplier);
     }
 
     public String getName() {
