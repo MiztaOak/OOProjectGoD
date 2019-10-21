@@ -1,5 +1,7 @@
 package com.god.kahit.model;
 
+import com.god.kahit.Repository.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,12 +68,12 @@ public class Store { //todo implement a method to restock store?
      * @param i:      the index of the item which will be set to the player.
      * @param player: which player the item will be set to.
      */
-    private void setItemToPlayer(int i, Player player) {
+    public void setItemToPlayer(int i, Player player) {
         Item item = storeItems.get(i);
         if (item instanceof Buff) {
             player.setBuff((Buff) item);
         } else if (item instanceof Debuff) {
-            player.setDebuff((Debuff) item);
+            Repository.getInstance().debuffPlayer((Debuff) item);
         } else {
             player.setVanityItem((VanityItem) item);
         }
@@ -80,7 +82,7 @@ public class Store { //todo implement a method to restock store?
     /**
      * A method that clears all the bought items so store gets restocked and players can buyItem again
      */
-    private void restockStore() {
+    public void restockStore() {
         if (boughtItems.size() == storeItems.size()) {
             boughtItems.clear();
         }

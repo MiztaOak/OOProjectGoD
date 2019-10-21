@@ -13,6 +13,7 @@ import com.god.kahit.model.QuizListener;
 import com.god.kahit.view.AfterQuestionScorePageView;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
@@ -155,5 +156,39 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
 
     public boolean isCorrectAnswer() {
         return isCorrectAnswer;
+    }
+
+    public boolean isAutoAnswer(){
+        return Repository.getInstance().isAutoAnswer();
+    }
+    /**
+     * A method that checks if the current player has the fifty fifty buff.
+     *
+     * @return : boolean which indicates if a player has the buff or not.
+     */
+    public boolean halfTheAlternatives(){
+        return Repository.getInstance().halfTheAlternatives();
+    }
+
+    /**
+     * A method that checks which answer is the right answer for a question
+     *
+     * @return : An int which is the index of the answer;
+     */
+    public int getAnswerIndex(){
+        for (int i = 1; i < Objects.requireNonNull(questionAlts.getValue()).size(); i++) {
+            if(currentQuestion.getAnswer().equals(questionAlts.getValue().get(i))){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * A method that randomizes an index of answer
+     * @return : An int which will be the index of the answer, between 0 and 3
+     */
+    public int autoChooseAnswer(){
+        return (int) (Math.random()*3);
     }
 }

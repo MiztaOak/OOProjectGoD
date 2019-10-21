@@ -12,8 +12,8 @@ import java.util.Map;
  * @author: Oussama Anadani & Jakob Ewerstrand
  */
 public class Lottery {
-    private List<Item> itemList; // buffs or debuffs
-    private Map<Player, Item> winnings; // won item that player gets
+    private List<Item> itemList;
+    private Map<Player, Item> winnings;
 
     Lottery() {
         this.itemList = ItemFactory.createStoreItems(3); // number of buffs and debuffs in the item factory
@@ -36,7 +36,7 @@ public class Lottery {
         }
         return winnings;
     }
-
+    //TODO is this needed?
     public Map<Player, Item> getWinnings() {
         return winnings;
     }

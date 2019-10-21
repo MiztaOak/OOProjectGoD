@@ -9,7 +9,8 @@ import static org.junit.Assert.*;
 
 public class StoreTest {
     private Store store;
-    Player player;
+    private Player player;
+
 
     @Before
     public void setup(){
@@ -38,10 +39,22 @@ public class StoreTest {
     public void buy() {
         player.setScore(300);
         Item item = store.getStoreItems().get(0);
-
         store.buyItem(0,player);
-
         assertEquals(player.getScore(), 300 - item.getPrice());
 
+    }
+    @Test
+    public void setItemToPlayer() {
+        store.setItemToPlayer(1, player);
+        assertTrue(player.getAmountOfAlternatives()!=0 || player.getScoreMultiplier() != 1
+                || player.getAmountOfTime() != 0 || player.isAutoAnswer());
+    }
+    @Test
+    public void restockStore(){
+        player.setScore(5000);
+        for (int i=0; i<store.getStoreItems().size();i++) {
+            store.buyItem(i, player);
+        }
+        assertEquals(0, store.getBoughtItems().size());
     }
 }

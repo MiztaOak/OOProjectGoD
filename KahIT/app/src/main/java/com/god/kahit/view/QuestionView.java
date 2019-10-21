@@ -24,6 +24,7 @@ import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.Events.PlayerAnsweredQuestionEvent;
 import com.god.kahit.R;
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.viewModel.QuestionViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -53,7 +54,6 @@ public class QuestionView extends AppCompatActivity {
     private TextView playerNameTextView;
     private ImageView storeImage;
     private DrawerLayout drawerLayout;
-    private Button choosePlayerButton;
     private ProgressBar progressBar;
     private ObjectAnimator animator;
 
@@ -87,7 +87,6 @@ public class QuestionView extends AppCompatActivity {
         storeImage = findViewById(R.id.storeImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
-        choosePlayerButton = findViewById(R.id.choosePlayerButton);
         progressBar = findViewById(R.id.qProgressBar);
 
         final TextView answer1 = findViewById(R.id.qAnswer1TextView);
@@ -102,13 +101,6 @@ public class QuestionView extends AppCompatActivity {
     }
 
     private void setupListeners(final Bundle savedInstanceState) {
-        choosePlayerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initChoosePlayer(savedInstanceState);
-            }
-        });
-
         model.getQuestionText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -325,8 +317,41 @@ public class QuestionView extends AppCompatActivity {
         for (int i = 0; i < qAnswersTextViews.length; i++) {
             qAnswersTextViews[i].setText(answers.get(i));
         }
+        if (model.halfTheAlternatives()){
+            halfTheAlternativesEffect(answers);
+        }else if(model.isAutoAnswer()){
+            runAutoAnswer();
+        }
     }
 
+    /**
+     * A method that starts the effect of the Fifty fifty buff,
+     * which is to hide two answers out of 4.
+     * This method should not hide the right alternative.
+     *
+     * @param alternatives: A list of strings which are the alternatives
+     * to find the right one from
+     */
+    private void halfTheAlternativesEffect(List<String> alternatives){
+        int checker = 0;
+        for (int i = 0; i < alternatives.size(); i++){
+            if(checker == 2){
+                break;
+            }
+            if(i != model.getAnswerIndex()){
+                answers.get(i).setVisibility(View.INVISIBLE);
+                checker++;
+            }
+        }
+    }
+
+    /**
+     * A method that runs the autoAnswer debuff effect.
+     */
+    public void runAutoAnswer(){
+        //TODO fix this
+        //OnAnswerClicked
+    }
     /**
      * Sets the current player1 name in "hotswap/hot seat" mode.
      *
@@ -444,17 +469,6 @@ public class QuestionView extends AppCompatActivity {
         });
     }
 
-    /**
-     * A method that initiates the a list to choose a player to debuff by getting its layout
-     * and pasting it inside the side navigation
-     */
-    private void initChoosePlayer(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, ChoosePlayerToDebuffView.newInstance())
-                    .commitNow();
-        }
-    }
 
     @Subscribe
     public void onPlayerAnsweredQuestionEvent(PlayerAnsweredQuestionEvent event) {
