@@ -239,10 +239,11 @@ public class LotteryView extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+                    launchCategoryView();
                 }
             }
         }, delay);
-        launchCategoryView();
+
     }
 
     /**
