@@ -1,6 +1,8 @@
 package com.god.kahit.Events;
 
-public class AllPlayersReadyEvent {
+import com.god.kahit.model.IEvent;
+
+public class AllPlayersReadyEvent implements IEvent {
     public AllPlayersReadyEvent() {
     }
 }

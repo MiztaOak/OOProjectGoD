@@ -27,6 +27,10 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     public LotteryViewModel() {
     }
 
+    public void drawLottery() {
+        Repository.getInstance().drawLottery();
+    }
+
     public MutableLiveData<List<Item>> getItemListLiveData() {
         if (itemListLiveData == null) {
             itemListLiveData = new MutableLiveData<>();
@@ -38,7 +42,6 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     public MutableLiveData<Map<Player, Item>> getMapWinningsLiveData() {
         if (mapWinningsLiveData == null) {
             mapWinningsLiveData = new MutableLiveData<>();
-            loadMapWinningsLiveData();
         }
         return mapWinningsLiveData;
     }
@@ -49,11 +52,6 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
             loadPlayerListLiveData();
         }
         return playerListLiveData;
-    }
-
-
-    private void loadMapWinningsLiveData() {
-        mapWinningsLiveData.setValue(Repository.getInstance().getDrawResult());
     }
 
     private void loadItemListLiveData() {

@@ -19,7 +19,7 @@ import java.util.Random;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = CategoryViewModel.class.getSimpleName();
@@ -61,7 +61,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
 
     public String getMyPlayerId() {
         if (isHost()) {
-            return repository.getHostPlayerId();
+            return repository.getLocalPlayer().getId();
         } else {
             return repository.getClientPlayerId();
         }
@@ -111,7 +111,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
 
     public void voteCategory(int index) {
         if (isHost()) {
-            BUS.post(new PlayerVotedCategoryEvent(repository.getHostPlayer(), categories[index].getId()));
+            BUS.post(new PlayerVotedCategoryEvent(repository.getLocalPlayer(), categories[index].getId()));
         } else {
             repository.sendCategoryVote(categories[index].getId());
         }

@@ -1,4 +1,7 @@
 package com.god.kahit.model;
 
-public abstract class GameMode { //TODO is this even needed
+public enum GameMode {
+    HOT_SWAP,
+    HOST,
+    CLIENT
 }

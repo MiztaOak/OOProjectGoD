@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,8 +39,8 @@ import java.util.Random;
  */
 public class LotteryView extends AppCompatActivity {
     private static final String LOG_TAG = LotteryView.class.getSimpleName();
-    LotteryViewModel lotteryViewModel;
-    ConstraintLayout constraintLayout;
+    private LotteryViewModel lotteryViewModel;
+    private ConstraintLayout constraintLayout;
 
     private List<TextView> textViewList; // the actual players name
     private List<ImageView> imageViewList; // the actual players image
@@ -60,10 +59,15 @@ public class LotteryView extends AppCompatActivity {
         setContentView(R.layout.lottery_activity);
 
         definingInstanceVariables();
-        liveData();
+        setupLiveData();
         populateLayoutViewDynamically();
         displayLottery();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        lotteryViewModel.drawLottery();
     }
 
     private void definingInstanceVariables() {
@@ -79,7 +83,7 @@ public class LotteryView extends AppCompatActivity {
      * LiveData observer method that has onChanged method inside, which in its turn notify viewModel when
      * anything is changed.
      */
-    private void liveData() {
+    private void setupLiveData() {
         lotteryViewModel.getMapWinningsLiveData().observe(this, new Observer<Map<Player, Item>>() {
             @Override
             public void onChanged(Map<Player, Item> playerItemMap) {

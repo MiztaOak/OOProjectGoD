@@ -15,7 +15,7 @@ import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.view.QuestionView;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 /**
  * @responsibility: A class that places a countdown timer in center of the layout
@@ -79,7 +79,7 @@ public class PreGameCountdownViewModel extends ViewModel {
 
     public String getMyPlayerId() {
         if (isHost()) {
-            return repository.getHostPlayerId();
+            return repository.getLocalPlayer().getId();
         } else {
             return repository.getClientPlayerId();
         }

@@ -1,6 +1,8 @@
 package com.god.kahit.Events;
 
-public class GameJoinedLobbyEvent {
+import com.god.kahit.model.IEvent;
+
+public class GameJoinedLobbyEvent implements IEvent {
     public GameJoinedLobbyEvent() {
     }
 }

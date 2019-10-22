@@ -1,8 +1,7 @@
 package com.god.kahit.model;
 
-import com.god.kahit.Events.TeamChangeEvent;
-
-import org.greenrobot.eventbus.EventBus;
+import com.god.kahit.Events.EventBusGreenRobot;
+import com.god.kahit.Events.LotteryDrawEvent;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -14,10 +13,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class QuizGame {
-    public static final EventBus BUS = new EventBus(); //todo Evaluate if we need this external dependency, instead of making our own observer-pattern
-    private static final int MAX_ALLOWED_PLAYERS = 8;
-    private final ArrayList<Team> teamList;
-    private final List<Player> playerList;
+    private EventBusGreenRobot eventBus;
+    private PlayerManager playerManager;
+    private GameMode gameMode;
+
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
@@ -27,22 +26,20 @@ public class QuizGame {
     private Category[] categorySelectionArray; //todo find a better way
 
     //TODO maybe move into constructor
-    private String hostPlayerId = "iHost";
     private boolean gameIsStarted = false;
-    private boolean isHotSwap = false; //TODO replace with gamemode or something
-
 
     private List<QuizListener> listeners;
     /**
      * This variable is used to reference to the local user in multiplayer or the current in hotswap
      */
-    private Player currentPlayer; //TODO add method that moves current user through the list of users
     private Lottery lottery;
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
-    public QuizGame() {
-        teamList = new ArrayList<>(MAX_ALLOWED_PLAYERS);
-        playerList = new ArrayList<>();
+    public QuizGame(EventBusGreenRobot eventBus, PlayerManager playerManager, GameMode gameMode) {
+        this.eventBus = eventBus;
+        this.playerManager = playerManager;
+        this.gameMode = gameMode;
+
         listeners = new ArrayList<>();
     }
 
@@ -56,9 +53,6 @@ public class QuizGame {
             gameIsStarted = true;
 
             lottery = new Lottery();
-        }
-        if (isHotSwap && currentPlayer != playerList.get(0)) { //Makes sure that current player is set in hotswap mode
-            currentPlayer = playerList.get(0);
         }
     }
 
@@ -223,8 +217,8 @@ public class QuizGame {
      */
     private void broadCastQuestion(Question question) {
         for (QuizListener quizListener : listeners) {
-            if (isHotSwap) {
-                quizListener.receiveQuestion(question, playerList.size());
+            if (gameMode.equals(GameMode.HOT_SWAP)) {
+                quizListener.receiveQuestion(question, playerManager.getTotalAmountOfPlayers());
             } else {
                 quizListener.receiveQuestion(question, 1);
             }
@@ -319,414 +313,9 @@ public class QuizGame {
         this.numOfQuestions = numOfQuestions;
     }
 
-    public Player getPlayer(String playerId) {
-        for (Player player : playerList) {
-            if (player.getId().equals(playerId)) {
-                return player;
-            }
-        }
-        return null;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public Team getPlayerTeam(String playerId) {
-        for (Team team : teamList) {
-            for (Player teamMember : team.getTeamMembers()) {
-                if (teamMember.getId().equals(playerId)) {
-                    return team;
-                }
-            }
-        }
-        return null;
-    }
-
-    public List<Player> getPlayers() {
-        return playerList;
-    }
-
-    public List<Team> getTeams() {
-        return teamList;
-    }
-
-    private Team getTeam(String teamId) {
-        for (Team team : teamList) {
-            if (team.getId().equals(teamId)) {
-                return team;
-            }
-        }
-        return null;
-    }
-
-    public void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {
-        Team team = getTeam(teamId);
-        if (team == null) {
-            createNewTeam(teamId);
-        }
-
-        team = getTeam(teamId);
-        if (team != null && playerList.size() < MAX_ALLOWED_PLAYERS) {
-            Player player = createNewPlayer(playerName, playerId);
-            player.setReady(readyStatus);
-            playerList.add(player);
-            team.addPlayer(player);
-            fireTeamChangeEvent();
-        }
-    }
-
-    /**
-     * Checks if a empty team exists, if not it creates one if the total number of teams are below specified Integer.
-     * A new player is then created with the use of the parameters if less then specified integer and adds it to the first empty team that is found.
-     * Said player is also added to the playerList.
-     * Method then posts the change on the BUS with a teamChangeEvent.
-     *
-     * @param name for the new player.
-     * @param id   for the new player.
-     */
-    public void addNewPlayerToEmptyTeam(String name, String id) {
-        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
-            createNewTeam(teamList.size());
-        }
-        if (playerList.size() < MAX_ALLOWED_PLAYERS) {
-            Player player = createNewPlayer(name, id);
-            playerList.add(player);
-            getEmptyTeam().addPlayer(player);
-            fireTeamChangeEvent();
-        }
-    }
-
-
-    /**
-     * Checks if a empty team exists, if not it creates one if the total number of teams are below specified Integer.
-     * A new player is then created with default settings if less then specified maximum allowed players and adds it to the first empty team that is found.
-     * Said player is also added to the playerList.
-     * Method then posts the change on the BUS with a teamChangeEvent.
-     */
-    public void addNewPlayerToEmptyTeam() {
-        if (noEmptyTeamExists() && teamList.size() < MAX_ALLOWED_PLAYERS) {
-            createNewTeam(teamList.size());
-        }
-        if (getTotalAmountOfPlayers() < MAX_ALLOWED_PLAYERS) {
-            Player player = createNewPlayer();
-            getEmptyTeam().addPlayer(player);
-            playerList.add(player);
-            fireTeamChangeEvent();
-        }
-
-    }
-
-    /**
-     * Checks if there is an empty team.
-     *
-     * @return true if empty team, false if there is no empty team.
-     */
-    public boolean noEmptyTeamExists() {
-        for (Team team : teamList) {
-            if (team.getTeamMembers().size() == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Gets an empty team from the teamList.
-     *
-     * @return the empty team.
-     */
-    public Team getEmptyTeam() {
-        int j = 0;
-        for (int i = 0; i < teamList.size(); i++) {
-            if (teamList.get(i).getTeamMembers().size() == 0) {
-                return teamList.get(i);
-            }
-        }
-        return teamList.get(j);
-    }
-
-    /**
-     * Creates a new empty team with default settings.
-     */
-    public void createNewTeam(int teamNumber) {
-        List<Player> players = new ArrayList<>();
-        String teamName = "Team " + (teamNumber + 1);
-        String id = Integer.toString(teamNumber + 1);
-        Team team = new Team(players, teamName, id);
-        teamList.add(team);
-    }
-
-    /**
-     * Creates a new empty team with specified id.
-     *
-     * @param id for the team.
-     */
-    public void createNewTeam(String id) {
-        List<Player> players = new ArrayList<>();
-        String teamName = "Team " + id;
-        Team team = new Team(players, teamName, id);
-        teamList.add(team);
-    }
-
-    /**
-     * If hotSwap, checks if name is empty and generates a new name until no other player has the same name.
-     * Then it returns a player with specified name and id.
-     * In the event of a name being used by another player it returns a player with a generated name.
-     *
-     * @param name the name for the player.
-     * @param id   the id for the player.
-     * @return
-     */
-    public Player createNewPlayer(String name, String id) {
-        int i = playerList.size();
-        if (isHotSwap) {
-            while (isPlayerNameTaken(name)) {
-                name = "Player " + i;
-                i++;
-            }
-        }
-        return new Player(name, id);
-    }
-
-    /**
-     * Returns a new player with default name and id.
-     *
-     * @return a new Player object.
-     */
-    public Player createNewPlayer() {
-        String name = getNewPlayerName();
-        String id = name;
-
-        return new Player(name, id);
-    }
-
-
-    /**
-     * Creates a new player name.
-     *
-     * @return new name.
-     */
-    private String getNewPlayerName() {
-        String namePrefix = "Player ";
-        int i = 1;
-        while (isPlayerNameTaken(namePrefix + i)) {
-            i++;
-        }
-        return namePrefix + i;
-    }
-
-    /**
-     * Checks if a player name is taken in order to avoid duplicates.
-     *
-     * @param name the name to be checked.
-     * @return True if name is taken.
-     */
-    private boolean isPlayerNameTaken(String name) {
-        for (Player player : playerList) {
-            if (player.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Removes a specific player from the game and post the change on the BUS.
-     *
-     * @param player the player to bew removed.
-     */
-    public void removePlayer(Player player) {
-        if (getTotalAmountOfPlayers() > 1) { //TODO should we not instead check if player is current player, or is it wrong to have no players
-            for (int i = 0; i < teamList.size(); i++) {
-                teamList.get(i).getTeamMembers().remove(player);
-            }
-            playerList.remove(player);
-
-            fireTeamChangeEvent();
-        }
-    }
-
-    /**
-     * Removes a team from the game.
-     *
-     * @param team the team to be removed.
-     */
-    public void removeTeamIfEmpty(Team team) {
-        if (team.getTeamMembers().size() == 0) {
-            teamList.remove(team);
-        }
-    }
-
-    /**
-     * Changes the team name and posts it on the BUS.
-     *
-     * @param team     team that changes name.
-     * @param teamName The team name that the team changes to.
-     */
-    public void changeTeamName(Team team, String teamName) {
-        int index = teamList.indexOf(team);
-        if (index >= 0) {
-            teamList.get(index).setTeamName(teamName);
-        }
-        fireTeamChangeEvent();
-    }
-
-    /**
-     * Changes a players name and posts it on the BUS.
-     *
-     * @param player the player to have his name changed.
-     * @param name   the new name for the player.
-     */
-    public void changePlayerName(Player player, String name) {
-        if (!player.isReady()) {
-            for (Player player1 : playerList) {
-                if (player1.equals(player)) {
-                    player.setName(name);
-                }
-            }
-            fireTeamChangeEvent();
-        }
-    }
-
-    /**
-     * Get the total amount of players currently in the game.
-     *
-     * @return the number of players.
-     */
-    public int getTotalAmountOfPlayers() {
-        return playerList.size();
-    }
-
-    /**
-     * Resets the entire teams.
-     */
-    public void resetPlayerData() {
-        teamList.clear();
-        playerList.clear();
-        currentPlayer = null;
-    }
-
-    public void resetPlayerReady() {
-        for (Player player : playerList) {
-            player.setReady(false);
-        }
-    }
-
-    public void changeTeam(Player player, String newTeamId) {
-        System.out.println("QuizGame - changeTeam: Triggered!");
-
-        //Remove player from any other team
-        for (int i = teamList.size() - 1; i >= 0; i--) {
-            teamList.get(i).removePlayer(player);
-        }
-
-        //Handle team exist
-        Team team = getTeam(newTeamId);
-        if (team != null) {
-            team.addPlayer(player);
-            fireTeamChangeEvent();
-            return;
-        }
-
-        //Handle team does not exist
-        createNewTeam(newTeamId);
-        team = getTeam(newTeamId);
-        if (team != null) {
-            team.addPlayer(player);
-            fireTeamChangeEvent();
-        }
-    }
-
-    /**
-     * Checks if the newTeamNum exists if not it creates a new team.
-     * Changes the team for the player and posts the change on the BUS.
-     *
-     * @param player     The player that needs to change team.
-     * @param newTeamNum The index for the new team.
-     */
-    public void changeTeam(Player player, int newTeamNum) {
-
-        for (Team team : teamList) {
-            team.removePlayer(player);
-        }
-
-        try {
-            teamList.get(newTeamNum);
-        } catch (IndexOutOfBoundsException e) {
-            createNewTeam(newTeamNum);
-        }
-
-        teamList.get(newTeamNum).getTeamMembers().add(player);
-        fireTeamChangeEvent();
-    }
-
-    /**
-     * fires a teamChangeEvent.
-     */
-    public void fireTeamChangeEvent() {
-        BUS.post(new TeamChangeEvent(teamList));
-    }
-
-
-    /**
-     * Checks if all players are ready by utilizing the players boolean.
-     *
-     * @return
-     */
-    public boolean checkAllPlayersReady() { //todo remove ready-related stuff from player, move responsibility to viewModel
-        for (Player player : playerList) {
-            if (!player.isReady()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Gets a Map with a Player as key and a won item as value.
-     *
-     * @return Map with players and Items.
-     */
-    public Map<Player, Item> getWinnings() {
-        Map<Player, Item> winnings = lottery.drawItem(playerList);
-        applyModifiers(winnings);
-        return winnings;
-    }
-
-    /**
-     * Method takes a map of Players as keys and Items as values and applies each values on each key eg. Player gets Item(value) applied.
-     *
-     * @param winnings a map with winnings.
-     */
-    private void applyModifiers(Map<Player, Item> winnings) {
-        for (Player player : getPlayers()) {
-            if (winnings.get(player) instanceof Buff) {
-                player.setBuff((Buff) Objects.requireNonNull(winnings.get(player)));
-            } else if (winnings.get(player) instanceof Debuff) {
-                player.setDebuff((Debuff) Objects.requireNonNull(winnings.get(player)));
-            } else {
-                player.setVanityItem((VanityItem) Objects.requireNonNull(winnings.get(player)));
-            }
-        }
-    }
-
-    /**
-     * Applies a single modifier on a single player.
-     *
-     * @param player to have a modifier applied to.
-     * @param item   to be applied.
-     */
-    //TODO is this method needed. isn't it the same as the previous one?
-    public void applyModifier(Player player, Item item) {
-        if (item instanceof Buff) {
-            player.setBuff((Buff) item);
-        } else if (item instanceof Debuff) {
-            player.setDebuff((Debuff) item);
-        } else {
-            player.setVanityItem((VanityItem) item);
-        }
+    public void drawLottery() {
+        Map<Player, Item> winnings = lottery.drawItem(playerManager.getPlayers());
+        eventBus.post(new LotteryDrawEvent(winnings));
     }
 
     /**
@@ -739,35 +328,23 @@ public class QuizGame {
         return lottery.getItemList();
     }
 
-    public String getHostPlayerId() {
-        return hostPlayerId;
+    public boolean isStoreItemBuyable(int itemIndex, Player player) {
+        return store.isItemBuyable(itemIndex, player);
     }
 
-    public void setHostPlayerId(String hostPlayerId) {
-        this.hostPlayerId = hostPlayerId;
+    public void buyItem(int itemIndex, Player player) {
+        store.buyItem(itemIndex, player);
     }
 
-
-    public Store getStore() {
-        if (store == null) {
-            store = new Store();
-        }
-        return store;
+    public boolean isStoreItemBought(int itemIndex) {
+        return store.isItemBought(itemIndex);
     }
 
-    public void incrementCurrentPlayer() {
-        if (playerList.indexOf(currentPlayer) + 1 < playerList.size()) {
-            currentPlayer = playerList.get(playerList.indexOf(currentPlayer) + 1);
-        } else {
-            currentPlayer = playerList.get(0);
-        }
+    public Item getStoreItem(int itemIndex) {
+        return store.getStoreItems().get(itemIndex);
     }
 
     public boolean isHotSwap() {
-        return isHotSwap;
-    }
-
-    public void setHotSwap(boolean hotSwap) {
-        isHotSwap = hotSwap;
+        return gameMode.equals(GameMode.HOT_SWAP);
     }
 }

@@ -1,6 +1,8 @@
 package com.god.kahit.Events;
 
-public class CategoryVoteResultEvent {
+import com.god.kahit.model.IEvent;
+
+public class CategoryVoteResultEvent implements IEvent {
     private String categoryId;
 
     public CategoryVoteResultEvent(String categoryId) {

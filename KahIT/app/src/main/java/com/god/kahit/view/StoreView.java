@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @responsibility: a fragment class for the view of the store where players can buy items.
+ * @responsibility: a fragment class for the view of the store where players can buyItem items.
  * This fragment class is included in the QuestionView class.
  * @used-by: This class is used in the following classes:
  * QuestionView.
@@ -81,8 +81,8 @@ public class StoreView extends Fragment {
      */
     private void populateItemIcons() {
         Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
-        for (int i = 0; i < storeViewModel.getStoreItems().size(); i++) {
-            int resId = getResources().getIdentifier(imageNameMap.get(storeViewModel.getStoreItems().get(i).getName()), "drawable", getActivity().getPackageName());
+        for (int i = 0; i < itemButtons.size(); i++) {
+            int resId = getResources().getIdentifier(imageNameMap.get(storeViewModel.getItem(i).getName()), "drawable", getActivity().getPackageName());
             itemsIcons.get(i).setImageResource(resId);
         }
     }
@@ -144,7 +144,7 @@ public class StoreView extends Fragment {
 
     /**
      * A method that sets an action to each button that has been add to itemButtons list. The action
-     * is a method call that lets the user buy an item
+     * is a method call that lets the user buyItem an item
      */
     private void addActionsToButtons() {
         for (final Button itemButton : itemButtons) {
@@ -158,10 +158,10 @@ public class StoreView extends Fragment {
     }
 
     /**
-     * A method that lets the user buy an item from store and displays that the item has been
+     * A method that lets the user buyItem an item from store and displays that the item has been
      * bought by a graphical confirmation and a toast message
      *
-     * @param itemButton is which button has been clicked which is need in order to buy the
+     * @param itemButton is which button has been clicked which is need in order to buyItem the
      *                   associated item
      */
     @SuppressLint("SetTextI18n")
@@ -178,13 +178,13 @@ public class StoreView extends Fragment {
 
     private void showToast(int i) {
         Toast toast = Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),
-                "You got " + storeViewModel.getItemName(i),
+                "You got " + storeViewModel.getItem(i).getName(),
                 Toast.LENGTH_LONG);
         toast.show();
     }
 
     /**
-     * A method that disables the buttons used to buy items when the player's points are lower than
+     * A method that disables the buttons used to buyItem items when the player's points are lower than
      * the price of an item
      */
     private void disableButtons() {
@@ -201,7 +201,7 @@ public class StoreView extends Fragment {
     @SuppressLint("SetTextI18n")
     private void setButtonText() {
         for (int i = 0; i < itemButtons.size(); i++) {
-            itemButtons.get(i).setText(Integer.toString(storeViewModel.getItemPrice(i)));
+            itemButtons.get(i).setText(Integer.toString(storeViewModel.getItem(i).getPrice()));
         }
     }
 
@@ -217,7 +217,7 @@ public class StoreView extends Fragment {
     }
 
     /**
-     * A method that disables a bought item so only one player can buy the item
+     * A method that disables a bought item so only one player can buyItem the item
      * until the store gets restocked.
      *
      * @param i: The index of the item to be disabled.

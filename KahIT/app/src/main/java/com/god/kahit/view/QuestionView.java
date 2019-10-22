@@ -41,7 +41,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class QuestionView extends AppCompatActivity {
     private static final String LOG_TAG = QuestionView.class.getSimpleName();

@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.model.GameMode;
 import com.god.kahit.viewModel.HotSwapGameModeViewModel;
 
 import java.util.ArrayList;
@@ -35,12 +36,6 @@ public class HotSwapGameModeView extends AppCompatActivity {
 
         hotSwapGameModeViewModel = ViewModelProviders.of(this).get(HotSwapGameModeViewModel.class);
         gameModes = hotSwapGameModeViewModel.getGameModes();
-        hotSwapGameModeViewModel.getGameModes().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> strings) {
-
-            }
-        });
         initGameModeButtons();
     }
 
@@ -102,6 +97,6 @@ public class HotSwapGameModeView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Repository.getInstance().setIsHotSwap(true);
+        Repository.getInstance().setupNewGameInstance(GameMode.HOT_SWAP);
     }
 }

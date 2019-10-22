@@ -16,7 +16,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = JoinLobbyViewModel.class.getSimpleName();
@@ -57,10 +57,6 @@ public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
             roomListForView = new MutableLiveData<>();
         }
         return roomListForView;
-    }
-
-    public void resetPlayerData() {
-        repository.resetPlayerData();
     }
 
     public void setupNetwork(Context context) {

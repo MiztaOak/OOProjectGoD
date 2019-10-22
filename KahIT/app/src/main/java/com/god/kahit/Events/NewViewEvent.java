@@ -1,6 +1,8 @@
 package com.god.kahit.Events;
 
-public class NewViewEvent {
+import com.god.kahit.model.IEvent;
+
+public class NewViewEvent implements IEvent {
     private Class<?> newViewClass;
 
     public NewViewEvent(Class<?> newViewClass) {

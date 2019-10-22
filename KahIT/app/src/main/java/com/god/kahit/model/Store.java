@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @responsibility: This class is responsible for the store in the game. It handles the
- * information need to buy items for different players.
+ * information need to buyItem items for different players.
  * <p>
  * used-by: This class is used in the following classes:
  * QuizGame.
@@ -21,11 +21,11 @@ public class Store { //todo implement a method to restock store?
     }
 
     /**
-     * A method that checks if a given player can buy a given item
+     * A method that checks if a given player can buyItem a given item
      *
-     * @param i      the index of the item the player wishes to buy
-     * @param player which player wants to buy an item
-     * @return returns if the player's score is enough to buy the item and if the player
+     * @param i      the index of the item the player wishes to buyItem
+     * @param player which player wants to buyItem an item
+     * @return returns if the player's score is enough to buyItem the item and if the player
      * doesn't have an item
      */
 //TODO uncomment this when done testing
@@ -38,7 +38,7 @@ public class Store { //todo implement a method to restock store?
     }
 
     /**
-     * A method that checks if an item is bought so players cannot buy the same item.
+     * A method that checks if an item is bought so players cannot buyItem the same item.
      *
      * @param i: the index of an item.
      * @return : boolean that indicates if an item is bought an the list of bought items contains it.
@@ -48,12 +48,12 @@ public class Store { //todo implement a method to restock store?
     }
 
     /**
-     * A method that lets a player buy an item.
+     * A method that lets a player buyItem an item.
      *
-     * @param i:      the index of an item the player wishes to buy.
-     * @param player: the player wishing to buy in item.
+     * @param i:      the index of an item the player wishes to buyItem.
+     * @param player: the player wishing to buyItem in item.
      */
-    public void buy(int i, Player player) {
+    public void buyItem(int i, Player player) {
         Item item = storeItems.get(i);
         boughtItems.add(item);
         setItemToPlayer(i, player);
@@ -78,7 +78,7 @@ public class Store { //todo implement a method to restock store?
     }
 
     /**
-     * A method that clears all the bought items so store gets restocked and players can buy again
+     * A method that clears all the bought items so store gets restocked and players can buyItem again
      */
     private void restockStore() {
         if (boughtItems.size() == storeItems.size()) {
@@ -87,7 +87,7 @@ public class Store { //todo implement a method to restock store?
     }
 
     /**
-     * A method that returns the items in store that are available for the player to buy.
+     * A method that returns the items in store that are available for the player to buyItem.
      *
      * @return List of items.
      */
