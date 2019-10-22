@@ -98,6 +98,7 @@ public class QuestionView extends AppCompatActivity {
         answers.add(answer2);
         answers.add(answer3);
         answers.add(answer4);
+        addActionToAnswers();
     }
 
     private void setupListeners(final Bundle savedInstanceState) {
@@ -206,6 +207,7 @@ public class QuestionView extends AppCompatActivity {
     }
 
     /**
+<<<<<<< HEAD
      * specifies what happens when an answer has been clicked.
      */
     public void OnAnswerClicked(View view) {
@@ -298,6 +300,8 @@ public class QuestionView extends AppCompatActivity {
     }
 
     /**
+=======
+>>>>>>> fixed auto answer debuff
      * populates the textView where the question is displayed.
      *
      * @param question The question to be asked as a String.
@@ -309,6 +313,7 @@ public class QuestionView extends AppCompatActivity {
 
     /**
      * populates the different textViews for all 4 different answers.
+     * This method calls for a method that checks for buffs and debuffs too.
      *
      * @param answers is a List of Strings with alternative answers for the question.
      */
@@ -317,40 +322,51 @@ public class QuestionView extends AppCompatActivity {
         for (int i = 0; i < qAnswersTextViews.length; i++) {
             qAnswersTextViews[i].setText(answers.get(i));
         }
-        if (model.halfTheAlternatives()){
-            halfTheAlternativesEffect(answers);
+        checkForEffects();
+    }
+
+    /**
+     * A method that checks for buffs and debuffs to run their visual effects.
+     */
+    private void checkForEffects(){
+        if (model.isHalfTheAlternatives()){
+            halfTheAlternativesEffect(answers.size());
         }else if(model.isAutoAnswer()){
             runAutoAnswer();
         }
     }
-
+    /**
+     * A method that sets an action to the text views that hold alternatives for the question.
+     * Calls for the answer method in the model view.
+     */
+    private void addActionToAnswers(){
+        for (TextView answer: answers) {
+            answer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    model.onAnswerClicked(view, animator, answers);
+                }
+            });
+        }
+    }
     /**
      * A method that starts the effect of the Fifty fifty buff,
      * which is to hide two answers out of 4.
      * This method should not hide the right alternative.
      *
-     * @param alternatives: A list of strings which are the alternatives
-     * to find the right one from
+     * @param size: The size of the list of strings which are the alternatives
      */
-    private void halfTheAlternativesEffect(List<String> alternatives){
-        int checker = 0;
-        for (int i = 0; i < alternatives.size(); i++){
-            if(checker == 2){
-                break;
-            }
-            if(i != model.getAnswerIndex()){
-                answers.get(i).setVisibility(View.INVISIBLE);
-                checker++;
-            }
-        }
+    private void halfTheAlternativesEffect(int size){
+        answers.get(model.getTwoIndees(size).first).setVisibility(View.INVISIBLE);
+        answers.get(model.getTwoIndees(size).second).setVisibility(View.INVISIBLE);
     }
 
     /**
      * A method that runs the autoAnswer debuff effect.
      */
     public void runAutoAnswer(){
-        //TODO fix this
-        //OnAnswerClicked
+        answers.get(model.autoChooseAnswer()).performClick();
+
     }
     /**
      * Sets the current player1 name in "hotswap/hot seat" mode.
