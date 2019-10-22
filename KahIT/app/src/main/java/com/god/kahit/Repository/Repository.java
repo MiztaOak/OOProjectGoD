@@ -930,7 +930,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
      *
      * @return : boolean which indicates if a player has the buff or not.
      */
-    public boolean halfTheAlternatives(){
+    public boolean isHalfTheAlternatives(){
         return (playerManager.getCurrentPlayer().getAmountOfAlternatives() != 0);
     }
 

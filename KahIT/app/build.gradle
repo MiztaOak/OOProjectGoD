@@ -31,7 +31,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0"
     testImplementation 'androidx.test:core:1.2.0'
-    testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation "com.google.truth:truth:1.0"
     testImplementation group: 'com.google.truth.extensions', name: 'truth-java8-extension', version: '0.40'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
@@ -44,6 +43,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.google.firebase:firebase-firestore:21.1.1'
     implementation 'com.google.firebase:firebase-database:19.1.0'
+
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
 }
 
 apply plugin: 'com.google.gms.google-services'
