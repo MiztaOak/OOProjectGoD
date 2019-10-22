@@ -2,6 +2,7 @@ package com.god.kahit.viewModel;
 
 import android.animation.ObjectAnimator;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
@@ -210,8 +211,8 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
      *
      * @return : boolean which indicates if a player has the buff or not.
      */
-    public boolean halfTheAlternatives(){
-        return Repository.getInstance().halfTheAlternatives();
+    public boolean isHalfTheAlternatives(){
+        return Repository.getInstance().isHalfTheAlternatives();
     }
 
     /**
@@ -226,6 +227,17 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
             }
         }
         return 0;
+    }
+
+    /**
+     * A method that calculates two indexes out of a given size of a list
+     * @param size
+     * @return
+     */
+    public Pair<Integer, Integer> getTwoIndees(int size){
+        int firstValue = (getAnswerIndex()+1)%size;
+        int secondValue = (getAnswerIndex()-1)%size;
+        return new Pair<>(firstValue,secondValue);
     }
 
     /**
