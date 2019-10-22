@@ -64,4 +64,5 @@ public class Question {
     public boolean isCorrectAnswer(String givenAnswer) {
         return givenAnswer.equals(answer);
     }
+
 }

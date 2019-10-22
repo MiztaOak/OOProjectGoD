@@ -10,10 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,7 +21,6 @@ import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.Events.PlayerAnsweredQuestionEvent;
 import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
 import com.god.kahit.viewModel.QuestionViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -350,7 +346,7 @@ public class QuestionView extends AppCompatActivity {
      *
      * @param question The question to be asked as a String.
      */
-    private void populateQuestionTextView(String question) {
+    public void populateQuestionTextView(String question) {
         TextView questionTextView = findViewById(R.id.qQuestionTextView);
         questionTextView.setText(question);
     }
@@ -497,11 +493,11 @@ public class QuestionView extends AppCompatActivity {
      * Calls for the answer method in the model view.
      */
     private void addActionToAnswers(){
-        for (TextView answer: answers) {
+        for (final TextView answer: answers) {
             answer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    model.onAnswerClicked(view, animator, answers);
+                    model.onAnswerClicked(answers.indexOf(answer), animator);
                     indexOfClickedView = answers.indexOf(view);
                     greyOutAnswers();
                 }
@@ -516,8 +512,8 @@ public class QuestionView extends AppCompatActivity {
      * @param size: The size of the list of strings which are the alternatives
      */
     private void halfTheAlternativesEffect(int size){
-        answers.get(model.getTwoIndees(size).first).setVisibility(View.INVISIBLE);
-        answers.get(model.getTwoIndees(size).second).setVisibility(View.INVISIBLE);
+        answers.get(model.getTwoIndexes(size).first).setVisibility(View.INVISIBLE);
+        answers.get(model.getTwoIndexes(size).second).setVisibility(View.INVISIBLE);
     }
 
     /**

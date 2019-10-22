@@ -3,8 +3,10 @@ package com.god.kahit.viewModel;
 import android.animation.ObjectAnimator;
 import android.util.Log;
 import android.util.Pair;
-import android.view.View;
-import android.widget.TextView;
+
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.god.kahit.Events.NewViewEvent;
 import com.god.kahit.Repository.Repository;
@@ -15,10 +17,6 @@ import com.god.kahit.view.AfterQuestionScorePageView;
 
 import java.util.List;
 import java.util.Objects;
-
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.model.QuizGame.BUS;
 
@@ -82,20 +80,28 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     /**
      * Method that is run when the user presses one of the alternatives in the questionActivity
      *
-     * @param view      - the view that the user pressed
+     * @param index     - the view that the user pressed
      * @param animation - the animation of the progressbar
-     * @param answers   - a list with all of the alternative buttons
      */
-    public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers) {
-        String alternative = answers.get(answers.indexOf(view)).getText().toString();
+    public void onAnswerClicked(int index, ObjectAnimator animation) {
+        String alternative = getAnswerString(index);
         long timeLeft = animation.getDuration() - animation.getCurrentPlayTime();
 
         if (currentQuestion.isCorrectAnswer(alternative)) {
             isCorrectAnswer = true;
         }
         repository.sendAnswer(alternative, currentQuestion, timeLeft / 1000);
+        System.out.println("-------------------------------------------------------------------");
     }
 
+    private String getAnswerString(int index) {
+        if (questionAlts.getValue() != null) {
+            return questionAlts.getValue().get(index);
+        } else {
+            Log.d(LOG_TAG, "getAnswerString: Attempt to call size on null questionAlts.getValue(), returning '' ");
+            return "";
+        }
+    }
 
     public String getMyPlayerId() {
         if (isHost()) {
@@ -162,15 +168,17 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     public boolean isCorrectAnswer() {
         return isCorrectAnswer;
     }
-    public boolean isAutoAnswer(){
+
+    public boolean isAutoAnswer() {
         return Repository.getInstance().isAutoAnswer();
     }
+
     /**
      * A method that checks if the current player has the fifty fifty buff.
      *
      * @return : boolean which indicates if a player has the buff or not.
      */
-    public boolean isHalfTheAlternatives(){
+    public boolean isHalfTheAlternatives() {
         return Repository.getInstance().isHalfTheAlternatives();
     }
 
@@ -179,9 +187,9 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
      *
      * @return : An int which is the index of the answer;
      */
-    private int getAnswerIndex(){
+    private int getAnswerIndex() {
         for (int i = 1; i < Objects.requireNonNull(questionAlts.getValue()).size(); i++) {
-            if(currentQuestion.getAnswer().equals(questionAlts.getValue().get(i))){
+            if (currentQuestion.getAnswer().equals(questionAlts.getValue().get(i))) {
                 return i;
             }
         }
@@ -190,20 +198,63 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
 
     /**
      * A method that calculates two indexes out of a given size of a list
+     *
      * @param size
      * @return
      */
-    public Pair<Integer, Integer> getTwoIndees(int size){
-        int firstValue = (getAnswerIndex()+1)%size;
-        int secondValue = (getAnswerIndex()-1)%size;
-        return new Pair<>(firstValue,secondValue);
+    public Pair<Integer, Integer> getTwoIndexes(int size) {
+        int firstValue = (getAnswerIndex() + 1) % size;
+        int secondValue = (getAnswerIndex() - 1) % size;
+        return new Pair<>(firstValue, secondValue);
     }
 
     /**
      * A method that randomizes an index of answer
+     *
      * @return : An int which will be the index of the answer, between 0 and 3
      */
     public int autoChooseAnswer() {
-        return (int) (Math.random() * 3);
+        if (questionAlts.getValue() != null) {
+            return (int) (Math.random() * (questionAlts.getValue()).size());
+        } else {
+            Log.i(LOG_TAG, "autoChooseAnswer: Attempt to call size on null questionAlts.getValue(), returning 0");
+            return 0;
+        }
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
+    }
+
+    public void setQuestionText(MutableLiveData<String> questionText) {
+        this.questionText = questionText;
+    }
+
+    public void setQuestionAlts(MutableLiveData<List<String>> questionAlts) {
+        this.questionAlts = questionAlts;
+    }
+
+    public void setQuestionTime(MutableLiveData<Integer> questionTime) {
+        this.questionTime = questionTime;
+    }
+
+    public void setPlayerName(MutableLiveData<String> playerName) {
+        this.playerName = playerName;
+    }
+
+    public void setCurrentQuestion(Question currentQuestion) {
+        this.currentQuestion = currentQuestion;
+    }
+
+    public void setCorrectAnswer(boolean correctAnswer) {
+        isCorrectAnswer = correctAnswer;
+    }
+
+    public void setNumOfRepeats(int numOfRepeats) {
+        this.numOfRepeats = numOfRepeats;
+    }
+
+    public Question getCurrentQuestion() {
+        return currentQuestion;
     }
 }
