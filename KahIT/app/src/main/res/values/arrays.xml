@@ -10,4 +10,11 @@
         <item>@color/yellow</item>
         <item>@color/brown</item>
     </integer-array>
+
+    <integer-array name="answerColors">
+        <item>@color/not_so_dark_green</item>
+        <item>@color/not_so_dark_red</item>
+        <item>@color/goldenrod</item>
+        <item>@color/blue</item>
+    </integer-array>
 </resources>

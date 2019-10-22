@@ -51,10 +51,11 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
         simpleItemTouchCallback = new HotSwapTouchHelper(this) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                hotSwapAddPlayersViewModel.removePlayer(viewHolder.getAdapterPosition());
+                if (!(viewHolder.getItemViewType() == 1)) {
+                    hotSwapAddPlayersViewModel.removePlayer(viewHolder.getAdapterPosition());
+                }
             }
         };
-
         setupRecyclerView();
     }
 
