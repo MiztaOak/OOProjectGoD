@@ -24,7 +24,7 @@ public class ChooseGameView extends AppCompatActivity {
         super.onStart();
         Repository.getInstance().resetApp(); //todo move to a viewModel?
     }
-
+    
     public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityView.class);

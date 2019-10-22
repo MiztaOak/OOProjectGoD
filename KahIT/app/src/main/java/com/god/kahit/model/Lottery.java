@@ -5,21 +5,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Lottery {
-    List<Item> itemList;
-    Map<Player, Item> winnings;
 
-    public Lottery() {
-        this.itemList = ItemFactory.createStoreItems(3);
+/**
+ * @responsibility: This class is responsible for the Lottery in the game.
+ * @used-by: QuizGame.
+ * @author: Oussama Anadani
+ */
+public class Lottery {
+    private List<Item> itemList; // buffs or debuffs
+    private Map<Player, Item> winnings; // won item that player gets
+
+    Lottery() {
+        this.itemList = ItemFactory.createStoreItems(3); // number of buffs and debuffs in the item factory
     }
 
-    public List<Item> getItemList() {
+    List<Item> getItemList() {
         return itemList;
     }
 
-    public Map<Player, Item> drawItem(List<Player> playerList) {
+    /**
+     * This method does the lottery.
+     * It assigns the winning item to the players.
+     * @param playerList A list of players that the winning item will be assigned to.
+     */
+    Map<Player, Item> drawItem(List<Player> playerList) {
         winnings = new HashMap<>();
-        for(Player player: playerList) {
+        for (Player player : playerList) {
             Collections.shuffle(this.itemList);
             winnings.put(player, itemList.get(0));
         }
