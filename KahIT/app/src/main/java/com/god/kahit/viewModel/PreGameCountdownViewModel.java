@@ -78,11 +78,7 @@ public class PreGameCountdownViewModel extends ViewModel {
     }
 
     public String getMyPlayerId() {
-        if (isHost()) {
-            return repository.getLocalPlayer().getId();
-        } else {
-            return repository.getClientPlayerId();
-        }
+        return repository.getCurrentPlayer().getId();
     }
 
     public void resetPlayersReady() {

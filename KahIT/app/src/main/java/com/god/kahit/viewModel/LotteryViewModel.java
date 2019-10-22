@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModel;
  * @author: Jakob Ewerstrand
  */
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
-
     private static final String TAG = LotteryViewModel.class.getSimpleName();
 
     private MutableLiveData<Map<Player, Item>> mapWinningsLiveData;

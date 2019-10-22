@@ -94,7 +94,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.god.kahit.view.HotSwapGameModeView" />
+                android:value="com.god.kahit.view.ChooseGameView" />
         </activity>
         <activity
             android:name=".view.HotSwapGameModeView"

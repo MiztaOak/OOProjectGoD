@@ -73,7 +73,7 @@ public class PlayerManager {
         return null;
     }
 
-    public Player getLocalPlayer() {
+    private Player getLocalPlayer() {
         return getPlayer(localPlayerId);
     }
 
@@ -152,8 +152,12 @@ public class PlayerManager {
         }
     }
 
+    public void changeTeam(String playerId, String newTeamId) {
+        changeTeam(getPlayer(playerId), newTeamId);
+    }
+
     public void changeTeam(Player player, String newTeamId) {
-        System.out.println("QuizGame - changeTeam: Triggered!");
+        System.out.println("PlayerManager - changeTeam: Triggered!");
 
         //Remove player from any other team
         for (int i = teamList.size() - 1; i >= 0; i--) {
@@ -351,6 +355,10 @@ public class PlayerManager {
 
             fireTeamChangeEvent();
         }
+    }
+
+    public void removePlayer(String playerId) {
+        removePlayer(getPlayer(playerId));
     }
 
     /**

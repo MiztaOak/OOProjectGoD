@@ -46,13 +46,13 @@ public interface NetworkManager {
 
     void disconnect(Connection connection);
 
-    String getPlayerName();
+    String getMyConnectionName();
 
-    void setPlayerName(String name);
+    void setMyConnectionName(String name);
 
-    String getPlayerId();
+    String getMyConnectionId();
 
-    void setPlayerId(String PlayerId);
+    void setMyConnectionId(String id);
 
     boolean isQueuingIncomingPayloads();
 

@@ -28,6 +28,7 @@ import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = LobbyNetViewModel.class.getSimpleName();
+    private static final int MINIMUM_PLAYERS_FOR_GAME = 0; //set to 1 to disable solo-game
     private Repository repository;
     private MutableLiveData<List<Pair<Player, Connection>>> playerListForView;
     private MutableLiveData<List<Team>> teamListForView;
@@ -78,7 +79,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         if (myPlayerId == null) {
             myPlayerId = new MutableLiveData<>();
             if (isHost) {
-                myPlayerId.setValue(repository.getLocalPlayer().getId());
+                myPlayerId.setValue(repository.getCurrentPlayer().getId());
             }
         }
         return myPlayerId;
@@ -199,15 +200,13 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         return popTeams;
     }
 
-    private List<Team> sortListById(List idList) {
+    private void sortListById(List idList) {
         Collections.sort(idList, new Comparator<Team>() {
             @Override
             public int compare(Team o1, Team o2) {
                 return o1.getId().compareTo(o2.getId());
             }
         });
-
-        return idList;
     }
 
     public void startHostBeacon() {
@@ -262,7 +261,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
 
     public boolean areAllPlayersReady() {
         boolean allAreReady = true;
-        if (playerListForView.getValue() != null && playerListForView.getValue().size() > 0) { //todo set minimum size to 1, to disable solo-game
+        if (playerListForView.getValue() != null && playerListForView.getValue().size() > MINIMUM_PLAYERS_FOR_GAME) {
             for (Pair<Player, Connection> playerConnectionPair : playerListForView.getValue()) {
                 if (!playerConnectionPair.first.isReady()) {
                     allAreReady = false;

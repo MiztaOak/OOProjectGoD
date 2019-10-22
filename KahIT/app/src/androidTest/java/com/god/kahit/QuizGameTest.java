@@ -3,10 +3,13 @@ package com.god.kahit;
 import android.app.Instrumentation;
 import android.os.Looper;
 
+import com.god.kahit.Events.EventBusGreenRobot;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
+import com.god.kahit.model.GameMode;
 import com.god.kahit.model.ItemFactory;
+import com.god.kahit.model.PlayerManager;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
@@ -37,7 +40,7 @@ public class QuizGameTest implements QuizListener {
             ItemFactory.setDataLoader(new ItemDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
         }
 
-        quizGame = new QuizGame();
+        quizGame = new QuizGame(new EventBusGreenRobot(), new PlayerManager(new EventBusGreenRobot(), GameMode.HOT_SWAP), GameMode.HOT_SWAP);
         TimeUnit.SECONDS.sleep(5);
     }
 

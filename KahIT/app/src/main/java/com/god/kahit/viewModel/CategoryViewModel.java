@@ -60,11 +60,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public String getMyPlayerId() {
-        if (isHost()) {
-            return repository.getLocalPlayer().getId();
-        } else {
-            return repository.getClientPlayerId();
-        }
+        return repository.getCurrentPlayer().getId();
     }
 
     public void resetPlayersReady() {
@@ -111,7 +107,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
 
     public void voteCategory(int index) {
         if (isHost()) {
-            BUS.post(new PlayerVotedCategoryEvent(repository.getLocalPlayer(), categories[index].getId()));
+            BUS.post(new PlayerVotedCategoryEvent(repository.getCurrentPlayer(), categories[index].getId()));
         } else {
             repository.sendCategoryVote(categories[index].getId());
         }

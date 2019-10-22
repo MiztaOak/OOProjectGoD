@@ -96,11 +96,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
 
 
     public String getMyPlayerId() {
-        if (isHost()) {
-            return repository.getLocalPlayer().getId();
-        } else {
-            return repository.getClientPlayerId();
-        }
+        return repository.getCurrentPlayer().getId();
     }
 
     public void sendIsReady() {

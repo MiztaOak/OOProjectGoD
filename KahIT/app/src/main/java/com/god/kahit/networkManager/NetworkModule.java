@@ -645,45 +645,45 @@ public class NetworkModule implements NetworkManager {
     }
 
     @Override
-    public String getPlayerName() {
+    public String getMyConnectionName() {
         return playerName;
     }
 
     @Override
-    public void setPlayerName(String name) {
+    public void setMyConnectionName(String name) {
         if (name == null) {
-            Log.i(TAG, "setPlayerName: ERROR invalid playername, null string: '" + name + "'");
+            Log.i(TAG, "setMyConnectionName: ERROR invalid playername, null string: '" + name + "'");
             return;
         }
 
         if (name.equals("")) {
-            Log.i(TAG, "setPlayerName: ERROR invalid playername, empty string: '" + name + "'");
+            Log.i(TAG, "setMyConnectionName: ERROR invalid playername, empty string: '" + name + "'");
             return;
         }
 
         if (name.contains("\\")) {
-            Log.i(TAG, "setPlayerName: ERROR invalid playername, contains illegal characters: '" + name + "'");
+            Log.i(TAG, "setMyConnectionName: ERROR invalid playername, contains illegal characters: '" + name + "'");
             return;
         }
 
         if (name.length() > MAX_PLAYERNAME_LENGTH) {
-            Log.i(TAG, "setPlayerName: ERROR invalid playername, string too long: '" + name + "'");
+            Log.i(TAG, "setMyConnectionName: ERROR invalid playername, string too long: '" + name + "'");
             return;
         }
 
-        Log.i(TAG, "setPlayerName: setting playername: '" + name + "'");
+        Log.i(TAG, "setMyConnectionName: setting playername: '" + name + "'");
         playerName = name;
     }
 
     @Override
-    public String getPlayerId() {
+    public String getMyConnectionId() {
         return playerId;
     }
 
     @Override
-    public void setPlayerId(String playerId) {
-        Log.i(TAG, "setPlayerId: : setting playerId: '" + playerId + "'");
-        this.playerId = playerId;
+    public void setMyConnectionId(String id) {
+        Log.i(TAG, "setMyConnectionId: : setting playerId: '" + id + "'");
+        this.playerId = id;
     }
 
     @Override

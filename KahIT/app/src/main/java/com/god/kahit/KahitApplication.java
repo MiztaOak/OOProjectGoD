@@ -18,7 +18,5 @@ public class KahitApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        ItemFactory.setDataLoader(new ItemDataLoaderRealtime(getApplicationContext()));
-        QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(getApplicationContext()));
     }
 }

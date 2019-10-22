@@ -83,7 +83,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
 
     public void launchBackHotSwapGameModeClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, HotSwapGameModeView.class);
+        Intent intent = new Intent(this, ChooseGameView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

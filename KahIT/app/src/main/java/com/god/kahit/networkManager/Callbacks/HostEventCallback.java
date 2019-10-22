@@ -12,7 +12,7 @@ public abstract class HostEventCallback {
                                                  @NonNull String newName);
 
     public abstract void onPlayerReadyChangeEvent(@NonNull String targetPlayerId,
-                                                  @NonNull boolean newState);
+                                                  boolean newState);
 
     public abstract void onTeamNameChangeEvent(@NonNull String teamId,
                                                @NonNull String newTeamName);
