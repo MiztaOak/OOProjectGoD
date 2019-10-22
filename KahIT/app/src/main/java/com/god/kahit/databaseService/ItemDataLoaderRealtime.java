@@ -1,17 +1,12 @@
 package com.god.kahit.databaseService;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.god.kahit.R;
 import com.god.kahit.model.Buff;
 import com.god.kahit.model.Debuff;
-import com.god.kahit.model.Item;
 import com.god.kahit.model.IItemDataLoader;
+import com.god.kahit.model.Item;
 import com.god.kahit.model.VanityItem;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
@@ -33,7 +29,7 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
  * A helper class for the Firebase realtime database, that loads the item data from the database and
  * and stores it inside of a list of items and a map that pairs the names of items and the names of
  * their images
- *
+ * <p>
  * used by: LotteryView, StoreView, Repository
  *
  * @author Johan Ek
@@ -78,16 +74,16 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
                 DataSnapshot vanityData = dataSnapshot.child("vanityItems");
 
                 for (DataSnapshot itemData : buffData.getChildren()) {
-                    Item i = getItem(itemData);
+                    Item i = getItem(itemData, "buffs");
                     buffList.add((Buff) i);
                 }
                 for (DataSnapshot itemData : debuffData.getChildren()) {
-                    Item i = getItem(itemData);
+                    Item i = getItem(itemData, "debuffs");
                     debuffList.add((Debuff) i);
                 }
 
                 for (DataSnapshot itemData : vanityData.getChildren()) {
-                    Item i = getItem(itemData);
+                    Item i = getItem(itemData, "vanityItems");
                     vanityItemList.add((VanityItem) i);
                 }
             }
@@ -105,38 +101,24 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
      * @param itemData the DataSnapshot pointing at the data for the item
      * @return the item that the data was converted into
      */
-    private Item getItem(DataSnapshot itemData) {
-        int price = ((Long) Objects.requireNonNull(itemData.child("price").getValue())).intValue();
-
-        String name = (String) itemData.child("name").getValue();
-        String imgName = (String) itemData.child("img_name").getValue();
-        String id = (String) itemData.child("id").getValue();
-
-        itemImageNameMap.put(Objects.requireNonNull(name), Objects.requireNonNull(imgName));
-
-        if (itemData.child("scoreMultiplier").exists()) { //If there is a scoreMulti then its a buff or debuff
-            return createBufforDebuff(itemData,price, name,id);
+    private Item getItem(DataSnapshot itemData, String key) {
+        ItemDataHolder itemDataHolder = null;
+        switch (key) {
+            case "buffs":
+                itemDataHolder = itemData.getValue(BuffDataHolder.class);
+                break;
+            case "debuffs":
+                itemDataHolder = itemData.getValue(DebuffDataHolder.class);
+                break;
+            case "vanityItems":
+                itemDataHolder = itemData.getValue(VanityItemDataHolder.class);
+                break;
         }
-        return new VanityItem(price, name, id);
-    }
-
-    private Item createBufforDebuff(DataSnapshot itemData, int price, String name, String id){
-        double scoreMultiplier;
-        if (itemData.child("scoreMultiplier").getValue() instanceof Long) {
-            scoreMultiplier = ((Long) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue())).doubleValue();
-        } else {
-            scoreMultiplier = ((Double) Objects.requireNonNull(itemData.child("scoreMultiplier").getValue()));
+        if (itemDataHolder != null) {
+            itemImageNameMap.put(itemDataHolder.getName(),itemDataHolder.getImg_name());
+            return itemDataHolder.createItem();
         }
-
-        int timeHeadstart = ((Long) Objects.requireNonNull(itemData.child("timeHeadstart").getValue())).intValue();
-
-        if (itemData.child("autoAlt").exists()) { //If autoAlt exists then its a debuff
-            boolean autorAlt = (Boolean) Objects.requireNonNull(itemData.child("autoAlt").getValue());
-            return new Debuff(price, name, scoreMultiplier, timeHeadstart, autorAlt,id);
-        }
-
-        int amountOfAlternatives = ((Long) Objects.requireNonNull(itemData.child("amountOfAlternatives").getValue())).intValue();
-        return new Buff(name, price, scoreMultiplier, timeHeadstart, amountOfAlternatives, id);
+        return null;
     }
 
 

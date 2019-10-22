@@ -129,6 +129,9 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
      */
     private Question getQuestion(DataSnapshot document, Category category){
        QuestionDataHolder questionDataHolder = document.getValue(QuestionDataHolder.class);
-       return questionDataHolder.createQuestion(category);
+       if(questionDataHolder != null){
+           return questionDataHolder.createQuestion(category);
+       }
+       return null;
     }
 }
