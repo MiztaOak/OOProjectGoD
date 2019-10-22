@@ -38,34 +38,32 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/kahit" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lobby"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taLogoImageView" />
-
         <LinearLayout
             android:id="@+id/linearLayoutRoomName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4">
+            app:layout_constraintTop_toBottomOf="@+id/taLogoImageView">
 
             <TextView
                 android:id="@+id/lobbyNetRoomName_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LOOT MANSION"
+                android:fontFamily="@font/bevietnamextrabolditalic"
+                android:paddingEnd="5dp"
+                android:shadowColor="@color/kahitStandard"
+                android:shadowDx="1.5"
+                android:shadowDy="1.3"
+                android:shadowRadius="1.6"
+                android:text="@string/loot_mansion"
                 android:textSize="23sp"
                 android:textStyle="bold"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:ignore="RtlSymmetry" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputRoomName"
@@ -90,32 +88,21 @@
             android:id="@+id/lobbyNet_GameMode_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Game mode"
+            android:layout_marginTop="6dp"
+            android:text="@string/game_mode"
+            android:fontFamily="@font/bevietnamextrabolditalic"
+            android:shadowColor="@color/kahitStandard"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:background="@drawable/game_mode_button_selected"
+            android:shadowDx="1.5"
+            android:shadowDy="1.3"
+            android:shadowRadius="1.6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutRoomName" />
-
-        <TextView
-            android:id="@+id/team_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="2dp"
-            android:text="Team"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout6" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="2dp"
-            android:text="Player list"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout6"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout6" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout6"
@@ -170,7 +157,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Players: 1/8"
+            android:text="@string/players_1_8"
+            android:fontFamily="@font/bevietnamextrabolditalic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -179,7 +167,10 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="All players must be ready to start the game"
+            android:text="@string/all_players_must_be_ready_to_start_the_game"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:typeface="sans"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
@@ -194,7 +185,7 @@
             android:textColor="@color/white"
             android:fontFamily="@font/bevietnamextrabolditalic"
             android:background="@drawable/play_button_selector"
-            android:text="start game"
+            android:text="@string/start_game"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

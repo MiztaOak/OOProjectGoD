@@ -159,7 +159,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             lobbyNameTextView.setText("Default name");
         }
 
-        gameModeTextView.setText(String.format("Game mode: %s", "Epic")); //todo use actual current gamemode
+        gameModeTextView.setText(String.format("Standard")); //todo use actual current gamemode
 
         int nmbPlayers = 0;
         if (playerList.getValue() != null) {

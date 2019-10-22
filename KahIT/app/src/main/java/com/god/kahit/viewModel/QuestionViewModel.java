@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.god.kahit.Events.NewViewEvent;
-import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
@@ -30,9 +29,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     private MutableLiveData<String> playerName;
     private Question currentQuestion;
 
-    private int indexOfClickedView = -1;
-    private boolean isQuestionAnswered;
-    private boolean correctAnswerWasGiven = false;
+    private boolean isCorrectAnswer = false;
 
     private int numOfRepeats = 0;
 
@@ -72,9 +69,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     public void receiveQuestion(Question q, int n) {
         currentQuestion = q;
         numOfRepeats = n;
-        isQuestionAnswered = false;
-        correctAnswerWasGiven = false;
-        indexOfClickedView = -1;
+        isCorrectAnswer = false;
         questionText.setValue(q.getQuestion());
         questionAlts.setValue(q.getAlternatives());
         questionTime.setValue(currentQuestion.getTime());
@@ -90,58 +85,20 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
      * @param answers   - a list with all of the alternative buttons
      */
     public void onAnswerClicked(View view, ObjectAnimator animation, List<TextView> answers) {
-        if (!isQuestionAnswered) {
-            String alternative = answers.get(answers.indexOf(view)).getText().toString();
-            long timeLeft = animation.getDuration() - animation.getCurrentPlayTime();
-            if (isHotSwap()) {
-                greyOutAnswersTextView(answers);
-            }
-            indexOfClickedView = answers.indexOf(view);
-            colorSelectedAnswerTextView(answers);
-            if (currentQuestion.isCorrectAnswer(alternative)) {
-                correctAnswerWasGiven = true;
-            }
-            repository.sendAnswer(alternative, currentQuestion, timeLeft / 1000);
-            isQuestionAnswered = true;
+        String alternative = answers.get(answers.indexOf(view)).getText().toString();
+        long timeLeft = animation.getDuration() - animation.getCurrentPlayTime();
+
+        if (currentQuestion.isCorrectAnswer(alternative)) {
+            isCorrectAnswer = true;
         }
+        repository.sendAnswer(alternative, currentQuestion, timeLeft / 1000);
     }
 
-    public void colorSelectedAnswerTextView(List<TextView> answers) {
-        answers.get(indexOfClickedView).setBackgroundResource(R.color.blue);
-    }
-
-    /**
-     * sets a new backgroundColor for the non-selected answers.
-     */
-    public void greyOutAnswersTextView(List<TextView> answers) {
-        for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setBackgroundResource(R.color.lightgrey);
-            answers.get(i).setEnabled(false);
-        }
-    }
-
-    public void updateViewForBeginningOfAnimation(final List<TextView> answers) {
-        greyOutAnswersTextView(answers);
-        if (indexOfClickedView >= 0) {
-            if (correctAnswerWasGiven) {
-                answers.get(indexOfClickedView).setBackgroundResource(R.color.green);
-            } else {
-                answers.get(indexOfClickedView).setBackgroundResource(R.color.red);
-            }
-        }
-    }
-
-    public void resetColorOfTextView(List<TextView> answers) {
-        for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setBackgroundResource(R.color.colorPrimary);
-            answers.get(i).setEnabled(true);
-        }
-    }
 
     public String getMyPlayerId() {
-        if(isHost()) {
+        if (isHost()) {
             return repository.getHostPlayerId();
-        }else {
+        } else {
             return repository.getClientPlayerId();
         }
     }
@@ -167,9 +124,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     }
 
     public void repeatQuestion() {
-        isQuestionAnswered = false;
-        indexOfClickedView = -1;
-        correctAnswerWasGiven = false;
+        isCorrectAnswer = false;
         repository.incrementCurrentPlayer();
         playerName.setValue(repository.getCurrentPlayerName());
     }
@@ -200,5 +155,9 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
             playerName = new MutableLiveData<>();
         }
         return playerName;
+    }
+
+    public boolean isCorrectAnswer() {
+        return isCorrectAnswer;
     }
 }

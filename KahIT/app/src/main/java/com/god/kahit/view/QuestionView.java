@@ -5,10 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,9 +30,12 @@ import com.google.android.material.navigation.NavigationView;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
@@ -58,6 +64,7 @@ public class QuestionView extends AppCompatActivity {
 
     private ArrayList<TextView> answers = new ArrayList<>();
     private boolean hasQuestionBeenShown;
+    private int indexOfClickedView = -1;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -211,7 +218,92 @@ public class QuestionView extends AppCompatActivity {
      * specifies what happens when an answer has been clicked.
      */
     public void OnAnswerClicked(View view) {
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setClickable(false);
+        }
         model.onAnswerClicked(view, animator, answers);
+        indexOfClickedView = answers.indexOf(view);
+        greyOutAnswers();
+    }
+
+    /**
+     * sets a new backgroundColor for the non-selected answers.
+     */
+    private void greyOutAnswers() {
+        if (indexOfClickedView < 0) {
+            for (int i = 0; i < answers.size(); i++) {
+                Drawable answerDrawable = answers.get(i).getBackground();
+                answerDrawable = DrawableCompat.wrap(answerDrawable);
+                DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.light_grey));
+
+                answers.get(i).setBackground(answerDrawable);
+            }
+        } else {
+            for (int i = 0; i < answers.size(); i++) {
+                if (!(answers.get(i) == (answers.get(indexOfClickedView)))) {
+                    Drawable answerDrawable = answers.get(i).getBackground();
+                    answerDrawable = DrawableCompat.wrap(answerDrawable);
+                    DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.light_grey));
+
+                    answers.get(i).setBackground(answerDrawable);
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates the view after the animation has finished. Showing a green color if the answer was right, red if not.
+     * If no action has been taken all answers are grayed out.
+     *
+     */
+    private void updateViewAfterAnimation() {
+        greyOutAnswers();
+        if (indexOfClickedView >= 0) {
+            Drawable answerDrawable = answers.get(indexOfClickedView).getBackground();
+            answerDrawable = DrawableCompat.wrap(answerDrawable);
+
+            if (model.isCorrectAnswer()) {
+                DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.green));
+                answers.get(indexOfClickedView).setBackground(answerDrawable);
+            } else {
+                DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.red));
+                answers.get(indexOfClickedView).setBackground(answerDrawable);
+            }
+        }
+    }
+
+    /**
+     * Resets the color of the textViews.
+     *
+     */
+    private void resetColorOfTextViews() {
+        Drawable answerDrawable;
+        List<Integer> colors = getAnswerColors();
+
+        Collections.shuffle(colors);
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setClickable(true);
+
+            answerDrawable = answers.get(i).getBackground();
+            answerDrawable = DrawableCompat.wrap(answerDrawable);
+            DrawableCompat.setTint(answerDrawable, colors.get(i));
+
+            answers.get(i).setBackground(answerDrawable);
+        }
+    }
+
+    /**
+     * Gets the color id used for the answer TextViews
+     *
+     * @return The List of id for colors.
+     */
+    private List<Integer> getAnswerColors() {
+        List<Integer> answerColors = new ArrayList<>();
+        int retrieve[] = this.getResources().getIntArray(R.array.answerColors);
+        for (int re : retrieve) {
+            answerColors.add(re);
+        }
+        return answerColors;
     }
 
     /**
@@ -219,7 +311,7 @@ public class QuestionView extends AppCompatActivity {
      *
      * @param question The question to be asked as a String.
      */
-    public void populateQuestionTextView(String question) {
+    private void populateQuestionTextView(String question) {
         TextView questionTextView = findViewById(R.id.qQuestionTextView);
         questionTextView.setText(question);
     }
@@ -272,7 +364,7 @@ public class QuestionView extends AppCompatActivity {
                 if (model.isHotSwap()) {
                     final boolean isMoveOn = model.isMoveOn();
                     if (isMoveOn) {
-                        model.updateViewForBeginningOfAnimation(answers);
+                        updateViewAfterAnimation();
                     }
                     h1.postDelayed(new Runnable() {
                         @Override
@@ -281,14 +373,14 @@ public class QuestionView extends AppCompatActivity {
                                 launchAfterQuestionScorePageClass();
                             } else {
                                 model.repeatQuestion();
-                                model.resetColorOfTextView(answers);
+                                resetColorOfTextViews();
                                 animation.start();
                             }
 
                         }
                     }, 1000);
                 } else if (answers.get(0).isEnabled()) {
-                    model.greyOutAnswersTextView(answers);
+                    greyOutAnswers();
                     model.sendIsReady();
                 }
             }
@@ -370,8 +462,8 @@ public class QuestionView extends AppCompatActivity {
     @Subscribe
     public void onPlayerAnsweredQuestionEvent(PlayerAnsweredQuestionEvent event) {
         if (model.isMe(event.getPlayer())) {
-            model.greyOutAnswersTextView(answers);
-            model.colorSelectedAnswerTextView(answers);
+            greyOutAnswers();
+            updateViewAfterAnimation();
             model.sendIsReady();
         }
     }
@@ -389,7 +481,7 @@ public class QuestionView extends AppCompatActivity {
 //        countdownTextView.setText("All players ready!"); //todo show waiting for server etc
         if (!hasQuestionBeenShown && !answers.get(0).isEnabled()) {
             animator.cancel();
-            model.updateViewForBeginningOfAnimation(answers);
+            updateViewAfterAnimation();
             model.resetPlayersReady();
             h1.postDelayed(new Runnable() {
                 @Override

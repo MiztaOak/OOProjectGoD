@@ -28,12 +28,13 @@
 
             <TextView
                 android:id="@+id/textView_teamName"
+                android:textColor="@color/white"
+                android:fontFamily="@font/bevietnamextrabolditalic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Perfect Meatballs"
+                android:text="@string/perfect_meatballs"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 tools:visibility="visible" />
 
             <com.google.android.material.textfield.TextInputLayout

@@ -25,7 +25,6 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
         row = super.getDropDownView(position, convertView, parent);
         row.setBackgroundColor(mColors.get(position));
-//            row.setBackgroundTintList(ColorStateList.valueOf(mColors.get(position)));
 
         return row;
     }
