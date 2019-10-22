@@ -206,17 +206,63 @@ public class QuestionView extends AppCompatActivity {
         super.onStop();
         BUS.unregister(this);
     }
+    /**
+     * A method that initiates the store by getting its layout and pasting it inside the side
+     * navigation
+     */
+    private void initStore(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, StoreView.newInstance())
+                    .commitNow();
+        }
+    }
 
     /**
-     * specifies what happens when an answer has been clicked.
+     * A method that adds an action to the drawer layout which changes the position of storeImage
+     * upon opening and closing
      */
-    public void OnAnswerClicked(View view) {
-        for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setClickable(false);
-        }
-        model.onAnswerClicked(view, animator, answers);
-        indexOfClickedView = answers.indexOf(view);
-        greyOutAnswers();
+    private void addDrawerListener() {
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View view, float v) {
+            }
+
+            @Override
+            public void onDrawerOpened(View view) {
+                navigationView.bringToFront();
+                storeImage.setX(0);
+            }
+
+            @Override
+            public void onDrawerClosed(View view) {
+                navigationView.bringToFront();
+                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+            }
+        });
+        storeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+    }
+
+    /**
+     * A method that adds action to the store image  which makes the store slides out when clicking
+     * on it
+     */
+    private void addStoreImageAction() {
+        storeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
     }
 
     /**
@@ -324,49 +370,6 @@ public class QuestionView extends AppCompatActivity {
     }
 
     /**
-     * A method that checks for buffs and debuffs to run their visual effects.
-     */
-    private void checkForEffects(){
-        if (model.isHalfTheAlternatives()){
-            halfTheAlternativesEffect(answers.size());
-        }else if(model.isAutoAnswer()){
-            runAutoAnswer();
-        }
-    }
-    /**
-     * A method that sets an action to the text views that hold alternatives for the question.
-     * Calls for the answer method in the model view.
-     */
-    private void addActionToAnswers(){
-        for (TextView answer: answers) {
-            answer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    model.onAnswerClicked(view, animator, answers);
-                }
-            });
-        }
-    }
-    /**
-     * A method that starts the effect of the Fifty fifty buff,
-     * which is to hide two answers out of 4.
-     * This method should not hide the right alternative.
-     *
-     * @param size: The size of the list of strings which are the alternatives
-     */
-    private void halfTheAlternativesEffect(int size){
-        answers.get(model.getTwoIndees(size).first).setVisibility(View.INVISIBLE);
-        answers.get(model.getTwoIndees(size).second).setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * A method that runs the autoAnswer debuff effect.
-     */
-    public void runAutoAnswer(){
-        answers.get(model.autoChooseAnswer()).performClick();
-
-    }
-    /**
      * Sets the current player1 name in "hotswap/hot seat" mode.
      *
      * @param name
@@ -426,66 +429,6 @@ public class QuestionView extends AppCompatActivity {
         animator.start();
     }
 
-    /**
-     * A method that initiates the store by getting its layout and pasting it inside the side
-     * navigation
-     */
-    private void initStore(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, StoreView.newInstance())
-                    .commitNow();
-        }
-    }
-
-    /**
-     * A method that adds an action to the drawer layout which changes the position of storeImage
-     * upon opening and closing
-     */
-    private void addDrawerListener() {
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View view, float v) {
-            }
-
-            @Override
-            public void onDrawerOpened(View view) {
-                navigationView.bringToFront();
-                storeImage.setX(0);
-            }
-
-            @Override
-            public void onDrawerClosed(View view) {
-                navigationView.bringToFront();
-                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int i) {
-            }
-        });
-        storeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.END);
-            }
-        });
-    }
-
-    /**
-     * A method that adds action to the store image  which makes the store slides out when clicking
-     * on it
-     */
-    private void addStoreImageAction() {
-        storeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.END);
-            }
-        });
-    }
-
-
     @Subscribe
     public void onPlayerAnsweredQuestionEvent(PlayerAnsweredQuestionEvent event) {
         if (model.isMe(event.getPlayer())) {
@@ -538,6 +481,51 @@ public class QuestionView extends AppCompatActivity {
         } else {
             Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered, but I am host - skipping");
         }
+    }
+    /**
+     * A method that checks for buffs and debuffs to run their visual effects.
+     */
+    private void checkForEffects(){
+        if (model.isHalfTheAlternatives()){
+            halfTheAlternativesEffect(answers.size());
+        }else if(model.isAutoAnswer()){
+            runAutoAnswer();
+        }
+    }
+    /**
+     * A method that sets an action to the text views that hold alternatives for the question.
+     * Calls for the answer method in the model view.
+     */
+    private void addActionToAnswers(){
+        for (TextView answer: answers) {
+            answer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    model.onAnswerClicked(view, animator, answers);
+                    indexOfClickedView = answers.indexOf(view);
+                    greyOutAnswers();
+                }
+            });
+        }
+    }
+    /**
+     * A method that starts the effect of the Fifty fifty buff,
+     * which is to hide two answers out of 4.
+     * This method should not hide the right alternative.
+     *
+     * @param size: The size of the list of strings which are the alternatives
+     */
+    private void halfTheAlternativesEffect(int size){
+        answers.get(model.getTwoIndees(size).first).setVisibility(View.INVISIBLE);
+        answers.get(model.getTwoIndees(size).second).setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * A method that runs the autoAnswer debuff effect.
+     */
+    public void runAutoAnswer(){
+        answers.get(model.autoChooseAnswer()).performClick();
+
     }
 }
 
