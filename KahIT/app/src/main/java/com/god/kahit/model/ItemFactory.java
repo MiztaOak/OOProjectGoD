@@ -15,6 +15,7 @@ import java.util.List;
 public class ItemFactory {
     private static IItemDataLoader dataLoader;
 
+    private ItemFactory(){}
     /**
      * A static method that creates a list of items
      * @param size int that specifies how many items are needed in the list
@@ -48,9 +49,12 @@ public class ItemFactory {
         List<Buff> loadedItems = dataLoader.getBuffs();
         List<Buff> createdItems = new ArrayList<>();
         Collections.shuffle(loadedItems);
-        for(int i = 0; i < n; i++){
-            createdItems.add(createBuff(loadedItems.get(i)));
+        if(loadedItems.size() != 0){
+            for(int i = 0; i < n; i++){
+                createdItems.add(createBuff(loadedItems.get(i%loadedItems.size())));
+            }
         }
+
         return createdItems;
     }
 
@@ -75,13 +79,15 @@ public class ItemFactory {
      * @param n the amount of items that are loaded/returned
      * @return a list with n debuffs
      */
-    static private List<Debuff> loadDeBuffs(int n){
+    static private List<Debuff> loadDeBuffs(int n) {
         List<Debuff> loadedItems = dataLoader.getDebuffs();
         Collections.shuffle(loadedItems);
         List<Debuff> createdItems = new ArrayList<>();
         Collections.shuffle(loadedItems);
-        for(int i = 0; i < n; i++){
-            createdItems.add(createDebuff(loadedItems.get(i)));
+        if (loadedItems.size() != 0){
+            for (int i = 0; i < n; i++) {
+                createdItems.add(createDebuff(loadedItems.get(i % loadedItems.size())));
+            }
         }
         return createdItems;
     }
@@ -112,8 +118,10 @@ public class ItemFactory {
         Collections.shuffle(loadedItems);
         List<VanityItem> createdItems = new ArrayList<>();
         Collections.shuffle(loadedItems);
-        for(int i = 0; i < n; i++){
-            createdItems.add(createVanityItem(loadedItems.get(i)));
+        if(loadedItems.size() != 0) {
+            for (int i = 0; i < n; i++) {
+                createdItems.add(createVanityItem(loadedItems.get(i % loadedItems.size())));
+            }
         }
         return createdItems;
     }
