@@ -8,15 +8,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
+import android.util.TypedValue;
 import android.widget.ImageView;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -107,32 +107,14 @@ public class LotteryView extends AppCompatActivity {
      * Populates the Layout with playerNames and PlayerImages in a circle.
      */
     private void populateLayoutViewDynamically() {
-        int childId = getCenterChildId();
         int angle;
         final int numOfPlayers = Objects.requireNonNull(playerListLiveData.getValue()).size();
         textViewList = setupPlayerTextViews();
         imageViewList = setupPlayerImageViews();
         for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
             angle = playerIndex * (360 / numOfPlayers);
-            setUpImageViewList(playerIndex, angle, childId);
+            setUpImageViewList(playerIndex, angle);
         }
-    }
-
-    /**
-     * Gets the id for the invisible ImageView in the center of the layout.
-     *
-     * @return id as an int.
-     */
-    private int getCenterChildId() {
-        int val = 0;
-        int count = constraintLayout.getChildCount();
-        for (int k = 0; k <= count; k++) {
-            View v = constraintLayout.getChildAt(k);
-            if (v instanceof ImageView) {
-                return v.getId();
-            }
-        }
-        return val;
     }
 
     /**
@@ -163,33 +145,35 @@ public class LotteryView extends AppCompatActivity {
         for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
             ImageView imageView = new ImageView(this);
             imageView.setImageDrawable(drawable);
-            imageView.setId(playerIndex);
+            //imageView.setId(playerIndex);
             playerImageViews.add(imageView);
         }
         return playerImageViews;
     }
-
 
     /**
      * Setts up the images of players in a circular shape
      *
      * @param index   player index.
      * @param angle   the angle of the circle. In other words, the space between the players in a circular shape.
-     * @param childId the invisible center point of the circle.
      */
-    public void setUpImageViewList(int index, int angle, int childId) {
+    public void setUpImageViewList(int index, int angle) {
+
         ConstraintLayout.LayoutParams layoutParams;
-        layoutParams = new ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.width = 150;
-        layoutParams.height = 200;
+        layoutParams.height = 150;
         layoutParams.circleRadius = 400;
-        layoutParams.circleConstraint = childId;
+        layoutParams.circleConstraint = this.findViewById(R.id.centerPoint).getId();
         layoutParams.circleAngle = angle;
         imageViewList.get(index).setLayoutParams(layoutParams);
         constraintLayout.addView(imageViewList.get(index));
         int x = (int) imageViewList.get(index).getX();
         int y = (int) imageViewList.get(index).getY();
         setUpTextViewList(index, x, y);
+
+
     }
 
     /**
@@ -224,7 +208,7 @@ public class LotteryView extends AppCompatActivity {
      * @return the state of the counter
      */
     private boolean isDone() {
-        int maxCount = 10;
+        int maxCount = 20;
         return count >= maxCount;
     }
 
@@ -257,7 +241,7 @@ public class LotteryView extends AppCompatActivity {
                 if (!isDone()) {
                     incCounter();
                     for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
-                        setItemImage(playerIndex);
+                        setRandomItemImage(playerIndex);
                     }
                     // When each player has been updated with a random image, run this thread again after set delay
                     handler.postDelayed(this, delay);
@@ -265,13 +249,22 @@ public class LotteryView extends AppCompatActivity {
                 } else { // When lottery has finished
                     for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
                         setWonItemImage(playerIndex);
+                        setWonItemName(playerIndex);
+                    }
+                    for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
                         try {
                             imageAnimation(playerIndex);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    launchCategoryView();
+                    //Again small delay before next View is launched.
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            launchCategoryView();
+                        }
+                    },3000);
                 }
             }
         }, delay);
@@ -279,9 +272,10 @@ public class LotteryView extends AppCompatActivity {
     }
 
     /**
+     * Method that sets a random items image on the ImageViews.
      * @param index
      */
-    private void setItemImage(int index) {
+    private void setRandomItemImage(int index) {
         Random random = new Random();
         // Gets a random number from the list size
         int randomNumber = random.nextInt(Objects.requireNonNull(itemListLiveData.getValue()).size());
@@ -296,11 +290,30 @@ public class LotteryView extends AppCompatActivity {
      *
      * @param index
      */
-    private void setWonItemImage(int index) { //TODO ImageSource removed.
+    private void setWonItemImage(int index) {
         Map<String, String> map = ItemDataLoaderRealtime.getItemImageNameMap();
-        String string = map.get(Objects.requireNonNull(Objects.requireNonNull(mapWinningsLiveData.getValue()).get(Objects.requireNonNull(playerListLiveData.getValue()).get(index))).getName());
+        String string = map.get(Objects.requireNonNull(
+                Objects.requireNonNull(mapWinningsLiveData.getValue()).get(
+                Objects.requireNonNull(playerListLiveData.getValue()).get(index))).getName());
         int i = getResources().getIdentifier(string, "drawable", getPackageName());
         playerImageViews.get(index).setImageResource(i);
+    }
+
+    /**
+     * Set the won item name next to the players name.
+     *
+     * @param index
+     */
+    private void setWonItemName(int index) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String name = playerListLiveData.getValue().get(index).getName();
+        String got = " got ";
+        String itemName = Objects.requireNonNull(
+                Objects.requireNonNull(mapWinningsLiveData.getValue()).get(playerListLiveData.getValue().get(index))).getName();
+        stringBuilder.append(name).append(got).append(itemName);
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(playerNameTextViews.get(index), 1);
+        playerNameTextViews.get(index).setMaxLines(2);
+        playerNameTextViews.get(index).setText(stringBuilder);
     }
 
     /**
@@ -314,15 +327,14 @@ public class LotteryView extends AppCompatActivity {
             throws InterruptedException {
         ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleX", 1.6f);
         ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleY", 1.6f);
-        scaleDownX.setDuration(200);
-        scaleDownY.setDuration(200);
+        scaleDownX.setDuration(2000);
+        scaleDownY.setDuration(2000);
 
         AnimatorSet scaleDown1 = new AnimatorSet();
         scaleDown1.play(scaleDownX).with(scaleDownY);
         scaleDown1.start();
-        scaleDown1.setDuration(1000);
+        scaleDown1.setDuration(3000);
         scaleDown1.reverse();
-
     }
 
     /**
