@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
@@ -129,19 +128,7 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
      * @return the created question
      */
     private Question getQuestion(DataSnapshot document, Category category){
-       String question = (String) document.child("question").getValue();
-       String answer = (String) document.child("answer").getValue();
-       int time = ((Long) Objects.requireNonNull(document.child("time").getValue())).intValue();
-       List<String> alts = new ArrayList<>();
-       if(document.child("alts").getValue() instanceof List){
-           for(Object alt: (List<?>) Objects.requireNonNull(document.child("alts").getValue())){
-               if(alt instanceof String){
-                   alts.add((String) alt);
-               }
-           }
-
-       }
-       Objects.requireNonNull(alts).add(answer);
-       return new Question(category,question,answer,alts,time);
+       QuestionDataHolder questionDataHolder = document.getValue(QuestionDataHolder.class);
+       return questionDataHolder.createQuestion(category);
     }
 }
