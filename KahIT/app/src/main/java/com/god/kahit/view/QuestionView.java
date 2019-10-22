@@ -178,7 +178,6 @@ public class QuestionView extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     @Override
     public void onPause() {
         super.onPause();

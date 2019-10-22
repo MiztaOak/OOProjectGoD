@@ -80,10 +80,10 @@ public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public String getPlayerName() {
-        return repository.getClientPlayerName();
+        return repository.getMyConnectionName();
     }
 
     public void setPlayerName(String newPlayerName) {
-        repository.setClientPlayerName(newPlayerName);
+        repository.setMyConnectionName(newPlayerName);
     }
 }

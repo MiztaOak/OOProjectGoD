@@ -20,20 +20,17 @@ public class QuizGame {
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
-    private int numOfQuestions = 1; //TODO replace with more "dynamic" way to set this
+    private int numOfQuestions;
     private Category currentCategory;
-    private Store store; //TODO should this be here??
     private Category[] categorySelectionArray; //todo find a better way
 
-    //TODO maybe move into constructor
-    private boolean gameIsStarted = false;
+    private Store store;
+    private Lottery lottery;
+
+    private boolean gameIsStarted;
+    private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
     private List<QuizListener> listeners;
-    /**
-     * This variable is used to reference to the local user in multiplayer or the current in hotswap
-     */
-    private Lottery lottery;
-    private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
     public QuizGame(EventBusGreenRobot eventBus, PlayerManager playerManager, GameMode gameMode) {
         this.eventBus = eventBus;
@@ -41,6 +38,8 @@ public class QuizGame {
         this.gameMode = gameMode;
 
         listeners = new ArrayList<>();
+        numOfQuestions = 1; //TODO replace with more "dynamic" way to set thisg
+        gameIsStarted = false;
     }
 
     public void startGame() {
@@ -49,10 +48,10 @@ public class QuizGame {
             indexMap = new HashMap<>();
             currentCategory = Category.Mix;
             loadIndexMap();
-            store = new Store();
-            gameIsStarted = true;
 
+            store = new Store();
             lottery = new Lottery();
+            gameIsStarted = true;
         }
     }
 
@@ -175,8 +174,8 @@ public class QuizGame {
     }
 
     public void setNextQuestion(String categoryId, String questionIndex) {
+        Category category = Category.getCategoryById(categoryId);
         setCurrentCategory(categoryId);
-        Category category = getCurrentCategory();
         Question question = getQuestion(category, Integer.valueOf(questionIndex));
         roundQuestions.addFirst(question);
     }
@@ -203,7 +202,6 @@ public class QuizGame {
         if (questionList.size() < questionIndex) {
             System.out.println(String.format("Quizgame - getQuestion: questionList.size < questionIndex, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
-
             return null;
         }
 
@@ -222,7 +220,6 @@ public class QuizGame {
             } else {
                 quizListener.receiveQuestion(question, 1);
             }
-
         }
     }
 
@@ -266,10 +263,9 @@ public class QuizGame {
         if (category != null) {
             setCurrentCategory(category);
         } else {
-
+            System.out.println("Quizgame - setCurrentCategory: found no match to categoryId, " +
+                    "unable to set current category, skipping call");
         }
-        System.out.println("Quizgame - setCurrentCategory: found no match to categoryId, unable to set " +
-                "current category, skipping call");
     }
 
     public void setCurrentCategory(Category currentCategory) {
@@ -282,14 +278,12 @@ public class QuizGame {
                 return category;
             }
         }
-
         System.out.println("Quizgame - getCategory: found no match to categoryId, returning null");
         return null;
     }
 
     public void generateRandomCategoryArray(int arraySize) {
-        List<Category> categories;
-        categories = new ArrayList<>(Category.getRealCategories());
+        List<Category> categories = new ArrayList<>(Category.getRealCategories());
         categories.remove(currentCategory);
         Collections.shuffle(categories);
         categories = categories.subList(0, arraySize);
@@ -323,8 +317,7 @@ public class QuizGame {
      *
      * @return
      */
-    public List<Item> getAllItems
-    () {
+    public List<Item> getAllItems() {
         return lottery.getItemList();
     }
 

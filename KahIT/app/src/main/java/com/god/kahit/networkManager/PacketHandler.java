@@ -176,7 +176,7 @@ public class PacketHandler {
     private void handlePlayerIdPacket(String senderId, byte[] payload) {
         String playerId = PlayerIdPacket.getPlayerId(payload);
         Log.i(TAG, String.format("handlePlayerIdPacket: Received new playerId: '%s'", playerId));
-        networkManager.setPlayerId(playerId);
+        networkManager.setMyConnectionId(playerId);
 
         if (clientRequestsCallback != null) {
             clientRequestsCallback.onReceivedMyConnectionId(senderId, playerId);

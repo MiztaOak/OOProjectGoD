@@ -239,33 +239,33 @@ public class NetworkManagerTest {
     @Test
     public void playerNameGetSetTest() {
         String testNameOriginal = "Testningsnam"; //12 chars long
-        networkManager.setPlayerName(testNameOriginal);
-        assertEquals(networkManager.getPlayerName(), testNameOriginal);
+        networkManager.setMyConnectionName(testNameOriginal);
+        assertEquals(networkManager.getMyConnectionName(), testNameOriginal);
 
         String testName = "Testningsnamn";  //13 chars long
-        networkManager.setPlayerName(testName);
-        assertNotEquals(networkManager.getPlayerName(), testName);
-        assertNotEquals(networkManager.getPlayerName(), testName);
-        assertEquals(networkManager.getPlayerName(), testNameOriginal);
+        networkManager.setMyConnectionName(testName);
+        assertNotEquals(networkManager.getMyConnectionName(), testName);
+        assertNotEquals(networkManager.getMyConnectionName(), testName);
+        assertEquals(networkManager.getMyConnectionName(), testNameOriginal);
 
         testName = null;
-        networkManager.setPlayerName(testName);
-        assertNotEquals(networkManager.getPlayerName(), testName);
-        assertEquals(networkManager.getPlayerName(), testNameOriginal);
+        networkManager.setMyConnectionName(testName);
+        assertNotEquals(networkManager.getMyConnectionName(), testName);
+        assertEquals(networkManager.getMyConnectionName(), testNameOriginal);
 
         testName = "";
-        networkManager.setPlayerName(testName);
-        assertNotEquals(networkManager.getPlayerName(), testName);
-        assertEquals(networkManager.getPlayerName(), testNameOriginal);
+        networkManager.setMyConnectionName(testName);
+        assertNotEquals(networkManager.getMyConnectionName(), testName);
+        assertEquals(networkManager.getMyConnectionName(), testNameOriginal);
 
         testName = "Test\\ning";
-        networkManager.setPlayerName(testName);
-        assertNotEquals(networkManager.getPlayerName(), testName);
-        assertEquals(networkManager.getPlayerName(), testNameOriginal);
+        networkManager.setMyConnectionName(testName);
+        assertNotEquals(networkManager.getMyConnectionName(), testName);
+        assertEquals(networkManager.getMyConnectionName(), testNameOriginal);
 
         testName = "12345";
-        networkManager.setPlayerName(testName);
-        assertEquals(networkManager.getPlayerName(), testName);
-        assertNotEquals(networkManager.getPlayerName(), testNameOriginal);
+        networkManager.setMyConnectionName(testName);
+        assertEquals(networkManager.getMyConnectionName(), testName);
+        assertNotEquals(networkManager.getMyConnectionName(), testNameOriginal);
     }
 }

@@ -38,11 +38,11 @@ public class MainActivityView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        Repository.getInstance().setupDataBaseLoader(getApplicationContext());
 
         Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
         Repository.getInstance().setupAudioHandler(getApplicationContext());
     }
-
 
     /**
      * Returns true if the app was granted all the permissions. Otherwise, returns false.
@@ -56,7 +56,6 @@ public class MainActivityView extends AppCompatActivity {
         }
         return true;
     }
-
 
     @Override
     protected void onStart() {

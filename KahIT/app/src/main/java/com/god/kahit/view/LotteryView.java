@@ -106,7 +106,6 @@ public class LotteryView extends AppCompatActivity {
         });
     }
 
-
     /**
      * Populates the Layout with playerNames and PlayerImages in a circle.
      */
@@ -127,15 +126,13 @@ public class LotteryView extends AppCompatActivity {
      * @return list of players' names
      */
     private List<TextView> setupPlayerTextViews() {
-
-        for (int playerIndex = 0; playerIndex < Objects.requireNonNull(mapWinningsLiveData.getValue()).size(); playerIndex++) {
+        for (int playerIndex = 0; playerIndex < Objects.requireNonNull(playerListLiveData.getValue()).size(); playerIndex++) {
             TextView textView = new TextView(this);
             textView.setText(Objects.requireNonNull(playerListLiveData.getValue()).get(playerIndex).getName());
             playerNameTextViews.add(textView);
         }
         return playerNameTextViews;
     }
-
 
     /**
      * Initiates default images.
