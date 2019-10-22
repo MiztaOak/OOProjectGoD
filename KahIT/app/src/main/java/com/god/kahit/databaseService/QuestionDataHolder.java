@@ -7,15 +7,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class that holds the data for a question that is fetched from the database, it also creates a Question
+ * based on it's data.
+ *
+ * used by: QuestionDataLoaderRealtime
+ *
+ * @author Johan Ek
+ */
 public class QuestionDataHolder {
     private List<String> alts;
     private String answer;
     private String question;
-    private Long time;
+    private int time;
 
     public  QuestionDataHolder(){}
 
-    public QuestionDataHolder(List<String> alts, String answer, String question, Long time) {
+    public QuestionDataHolder(List<String> alts, String answer, String question, int time) {
         this.alts = alts;
         this.answer = answer;
         this.question = question;
@@ -25,7 +33,7 @@ public class QuestionDataHolder {
     public Question createQuestion(Category category){
         List<String> newAlts = new ArrayList<>(alts);
         newAlts.add(answer);
-        return new Question(category,question,answer,newAlts,time.intValue());
+        return new Question(category,question,answer,newAlts,(int)time);
     }
 
     public List<String> getAlts() {
@@ -40,7 +48,7 @@ public class QuestionDataHolder {
         return question;
     }
 
-    public Long getTime() {
+    public int getTime() {
         return time;
     }
 }

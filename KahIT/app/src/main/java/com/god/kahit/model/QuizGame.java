@@ -138,9 +138,21 @@ public class QuizGame {
         if (Objects.requireNonNull(indexMap.get(category)).size() == 0) {
             loadIndexList(category);
         }
-        roundQuestions.add(Objects.requireNonNull(questionMap.get(category))
-                .get(Objects.requireNonNull(indexMap.get(category)).get(0))); //TODO make nice
-        Objects.requireNonNull(indexMap.get(category)).remove(0);
+
+        List<Integer> indexList = indexMap.get(category);
+        List<Question> questionList = questionMap.get(category);
+        if (indexList != null && questionList != null) {
+            if (indexList.size() > 0) {
+                int indexOfQuestion = indexList.get(0);
+                roundQuestions.add(questionList.get(indexOfQuestion));
+                indexList.remove(0);
+            } else {
+                System.out.println("Quizgame - addQuestion: indexList is empty");
+            }
+
+        } else {
+            System.out.println("Quizgame - addQuestion: Either indexMap or QuestionMap are null");
+        }
     }
 
     /**
