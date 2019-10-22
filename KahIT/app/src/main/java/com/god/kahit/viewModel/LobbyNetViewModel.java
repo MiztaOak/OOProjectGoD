@@ -24,7 +24,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = LobbyNetViewModel.class.getSimpleName();
@@ -78,7 +78,7 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         if (myPlayerId == null) {
             myPlayerId = new MutableLiveData<>();
             if (isHost) {
-                myPlayerId.setValue(repository.getHostPlayerId());
+                myPlayerId.setValue(repository.getLocalPlayer().getId());
             }
         }
         return myPlayerId;
@@ -275,16 +275,8 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         return allAreReady;
     }
 
-    public void addNewPlayer() {
-        repository.addNewPlayer();
-    }
-
     public void removePlayer(Player player) {
         repository.removePlayer(player);
-    }
-
-    public void resetPlayerData() {
-        repository.resetPlayerData();
     }
 
     @Override

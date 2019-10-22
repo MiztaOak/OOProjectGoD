@@ -30,7 +30,7 @@ public class StoreTest {
     public void isItemBought() {
         player.setScore(300);
         assertFalse(store.isItemBought(0));
-        store.buy(0,player);
+        store.buyItem(0,player);
         assertTrue(store.isItemBought(0));
     }
 
@@ -39,7 +39,7 @@ public class StoreTest {
         player.setScore(300);
         Item item = store.getStoreItems().get(0);
 
-        store.buy(0,player);
+        store.buyItem(0,player);
 
         assertEquals(player.getScore(), 300 - item.getPrice());
 

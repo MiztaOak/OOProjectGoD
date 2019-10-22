@@ -38,14 +38,9 @@ public class MainActivityView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        Repository.getInstance().startNewGameInstance(getApplicationContext());
+
         Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
-
         Repository.getInstance().setupAudioHandler(getApplicationContext());
-
-        //  if (SettingsView.musicSwitch.isChecked())
-        //    Repository.getInstance().startMusic();
-
     }
 
 

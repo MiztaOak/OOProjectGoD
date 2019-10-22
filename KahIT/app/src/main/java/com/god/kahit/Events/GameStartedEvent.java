@@ -1,6 +1,8 @@
 package com.god.kahit.Events;
 
-public class GameStartedEvent {
+import com.god.kahit.model.IEvent;
+
+public class GameStartedEvent implements IEvent {
     public GameStartedEvent() {
     }
 }

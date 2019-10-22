@@ -18,7 +18,7 @@ import com.god.kahit.viewModel.PreGameCountdownViewModel;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 /**
  * @responsibility: A class that shows a countdown timer before starting the game.

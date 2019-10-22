@@ -1,10 +1,11 @@
 package com.god.kahit.Events;
 
+import com.god.kahit.model.IEvent;
 import com.god.kahit.model.Team;
 
 import java.util.List;
 
-public class TeamChangeEvent {
+public class TeamChangeEvent implements IEvent {
 
     private final List<Team> team;
 

@@ -20,7 +20,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleObserver {
 

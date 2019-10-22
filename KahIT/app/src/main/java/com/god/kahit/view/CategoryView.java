@@ -26,7 +26,7 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class CategoryView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();

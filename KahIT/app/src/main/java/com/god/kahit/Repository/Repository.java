@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.god.kahit.Events.AllPlayersReadyEvent;
 import com.god.kahit.Events.CategoryVoteResultEvent;
+import com.god.kahit.Events.EventBusGreenRobot;
 import com.god.kahit.Events.GameJoinedLobbyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.GameStartedEvent;
@@ -20,9 +21,11 @@ import com.god.kahit.Events.TimedOutEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
+import com.god.kahit.model.GameMode;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Player;
+import com.god.kahit.model.PlayerManager;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
@@ -45,24 +48,24 @@ import com.god.kahit.view.ScorePageView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class Repository { //todo implement a strategy pattern, as we got two different states, host & non-host
     private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
-    //TODO remove player when done testing
-    Player p = new Player("anas", "123");
     private QuizGame quizGame;
+    private PlayerManager playerManager;
+    private EventBusGreenRobot eventBusGreenRobot;
     private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;
     private AudioHandler audioHandler;
 
     private Repository() {
+        eventBusGreenRobot = new EventBusGreenRobot();
     }
 
     public static Repository getInstance() {
@@ -114,7 +117,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                         @Override
                         public void run() {
                             clearConnections();
-                            BUS.post(new TimedOutEvent());
+                            eventBusGreenRobot.post(new TimedOutEvent());
                         }
                     });
                 }
@@ -149,13 +152,13 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 setupPacketHandler();
                 if (networkManager.isHost()) {
                     packetHandler.sendPlayerId(connection, connection.getId()); //Let client know their id
-                    quizGame.addNewPlayerToEmptyTeam(connection.getName(), connection.getId());
+                    playerManager.addNewPlayerToEmptyTeam(connection.getName(), connection.getId());
                     packetHandler.broadcastPlayerJoined(connection.getId(), connection.getName());
-                    packetHandler.broadcastPlayerChangeTeam(connection.getId(), quizGame.getPlayerTeam(connection.getId()).getId());
+                    packetHandler.broadcastPlayerChangeTeam(connection.getId(), playerManager.getPlayerTeam(connection.getId()).getId());
                 } else {
                     pauseNetInCommunication(); //Pause in-coming communication, letting client set up needed logic beforehand.
-                    packetHandler.sendPlayerId(connection, connection.getId()); //Let host let their id
-                    BUS.post(new GameJoinedLobbyEvent());
+                    packetHandler.sendPlayerId(connection, connection.getId()); //Let host set their id
+                    eventBusGreenRobot.post(new GameJoinedLobbyEvent());
                 }
             }
 
@@ -164,8 +167,8 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 //                if (isHost && !quizGame.hasGameStarted()) { //todo How do we deal with mid-game disconnects, simply ignore them? What about waiting for everyone to send ready-packet?
                 if (isHost) { //todo How do we deal with mid-game disconnects, simply ignore them? What about waiting for everyone to send ready-packet?
                     //Remove player completely only if game is in lobby
-                    Player player = quizGame.getPlayer(id);
-                    quizGame.removePlayer(player);
+                    Player player = playerManager.getPlayer(id);
+                    playerManager.removePlayer(player);
                     if (packetHandler != null) {
                         packetHandler.broadcastPlayerLeft(id);
                     } else {
@@ -191,9 +194,9 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             packetHandler = new PacketHandler(networkManager, new ClientRequestsCallback() {
                 @Override
                 public void onReceivedMyConnectionId(@NonNull String senderId, @NonNull String playerId) {
-                    Log.i(TAG, String.format("onReceivedMyConnectionId: event triggered. Old hostPlayerId: '%s', new hostPlayerId: '%s'", quizGame.getHostPlayerId(), playerId));
-                    getHostPlayer().setId(playerId);
-                    quizGame.setHostPlayerId(playerId);
+                    Log.i(TAG, String.format("onReceivedMyConnectionId: event triggered. Old hostPlayerId: '%s', new hostPlayerId: '%s'", playerManager.getLocalPlayerId(), playerId));
+                    getLocalPlayer().setId(playerId);
+                    playerManager.setLocalPlayerId(playerId);
 
                     handleLobbySyncProcedure(senderId);
 
@@ -209,7 +212,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onPlayerReadyChangeRequest(@NonNull String targetPlayerId, @NonNull boolean newState) {
                     Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: event triggered. callback from: '%s', new state: '%s'", targetPlayerId, String.valueOf(newState)));
-                    Player targetPlayer = quizGame.getPlayer(targetPlayerId);
+                    Player targetPlayer = playerManager.getPlayer(targetPlayerId);
                     if (targetPlayer != null) {
                         packetHandler.broadcastPlayerReadyChange(targetPlayerId, newState);  //todo only pass to quizGame, let it trigger a broadcast
                         setPlayerReady(targetPlayer, newState);
@@ -227,14 +230,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onPlayerTeamChangeRequest(@NonNull String targetPlayerId, @NonNull String newTeamId) {
                     Log.i(TAG, String.format("onPlayerTeamChangeRequest: event triggered. targetPlayerId: '%s', newTeamId: '%s'", targetPlayerId, newTeamId));
-                    quizGame.changeTeam(quizGame.getPlayer(targetPlayerId), newTeamId);
+                    playerManager.changeTeam(playerManager.getPlayer(targetPlayerId), newTeamId);
                     packetHandler.broadcastPlayerChangeTeam(targetPlayerId, newTeamId);
                 }
 
                 @Override
                 public void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId, @NonNull String categoryId) {
                     Log.i(TAG, String.format("onCategoryPlayerVoteRequest: event triggered. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
-                    Player player = quizGame.getPlayer(targetPlayerId);
+                    Player player = playerManager.getPlayer(targetPlayerId);
                     if (player != null) {
                         packetHandler.broadcastCategoryPlayerVote(targetPlayerId, categoryId);
                         BUS.post(new PlayerVotedCategoryEvent(player, categoryId));
@@ -250,7 +253,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                                     "givenAnswer: '%s', timeLeft: '%s'", targetPlayerId, categoryId,
                             questionId, givenAnswer, Long.toString(timeLeft)));
 
-                    Player player = quizGame.getPlayer(targetPlayerId);
+                    Player player = playerManager.getPlayer(targetPlayerId);
                     quizGame.setCurrentCategory(categoryId); //todo find a better solution
                     Category category = quizGame.getCurrentCategory(); //Is always synced at this point
                     Question question = quizGame.getQuestion(category, Integer.valueOf(questionId));
@@ -275,7 +278,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                         Log.i(TAG, String.format("onPlayerNameChangeEvent: Target was me! Changing my playername to: '%s'", newName));
                         networkManager.setPlayerName(newName);
                     }
-                    Player player = quizGame.getPlayer(targetId);
+                    Player player = playerManager.getPlayer(targetId);
                     if (player != null) {
                         player.setName(newName);
                         fireTeamChangeEvent();
@@ -287,7 +290,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onPlayerReadyChangeEvent(@NonNull String targetId, @NonNull boolean newState) {
                     Log.i(TAG, String.format("onPlayerReadyChangeEvent: event triggered. targetId: '%s', new state: '%s'", targetId, newState));
-                    Player player = quizGame.getPlayer(targetId);
+                    Player player = playerManager.getPlayer(targetId);
                     if (player != null) {
                         setPlayerReady(player, newState);
                     } else {
@@ -304,20 +307,20 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onPlayerJoinedEvent(@NonNull String playerId, @NonNull String playerName) {
                     Log.i(TAG, String.format("onPlayerJoinedEvent: event triggered. playerId: '%s', player name: '%s'", playerId, playerName));
-                    quizGame.addNewPlayerToEmptyTeam(playerName, playerId);
+                    playerManager.addNewPlayerToEmptyTeam(playerName, playerId);
                     //todo as client also construct a connection, so we can keep track of connectionState and color rows accordingly
                 }
 
                 @Override
                 public void onPlayerLeftEvent(@NonNull String playerId) {
                     Log.i(TAG, String.format("onPlayerLeftEvent: event triggered. playerId: '%s'", playerId));
-                    quizGame.removePlayer(quizGame.getPlayer(playerId));
+                    playerManager.removePlayer(playerManager.getPlayer(playerId));
                 }
 
                 @Override
                 public void onPlayerChangeTeamEvent(@NonNull String targetPlayerId, @NonNull String newTeamId) {
                     Log.i(TAG, String.format("onPlayerChangeTeamEvent: event triggered. targetPlayerId: '%s', newTeamId: %s", targetPlayerId, newTeamId));
-                    quizGame.changeTeam(quizGame.getPlayer(targetPlayerId), newTeamId);
+                    playerManager.changeTeam(playerManager.getPlayer(targetPlayerId), newTeamId);
                 }
 
                 @Override
@@ -335,7 +338,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onGameStartedEvent() {
                     Log.i(TAG, "onGameStartedEvent: event triggered.");
-                    quizGame.resetPlayerReady();
+                    playerManager.resetPlayerReady();
                     quizGame.startGame();
                     quizGame.startRound();
                     BUS.post(new GameStartedEvent());
@@ -394,7 +397,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onCategoryPlayerVoteEvent(@NonNull String targetPlayerId, @NonNull String categoryId) {
                     Log.i(TAG, String.format("onCategoryPlayerVoteEvent: event triggered. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
-                    Player player = quizGame.getPlayer(targetPlayerId);
+                    Player player = playerManager.getPlayer(targetPlayerId);
                     if (player != null) {
                         BUS.post(new PlayerVotedCategoryEvent(player, categoryId));
                     } else {
@@ -415,7 +418,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                                     "givenAnswer: '%s', timeLeft: '%s'", targetPlayerId, categoryId,
                             questionId, givenAnswer, Long.toString(timeLeft)));
 
-                    Player player = quizGame.getPlayer(targetPlayerId);
+                    Player player = playerManager.getPlayer(targetPlayerId);
                     Category category = quizGame.getCurrentCategory(); //Is always synced at this point
                     Question question = quizGame.getQuestion(category, Integer.valueOf(questionId));
 
@@ -426,10 +429,25 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
-    public void startNewGameInstance(Context context) {
+    public void setupNewGameInstance(GameMode gameMode) {
+        if (playerManager == null) {
+            playerManager = new PlayerManager(eventBusGreenRobot, gameMode);
+        } else {
+            Log.i(TAG, "setupNewGameInstance: attempt to create new playerManager when not " +
+                    "null, make sure to reset app beforehand.");
+        }
+
+        if (quizGame == null) {
+            quizGame = new QuizGame(eventBusGreenRobot, playerManager, gameMode);
+        } else {
+            Log.i(TAG, "setupNewGameInstance: attempt to create new quizGame when not " +
+                    "null, make sure to reset app beforehand.");
+        }
+    }
+
+    public void setupDataBaseLoader(Context context) {
         QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
         ItemFactory.setDataLoader(new ItemDataLoaderRealtime(context));
-        quizGame = new QuizGame();
     }
 
     public void addQuizListener(QuizListener quizListener) {
@@ -491,7 +509,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void startGame() {
-        quizGame.resetPlayerReady();
+        playerManager.resetPlayerReady();
         quizGame.startGame();
         quizGame.startRound();
     }
@@ -501,7 +519,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
-        Player player = quizGame.getCurrentPlayer();
+        Player player = playerManager.getCurrentPlayer();
         if (player != null) { //Hotswap
             quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
             //todo add move to next player if hotswap
@@ -513,7 +531,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 String strTimeLeft = Long.toString(timeLeft);
 
                 if (networkManager.isHost()) { //Enables solo play, as host doesn't know its own id in that case
-                    player = quizGame.getPlayer(quizGame.getHostPlayerId());
+                    player = playerManager.getPlayer(playerManager.getLocalPlayerId());
                     quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
                     BUS.post(new PlayerAnsweredQuestionEvent(player, givenAnswer));
 
@@ -541,7 +559,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public List<Player> getPlayers() {
-        return quizGame.getPlayers();
+        return playerManager.getPlayers();
     }
 
     public String getRoomName() {
@@ -565,7 +583,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public boolean isMe(String playerId) {
         if (isHost()) {
-            return quizGame.getHostPlayerId().equals(playerId);
+            return playerManager.getLocalPlayerId().equals(playerId);
         } else {
             return getClientPlayerId().equals(playerId);
         }
@@ -584,19 +602,15 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.isHotSwap();
     }
 
-    public String getHostPlayerId() {
-        return quizGame.getHostPlayerId();
-    }
-
-    public Player getHostPlayer() {
-        return quizGame.getPlayer(getHostPlayerId());
+    public Player getLocalPlayer() {
+        return playerManager.getLocalPlayer();
     }
 
     public void setMyReadyStatus(boolean isReady) {
         if (isHost()) {
-            setPlayerReady(getHostPlayer(), isReady);
+            setPlayerReady(getLocalPlayer(), isReady);
             if (packetHandler != null) {
-                packetHandler.broadcastPlayerReadyChange(getHostPlayerId(), isReady);
+                packetHandler.broadcastPlayerReadyChange(playerManager.getLocalPlayerId(), isReady);
             } else {
                 Log.i(TAG, "setMyReadyStatus: Attempt to call broadcastPlayerReadyChange with null packetHandler, skipping call");
             }
@@ -617,7 +631,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         if (player != null) {
             player.setReady(isReady);
             fireTeamChangeEvent();
-            if (quizGame.checkAllPlayersReady()) {
+            if (playerManager.checkAllPlayersReady()) {
                 Log.i(TAG, "setPlayerReady: All players are ready, triggering AllPlayersReadyEvent.");
                 BUS.post(new AllPlayersReadyEvent());
             }
@@ -627,7 +641,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public String getHostPlayerName() {
-        Player hostPlayer = quizGame.getPlayer(quizGame.getHostPlayerId());
+        Player hostPlayer = playerManager.getLocalPlayer();
         if (hostPlayer != null) {
             return hostPlayer.getName();
         } else {
@@ -637,7 +651,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void setHostPlayerName(String newPlayerName) {
-        Player hostPlayer = quizGame.getPlayer(quizGame.getHostPlayerId());
+        Player hostPlayer = playerManager.getLocalPlayer();
 
         if (hostPlayer != null) {
             Log.i(TAG, String.format("setHostPlayerName: setting playerName to: '%s'", newPlayerName));
@@ -689,18 +703,9 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.setCurrentCategory(currentCategory);
     }
 
-    public void setIsHotSwap(boolean isHotSwap) {
-        quizGame.setHotSwap(isHotSwap);
-    }
-
-    public void resetPlayerData() {
-        Log.i(TAG, "resetPlayerData: called.");
-        quizGame.resetPlayerData();
-    }
-
     public void resetPlayersReady() {
         Log.i(TAG, "resetPlayerReady: called.");
-        quizGame.resetPlayerReady();
+        playerManager.resetPlayerReady();
     }
 
     public void joinRoom(Connection roomConnection) {
@@ -712,7 +717,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     private void handleLobbySyncProcedure(String senderId) {
-        List<Player> playerList = quizGame.getPlayers();
+        List<Player> playerList = playerManager.getPlayers();
 
         packetHandler.broadcastLobbySyncStartPacket(senderId, networkManager.getPlayerName(), "epic"); //todo lobbySync replace with actual values
         for (Player player : playerList) {
@@ -722,7 +727,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
             }
 
             //Sync player team
-            packetHandler.broadcastPlayerChangeTeam(player.getId(), quizGame.getPlayerTeam(player.getId()).getId());
+            packetHandler.broadcastPlayerChangeTeam(player.getId(), playerManager.getPlayerTeam(player.getId()).getId());
 
             //Sync player ready status
             if (player.isReady()) {
@@ -804,10 +809,9 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void resetApp() {
         Log.i(TAG, "resetApp: performing a reset of networkManager and player data");
-        quizGame.resetPlayerData();
-        quizGame.endGame();
+        playerManager = null;
+        quizGame = null;
         appLifecycleHandler.setActive(false);
-        quizGame.setHotSwap(false);
 
         if (networkManager != null) {
             networkManager.cleanStop();
@@ -818,25 +822,21 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
-    public void addNewPlayer() {
-        quizGame.createNewPlayer();
-    }
-
     public void addNewPlayerToEmptyTeam() {
-        quizGame.addNewPlayerToEmptyTeam();
+        playerManager.addNewPlayerToEmptyTeam();
     }
 
     public void createNewHostPlayer() {
-        BUS.post(new MyPlayerIdChangedEvent(quizGame.getHostPlayerId()));
-        addNewPlayerToTeam("Im the host", quizGame.getHostPlayerId(), true, "1");
+        BUS.post(new MyPlayerIdChangedEvent(playerManager.getLocalPlayerId()));
+        addNewPlayerToTeam("Im the host", playerManager.getLocalPlayerId(), true, "1");
     }
 
     public void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {
-        quizGame.addNewPlayerToTeam(playerName, playerId, readyStatus, teamId);
+        playerManager.addNewPlayerToTeam(playerName, playerId, readyStatus, teamId);
     }
 
     public void fireTeamChangeEvent() {
-        quizGame.fireTeamChangeEvent();
+        playerManager.fireTeamChangeEvent();
     }
 
     public void fireRoomChangeEvent() {
@@ -859,7 +859,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void removePlayer(Player player) {
-        quizGame.removePlayer(player);
+        playerManager.removePlayer(player);
         if (networkManager != null) { //todo let quizGame trigger a eventbus, and upon this confirmation call disconnect
             networkManager.disconnect(player.getId());
         } else {
@@ -869,8 +869,8 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void changeMyTeam(String newTeamId, boolean isHost) {
         if (isHost) {
-            String myPlayerId = quizGame.getHostPlayerId();
-            quizGame.changeTeam(quizGame.getPlayer(myPlayerId), newTeamId);
+            String myPlayerId = playerManager.getLocalPlayerId();
+            playerManager.changeTeam(playerManager.getPlayer(myPlayerId), newTeamId);
             if (packetHandler != null) {
                 packetHandler.broadcastPlayerChangeTeam(myPlayerId, newTeamId);
             } else {
@@ -901,11 +901,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void changeTeam(Player player, String newTeamId) {
-        quizGame.changeTeam(player, newTeamId);
+        playerManager.changeTeam(player, newTeamId);
     }
 
-    public Map<Player, Item> getDrawResult() {
-        return quizGame.getWinnings();
+    public void drawLottery() {
+        quizGame.drawLottery();
     }
 
     public List<Item> getAllItems() {
@@ -913,87 +913,36 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     /**
-     * A method that returns the items in store.
-     *
-     * @return : A list of items.
-     */
-    public List<Item> getStoreItems() {
-        return quizGame.getStore().getStoreItems();
-    }
-
-    /**
      * A method that returns the players score.
      *
      * @return : int value of player's score.
      */
-    //TODO player most be removed from this class
-    public int getPlayerScore() {
-        return p.getScore();
+    public int getMyPlayerScore() {
+        Player player = playerManager.getCurrentPlayer();
+        return player.getScore();
     }
 
-    /**
-     * A method that returns if the player is able to buy an item.
-     *
-     * @param i: the index of the item the player wishes to buy.
-     * @return : boolean which indicates if a player is able to buy the item.
-     */
-    //TODO player most be removed from this class
-    public boolean isItemBuyable(int i) {
-        return quizGame.getStore().isItemBuyable(i, p);
+    public boolean isItemBuyable(int itemIndex) {
+        return quizGame.isStoreItemBuyable(itemIndex, playerManager.getCurrentPlayer());
     }
 
-    /**
-     * A method that let's the player buy an item.
-     *
-     * @param i: the index of the item the player wishes to buy.
-     */
-    //TODO player most be removed from this class
-    public void buy(int i) {
-        quizGame.getStore().buy(i, p);
+    public void buy(int itemIndex) {
+        quizGame.buyItem(itemIndex, playerManager.getCurrentPlayer());
     }
 
-    /**
-     * A method that returns the name of an item.
-     *
-     * @param i: the index of the item.
-     * @return : A string with the name of the item.
-     */
-    public String getItemName(int i) {
-        return getStoreItems().get(i).getName();
+    public Item getItem(int itemIndex) {
+        return quizGame.getStoreItem(itemIndex);
     }
 
-    /**
-     * A method that returns the price of an item.
-     *
-     * @param i: the index of the item.
-     * @return : int with the price of the item.
-     */
-    public int getItemPrice(int i) {
-        return getStoreItems().get(i).getPrice();
-    }
-
-    /**
-     * A method that returns if an item is bought or available to buy
-     *
-     * @param i: The index of the item.
-     * @return : boolean which indicates if the item is bought or not.
-     */
-    public boolean isItemBought(int i) {
-        return quizGame.getStore().isItemBought(i);
+    public boolean isItemBought(int itemIndex) {
+        return quizGame.isStoreItemBought(itemIndex);
     }
 
     public String getCurrentPlayerName() {
-        if (isHost()) {
-            return getHostPlayerName();
-        } else if (!isHost()) {
-            return getClientPlayerName();
-        } else {
-            return quizGame.getCurrentPlayer().getName();
-        }
+        return playerManager.getCurrentPlayer().getName();
     }
 
     public void incrementCurrentPlayer() {
-        quizGame.incrementCurrentPlayer();
-
+        playerManager.incrementCurrentPlayer();
     }
 }

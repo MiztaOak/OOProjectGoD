@@ -18,7 +18,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.model.QuizGame.BUS;
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 public class QuestionViewModel extends ViewModel implements LifecycleObserver, QuizListener {
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
@@ -97,7 +97,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
 
     public String getMyPlayerId() {
         if (isHost()) {
-            return repository.getHostPlayerId();
+            return repository.getLocalPlayer().getId();
         } else {
             return repository.getClientPlayerId();
         }

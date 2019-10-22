@@ -1,8 +1,9 @@
 package com.god.kahit.Events;
 
+import com.god.kahit.model.IEvent;
 import com.god.kahit.model.Player;
 
-public class PlayerAnsweredQuestionEvent {
+public class PlayerAnsweredQuestionEvent implements IEvent {
     private Player player;
     private String givenAnswer;
 

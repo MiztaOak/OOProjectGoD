@@ -1,6 +1,8 @@
 package com.god.kahit.Events;
 
-public class LobbyNameChangeEvent {
+import com.god.kahit.model.IEvent;
+
+public class LobbyNameChangeEvent implements IEvent {
     private String lobbyName;
 
     public LobbyNameChangeEvent(String lobbyName) {

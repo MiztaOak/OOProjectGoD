@@ -1,4 +1,6 @@
 package com.god.kahit.Events;
 
-public class TimedOutEvent {
+import com.god.kahit.model.IEvent;
+
+public class TimedOutEvent implements IEvent {
 }

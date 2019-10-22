@@ -16,7 +16,6 @@ public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObser
     }
 
     public void setupNetwork(Context context) { //todo reset whole network, as much as possible
-        repository.resetPlayerData();
         repository.createNewHostPlayer();
         repository.setupNetwork(context, true);
     }

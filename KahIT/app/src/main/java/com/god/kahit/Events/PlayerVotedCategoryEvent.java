@@ -1,9 +1,9 @@
 package com.god.kahit.Events;
 
-import com.god.kahit.model.Category;
+import com.god.kahit.model.IEvent;
 import com.god.kahit.model.Player;
 
-public class PlayerVotedCategoryEvent {
+public class PlayerVotedCategoryEvent implements IEvent {
     private Player player;
     private String categoryId;
 

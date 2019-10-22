@@ -1,6 +1,8 @@
 package com.god.kahit.Events;
 
-public class MyPlayerIdChangedEvent {
+import com.god.kahit.model.IEvent;
+
+public class MyPlayerIdChangedEvent implements IEvent {
     private String newPlayerId;
 
     public MyPlayerIdChangedEvent(String newPlayerId) {
