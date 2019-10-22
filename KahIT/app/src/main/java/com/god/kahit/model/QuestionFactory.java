@@ -18,6 +18,8 @@ public class QuestionFactory {
      */
     private static IQuestionDataLoader dataLoader;
 
+    private QuestionFactory(){}
+
     /**
      * A method that creates Map of questions with category as the key and a list of questions as the values
      *
@@ -47,10 +49,14 @@ public class QuestionFactory {
         List<Question> createdQuestions = new ArrayList<>();
 
         for (Question q : loadedQuestions) {
-            createdQuestions.add(new Question(q.getCategory(), q.getQuestion(), q.getAnswer(), q.getAlternatives(), q.getTime()));
+            createdQuestions.add(copyQuestion(q));
         }
 
         return createdQuestions;
+    }
+
+    private static Question copyQuestion(Question q){
+        return new Question(q.getCategory(), q.getQuestion(), q.getAnswer(), new ArrayList<>(q.getAlternatives()), q.getTime());
     }
 
     /**
