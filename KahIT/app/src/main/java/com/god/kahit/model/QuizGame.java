@@ -21,7 +21,7 @@ public class QuizGame {
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
-    private int numOfQuestions = 3; //TODO replace with more "dynamic" way to set this
+    private int numOfQuestions = 1; //TODO replace with more "dynamic" way to set this
     private Category currentCategory;
     private Store store; //TODO should this be here??
     private Category[] categorySelectionArray; //todo find a better way
@@ -54,6 +54,8 @@ public class QuizGame {
             loadIndexMap();
             store = new Store();
             gameIsStarted = true;
+
+            lottery = new Lottery();
         }
         if (isHotSwap && currentPlayer != playerList.get(0)) { //Makes sure that current player is set in hotswap mode
             currentPlayer = playerList.get(0);

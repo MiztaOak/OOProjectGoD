@@ -7,6 +7,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.god.kahit.Events.AllPlayersReadyEvent;
 import com.god.kahit.Events.GameLostConnectionEvent;
 import com.god.kahit.Events.NewViewEvent;
@@ -15,18 +18,17 @@ import com.god.kahit.viewModel.PreGameCountdownViewModel;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import static com.god.kahit.model.QuizGame.BUS;
 
 /**
- * A class that shows a countdown timer before starting the game
+ * @responsibility: A class that shows a countdown timer before starting the game.
+ * @used-by: LobbyNetView.
+ * @author: Oussama Anadani, Mats Cedervall
  */
 public class PreGameCountdownView extends AppCompatActivity {
     private static final String LOG_TAG = LobbyNetView.class.getSimpleName();
-    private static final long COUNTDOWN_DURATION = 5000;
-    private static final long ONE_SECOND = 1000;
+    private static final long COUNTDOWN_DURATION = 5000; // how many ticks in milliseconds
+    private static final long ONE_SECOND = 1000; // duration between ticks in milliseconds
     private PreGameCountdownViewModel preGameCountdownViewModel;
     private TextView sessionTypeTextView;
     private TextView countdownTextView;
@@ -35,18 +37,21 @@ public class PreGameCountdownView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.pre_game_countdown_activity);
-
-        preGameCountdownViewModel = ViewModelProviders.of(this).get(PreGameCountdownViewModel.class);
-        preGameCountdownViewModel.setContext(getApplicationContext());
-
-        sessionTypeTextView = findViewById(R.id.cd_SessionType_textView);
-        countdownTextView = findViewById(R.id.cdTextView);
-
+        defineInstanceVariables();
         preGameCountdownViewModel.startToastMessage();
         startTimer();
         counter.start();
     }
+
+    private void defineInstanceVariables() {
+        preGameCountdownViewModel = ViewModelProviders.of(this).get(PreGameCountdownViewModel.class);
+        preGameCountdownViewModel.setContext(getApplicationContext());
+        sessionTypeTextView = findViewById(R.id.cd_SessionType_textView);
+        countdownTextView = findViewById(R.id.cdTextView);
+    }
+
 
     @Override
     protected void onStart() {
@@ -69,7 +74,8 @@ public class PreGameCountdownView extends AppCompatActivity {
     }
 
     /**
-     * Timer On-start and on-finish
+     * A method that defines a timer who has On-Tick and on-finish methods.
+     * The timer runs by given ticks in milliseconds and duration between ticks in milliseconds.
      */
     private void startTimer() {
         counter = new CountDownTimer(COUNTDOWN_DURATION, ONE_SECOND) {

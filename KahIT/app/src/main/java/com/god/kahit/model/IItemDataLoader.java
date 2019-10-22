@@ -4,6 +4,9 @@ import java.util.List;
 
 /**
  * Interface used to abstract the implementation of the persistent storage of items
+ *
+ * used by: ItemDataLoaderRealtime, ItemFactory
+ *
  * @author Johan Ek
  */
 public interface IItemDataLoader {

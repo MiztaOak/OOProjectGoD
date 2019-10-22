@@ -32,7 +32,7 @@
             android:id="@+id/hLogo"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:contentDescription="Game logo"
+            android:contentDescription="@string/game_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,8 +42,14 @@
             android:id="@+id/createLobbyNet_textView_myProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Profile"
-            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/bevietnamextrabolditalic"
+            android:shadowColor="@color/kahitStandard"
+            android:shadowDx="1.5"
+            android:shadowDy="1.3"
+            android:shadowRadius="1.6"
+            android:text="@string/my_profile"
+            android:textSize="23sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hLogo" />
@@ -52,6 +58,7 @@
             android:id="@+id/constraintLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="@drawable/light_border_rect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +68,8 @@
                 android:id="@+id/constraintLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@drawable/light_border_rect"
+                android:backgroundTint="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,19 +80,32 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginEnd="15dp"
-                    android:contentDescription="Player image"
+                    android:background="@drawable/custom_round_shape"
+                    android:contentDescription="@string/player_image"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/test5" />
 
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bevietnamextrabolditalic"
+                    android:text="@string/tap_to_choose_picture"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@+id/createLobbyNet_imageButton_picture"
+                    app:layout_constraintStart_toStartOf="@+id/createLobbyNet_imageButton_picture"
+                    app:layout_constraintTop_toBottomOf="@+id/createLobbyNet_imageButton_picture" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/createLobbyNet_textInputLayout_playerName"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:hint="Enter your profile name:"
+                    android:fontFamily="@font/bevietnamextrabolditalic"
+                    android:typeface="sans"
                     app:layout_constraintBottom_toBottomOf="@+id/createLobbyNet_imageButton_picture"
                     app:layout_constraintEnd_toStartOf="@+id/createLobbyNet_imageButton_picture"
                     app:layout_constraintStart_toStartOf="parent"
@@ -94,25 +115,20 @@
                         android:id="@+id/createLobbyNet_textInputEditText_playerName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_edittext"
                         android:imeOptions="actionDone"
                         android:inputType="textNoSuggestions|text|textCapSentences"
                         android:maxLength="12"
                         android:maxLines="1"
                         android:selectAllOnFocus="true"
+                        android:shadowColor="@color/kahitStandard"
+                        android:shadowDx="1.5"
+                        android:shadowDy="1.3"
+                        android:shadowRadius="1.6"
                         android:singleLine="true"
-                        android:text="Billie?"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:typeface="sans" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tap to choose picture "
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="@+id/createLobbyNet_imageButton_picture"
-                    app:layout_constraintStart_toStartOf="@+id/createLobbyNet_imageButton_picture"
-                    app:layout_constraintTop_toBottomOf="@+id/createLobbyNet_imageButton_picture" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -121,9 +137,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Lobby Settings"
+            android:text="@string/lobby_settings"
+            android:fontFamily="@font/bevietnamextrabolditalic"
+            android:shadowColor="@color/kahitStandard"
+            android:shadowDx="1.5"
+            android:shadowDy="1.3"
+            android:shadowRadius="1.6"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textSize="18sp"
+            android:textSize="23sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
@@ -139,7 +160,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:backgroundTint="@android:color/white"
+                android:background="@drawable/light_border_rect"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +171,6 @@
                     android:id="@+id/createLobbyNet_textInputLayout_roomName"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:hint="Enter room name:"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -159,12 +180,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
+                        android:typeface="sans"
+                        android:background="@drawable/bg_edittext"
                         android:inputType="textNoSuggestions|text|textCapSentences"
                         android:maxLength="12"
                         android:maxLines="1"
                         android:selectAllOnFocus="true"
                         android:singleLine="true"
-                        android:text="Mansion?"
+                        android:shadowColor="@color/kahitStandard"
+                        android:shadowDx="1.5"
+                        android:shadowDy="1.3"
+                        android:shadowRadius="1.6"
                         android:textAlignment="center" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,28 +199,74 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Select a gamemode"
+                    android:fontFamily="@font/bevietnamextrabolditalic"
+                    android:text="@string/select_a_gamemode"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/createLobbyNet_textInputLayout_roomName" />
 
-                <RadioGroup
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:checkedButton="@id/radioButton_gameMode_epic"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/game_mode_custom_round_shape"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:orientation="horizontal"
+                    android:padding="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12">
 
-                    <RadioButton
-                        android:id="@+id/radioButton_gameMode_epic"
+                    <Button
+                        android:id="@+id/hsFastButton"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Epic"
-                        android:textSize="18sp" />
-                </RadioGroup>
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/game_mode_button_normal"
+                        android:fontFamily="@font/bevietnamextrabolditalic"
+                        android:includeFontPadding="false"
+                        android:minWidth="0dp"
+                        android:minHeight="40dp"
+                        android:text="@string/fast"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/hsStandardButton"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/game_mode_button_selected"
+                        android:fontFamily="@font/bevietnamextrabolditalic"
+                        android:includeFontPadding="false"
+                        android:minWidth="0dp"
+                        android:minHeight="40dp"
+                        android:text="@string/standard"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/hsHardButton"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/game_mode_button_normal"
+                        android:fontFamily="@font/bevietnamextrabolditalic"
+                        android:includeFontPadding="false"
+                        android:minWidth="0dp"
+                        android:minHeight="40dp"
+                        android:text="@string/hard"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -205,11 +277,13 @@
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
-            android:typeface="normal"
+            android:textColor="@color/white"
             android:background="@drawable/play_button_selector"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="#00CBF8"
+            android:fontFamily="@font/bevietnamextrabolditalic"
+            android:textSize="17sp"
             android:onClick="launchBackChooseGameClass"
-            android:text="back"
+            android:text="@string/back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

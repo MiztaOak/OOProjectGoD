@@ -6,42 +6,44 @@ import android.media.MediaPlayer;
 import com.god.kahit.R;
 import com.god.kahit.backgroundMusicService.MusicService;
 
-public class AudioHandler {
+/**
+ * @responsibility: This class is responsible for the Audio in the game.
+ * @used-by: Repository.
+ * @author: Oussama Anadani
+ */
+class AudioHandler {
     private MusicService mService;
-    private boolean music;
+    private boolean music; // to know the current state of the music
 
 
-    public AudioHandler(Context context) {
+    AudioHandler(Context context) {
         mService = new MusicService(MediaPlayer.create(context, R.raw.pre_game_song));
+        mService.musicSettings(); // to get music settings(looping, volume..)
         music = true;
         //todo reading music state from database
     }
 
-    public void startMusic() {
+    void startMusic() {
         mService.startMusic();
-
     }
 
-    public void stopMusic() {
+    void stopMusic() {
         mService.stopMusic();
-
     }
 
-    public void resumeMusic() {
+    void resumeMusic() {
         mService.resumeMusic();
-
     }
 
-    public void pauseMusic() {
+    void pauseMusic() {
         mService.pauseMusic();
-
     }
 
-    public boolean getMusicState() {
+    boolean getMusicState() {
         return music;
     }
 
-    public void setMusicState(boolean music){
+    void setMusicState(boolean music) {
         this.music = music;
     }
 }

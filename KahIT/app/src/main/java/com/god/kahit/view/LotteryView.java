@@ -2,20 +2,30 @@ package com.god.kahit.view;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.util.Log;
+import android.util.TypedValue;
 import android.widget.ImageView;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.TextViewCompat;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.god.kahit.R;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
-import com.god.kahit.viewModel.LotteryViewModel;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
+import com.god.kahit.viewModel.LotteryViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,32 +33,22 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 /**
- * Lottery page that shows up players' name and the randomized item(Buff or Debuff) that they get *
- * the concept of "items" means which Buffs or Debuffs that the player gets *
- * Debuffs are the items that player can send to other players and negatively affect them *
- * Buffs are the items that players positively can affect themselves *
+ * @responsibility: Lottery page that shows up players' name and the randomized item(Buff or Debuff) that they get.
+ * @used-by: AfterQuestionScorePageView, ChooseGameView, Repository.
+ * @author: Oussama Anadani, Jakob Ewerstrand
  */
 public class LotteryView extends AppCompatActivity {
+    private static final String LOG_TAG = LotteryView.class.getSimpleName();
     LotteryViewModel lotteryViewModel;
     ConstraintLayout constraintLayout;
 
-    List<TextView> textViewList;
-    List<ImageView> imageViewList;
-    List<ImageView> playerImageViews = new ArrayList<>();
-    List<TextView> playerNameTxtViews = new ArrayList<>();
+    private List<TextView> textViewList; // the actual players name
+    private List<ImageView> imageViewList; // the actual players image
+    private List<ImageView> playerImageViews = new ArrayList<>(); // to set a default images to the player
+    private List<TextView> playerNameTextViews = new ArrayList<>(); // to set a default names to the player
 
-    private Random random;
-    private int count = 0;
-    private int maxCount = 10;
+    private int count = 0; // counter for how many times the lottery would draw
 
     private MutableLiveData<Map<Player, Item>> mapWinningsLiveData;
     private MutableLiveData<List<Item>> itemListLiveData;
@@ -59,14 +59,27 @@ public class LotteryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lottery_activity);
 
+        definingInstanceVariables();
+        liveData();
+        populateLayoutViewDynamically();
+        displayLottery();
+
+    }
+
+    private void definingInstanceVariables() {
         constraintLayout = findViewById(R.id.lotteryActivity);
-
-
         lotteryViewModel = ViewModelProviders.of(this).get(LotteryViewModel.class);
         mapWinningsLiveData = lotteryViewModel.getMapWinningsLiveData();
         itemListLiveData = lotteryViewModel.getItemListLiveData();
         playerListLiveData = lotteryViewModel.getPlayerListLiveData();
 
+    }
+
+    /**
+     * LiveData observer method that has onChanged method inside, which in its turn notify viewModel when
+     * anything is changed.
+     */
+    private void liveData() {
         lotteryViewModel.getMapWinningsLiveData().observe(this, new Observer<Map<Player, Item>>() {
             @Override
             public void onChanged(Map<Player, Item> playerItemMap) {
@@ -87,13 +100,6 @@ public class LotteryView extends AppCompatActivity {
 
             }
         });
-        initLottery();
-
-    }
-
-    private void initLottery() {
-        populateLayoutViewDynamically();
-        displayLottery();
     }
 
 
@@ -101,54 +107,36 @@ public class LotteryView extends AppCompatActivity {
      * Populates the Layout with playerNames and PlayerImages in a circle.
      */
     private void populateLayoutViewDynamically() {
-        int childId = getCenterChildId();
         int angle;
         final int numOfPlayers = Objects.requireNonNull(playerListLiveData.getValue()).size();
         textViewList = setupPlayerTextViews();
         imageViewList = setupPlayerImageViews();
         for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
             angle = playerIndex * (360 / numOfPlayers);
-            setUpImageViewList(playerIndex, angle, childId);
+            setUpImageViewList(playerIndex, angle);
         }
     }
 
     /**
-     * Gets the id for the invisible ImageView in the center of the layout.
+     * Initiates default names.
      *
-     * @return id as an int.
-     */
-    private int getCenterChildId() {
-        int val = 0;
-        int count = constraintLayout.getChildCount();
-        for (int k = 0; k <= count; k++) {
-            View v = constraintLayout.getChildAt(k);
-            if (v instanceof ImageView) {
-                return v.getId();
-            }
-        }
-        return val;
-    }
-
-    /**
-     * Initiates all TextViews.
-     *
-     * @return list of TextViews.
+     * @return list of players' names
      */
     private List<TextView> setupPlayerTextViews() {
 
         for (int playerIndex = 0; playerIndex < Objects.requireNonNull(mapWinningsLiveData.getValue()).size(); playerIndex++) {
             TextView textView = new TextView(this);
-            textView.setText(playerListLiveData.getValue().get(playerIndex).getName());
-            playerNameTxtViews.add(textView);
+            textView.setText(Objects.requireNonNull(playerListLiveData.getValue()).get(playerIndex).getName());
+            playerNameTextViews.add(textView);
         }
-        return playerNameTxtViews;
+        return playerNameTextViews;
     }
 
 
     /**
-     * Initiates all imageViewList.
+     * Initiates default images.
      *
-     * @return
+     * @return a list of images for players
      */
     private List<ImageView> setupPlayerImageViews() {
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.test5); //TODO later, more pictures
@@ -157,28 +145,45 @@ public class LotteryView extends AppCompatActivity {
         for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
             ImageView imageView = new ImageView(this);
             imageView.setImageDrawable(drawable);
-            imageView.setId(playerIndex);
+            //imageView.setId(playerIndex);
             playerImageViews.add(imageView);
         }
         return playerImageViews;
     }
 
-    public void setUpImageViewList(int index, int angle, int childId) {
+    /**
+     * Setts up the images of players in a circular shape
+     *
+     * @param index   player index.
+     * @param angle   the angle of the circle. In other words, the space between the players in a circular shape.
+     */
+    public void setUpImageViewList(int index, int angle) {
+
         ConstraintLayout.LayoutParams layoutParams;
-        layoutParams = new ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.width = 150;
-        layoutParams.height = 200;
+        layoutParams.height = 150;
         layoutParams.circleRadius = 400;
-        layoutParams.circleConstraint = childId;
+        layoutParams.circleConstraint = this.findViewById(R.id.centerPoint).getId();
         layoutParams.circleAngle = angle;
         imageViewList.get(index).setLayoutParams(layoutParams);
         constraintLayout.addView(imageViewList.get(index));
         int x = (int) imageViewList.get(index).getX();
         int y = (int) imageViewList.get(index).getY();
         setUpTextViewList(index, x, y);
+
+
     }
 
-
+    /**
+     * Setts up the names of players in a circular shape. This method gets its parameters from setupImageViewList method
+     * and adds additional pixels to locate the names below the images.
+     *
+     * @param index             player index
+     * @param xImageCoordinates x coordinate of the image
+     * @param yImageCoordinates y coordinate of the image
+     */
     public void setUpTextViewList(int index, int xImageCoordinates, int yImageCoordinates) {
         ConstraintLayout.LayoutParams layoutParams;
         // getting same layoutParams of imageViewList and using it for textViewList
@@ -190,26 +195,40 @@ public class LotteryView extends AppCompatActivity {
         constraintLayout.addView(textViewList.get(index));
     }
 
+    /**
+     * A counter that increases depending on maxCount times.
+     */
     private void incCounter() {
         count++;
     }
 
+    /**
+     * To check if the counter is done after maxCount times
+     *
+     * @return the state of the counter
+     */
     private boolean isDone() {
+        int maxCount = 20;
         return count >= maxCount;
     }
 
+
+    /**
+     * A method to get a random image
+     *
+     * @param id A random number to get a random image id
+     * @return the randomized image
+     */
     public int getImageId(int id) {
         Map<String, String> map = ItemDataLoaderRealtime.getItemImageNameMap();
         String string = map.get(Objects.requireNonNull(itemListLiveData.getValue()).get(id).getName());
-        return getResources().getIdentifier(
-                string,
-                "drawable",
-                getPackageName());
+        return getResources().getIdentifier(string, "drawable", getPackageName());
     }
 
     /**
      * Displays the lottery using Handler object, with delay X ms
      */
+
     public void displayLottery() {
         final Handler handler = new Handler();
         final int delay = 200;
@@ -222,7 +241,7 @@ public class LotteryView extends AppCompatActivity {
                 if (!isDone()) {
                     incCounter();
                     for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
-                        setItemImage(playerIndex);
+                        setRandomItemImage(playerIndex);
                     }
                     // When each player has been updated with a random image, run this thread again after set delay
                     handler.postDelayed(this, delay);
@@ -230,23 +249,34 @@ public class LotteryView extends AppCompatActivity {
                 } else { // When lottery has finished
                     for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
                         setWonItemImage(playerIndex);
+                        setWonItemName(playerIndex);
+                    }
+                    for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
                         try {
                             imageAnimation(playerIndex);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+                    //Again small delay before next View is launched.
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            launchCategoryView();
+                        }
+                    },3000);
                 }
             }
         }, delay);
+
     }
 
     /**
-     *
+     * Method that sets a random items image on the ImageViews.
      * @param index
      */
-    private void setItemImage(int index) {
-        random = new Random();
+    private void setRandomItemImage(int index) {
+        Random random = new Random();
         // Gets a random number from the list size
         int randomNumber = random.nextInt(Objects.requireNonNull(itemListLiveData.getValue()).size());
         // Getting an imageId(or image) with a random number
@@ -256,39 +286,64 @@ public class LotteryView extends AppCompatActivity {
     }
 
     /**
+     * this method sets the image of the won item to the players
      *
      * @param index
      */
-    private void setWonItemImage(int index) { //TODO ImageSource removed.
+    private void setWonItemImage(int index) {
         Map<String, String> map = ItemDataLoaderRealtime.getItemImageNameMap();
-        String string = map.get(Objects.requireNonNull(Objects.requireNonNull(
-                mapWinningsLiveData.getValue()).get(Objects.requireNonNull(
-                playerListLiveData.getValue()).get(index))).getName());
-        int i = getResources().getIdentifier(
-                string,
-                "drawable",
-                getPackageName());
+        String string = map.get(Objects.requireNonNull(
+                Objects.requireNonNull(mapWinningsLiveData.getValue()).get(
+                Objects.requireNonNull(playerListLiveData.getValue()).get(index))).getName());
+        int i = getResources().getIdentifier(string, "drawable", getPackageName());
         playerImageViews.get(index).setImageResource(i);
     }
 
     /**
-     * Animates the images after lottery has finished
+     * Set the won item name next to the players name.
+     *
+     * @param index
+     */
+    private void setWonItemName(int index) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String name = playerListLiveData.getValue().get(index).getName();
+        String got = " got ";
+        String itemName = Objects.requireNonNull(
+                Objects.requireNonNull(mapWinningsLiveData.getValue()).get(playerListLiveData.getValue().get(index))).getName();
+        stringBuilder.append(name).append(got).append(itemName);
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(playerNameTextViews.get(index), 1);
+        playerNameTextViews.get(index).setMaxLines(2);
+        playerNameTextViews.get(index).setText(stringBuilder);
+    }
+
+    /**
+     * Animates the images when lottery has finished
+     *
+     * @param index player index
+     * @throws InterruptedException
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void imageAnimation(int index)
             throws InterruptedException {
         ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleX", 1.6f);
         ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleY", 1.6f);
-        scaleDownX.setDuration(200);
-        scaleDownY.setDuration(200);
+        scaleDownX.setDuration(2000);
+        scaleDownY.setDuration(2000);
 
         AnimatorSet scaleDown1 = new AnimatorSet();
         scaleDown1.play(scaleDownX).with(scaleDownY);
         scaleDown1.start();
-        scaleDown1.setDuration(1000);
+        scaleDown1.setDuration(3000);
         scaleDown1.reverse();
-
     }
 
-
+    /**
+     * Launching the categories page when lottery has finished
+     */
+    public void launchCategoryView() {
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, CategoryView.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }
