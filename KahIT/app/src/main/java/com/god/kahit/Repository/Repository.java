@@ -30,6 +30,7 @@ import com.god.kahit.model.PlayerManager;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
+import com.god.kahit.model.modelEvents.DebuffPlayerEvent;
 import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
 import com.god.kahit.networkManager.Callbacks.HostEventCallback;
 import com.god.kahit.networkManager.Callbacks.NetworkCallback;
@@ -44,6 +45,8 @@ import com.god.kahit.view.CategoryView;
 import com.god.kahit.view.LotteryView;
 import com.god.kahit.view.QuestionView;
 import com.god.kahit.view.ScorePageView;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -935,11 +938,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     /**
      * A method that rendomizes a player to debuff.
-     * @param debuff: which debuff to debuff a player with.
+     * @param debuffPlayerEvent: which debuff to debuff a player with.
      */
-    public void debuffPlayer(Debuff debuff){
+    @Subscribe
+    public void debuffPlayer(DebuffPlayerEvent debuffPlayerEvent){
         int index = (int) (Math.random()*(playerManager.getPlayers().size()));
-        playerManager.getPlayers().get(index).setDebuff(debuff);
+        playerManager.getPlayers().get(index).setDebuff(debuffPlayerEvent.getDebuff());
     }
 
     public boolean isAutoAnswer(){

@@ -1,6 +1,8 @@
 package com.god.kahit.model;
 
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.model.modelEvents.DebuffPlayerEvent;
+import com.god.kahit.model.modelEvents.QuestionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +13,18 @@ import java.util.List;
  * <p>
  * used-by: This class is used in the following classes:
  * QuizGame.
- * @author: Anas Alkoutli
+ * @author: Anas Alkoutli & Johan Ek
  */
 public class Store { //todo implement a method to restock store?
     private List<Item> storeItems;
     private List<Item> boughtItems;
+    private IEventBus bus;
 
-    Store() {
+    Store(IEventBus bua) {
         this.storeItems = ItemFactory.createStoreItems(3);
         boughtItems = new ArrayList<>();
+
+        this.bus = bua;
     }
 
     /**
@@ -73,7 +78,7 @@ public class Store { //todo implement a method to restock store?
         if (item instanceof Buff) {
             player.setBuff((Buff) item);
         } else if (item instanceof Debuff) {
-            Repository.getInstance().debuffPlayer((Debuff) item);
+            bus.post(new DebuffPlayerEvent((Debuff)item));
         } else {
             player.setVanityItem((VanityItem) item);
         }
