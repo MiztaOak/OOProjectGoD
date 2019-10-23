@@ -41,7 +41,7 @@ public class QuestionViewTest {
     public void testPopulateQuestionTextView() throws Exception {
         //QuestionView  mockWorld = mock(QuestionView.class);
         final String expected = "HELLO";
-        doNothing().when(questionViewMock).populateQuestionTextView(anyString());
+        //doNothing().when(questionViewMock).populateQuestionTextView(anyString());
     }
 
     @Test
