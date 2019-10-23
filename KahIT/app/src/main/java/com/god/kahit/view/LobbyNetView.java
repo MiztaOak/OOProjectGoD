@@ -13,10 +13,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.god.kahit.Events.GameLostConnectionEvent;
-import com.god.kahit.Events.GameStartedEvent;
-import com.god.kahit.Events.TeamChangeEvent;
-import com.god.kahit.Events.TimedOutEvent;
+import com.god.kahit.applicationEvents.GameLostConnectionEvent;
+import com.god.kahit.applicationEvents.GameStartedEvent;
+import com.god.kahit.model.modelEvents.TeamChangeEvent;
+import com.god.kahit.applicationEvents.TimedOutEvent;
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -36,7 +36,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerListener, AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = LobbyNetView.class.getSimpleName();

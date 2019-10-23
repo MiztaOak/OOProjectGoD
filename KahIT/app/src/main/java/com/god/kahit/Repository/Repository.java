@@ -5,19 +5,19 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.god.kahit.Events.AllPlayersReadyEvent;
-import com.god.kahit.Events.CategoryVoteResultEvent;
-import com.god.kahit.Events.EventBusGreenRobot;
-import com.god.kahit.Events.GameJoinedLobbyEvent;
-import com.god.kahit.Events.GameLostConnectionEvent;
-import com.god.kahit.Events.GameStartedEvent;
-import com.god.kahit.Events.LobbyNameChangeEvent;
-import com.god.kahit.Events.MyPlayerIdChangedEvent;
-import com.god.kahit.Events.NewViewEvent;
-import com.god.kahit.Events.PlayerAnsweredQuestionEvent;
-import com.god.kahit.Events.PlayerVotedCategoryEvent;
-import com.god.kahit.Events.RoomChangeEvent;
-import com.god.kahit.Events.TimedOutEvent;
+import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
+import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
+import com.god.kahit.applicationEvents.EventBusGreenRobot;
+import com.god.kahit.applicationEvents.GameJoinedLobbyEvent;
+import com.god.kahit.applicationEvents.GameLostConnectionEvent;
+import com.god.kahit.applicationEvents.GameStartedEvent;
+import com.god.kahit.applicationEvents.LobbyNameChangeEvent;
+import com.god.kahit.applicationEvents.MyPlayerIdChangedEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
+import com.god.kahit.applicationEvents.PlayerAnsweredQuestionEvent;
+import com.god.kahit.applicationEvents.PlayerVotedCategoryEvent;
+import com.god.kahit.applicationEvents.RoomChangeEvent;
+import com.god.kahit.applicationEvents.TimedOutEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
@@ -52,7 +52,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class Repository { //todo implement a strategy pattern, as we got two different states, host & non-host
     private static final String TAG = Repository.class.getSimpleName();

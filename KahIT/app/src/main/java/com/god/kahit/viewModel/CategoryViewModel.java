@@ -3,9 +3,9 @@ package com.god.kahit.viewModel;
 
 import android.util.Log;
 
-import com.god.kahit.Events.CategoryVoteResultEvent;
-import com.god.kahit.Events.NewViewEvent;
-import com.god.kahit.Events.PlayerVotedCategoryEvent;
+import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
+import com.god.kahit.applicationEvents.PlayerVotedCategoryEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Player;
@@ -19,7 +19,7 @@ import java.util.Random;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = CategoryViewModel.class.getSimpleName();

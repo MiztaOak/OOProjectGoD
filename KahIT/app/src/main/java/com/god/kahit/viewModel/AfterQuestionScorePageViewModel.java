@@ -3,7 +3,7 @@ package com.god.kahit.viewModel;
 
 import android.util.Log;
 
-import com.god.kahit.Events.NewViewEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.view.CategoryView;
@@ -17,7 +17,7 @@ import java.util.List;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class AfterQuestionScorePageViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = AfterQuestionScorePageViewModel.class.getSimpleName();

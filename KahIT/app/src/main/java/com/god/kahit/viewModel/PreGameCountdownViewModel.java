@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Events.NewViewEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.view.QuestionView;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * @responsibility: A class that places a countdown timer in center of the layout

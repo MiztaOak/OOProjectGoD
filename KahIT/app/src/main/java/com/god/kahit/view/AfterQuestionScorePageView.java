@@ -12,9 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.god.kahit.Events.AllPlayersReadyEvent;
-import com.god.kahit.Events.GameLostConnectionEvent;
-import com.god.kahit.Events.NewViewEvent;
+import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
+import com.god.kahit.applicationEvents.GameLostConnectionEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.R;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -24,7 +24,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class AfterQuestionScorePageView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();

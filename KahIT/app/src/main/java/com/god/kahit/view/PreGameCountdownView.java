@@ -10,15 +10,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.god.kahit.Events.AllPlayersReadyEvent;
-import com.god.kahit.Events.GameLostConnectionEvent;
-import com.god.kahit.Events.NewViewEvent;
+import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
+import com.god.kahit.applicationEvents.GameLostConnectionEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.R;
 import com.god.kahit.viewModel.PreGameCountdownViewModel;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * @responsibility: A class that shows a countdown timer before starting the game.

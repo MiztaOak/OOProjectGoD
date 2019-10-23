@@ -1,7 +1,7 @@
 package com.god.kahit.model;
 
-import com.god.kahit.Events.EventBusGreenRobot;
-import com.god.kahit.Events.LotteryDrawEvent;
+import com.god.kahit.applicationEvents.EventBusGreenRobot;
+import com.god.kahit.model.modelEvents.LotteryDrawEvent;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

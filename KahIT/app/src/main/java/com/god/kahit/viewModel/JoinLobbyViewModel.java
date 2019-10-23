@@ -2,7 +2,7 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
-import com.god.kahit.Events.RoomChangeEvent;
+import com.god.kahit.applicationEvents.RoomChangeEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.networkManager.Connection;
 
@@ -16,7 +16,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = JoinLobbyViewModel.class.getSimpleName();

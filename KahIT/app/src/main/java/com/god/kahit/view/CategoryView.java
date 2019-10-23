@@ -10,11 +10,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.god.kahit.Events.AllPlayersReadyEvent;
-import com.god.kahit.Events.CategoryVoteResultEvent;
-import com.god.kahit.Events.GameLostConnectionEvent;
-import com.god.kahit.Events.NewViewEvent;
-import com.god.kahit.Events.PlayerVotedCategoryEvent;
+import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
+import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
+import com.god.kahit.applicationEvents.GameLostConnectionEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
+import com.god.kahit.applicationEvents.PlayerVotedCategoryEvent;
 import com.god.kahit.R;
 import com.god.kahit.viewModel.CategoryViewModel;
 
@@ -26,7 +26,7 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class CategoryView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
