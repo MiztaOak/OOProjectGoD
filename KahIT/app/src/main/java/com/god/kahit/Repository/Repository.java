@@ -255,7 +255,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                             questionId, givenAnswer, Long.toString(timeLeft)));
 
                     Player player = playerManager.getPlayer(targetPlayerId);
-                    Category category = Category.getCategoryByString(categoryId);
+                    Category category = Category.getCategoryById(categoryId);
                     Question question = quizGame.getQuestion(category, Integer.valueOf(questionId));
 
                     quizGame.enterAnswer(player, givenAnswer, question, timeLeft);
@@ -823,7 +823,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void fireTeamChangeEvent() {
-        playerManager.fireTeamChangeEvent();
+        if(playerManager != null) {
+            playerManager.fireTeamChangeEvent();
+        }else {
+            Log.i(TAG, "fireTeamChangeEvent: Attempt to call fireTeamChangeEvent with null playerManager, skipping call");
+        }
     }
 
     public void fireRoomChangeEvent() {
