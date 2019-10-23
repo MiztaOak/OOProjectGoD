@@ -1,5 +1,6 @@
 package com.god.kahit.model;
 
+import com.god.kahit.applicationEvents.EventBusGreenRobot;
 import com.god.kahit.model.modelEvents.LotteryDrawEvent;
 import com.god.kahit.model.modelEvents.QuestionEvent;
 
@@ -54,7 +55,7 @@ public class QuizGame {
             currentCategory = Category.Mix;
             loadIndexMap();
 
-            store = new Store();
+            store = new Store(new EventBusGreenRobot());
             lottery = new Lottery();
             gameIsStarted = true;
         }

@@ -1,6 +1,7 @@
 package com.god.kahit.model;
 
 import com.god.kahit.ItemDataLoaderMock;
+import com.god.kahit.applicationEvents.EventBusGreenRobot;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class StoreTest {
     @Before
     public void setup(){
         ItemFactory.setDataLoader(new ItemDataLoaderMock());
-        store = new Store();
+        store = new Store(new EventBusGreenRobot());
         player = new Player("player","p");
     }
 
