@@ -54,7 +54,7 @@ public class QuizGame {
             currentCategory = Category.Mix;
             loadIndexMap();
 
-            store = new Store();
+            store = new Store(eventBus);
             lottery = new Lottery();
             gameIsStarted = true;
         }
