@@ -2,10 +2,10 @@ package com.god.kahit.viewModel;
 
 import android.util.Log;
 
-import com.god.kahit.model.modelEvents.LotteryDrawEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
+import com.god.kahit.model.modelEvents.LotteryDrawEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -21,9 +21,9 @@ import androidx.lifecycle.ViewModel;
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
- * @responsibility: This class is responsible for the LiveDAta of lottery in the game.
+ * @responsibility: This class is responsible for the LiveData of lottery in the game.
  * @used-by: LotteryView
- * @author: Jakob Ewerstrand
+ * @author: Mats Cedervall, Jakob Ewerstrand
  */
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = LotteryViewModel.class.getSimpleName();
@@ -70,7 +70,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public MutableLiveData<List<Player>> getPlayerListLiveData() {
-        if(playerListLiveData == null) {
+        if (playerListLiveData == null) {
             playerListLiveData = new MutableLiveData<>();
             loadPlayerListLiveData();
         }
