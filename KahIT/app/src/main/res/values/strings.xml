@@ -66,6 +66,7 @@
     <string name="player_list">Player list</string>
     <string name="team">Team</string>
     <string name="start_game">start game</string>
+    <string name="vote_for_next_category">Vote for next category</string>
     <string name="all_players_must_be_ready_to_start_the_game">All players must be ready to start the game</string>
     <string name="perfect_meatballs">Perfect Meatballs</string>
 </resources>

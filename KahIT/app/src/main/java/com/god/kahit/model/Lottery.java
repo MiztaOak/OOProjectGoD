@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @responsibility: This class is responsible for the Lottery in the game.
  * @used-by: QuizGame.
- * @author: Oussama Anadani
+ * @author: Oussama Anadani & Jakob Ewerstrand
  */
 public class Lottery {
     private List<Item> itemList; // buffs or debuffs
