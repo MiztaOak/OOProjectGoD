@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.god.kahit.Events.GameJoinedLobbyEvent;
+import com.god.kahit.applicationEvents.GameJoinedLobbyEvent;
 import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
@@ -31,7 +31,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class JoinLobbyNetView extends AppCompatActivity {
     private static final String LOG_TAG = JoinLobbyNetView.class.getSimpleName();

@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-import com.god.kahit.Events.TeamChangeEvent;
+import com.god.kahit.model.modelEvents.TeamChangeEvent;
 
 import java.util.ArrayList;
 import java.util.List;

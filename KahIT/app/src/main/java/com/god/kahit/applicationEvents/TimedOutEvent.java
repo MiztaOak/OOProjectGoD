@@ -1,4 +1,4 @@
-package com.god.kahit.Events;
+package com.god.kahit.applicationEvents;
 
 import com.god.kahit.model.IEvent;
 

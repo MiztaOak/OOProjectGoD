@@ -1,9 +1,8 @@
 package com.god.kahit;
 
-import android.app.Instrumentation;
 import android.os.Looper;
 
-import com.god.kahit.Events.EventBusGreenRobot;
+import com.god.kahit.applicationEvents.EventBusGreenRobot;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;

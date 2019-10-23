@@ -3,9 +3,9 @@ package com.god.kahit.viewModel;
 import android.util.Log;
 import android.util.Pair;
 
-import com.god.kahit.Events.LobbyNameChangeEvent;
-import com.god.kahit.Events.MyPlayerIdChangedEvent;
-import com.god.kahit.Events.TeamChangeEvent;
+import com.god.kahit.applicationEvents.LobbyNameChangeEvent;
+import com.god.kahit.applicationEvents.MyPlayerIdChangedEvent;
+import com.god.kahit.model.modelEvents.TeamChangeEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -24,7 +24,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = LobbyNetViewModel.class.getSimpleName();

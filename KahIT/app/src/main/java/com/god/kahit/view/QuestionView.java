@@ -16,10 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.god.kahit.Events.AllPlayersReadyEvent;
-import com.god.kahit.Events.GameLostConnectionEvent;
-import com.god.kahit.Events.NewViewEvent;
-import com.god.kahit.Events.PlayerAnsweredQuestionEvent;
+import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
+import com.god.kahit.applicationEvents.GameLostConnectionEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
+import com.god.kahit.applicationEvents.PlayerAnsweredQuestionEvent;
 import com.god.kahit.R;
 import com.god.kahit.viewModel.QuestionViewModel;
 import com.google.android.material.navigation.NavigationView;
@@ -38,7 +38,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class QuestionView extends AppCompatActivity {
     private static final String LOG_TAG = QuestionView.class.getSimpleName();

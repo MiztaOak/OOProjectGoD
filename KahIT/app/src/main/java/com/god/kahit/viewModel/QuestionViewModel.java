@@ -8,7 +8,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Events.NewViewEvent;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
@@ -18,7 +18,7 @@ import com.god.kahit.view.AfterQuestionScorePageView;
 import java.util.List;
 import java.util.Objects;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 public class QuestionViewModel extends ViewModel implements LifecycleObserver, QuizListener {
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
