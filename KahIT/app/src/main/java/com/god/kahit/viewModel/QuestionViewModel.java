@@ -9,18 +9,22 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.god.kahit.applicationEvents.NewViewEvent;
+import com.god.kahit.model.modelEvents.QuestionEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
-import com.god.kahit.model.QuizListener;
 import com.god.kahit.view.AfterQuestionScorePageView;
 
 import java.util.List;
 import java.util.Objects;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 
-public class QuestionViewModel extends ViewModel implements LifecycleObserver, QuizListener {
+import org.greenrobot.eventbus.Subscribe;
+
+public class QuestionViewModel extends ViewModel implements LifecycleObserver{
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
     private Repository repository;
     private MutableLiveData<String> questionText;
@@ -35,10 +39,24 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
 
     public QuestionViewModel() {
         repository = Repository.getInstance();
-        repository.addQuizListener(this);
+        if(!BUS.isRegistered(this)){
+            BUS.register(this);
+        }
         if (repository.isRoundOver()) {
             repository.startGame();
         }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onStart(){
+        if(!BUS.isRegistered(this)){
+            BUS.register(this);
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onStop(){
+        BUS.unregister(this);
     }
 
     /**
@@ -61,17 +79,17 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver, Q
     }
 
     /**
-     * Method that receives a question from the model using the quizListener interface
+     * Method that receives a question from the model using the eventBus
      *
-     * @param q - the question that is being received
+     * @param questionEvent - the question even that is received
      */
-    @Override
-    public void receiveQuestion(Question q, int n) {
-        currentQuestion = q;
-        numOfRepeats = n;
+    @Subscribe
+    public void receiveQuestion(QuestionEvent questionEvent) {
+        currentQuestion = questionEvent.getQuestion();
+        numOfRepeats = questionEvent.getNumOfRepeats();
         isCorrectAnswer = false;
-        questionText.setValue(q.getQuestion());
-        questionAlts.setValue(q.getAlternatives());
+        questionText.setValue(currentQuestion.getQuestion());
+        questionAlts.setValue(currentQuestion.getAlternatives());
         questionTime.setValue(currentQuestion.getTime());
 
         playerName.setValue(repository.getCurrentPlayerName());

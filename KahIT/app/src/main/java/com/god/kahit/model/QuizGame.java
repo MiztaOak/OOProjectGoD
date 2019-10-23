@@ -1,7 +1,7 @@
 package com.god.kahit.model;
 
-import com.god.kahit.applicationEvents.EventBusGreenRobot;
 import com.god.kahit.model.modelEvents.LotteryDrawEvent;
+import com.god.kahit.model.modelEvents.QuestionEvent;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class QuizGame {
-    private EventBusGreenRobot eventBus;
+    private IEventBus eventBus;
     private PlayerManager playerManager;
     private GameMode gameMode;
 
@@ -30,14 +30,11 @@ public class QuizGame {
     private boolean gameIsStarted;
     private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
-    private List<QuizListener> listeners;
-
-    public QuizGame(EventBusGreenRobot eventBus, PlayerManager playerManager, GameMode gameMode) {
+    public QuizGame(IEventBus eventBus, PlayerManager playerManager, GameMode gameMode) {
         this.eventBus = eventBus;
         this.playerManager = playerManager;
         this.gameMode = gameMode;
 
-        listeners = new ArrayList<>();
         numOfQuestions = 1; //TODO replace with more "dynamic" way to set thisg
         gameIsStarted = false;
     }
@@ -221,22 +218,17 @@ public class QuizGame {
     }
 
     /**
-     * Method that broadcasts the current question to all listeners of the QuizListener interface
+     * Method that broadcasts the current question and the number of time it should be repeated
+     * to the event bus
      *
      * @param question the question that is being broadcast
      */
     private void broadCastQuestion(Question question) {
-        for (QuizListener quizListener : listeners) {
-            if (gameMode.equals(GameMode.HOT_SWAP)) {
-                quizListener.receiveQuestion(question, playerManager.getTotalAmountOfPlayers());
-            } else {
-                quizListener.receiveQuestion(question, 1);
-            }
+        if (gameMode.equals(GameMode.HOT_SWAP)) {
+            eventBus.post(new QuestionEvent(question, playerManager.getTotalAmountOfPlayers()));
+        } else {
+            eventBus.post(new QuestionEvent(question, 1));
         }
-    }
-
-    public void addListener(QuizListener quizListener) {
-        listeners.add(quizListener);
     }
 
     /**

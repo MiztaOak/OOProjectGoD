@@ -67,6 +67,7 @@ public class QuestionView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
         model = ViewModelProviders.of(this).get(QuestionViewModel.class);
+        getLifecycle().addObserver(model);
 
         initLayoutViews();
         setupListeners(savedInstanceState);
