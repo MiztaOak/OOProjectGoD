@@ -28,6 +28,13 @@ import androidx.lifecycle.ViewModelProviders;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ *The view class for the categoryView, allowing the user to pick one out of four different categories
+ *
+ * used by: AfterQuestionScorePageViewModel, LotteryView, Repository
+ *
+ * @author Johan EK
+ */
 public class CategoryView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
     private TextView sessionTypeTextView;
@@ -52,6 +59,9 @@ public class CategoryView extends AppCompatActivity {
         categoryButtons.add((ImageButton) findViewById(R.id.cButton4));
     }
 
+    /**
+     * Method that attaches images to the image buttons based on the categories in the viewModel
+     */
     private void addPicturesToButton() {
         for (int i = 0; i < categoryButtons.size(); i++) {
             int resId = getResources().getIdentifier(model.getCategories()[i].toString() + "icon", "drawable", getApplicationInfo().packageName);
