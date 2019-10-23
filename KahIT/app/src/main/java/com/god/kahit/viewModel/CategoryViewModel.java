@@ -21,6 +21,14 @@ import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * The viewModel for the CategoryView, the class handles the fetching of data for the
+ * view.
+ *
+ * used by: CategoryView
+ *
+ * @author Johan EK
+ */
 public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = CategoryViewModel.class.getSimpleName();
     private Repository repository;

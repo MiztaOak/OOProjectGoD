@@ -2,7 +2,7 @@ package com.god.kahit.ViewModel;
 
 import android.util.Log;
 
-import com.god.kahit.Events.LotteryDrawEvent;
+import com.god.kahit.model.modelEvents.LotteryDrawEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
@@ -18,7 +18,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import static com.god.kahit.Events.EventBusGreenRobot.BUS;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * @responsibility: This class is responsible for the LiveDAta of lottery in the game.

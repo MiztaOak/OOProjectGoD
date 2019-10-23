@@ -40,6 +40,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * The view class for the view where the user can answer questions and by items
+ *
+ * used by: AfterQuestionScorePageView, AfterQuestionScorePageViewModel, CategoryView,
+ * CategoryViewModel, ChooseGameView, HotSwapAddPlayerView, PreGameCountdownViewModel,
+ * Repository
+ *
+ * @author Johan Ek &
+ */
 public class QuestionView extends AppCompatActivity {
     private static final String LOG_TAG = QuestionView.class.getSimpleName();
     private final Handler h1 = new Handler();

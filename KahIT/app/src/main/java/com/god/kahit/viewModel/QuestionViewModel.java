@@ -24,6 +24,14 @@ import androidx.lifecycle.OnLifecycleEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 
+/**
+ * The viewModel for the QuestionView, the class handles the fetching of data for the
+ * view.
+ *
+ * used by: QuestionView, QuestionViewModel_LifecycleAdapter
+ *
+ * @author Johan EK
+ */
 public class QuestionViewModel extends ViewModel implements LifecycleObserver{
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
     private Repository repository;

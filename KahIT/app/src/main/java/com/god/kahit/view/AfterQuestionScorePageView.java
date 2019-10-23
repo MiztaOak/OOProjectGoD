@@ -26,6 +26,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * The view class for AfterQuestionScorePage, displaying a leaderboard
+ *
+ * used by: CategoryView, QuestionViewModel, Repository
+ *
+ * @author Johan Ek &
+ */
 public class AfterQuestionScorePageView extends AppCompatActivity {
     private static final String LOG_TAG = AfterQuestionScorePageView.class.getSimpleName();
     private com.god.kahit.viewModel.AfterQuestionScorePageViewModel model;
