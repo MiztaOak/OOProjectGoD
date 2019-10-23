@@ -1,1 +1,1 @@
-include ':app', ':libKahit'
+include ':app', ':libKahit', ':kahit'
