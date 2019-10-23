@@ -362,9 +362,7 @@ public class QuestionView extends AppCompatActivity {
             public void onAnimationEnd(final Animator animation) {
                 if (model.isHotSwap()) {
                     final boolean isMoveOn = model.isMoveOn();
-                    if (isMoveOn) {
-                        updateViewAfterAnimation();
-                    }
+                    updateViewAfterAnimation();
                     h1.postDelayed(new Runnable() {
                         @Override
                         public void run() {
