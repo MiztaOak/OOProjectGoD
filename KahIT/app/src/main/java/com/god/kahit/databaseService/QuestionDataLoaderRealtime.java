@@ -38,7 +38,7 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
     private Map<Category,List<Question>>  questions;
 
     private final Toast errorToast;
-    private final Toast succesToast;
+    private final Toast successToast;
 
     @SuppressLint("ShowToast")
     public QuestionDataLoaderRealtime(Context context){
@@ -48,7 +48,7 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
 
 
         errorToast = Toast.makeText(context, context.getString(R.string.databaseError),Toast.LENGTH_LONG);
-        succesToast = Toast.makeText(context, context.getString(R.string.databaseConnect),Toast.LENGTH_LONG);
+        successToast = Toast.makeText(context, context.getString(R.string.databaseConnect),Toast.LENGTH_LONG);
 
         questions = new HashMap<>();
         loadData();
@@ -86,7 +86,7 @@ public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean connected = dataSnapshot.getValue(Boolean.class);
                 if(connected){
-                    succesToast.show();
+                    successToast.show();
                 }else{
                     errorToast.show();
                 }

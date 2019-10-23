@@ -29,7 +29,7 @@ public class QuestionDataHolder {
         this.time = time;
     }
 
-    public Question createQuestion(Category category){
+    Question createQuestion(Category category){
         List<String> newAlts = new ArrayList<>(alts);
         newAlts.add(answer);
         return new Question(category,question,answer,newAlts,(int)time);
