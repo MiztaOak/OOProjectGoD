@@ -12,17 +12,18 @@ import com.god.kahit.model.Item;
  * @author Johan Ek
  */
 public  class BuffDataHolder extends ModifierDataHolder{
-    private long amountOfAlternatives;
+    private int amountOfAlternatives;
 
     public BuffDataHolder() {
+        super();
     }
 
     @Override
     public Item createItem() {
-        return new Buff(getName(),getPrice(),getScoreMultiplier(),getTimeHeadstart(),(int)getAmountOfAlternatives(),getId());
+        return new Buff(getName(),getPrice(),getScoreMultiplier(),getTimeHeadstart(),getAmountOfAlternatives(),getId());
     }
 
-    public long getAmountOfAlternatives() {
+    public int getAmountOfAlternatives() {
         return amountOfAlternatives;
     }
 }

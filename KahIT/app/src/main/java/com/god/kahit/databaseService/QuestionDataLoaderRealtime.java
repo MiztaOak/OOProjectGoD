@@ -34,17 +34,16 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
  * @author Johan Ek
  */
 public class QuestionDataLoaderRealtime implements IQuestionDataLoader {
-    private FirebaseDatabase db;
-    private DatabaseReference databaseReference;
+    private final DatabaseReference databaseReference;
     private Map<Category,List<Question>>  questions;
 
-    private Toast errorToast;
-    private Toast succesToast;
+    private final Toast errorToast;
+    private final Toast succesToast;
 
     @SuppressLint("ShowToast")
     public QuestionDataLoaderRealtime(Context context){
         FirebaseApp.initializeApp(context);
-        db = FirebaseDatabase.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference("questions");
 
 

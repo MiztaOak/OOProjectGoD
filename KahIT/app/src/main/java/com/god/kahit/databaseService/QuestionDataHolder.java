@@ -4,7 +4,6 @@ import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

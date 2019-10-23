@@ -10,7 +10,7 @@ import java.util.List;
  * for scrambling the alternatives and telling if the answer that was given is correct
  *
  * used by: IQuestionDataLoader, QuestionDataLoaderRealtime, QuestionFactory, QuestionViewModel,
- * QuizGame, QuizListener, Repository
+ * QuizGame, QuestionEvent, Repository
  *
  * @author Johan Ek & Jakob Ewerstrand
  */

@@ -3,17 +3,17 @@ package com.god.kahit;
 import android.os.Looper;
 
 import com.god.kahit.applicationEvents.EventBusGreenRobot;
+import com.god.kahit.model.modelEvents.QuestionEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.GameMode;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.PlayerManager;
-import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
-import com.god.kahit.model.QuizListener;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import androidx.test.runner.AndroidJUnit4;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(AndroidJUnit4.class)
-public class QuizGameTest implements QuizListener {
+public class QuizGameTest{
     private QuizGame quizGame;
 
     @Before
@@ -53,8 +53,8 @@ public class QuizGameTest implements QuizListener {
         } while (!quizGame.isRoundOver());
     }
 
-    @Override
-    public void receiveQuestion(Question q,int n) {
-        Assert.assertEquals(q.getCategory(), Category.History);
+    @Subscribe
+    public void receiveQuestion(QuestionEvent q) {
+        Assert.assertEquals(q.getQuestion().getCategory(), Category.History);
     }
 }

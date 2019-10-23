@@ -35,9 +35,8 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
  * @author Johan Ek
  */
 public class ItemDataLoaderRealtime implements IItemDataLoader {
-    private FirebaseDatabase db;
-    private DatabaseReference databaseReference;
-    private static Map<String, String> itemImageNameMap;
+    private final DatabaseReference databaseReference;
+    private final static Map<String, String> itemImageNameMap = new HashMap<>();
 
     private List<Buff> buffList;
     private List<Debuff> debuffList;
@@ -45,12 +44,9 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
 
     public ItemDataLoaderRealtime(Context context) {
         FirebaseApp.initializeApp(context);
-        db = FirebaseDatabase.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference("items");
 
-        if (itemImageNameMap == null) {
-            itemImageNameMap = new HashMap<>();
-        }
         buffList = new ArrayList<>();
         debuffList = new ArrayList<>();
         vanityItemList = new ArrayList<>();
@@ -112,6 +108,9 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
                 break;
             case "vanityItems":
                 itemDataHolder = itemData.getValue(VanityItemDataHolder.class);
+                break;
+            default:
+                itemDataHolder = null;
                 break;
         }
         if (itemDataHolder != null) {

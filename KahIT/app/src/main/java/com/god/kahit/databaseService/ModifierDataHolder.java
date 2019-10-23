@@ -13,6 +13,7 @@ public abstract class ModifierDataHolder extends ItemDataHolder {
     private int timeHeadstart;
 
     public ModifierDataHolder() {
+        super();
     }
 
     public double getScoreMultiplier() {

@@ -15,6 +15,7 @@ public class DebuffDataHolder extends ModifierDataHolder {
     private boolean autoAlt;
 
     public DebuffDataHolder() {
+        super();
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.god.kahit.model.VanityItem;
  */
 public class VanityItemDataHolder extends ItemDataHolder{
     public VanityItemDataHolder() {
+        super();
     }
 
     @Override

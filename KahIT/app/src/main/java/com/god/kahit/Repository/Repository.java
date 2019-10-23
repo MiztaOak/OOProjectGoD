@@ -30,7 +30,6 @@ import com.god.kahit.model.PlayerManager;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
-import com.god.kahit.model.QuizListener;
 import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
 import com.god.kahit.networkManager.Callbacks.HostEventCallback;
 import com.god.kahit.networkManager.Callbacks.NetworkCallback;
@@ -448,10 +447,6 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     public void setupDataBaseLoader(Context context) {
         QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(context));
         ItemFactory.setDataLoader(new ItemDataLoaderRealtime(context));
-    }
-
-    public void addQuizListener(QuizListener quizListener) {
-        quizGame.addListener(quizListener);
     }
 
     public void broadcastStartGame() {
