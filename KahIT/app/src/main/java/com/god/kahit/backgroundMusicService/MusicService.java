@@ -18,7 +18,8 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     private MediaPlayer mPlayer;
     private int length = 0; // to know the current position of the song, when song is paused.
 
-    public MusicService() { //Fixes lint error //todo Is this the only way?
+    public MusicService(){ //Fixes lint error //todo Is this the only way?
+
 
     }
 

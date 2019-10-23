@@ -27,6 +27,7 @@ public class Lottery {
      * This method does the lottery.
      * It assigns the winning item to the players.
      * @param playerList A list of players that the winning item will be assigned to.
+     * @return A list of players with the won item that they got
      */
     Map<Player, Item> drawItem(List<Player> playerList) {
         winnings = new HashMap<>();
