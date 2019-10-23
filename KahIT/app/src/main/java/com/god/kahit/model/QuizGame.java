@@ -12,6 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * @responsibility: This class is a aggregate class for game play specific classes. Basically
+ * handles everything model related apart from players and teams.
+ * @used-by: This class is used in the following classes:
+ * Repository
+ * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ */
+
 public class QuizGame {
     private IEventBus eventBus;
     private PlayerManager playerManager;
