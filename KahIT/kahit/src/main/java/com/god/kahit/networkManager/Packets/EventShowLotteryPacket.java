@@ -1,6 +1,5 @@
 package com.god.kahit.networkManager.Packets;
 
-import android.text.TextUtils;
 
 public class EventShowLotteryPacket extends Packet {
     public static final int PACKET_ID = 19;
@@ -28,11 +27,11 @@ public class EventShowLotteryPacket extends Packet {
         String[] playersWonItemsArr = new String[playersWonItemsMatrix.length];
         for (int i = 0; i < playersWonItemsMatrix.length; i++) {
             //Construct a array looking like: {playerId;wonItemId, playerId;wonItemId,...}
-            playersWonItemsArr[i] = TextUtils.join(";", playersWonItemsMatrix[i]); //Use semi-colon as separator
+            playersWonItemsArr[i] = ";"; //Use semi-colon as separator
         }
 
         //Construct a string looking like: "playerId;wonItemId;playerId;wonItemId;..."
-        String extractedPlayersWonItems = TextUtils.join(";", playersWonItemsArr); //Use semi-colon as separator
+        String extractedPlayersWonItems = ";"; //Use semi-colon as separator
         return extractedPlayersWonItems.getBytes();
     }
 

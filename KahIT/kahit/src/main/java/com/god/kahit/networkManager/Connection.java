@@ -1,7 +1,5 @@
 package com.god.kahit.networkManager;
 
-import androidx.annotation.Nullable;
-
 public class Connection {
     private String id;
     private String name;
@@ -48,7 +46,7 @@ public class Connection {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals( Object obj) {
         if (obj == null) {
             return false;
         } else if (obj == this) {

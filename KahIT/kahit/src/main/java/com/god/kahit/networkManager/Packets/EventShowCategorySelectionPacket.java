@@ -1,6 +1,5 @@
 package com.god.kahit.networkManager.Packets;
 
-import android.text.TextUtils;
 
 public class EventShowCategorySelectionPacket extends Packet {
     public static final int PACKET_ID = 18;
@@ -18,7 +17,7 @@ public class EventShowCategorySelectionPacket extends Packet {
 
     private byte[] createContent(String[] categoryIds) { //todo maybe change to another separator than a semi-colon? \n?
         verifyContent(categoryIds);
-        String extractedCategoryIds = TextUtils.join(";", categoryIds); //Use semi-colon as separator
+        String extractedCategoryIds = "help";
         return extractedCategoryIds.getBytes();
     }
 
