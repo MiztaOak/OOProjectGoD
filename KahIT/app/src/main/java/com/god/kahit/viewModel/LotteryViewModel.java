@@ -1,15 +1,24 @@
 package com.god.kahit.ViewModel;
 
+import android.util.Log;
+
+import com.god.kahit.Events.LotteryDrawEvent;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 import java.util.Map;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
+
+import static com.god.kahit.Events.EventBusGreenRobot.BUS;
 
 /**
  * @responsibility: This class is responsible for the LiveDAta of lottery in the game.
@@ -24,10 +33,24 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     private MutableLiveData<List<Player>> playerListLiveData;
 
     public LotteryViewModel() {
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
     }
 
-    public void drawLottery() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onStart() {
+        Log.d(TAG, "onStart");
+
+        if (!BUS.isRegistered(this)) {
+            BUS.register(this);
+        }
         Repository.getInstance().drawLottery();
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onStop() {
+        BUS.unregister(this);
     }
 
     public MutableLiveData<List<Item>> getItemListLiveData() {
@@ -42,6 +65,7 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
         if (mapWinningsLiveData == null) {
             mapWinningsLiveData = new MutableLiveData<>();
         }
+
         return mapWinningsLiveData;
     }
 
@@ -59,5 +83,11 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
 
     private void loadPlayerListLiveData() {
         playerListLiveData.setValue(Repository.getInstance().getPlayers());
+    }
+
+    @Subscribe
+    public void onLotteryDrawEvent(LotteryDrawEvent event) {
+        Log.d(TAG, "onLotteryDrawEvent: triggered");
+        mapWinningsLiveData.setValue(event.getWinnings());
     }
 }
