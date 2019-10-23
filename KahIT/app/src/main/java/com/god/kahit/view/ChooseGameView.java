@@ -7,22 +7,29 @@ import android.view.View;
 
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.viewModel.ChooseGameViewModel;
+import com.god.kahit.viewModel.QuestionViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 public class ChooseGameView extends AppCompatActivity {
     private static final String LOG_TAG = ChooseGameView.class.getSimpleName();
+    private ChooseGameViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_game_activity);
+
+        model = ViewModelProviders.of(this).get(ChooseGameViewModel.class);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Repository.getInstance().resetApp(); //todo move to a viewModel?
+        model.resetApp();
     }
     
     public void launchBackMainActivityClass(View view) {

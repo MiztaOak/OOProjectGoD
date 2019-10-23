@@ -2,8 +2,9 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
-import com.god.kahit.applicationEvents.RoomChangeEvent;
+import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.applicationEvents.RoomChangeEvent;
 import com.god.kahit.networkManager.Connection;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -77,6 +78,10 @@ public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
 
     public void clearConnections() {
         repository.clearConnections();
+    }
+
+    public String getNewGeneratedPlayerName() {
+        return NameGenerator.generatePlayerName();
     }
 
     public String getPlayerName() {

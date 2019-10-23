@@ -17,7 +17,7 @@ import java.util.Objects;
  * handles everything model related apart from players and teams.
  * @used-by: This class is used in the following classes:
  * Repository
- * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Mats Cedervall, Jakob Ewerstrand
  */
 
 public class QuizGame {

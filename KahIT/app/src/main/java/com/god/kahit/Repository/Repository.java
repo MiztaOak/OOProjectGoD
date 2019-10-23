@@ -22,7 +22,6 @@ import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.GameMode;
-import com.god.kahit.model.Debuff;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Player;
@@ -176,9 +175,10 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     } else {
                         Log.i(TAG, "onConnectionLost: attempt to call broadcastPlayerLeft on null packetHandler, ignoring call");
                     }
+
+                    sendEventIfAllPlayersReady();
                 } else {
                     BUS.post(new GameLostConnectionEvent());
-                    sendEventIfAllPlayersReady();
                 }
             }
 
@@ -630,9 +630,13 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     private void sendEventIfAllPlayersReady() {
-        if (playerManager.checkAllPlayersReady()) {
-            Log.i(TAG, "setPlayerReady: All players are ready, triggering AllPlayersReadyEvent.");
-            BUS.post(new AllPlayersReadyEvent());
+        if (playerManager != null) {
+            if (playerManager.checkAllPlayersReady()) {
+                Log.i(TAG, "setPlayerReady: All players are ready, triggering AllPlayersReadyEvent.");
+                BUS.post(new AllPlayersReadyEvent());
+            }
+        } else {
+            Log.i(TAG, "sendEventIfAllPlayersReady: Attempt to call checkAllPlayersReady with null playerManager, ignoring call");
         }
     }
 
@@ -794,8 +798,6 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void resetApp() {
         Log.i(TAG, "resetApp: performing a reset of playerManager, quizGame, networkManager and packetHandler");
-        playerManager = null;
-        quizGame = null;
         appLifecycleHandler.setActive(false);
 
         if (networkManager != null) {
@@ -805,6 +807,9 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         } else {
             Log.i(TAG, "resetApp: Attempt to call cleanStop with null networkManager, skipping call");
         }
+
+        quizGame = null;
+        playerManager = null;
     }
 
     public void addNewPlayerToEmptyTeam() {
@@ -821,9 +826,9 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void fireTeamChangeEvent() {
-        if(playerManager != null) {
+        if (playerManager != null) {
             playerManager.fireTeamChangeEvent();
-        }else {
+        } else {
             Log.i(TAG, "fireTeamChangeEvent: Attempt to call fireTeamChangeEvent with null playerManager, skipping call");
         }
     }
@@ -932,23 +937,25 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
      *
      * @return : boolean which indicates if a player has the buff or not.
      */
-    public boolean isHalfTheAlternatives(){
+    public boolean isHalfTheAlternatives() {
         return (playerManager.getCurrentPlayer().getAmountOfAlternatives() != 0);
     }
 
     /**
      * A method that rendomizes a player to debuff.
+     *
      * @param debuffPlayerEvent: which debuff to debuff a player with.
      */
     @Subscribe
-    public void debuffPlayer(DebuffPlayerEvent debuffPlayerEvent){
-        int index = (int) (Math.random()*(playerManager.getPlayers().size()));
+    public void debuffPlayer(DebuffPlayerEvent debuffPlayerEvent) {
+        int index = (int) (Math.random() * (playerManager.getPlayers().size()));
         playerManager.getPlayers().get(index).setDebuff(debuffPlayerEvent.getDebuff());
     }
 
-    public boolean isAutoAnswer(){
+    public boolean isAutoAnswer() {
         return playerManager.getCurrentPlayer().isAutoAnswer();
     }
+
     public String getCurrentPlayerName() {
         return playerManager.getCurrentPlayer().getName();
     }

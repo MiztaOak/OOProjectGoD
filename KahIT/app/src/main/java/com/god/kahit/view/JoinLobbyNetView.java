@@ -70,7 +70,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
         joinLobbyViewModel.setupNetwork(getApplicationContext());
 
         //Force set player name
-        playerNameTextInputEditText.setText(NameGenerator.generatePlayerName());
+        playerNameTextInputEditText.setText(joinLobbyViewModel.getNewGeneratedPlayerName());
         playerNameTextInputEditText.requestFocus();
         playerNameTextInputEditText.clearFocus();
 

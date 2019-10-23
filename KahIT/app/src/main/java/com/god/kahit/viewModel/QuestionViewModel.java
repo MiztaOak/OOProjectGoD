@@ -4,25 +4,25 @@ import android.animation.ObjectAnimator;
 import android.util.Log;
 import android.util.Pair;
 
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.applicationEvents.NewViewEvent;
-import com.god.kahit.model.modelEvents.QuestionEvent;
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Question;
+import com.god.kahit.model.modelEvents.QuestionEvent;
 import com.god.kahit.view.AfterQuestionScorePageView;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
 
-import org.greenrobot.eventbus.Subscribe;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * The viewModel for the QuestionView, the class handles the fetching of data for the
@@ -47,7 +47,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
 
     public QuestionViewModel() {
         repository = Repository.getInstance();
-        if(!BUS.isRegistered(this)){
+        if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
         if (repository.isRoundOver()) {
@@ -56,14 +56,14 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void onStart(){
-        if(!BUS.isRegistered(this)){
+    public void onStart() {
+        if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onStop(){
+    public void onStop() {
         BUS.unregister(this);
     }
 
@@ -165,11 +165,19 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
         return questionText;
     }
 
+    public void setQuestionText(MutableLiveData<String> questionText) {
+        this.questionText = questionText;
+    }
+
     public MutableLiveData<List<String>> getQuestionAlts() {
         if (questionAlts == null) {
             questionAlts = new MutableLiveData<>();
         }
         return questionAlts;
+    }
+
+    public void setQuestionAlts(MutableLiveData<List<String>> questionAlts) {
+        this.questionAlts = questionAlts;
     }
 
     public MutableLiveData<Integer> getQuestionTime() {
@@ -179,6 +187,10 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
         return questionTime;
     }
 
+    public void setQuestionTime(MutableLiveData<Integer> questionTime) {
+        this.questionTime = questionTime;
+    }
+
     public MutableLiveData<String> getPlayerName() {
         if (playerName == null) {
             playerName = new MutableLiveData<>();
@@ -186,8 +198,16 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
         return playerName;
     }
 
+    public void setPlayerName(MutableLiveData<String> playerName) {
+        this.playerName = playerName;
+    }
+
     public boolean isCorrectAnswer() {
         return isCorrectAnswer;
+    }
+
+    public void setCorrectAnswer(boolean correctAnswer) {
+        isCorrectAnswer = correctAnswer;
     }
 
     public boolean isAutoAnswer() {
@@ -247,35 +267,15 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
         this.repository = repository;
     }
 
-    public void setQuestionText(MutableLiveData<String> questionText) {
-        this.questionText = questionText;
-    }
-
-    public void setQuestionAlts(MutableLiveData<List<String>> questionAlts) {
-        this.questionAlts = questionAlts;
-    }
-
-    public void setQuestionTime(MutableLiveData<Integer> questionTime) {
-        this.questionTime = questionTime;
-    }
-
-    public void setPlayerName(MutableLiveData<String> playerName) {
-        this.playerName = playerName;
-    }
-
-    public void setCurrentQuestion(Question currentQuestion) {
-        this.currentQuestion = currentQuestion;
-    }
-
-    public void setCorrectAnswer(boolean correctAnswer) {
-        isCorrectAnswer = correctAnswer;
-    }
-
     public void setNumOfRepeats(int numOfRepeats) {
         this.numOfRepeats = numOfRepeats;
     }
 
     public Question getCurrentQuestion() {
         return currentQuestion;
+    }
+
+    public void setCurrentQuestion(Question currentQuestion) {
+        this.currentQuestion = currentQuestion;
     }
 }
