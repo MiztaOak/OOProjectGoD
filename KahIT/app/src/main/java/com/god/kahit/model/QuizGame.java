@@ -240,7 +240,8 @@ public class QuizGame {
     }
 
     /**
-     * Method called for the outside of the model to report the given answer on a question
+     * Method called from the outside of the model to report the given answer on a question
+     * It calls a method that updates the score of a player and then clears the modifier of a player
      *
      * @param givenAnswer the alternative that the user choose to provide
      * @param question    - the question that was asked
@@ -248,9 +249,8 @@ public class QuizGame {
      */
     public void enterAnswer(Player player, String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-            double scoreDelta = ((double) scorePerQuestion) * (((double) timeLeft) / ((double) question.getTime()));
-            player.updateScore((int) scoreDelta);
         }
+            player.updateScore(timeLeft, question.getTime());
         player.clearModifier();
     }
 

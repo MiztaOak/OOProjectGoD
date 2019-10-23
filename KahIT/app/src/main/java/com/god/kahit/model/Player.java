@@ -1,6 +1,6 @@
 package com.god.kahit.model;
 
-public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
+public class  Player { //todo revise with better use of access-modifiers. e.i not public everywhere
     private String id;
     private String name;
     private int score;
@@ -23,6 +23,8 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
 
     /**
      * A method that sets the values of effects of a Buff to players own values
+     *
+     * @param buff: Which buff to be set to the player.
      */
     public void setBuff(Buff buff) {
         scoreMultiplier = buff.getScoreMultiplier() *scoreMultiplier;
@@ -31,6 +33,8 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     }
     /**
      * A method that sets the values of effects of a Debuff to players own values
+     *
+     * @param debuff: Which buff to be set to the player.
      */
     public void setDebuff(Debuff debuff) {
         scoreMultiplier = debuff.getScoreMultiplier() *scoreMultiplier;
@@ -41,16 +45,28 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     /**
      * A method that clears the effect of a Modifier after  it has been used
      */
-    public void clearModifier(){
+    void clearModifier(){
         this.scoreMultiplier = 1;
         this.amountOfTime = 0;
         this.amountOfAlternatives = 0;
         this.autoAnswer = false;
     }
 
-    public void updateScore(int points) { //todo rename to addScore
-        this.score += points*scoreMultiplier;
-    } //TODO add calculation that takes current buff into account
+    /**
+     * A method that calculates the new score after a player has answered a question.
+     * Each question can give 500 points as maximum points. This method calculates if the player
+     * has buff which give extra time or extra points.
+     *
+     * @param time: How mush time it took the player to answer.
+     * @param questionTime: How much time each question has.
+     */
+    void updateScore(long time, int questionTime) {
+        double playerTime = (((double)time) +((double)amountOfTime))/((double)questionTime);
+        if (playerTime > 1){
+            playerTime = (double) 1;
+        }
+        this.score += (500*(playerTime)*scoreMultiplier);
+    }
 
     public String getName() {
         return name;

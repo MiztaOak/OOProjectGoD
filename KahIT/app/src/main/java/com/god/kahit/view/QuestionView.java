@@ -10,10 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -53,7 +50,6 @@ public class QuestionView extends AppCompatActivity {
     private TextView playerNameTextView;
     private ImageView storeImage;
     private DrawerLayout drawerLayout;
-    private Button choosePlayerButton;
     private ProgressBar progressBar;
     private ObjectAnimator animator;
 
@@ -87,7 +83,6 @@ public class QuestionView extends AppCompatActivity {
         storeImage = findViewById(R.id.storeImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
-        choosePlayerButton = findViewById(R.id.choosePlayerButton);
         progressBar = findViewById(R.id.qProgressBar);
 
         final TextView answer1 = findViewById(R.id.qAnswer1TextView);
@@ -99,16 +94,10 @@ public class QuestionView extends AppCompatActivity {
         answers.add(answer2);
         answers.add(answer3);
         answers.add(answer4);
+        addActionToAnswers();
     }
 
     private void setupListeners(final Bundle savedInstanceState) {
-        choosePlayerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initChoosePlayer(savedInstanceState);
-            }
-        });
-
         model.getQuestionText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -212,17 +201,63 @@ public class QuestionView extends AppCompatActivity {
         super.onStop();
         BUS.unregister(this);
     }
+    /**
+     * A method that initiates the store by getting its layout and pasting it inside the side
+     * navigation
+     */
+    private void initStore(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, StoreView.newInstance())
+                    .commitNow();
+        }
+    }
 
     /**
-     * specifies what happens when an answer has been clicked.
+     * A method that adds an action to the drawer layout which changes the position of storeImage
+     * upon opening and closing
      */
-    public void OnAnswerClicked(View view) {
-        for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setClickable(false);
-        }
-        model.onAnswerClicked(view, animator, answers);
-        indexOfClickedView = answers.indexOf(view);
-        greyOutAnswers();
+    private void addDrawerListener() {
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View view, float v) {
+            }
+
+            @Override
+            public void onDrawerOpened(View view) {
+                navigationView.bringToFront();
+                storeImage.setX(0);
+            }
+
+            @Override
+            public void onDrawerClosed(View view) {
+                navigationView.bringToFront();
+                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+            }
+        });
+        storeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+    }
+
+    /**
+     * A method that adds action to the store image  which makes the store slides out when clicking
+     * on it
+     */
+    private void addStoreImageAction() {
+        storeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
     }
 
     /**
@@ -310,13 +345,14 @@ public class QuestionView extends AppCompatActivity {
      *
      * @param question The question to be asked as a String.
      */
-    private void populateQuestionTextView(String question) {
+    public void populateQuestionTextView(String question) {
         TextView questionTextView = findViewById(R.id.qQuestionTextView);
         questionTextView.setText(question);
     }
 
     /**
      * populates the different textViews for all 4 different answers.
+     * This method calls for a method that checks for buffs and debuffs too.
      *
      * @param answers is a List of Strings with alternative answers for the question.
      */
@@ -325,6 +361,7 @@ public class QuestionView extends AppCompatActivity {
         for (int i = 0; i < qAnswersTextViews.length; i++) {
             qAnswersTextViews[i].setText(answers.get(i));
         }
+        checkForEffects();
     }
 
     /**
@@ -385,77 +422,6 @@ public class QuestionView extends AppCompatActivity {
         animator.start();
     }
 
-    /**
-     * A method that initiates the store by getting its layout and pasting it inside the side
-     * navigation
-     */
-    private void initStore(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, StoreView.newInstance())
-                    .commitNow();
-        }
-    }
-
-    /**
-     * A method that adds an action to the drawer layout which changes the position of storeImage
-     * upon opening and closing
-     */
-    private void addDrawerListener() {
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View view, float v) {
-            }
-
-            @Override
-            public void onDrawerOpened(View view) {
-                navigationView.bringToFront();
-                storeImage.setX(0);
-            }
-
-            @Override
-            public void onDrawerClosed(View view) {
-                navigationView.bringToFront();
-                storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int i) {
-            }
-        });
-        storeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.END);
-            }
-        });
-    }
-
-    /**
-     * A method that adds action to the store image  which makes the store slides out when clicking
-     * on it
-     */
-    private void addStoreImageAction() {
-        storeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.END);
-            }
-        });
-    }
-
-    /**
-     * A method that initiates the a list to choose a player to debuff by getting its layout
-     * and pasting it inside the side navigation
-     */
-    private void initChoosePlayer(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, ChoosePlayerToDebuffView.newInstance())
-                    .commitNow();
-        }
-    }
-
     @Subscribe
     public void onPlayerAnsweredQuestionEvent(PlayerAnsweredQuestionEvent event) {
         if (model.isMe(event.getPlayer())) {
@@ -508,6 +474,51 @@ public class QuestionView extends AppCompatActivity {
         } else {
             Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered, but I am host - skipping");
         }
+    }
+    /**
+     * A method that checks for buffs and debuffs to run their visual effects.
+     */
+    private void checkForEffects(){
+        if (model.isHalfTheAlternatives()){
+            halfTheAlternativesEffect(answers.size());
+        }else if(model.isAutoAnswer()){
+            runAutoAnswer();
+        }
+    }
+    /**
+     * A method that sets an action to the text views that hold alternatives for the question.
+     * Calls for the answer method in the model view.
+     */
+    private void addActionToAnswers(){
+        for (final TextView answer: answers) {
+            answer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    model.onAnswerClicked(answers.indexOf(answer), animator);
+                    indexOfClickedView = answers.indexOf(view);
+                    greyOutAnswers();
+                }
+            });
+        }
+    }
+    /**
+     * A method that starts the effect of the Fifty fifty buff,
+     * which is to hide two answers out of 4.
+     * This method should not hide the right alternative.
+     *
+     * @param size: The size of the list of strings which are the alternatives
+     */
+    private void halfTheAlternativesEffect(int size){
+        answers.get(model.getTwoIndexes(size).first).setVisibility(View.INVISIBLE);
+        answers.get(model.getTwoIndexes(size).second).setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * A method that runs the autoAnswer debuff effect.
+     */
+    public void runAutoAnswer(){
+        answers.get(model.autoChooseAnswer()).performClick();
+
     }
 }
 

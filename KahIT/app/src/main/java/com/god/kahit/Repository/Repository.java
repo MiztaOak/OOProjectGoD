@@ -22,6 +22,7 @@ import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.GameMode;
+import com.god.kahit.model.Debuff;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.Player;
@@ -909,6 +910,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public boolean isItemBuyable(int itemIndex) {
         return quizGame.isStoreItemBuyable(itemIndex, playerManager.getCurrentPlayer());
+
     }
 
     public void buy(int itemIndex) {
@@ -923,6 +925,27 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return quizGame.isStoreItemBought(itemIndex);
     }
 
+    /**
+     * A method that checks if the current player has the fifty fifty buff.
+     *
+     * @return : boolean which indicates if a player has the buff or not.
+     */
+    public boolean isHalfTheAlternatives(){
+        return (playerManager.getCurrentPlayer().getAmountOfAlternatives() != 0);
+    }
+
+    /**
+     * A method that rendomizes a player to debuff.
+     * @param debuff: which debuff to debuff a player with.
+     */
+    public void debuffPlayer(Debuff debuff){
+        int index = (int) (Math.random()*(playerManager.getPlayers().size()));
+        playerManager.getPlayers().get(index).setDebuff(debuff);
+    }
+
+    public boolean isAutoAnswer(){
+        return playerManager.getCurrentPlayer().isAutoAnswer();
+    }
     public String getCurrentPlayerName() {
         return playerManager.getCurrentPlayer().getName();
     }
