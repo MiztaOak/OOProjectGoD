@@ -9,23 +9,23 @@
     <string name="storeimage">storeImage</string>
     <string name="cosmetic_items">Cosmetic Items</string>
     <string name="aboutKahitText">
-        Welcome To KahIt! \nKahIt is a quiz-game app that developed by 5 IT students of Chalmers university.\n
-        How to play: \nFirst you need to choose between host, join or hotswap game.\n
-        For host case: \nYou need to fill in your info and create a game then let other players join you.\n
-        For join case: \nYou need to fill in your info and join a game.\n
-        For hotswap case: \nHotswap is basically when many players can play on the same phone.\n
-        Every player has its own turn to answer the question and the result will be shown at the end of every question.\n
-        When the game starts: \nYou have many rounds that have 5 questions in each.\n
-        After each round you are gonna get a randomized item(Buff or Debuff) that you can use by the wheel of luck(or lottery).\n
+        Welcome To KahIt! \nKahIt is a quiz-game app that developed by 5 IT students of Chalmers university.\n\n
+        How to play: \n\nFirst you need to choose between host, join or hotswap game.\n\n
+        To Host \nYou need to fill in your info and create a game then let other players join you.\n\n
+        To Join \nYou need to fill in your info and join a game.\n\n
+        To use HotSwap \nHotswap is a mode where many players can play on the same phone.
+        Every player has its own turn to answer the question and the result will be shown at the end of every question.\n\n
+        When the game starts: \nYou have many rounds that have 2 questions in each.
+        After each round you are will get a randomized item(Buff or Debuff) of the wheel of fortune(i.e lottery).\n
         Debuffs are the items that the player can send to other players and negatively affect them.\n
         While Buffs are the items that players positively can affect themselves.\n
-        On the other hand, players can buy those items from the store. Store cart is always available during the game.\n
-        Note that the items are shared with all players, that means when any player buys an item so this item is no longer available for other players. Be quick!\n
+        On the other hand, players can buy those items from the store. Store cart is always available during the game.\n\n
+        Note that the items are shared with all players, that means when any player buys an item, it is no longer available for any other player. Be quick!\n
         Vanity item is a picture you can buy to change your own profile picture.\n
-        After the game has finished, score page will show up.\n
+        After the game has finished, score page will show up.\n\n
         Good luck and remember, be quick!\n
         Best regards,\n
-        /KahIt developers.
+        /KahIt team.
             </string>
     <string name="databaseError">An error has occurred when attempting to connect to the database.
         Please restart the application to retry the connection. Local data will be used if present.</string>
