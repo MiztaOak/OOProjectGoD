@@ -14,8 +14,6 @@ import com.god.kahit.R;
  */
 public class AboutKahitView extends AppCompatActivity {
 
-    private TextView aboutKahitTextView = new TextView(this);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
