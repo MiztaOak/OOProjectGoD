@@ -24,7 +24,8 @@ class AudioHandler {
     private List<Integer> sportPlayList;
     private List<Integer> celebritiesPlayList;
     private List<Integer> moviesPlayList;
-
+    private List<Integer> gamingPlayList;
+    private List<Integer> religionPlayList;
 
     private MusicService musicService;
     private boolean musicState; // to know the current state of the musicState
@@ -40,6 +41,9 @@ class AudioHandler {
         sportPlayList = new ArrayList<>();
         celebritiesPlayList = new ArrayList<>();
         moviesPlayList = new ArrayList<>();
+        gamingPlayList = new ArrayList<>();
+        religionPlayList = new ArrayList<>();
+
 
         //Adding all songs to their related list
         addSongsToList();
@@ -55,12 +59,55 @@ class AudioHandler {
      * @param context Context of which class
      */
     void startPlayList(Context context, List<Integer> list) {
+        stopMusic();
         int rand = random.nextInt(list.size());//getting a random number in range list size
         musicService = new MusicService(MediaPlayer.create(context, list.get(rand)));
         musicService.musicSettings(); // to get song settings(looping, volume..)
         setMusicService(musicService); // to set the current song
+        startMusic();
     }
 
+
+    /**
+     *  A method that starts music depending on the category name
+     * @param context of the current class
+     * @param categoryName name of the category that relates the the playlist
+     */
+    void startPlayList(Context context, String categoryName)
+    {
+        switch (categoryName) {
+            case "science":
+                startPlayList( context, sciencePlayList);
+                break;
+            case "history":
+                startPlayList( context, historyPlayList);
+                break;
+            case "nature":
+                startPlayList( context, naturePlayList);
+                break;
+            case "gaming":
+                startPlayList( context, gamingPlayList);
+                break;
+            case "movies":
+                startPlayList( context, moviesPlayList);
+                break;
+            case "religion":
+                startPlayList( context, religionPlayList);
+                break;
+            case "sports":
+                startPlayList( context, sportPlayList);
+                break;
+            case "test":
+            case "mix":
+            case "geography":
+            case "language":
+            case "literature":
+            default:
+                startPlayList( context, mixPlayList);
+                break;
+
+        }
+    }
 
     /**
      * Adds all songs to their related list
@@ -74,7 +121,36 @@ class AudioHandler {
         addSportSongs();
         addCelebritiesSongs();
         addMoviesSongs();
+        addGamingSongs();
+        addReligionSongs();
     }
+
+
+    /**
+     * Adds religion songs to religionPlaylist
+     */
+    private void addReligionSongs() {
+        religionPlayList.add(R.raw.religion);
+        religionPlayList.add(R.raw.religion2);
+        religionPlayList.add(R.raw.religion3);
+        religionPlayList.add(R.raw.religion4);
+        religionPlayList.add(R.raw.religion5);
+        religionPlayList.add(R.raw.religion6);
+
+    }
+
+
+    /**
+     * Adds gaming songs to gamingPlayList
+     */
+    private void addGamingSongs() {
+        gamingPlayList.add(R.raw.gaming);
+        gamingPlayList.add(R.raw.gaming1);
+        gamingPlayList.add(R.raw.gaming3);
+        gamingPlayList.add(R.raw.gaming4);
+        gamingPlayList.add(R.raw.gaming5);
+    }
+
 
     /**
      * Adds movies songs to moviesPlayList
@@ -199,11 +275,11 @@ class AudioHandler {
     }
 
 
-    void startMusic() {
+    private void startMusic() {
         musicService.startMusic();
     }
 
-    void stopMusic() {
+    private void stopMusic() {
         musicService.stopMusic();
     }
 
@@ -220,7 +296,7 @@ class AudioHandler {
         return musicService;
     }
 
-    public void setMusicService(MusicService musicService) {
+    private void setMusicService(MusicService musicService) {
         this.musicService = musicService;
     }
 
