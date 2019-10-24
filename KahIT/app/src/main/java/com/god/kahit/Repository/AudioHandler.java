@@ -1,6 +1,7 @@
 package com.god.kahit.Repository;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.util.Log;
 
@@ -35,7 +36,7 @@ class AudioHandler {
     private boolean musicState; // to know the current state of the musicState
     private Random random = new Random(); // to randomize the songs every time the app starts
 
-    AudioHandler() {
+    AudioHandler(Context context) {
         historyPlayList = new ArrayList<>();
         naturePlayList = new ArrayList<>();
         sciencePlayList = new ArrayList<>();
@@ -50,16 +51,31 @@ class AudioHandler {
 
         //Adding all songs to their related list
         addSongsToList();
-        musicState = true; // default musicState
-        //todo reading musicState state from database
+
+        setupMusicState(context);
+
+        if (musicState) {
+            startPlayList(context, preGamePlayList);
+        }
     }
 
 
+    /***
+     * A method used to load the stored music state from SharedPreferences.
+     * @param context context used to get sharedPreferences
+     */
+    private void setupMusicState(Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences("kahit", Context.MODE_PRIVATE);  // getting the last state of the switchButton
+        musicState = sharedpreferences.getBoolean("musicOn", true);  //set checked(on) as a default case for the switchButton
+    }
+
     /**
-     * Creates songs in MediaPlayer
+     * A method used to start playing different playlists of songs.
+     * Will not start another playlist if it is the same as the currently playing playlist.
+     * Stops the currently playing music automatically.
      *
-     * @param list    of songs you want to create in MediaPlayer
-     * @param context Context of which class
+     * @param list    list of songs you want to play
+     * @param context Context used to create a new MediaPlayer
      */
     void startPlayList(Context context, List<Integer> list) {
         if (currentPlaylist != list) {
@@ -279,19 +295,35 @@ class AudioHandler {
     }
 
     private void startMusic() {
-        musicService.startMusic();
+        if (musicService != null) {
+            musicService.startMusic();
+        } else {
+            Log.i(TAG, "startMusic: attempt to call startMusic on null musicService, ignoring call");
+        }
     }
 
     private void stopMusic() {
-        musicService.stopMusic();
+        if (musicService != null) {
+            musicService.stopMusic();
+        } else {
+            Log.i(TAG, "stopMusic: attempt to call stopMusic on null musicService, ignoring call");
+        }
     }
 
     void resumeMusic() {
-        musicService.resumeMusic();
+        if (musicService != null) {
+            musicService.resumeMusic();
+        } else {
+            Log.i(TAG, "resumeMusic: attempt to call resumeMusic on null musicService, ignoring call");
+        }
     }
 
     void pauseMusic() {
-        musicService.pauseMusic();
+        if (musicService != null) {
+            musicService.pauseMusic();
+        } else {
+            Log.i(TAG, "pauseMusic: attempt to call pauseMusic on null musicService, ignoring call");
+        }
     }
 
     private void setMusicService(MusicService musicService) {
