@@ -7,10 +7,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @responsibility: A class that is responsible about settings in the game
@@ -30,10 +30,9 @@ public class SettingsView extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         defineInstanceVariables();
-        SharedPreferences sharedpreferences = getSharedPreferences("save", MODE_PRIVATE);  // getting the last state of the switchButton
+        SharedPreferences sharedpreferences = getSharedPreferences("kahit", MODE_PRIVATE);  // getting the last state of the switchButton
         switchCheckListener();
-        musicSwitch.setChecked(sharedpreferences.getBoolean("value", true));  //set checked(on) as a default case for the switchButton
-
+        musicSwitch.setChecked(sharedpreferences.getBoolean("musicOn", true));  //set checked(on) as a default case for the switchButton
     }
 
     private void defineInstanceVariables() {
@@ -65,15 +64,15 @@ public class SettingsView extends AppCompatActivity {
     }
 
     private void saveSwitchButtonStateWhenOff() {
-        SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
-        editor.putBoolean("value", false);
+        SharedPreferences.Editor editor = getSharedPreferences("kahit", MODE_PRIVATE).edit();
+        editor.putBoolean("musicOn", false);
         editor.apply();
         musicSwitch.setChecked(false);
     }
 
     private void saveSwitchButtonStateWhenOn() {
-        SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
-        editor.putBoolean("value", true);
+        SharedPreferences.Editor editor = getSharedPreferences("kahit", MODE_PRIVATE).edit();
+        editor.putBoolean("musicOn", true);
         editor.apply();
         musicSwitch.setChecked(true);
     }
