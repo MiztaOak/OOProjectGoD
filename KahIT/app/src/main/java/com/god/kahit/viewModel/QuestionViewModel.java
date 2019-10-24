@@ -4,6 +4,12 @@ import android.animation.ObjectAnimator;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.model.Player;
@@ -16,23 +22,17 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * The viewModel for the QuestionView, the class handles the fetching of data for the
  * view.
- *
+ * <p>
  * used by: QuestionView, QuestionViewModel_LifecycleAdapter
  *
  * @author Johan EK
  */
-public class QuestionViewModel extends ViewModel implements LifecycleObserver{
+public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
     private Repository repository;
     private MutableLiveData<String> questionText;
@@ -45,8 +45,19 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
 
     private int numOfRepeats = 0;
 
+    /**
+     * This constructor gets called by ViewModelProvider when the view needs it
+     */
     public QuestionViewModel() {
-        repository = Repository.getInstance();
+        this(Repository.getInstance());
+    }
+
+    /**
+     * This constructor is used to test this class so it can pass a mocked version of the repository.
+     */
+    public QuestionViewModel(Repository repository) {
+        this.repository = repository;
+
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }
@@ -263,12 +274,16 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
         }
     }
 
-    public void setRepository(Repository repository) {
-        this.repository = repository;
-    }
-
     public void setNumOfRepeats(int numOfRepeats) {
         this.numOfRepeats = numOfRepeats;
+    }
+
+    public Repository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
     }
 
     public Question getCurrentQuestion() {
@@ -279,7 +294,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
         this.currentQuestion = currentQuestion;
     }
 
-    public void incrementCurrentPlayer(){
+    public void incrementCurrentPlayer() {
         repository.incrementCurrentPlayer();
     }
 }

@@ -4,22 +4,22 @@ import android.animation.ObjectAnimator;
 import android.os.Looper;
 
 import com.god.kahit.Repository.Repository;
-import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Question;
 import com.god.kahit.model.modelEvents.QuestionEvent;
 
 import org.junit.Test;
 
-
 import java.util.Arrays;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.Assert.*;
+import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class QuestionViewModelTest {
     //    private QuestionViewModel q =  mock(QuestionViewModel.class);
+
     Repository repository = mock(Repository.class);
     private QuestionViewModel q = new QuestionViewModel(repository);
     private Question questionTest = new Question(Category.Celebrities, "hej?", "answer 2", Arrays.asList("answer 1", "answer 2","answer 3","answer 4"), 10 );

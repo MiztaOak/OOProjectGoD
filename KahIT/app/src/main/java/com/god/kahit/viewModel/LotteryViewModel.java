@@ -84,7 +84,6 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     private void loadPlayerListLiveData() {
         playerListLiveData.setValue(Repository.getInstance().getPlayers());
     }
-
     @Subscribe
     public void onLotteryDrawEvent(LotteryDrawEvent event) {
         Log.d(TAG, "onLotteryDrawEvent: triggered");

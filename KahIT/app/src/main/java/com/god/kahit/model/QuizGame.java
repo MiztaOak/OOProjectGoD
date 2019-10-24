@@ -36,7 +36,6 @@ public class QuizGame {
     private Lottery lottery;
 
     private boolean gameIsStarted;
-    private int scorePerQuestion = 100; //TODO replace with a way to calculate a progressive way to calculate the score based on time;
 
     public QuizGame(IEventBus eventBus, PlayerManager playerManager, GameMode gameMode) {
         this.eventBus = eventBus;
@@ -249,8 +248,8 @@ public class QuizGame {
      */
     public void enterAnswer(Player player, String givenAnswer, Question question, long timeLeft) {
         if (question.isCorrectAnswer(givenAnswer)) {
-        }
             player.updateScore(timeLeft, question.getTime());
+        }
         player.clearModifier();
     }
 
