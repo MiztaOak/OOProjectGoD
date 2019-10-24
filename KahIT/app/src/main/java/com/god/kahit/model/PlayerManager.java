@@ -73,10 +73,6 @@ public class PlayerManager {
         return null;
     }
 
-    private Player getLocalPlayer() {
-        return getPlayer(localPlayerId);
-    }
-
     public String getLocalPlayerId() {
         return localPlayerId;
     }
@@ -223,9 +219,9 @@ public class PlayerManager {
     }
 
     /**
-     * Checks if there is an empty team.
+     * Checks if there is no empty teams
      *
-     * @return true if empty team, false if there is no empty team.
+     * @return true if no empty team, false if there is one of more empty teams.
      */
     public boolean noEmptyTeamExists() {
         for (Team team : teamList) {
@@ -403,28 +399,6 @@ public class PlayerManager {
         }
     }
 
-    /**
-     * Checks if the newTeamNum exists if not it creates a new team.
-     * Changes the team for the player and posts the change on the BUS.
-     *
-     * @param player     The player that needs to change team.
-     * @param newTeamNum The index for the new team.
-     */
-    public void changeTeam(Player player, int newTeamNum) {
-
-        for (Team team : teamList) {
-            team.removePlayer(player);
-        }
-
-        try {
-            teamList.get(newTeamNum);
-        } catch (IndexOutOfBoundsException e) {
-            createNewTeam(newTeamNum);
-        }
-
-        teamList.get(newTeamNum).getTeamMembers().add(player);
-        fireTeamChangeEvent();
-    }
 
     /**
      * fires a teamChangeEvent.
