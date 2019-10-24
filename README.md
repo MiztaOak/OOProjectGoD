@@ -57,7 +57,7 @@ Add the following to the file:
 Restart Android Studio.
 
 #### About
-KahIt is a quiz-game app with a twist that was developed by 5 IT students of Chalmers university during the course TDA367 Object-oriented programming projekt.
+KahIt is a quiz-game app with a twist that was developed by 5 IT students of Chalmers university during the course TDA367 Object-oriented programming project.
 
 How to setup a game: First you need to choose between host, join or hotswap game. The game allows a maximum of 8 players.
 - To Host: You have to fill in your info and create a game lobby then let other players join you.
