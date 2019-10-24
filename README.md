@@ -68,9 +68,9 @@ How to play:
 The game consists of rounds. A round is as follows: A vote for the next theme/category of that round. A series of questions, each followed by a quick score update. When x-amount of questions have been answered a lottery is run where random items are distributed. After x-amout of rounds the final score page will show up.
 - If in HotSwap: every player has his/her turn to answer/vote then you pass on the device.
 - If in multiplayer: everyone answers/votes at the same time.
-Score is based on answering right and also on speed.
-Items can either be a buff, debuff or a Vanity item. Buff -positive item, Debuff -negative item, Vanity -only cosmetic. Items can be aquired through the lottery(unlimited supply) or purchased in the store(limited supply).
-During the course of the game you have the option to spend credit(score) in the store where you can buy all items. Beware the supply is limited and shared by all players. Be quick!
+- Score is based on answering right and also on speed.
+- Items can either be a buff, debuff or a Vanity item. Buff -positive item, Debuff -negative item, Vanity -only cosmetic. Items can be aquired through the lottery(unlimited supply) or purchased in the store(limited supply).
+- During the course of the game you have the option to spend credit(score) in the store where you can buy all items. Beware the supply is limited and shared by all players. Be quick!
 
 Good luck and have fun!
 
