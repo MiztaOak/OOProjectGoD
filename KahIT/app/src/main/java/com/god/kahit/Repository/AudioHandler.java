@@ -55,7 +55,47 @@ class AudioHandler {
         setupMusicState(context);
 
         if (musicState) {
-            startPlayList(context, preGamePlayList);
+            startPlaylist(context, preGamePlayList);
+        } else {
+            setPlaylist(context, preGamePlayList);
+        }
+    }
+
+    /**
+     * A method used to set a different playlist of songs.
+     *
+     * @param playlist playlist of songs you want to prepare
+     * @param context  Context used to create a new MediaPlayer
+     */
+    private void setPlaylist(Context context, List<Integer> playlist) {
+        if (currentPlaylist != playlist) {
+            currentPlaylist = playlist;
+            int rand = random.nextInt(playlist.size());//getting a random number in range list size
+            musicService = new MusicService(MediaPlayer.create(context, playlist.get(rand)));
+            musicService.musicSettings(); // to get song settings(looping, volume..)
+            setMusicService(musicService); // to set the current song
+        } else {
+            Log.i(TAG, "setPlaylist: called. currentPlaylist is the same as the new one, skipping call.");
+        }
+    }
+
+    /**
+     * A method used to start playing different playlists of songs.
+     * Will not start another playlist if it is the same as the currently playing playlist.
+     * Stops the currently playing music automatically.
+     *
+     * @param playlist playlist of songs you want to play
+     * @param context  Context used to create a new MediaPlayer
+     */
+    void startPlaylist(Context context, List<Integer> playlist) {
+        if (currentPlaylist != playlist) {
+            if (musicService != null) {
+                stopMusic();
+            }
+            setPlaylist(context, playlist);
+            startMusic();
+        } else {
+            Log.i(TAG, "startPlaylist: called. currentPlaylist is the same as the new one, skipping call.");
         }
     }
 
@@ -69,30 +109,6 @@ class AudioHandler {
         musicState = sharedpreferences.getBoolean("musicOn", true);  //set checked(on) as a default case for the switchButton
     }
 
-    /**
-     * A method used to start playing different playlists of songs.
-     * Will not start another playlist if it is the same as the currently playing playlist.
-     * Stops the currently playing music automatically.
-     *
-     * @param list    list of songs you want to play
-     * @param context Context used to create a new MediaPlayer
-     */
-    void startPlayList(Context context, List<Integer> list) {
-        if (currentPlaylist != list) {
-            if (musicService != null) {
-                stopMusic();
-            }
-
-            currentPlaylist = list;
-            int rand = random.nextInt(list.size());//getting a random number in range list size
-            musicService = new MusicService(MediaPlayer.create(context, list.get(rand)));
-            musicService.musicSettings(); // to get song settings(looping, volume..)
-            setMusicService(musicService); // to set the current song
-            startMusic();
-        } else {
-            Log.i(TAG, "startPlayList: called. currentPlaylist is the same as the new one, skipping call.");
-        }
-    }
 
     /**
      * A method that starts music depending on the category name
@@ -100,28 +116,28 @@ class AudioHandler {
      * @param context      of the current class
      * @param categoryName name of the category that relates the the playlist
      */
-    void startPlayList(Context context, String categoryName) {
+    void startPlaylist(Context context, String categoryName) {
         switch (categoryName) {
             case "science":
-                startPlayList(context, sciencePlayList);
+                startPlaylist(context, sciencePlayList);
                 break;
             case "history":
-                startPlayList(context, historyPlayList);
+                startPlaylist(context, historyPlayList);
                 break;
             case "nature":
-                startPlayList(context, naturePlayList);
+                startPlaylist(context, naturePlayList);
                 break;
             case "gaming":
-                startPlayList(context, gamingPlayList);
+                startPlaylist(context, gamingPlayList);
                 break;
             case "movies":
-                startPlayList(context, moviesPlayList);
+                startPlaylist(context, moviesPlayList);
                 break;
             case "religion":
-                startPlayList(context, religionPlayList);
+                startPlaylist(context, religionPlayList);
                 break;
             case "sports":
-                startPlayList(context, sportPlayList);
+                startPlaylist(context, sportPlayList);
                 break;
             case "test":
             case "mix":
@@ -129,7 +145,7 @@ class AudioHandler {
             case "language":
             case "literature":
             default:
-                startPlayList(context, mixPlayList);
+                startPlaylist(context, mixPlayList);
                 break;
         }
     }
