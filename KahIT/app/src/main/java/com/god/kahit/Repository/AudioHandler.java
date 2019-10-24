@@ -2,6 +2,7 @@ package com.god.kahit.Repository;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.god.kahit.R;
 import com.god.kahit.backgroundMusicService.MusicService;
@@ -13,9 +14,11 @@ import java.util.Random;
 /**
  * @responsibility: This class is responsible for the Audio in the game.
  * @used-by: Repository.
- * @author: Oussama Anadani
+ * @author: Oussama Anadani, Mats Cedervall
  */
 class AudioHandler {
+    private static final String TAG = AudioHandler.class.getSimpleName();
+
     private List<Integer> historyPlayList;
     private List<Integer> naturePlayList;
     private List<Integer> sciencePlayList;
@@ -28,9 +31,9 @@ class AudioHandler {
     private List<Integer> religionPlayList;
 
     private MusicService musicService;
+    private List<Integer> currentPlaylist;
     private boolean musicState; // to know the current state of the musicState
     private Random random = new Random(); // to randomize the songs every time the app starts
-
 
     AudioHandler() {
         historyPlayList = new ArrayList<>();
@@ -59,43 +62,50 @@ class AudioHandler {
      * @param context Context of which class
      */
     void startPlayList(Context context, List<Integer> list) {
-        stopMusic();
-        int rand = random.nextInt(list.size());//getting a random number in range list size
-        musicService = new MusicService(MediaPlayer.create(context, list.get(rand)));
-        musicService.musicSettings(); // to get song settings(looping, volume..)
-        setMusicService(musicService); // to set the current song
-        startMusic();
+        if (currentPlaylist != list) {
+            if (musicService != null) {
+                stopMusic();
+            }
+
+            currentPlaylist = list;
+            int rand = random.nextInt(list.size());//getting a random number in range list size
+            musicService = new MusicService(MediaPlayer.create(context, list.get(rand)));
+            musicService.musicSettings(); // to get song settings(looping, volume..)
+            setMusicService(musicService); // to set the current song
+            startMusic();
+        } else {
+            Log.i(TAG, "startPlayList: called. currentPlaylist is the same as the new one, skipping call.");
+        }
     }
 
-
     /**
-     *  A method that starts music depending on the category name
-     * @param context of the current class
+     * A method that starts music depending on the category name
+     *
+     * @param context      of the current class
      * @param categoryName name of the category that relates the the playlist
      */
-    void startPlayList(Context context, String categoryName)
-    {
+    void startPlayList(Context context, String categoryName) {
         switch (categoryName) {
             case "science":
-                startPlayList( context, sciencePlayList);
+                startPlayList(context, sciencePlayList);
                 break;
             case "history":
-                startPlayList( context, historyPlayList);
+                startPlayList(context, historyPlayList);
                 break;
             case "nature":
-                startPlayList( context, naturePlayList);
+                startPlayList(context, naturePlayList);
                 break;
             case "gaming":
-                startPlayList( context, gamingPlayList);
+                startPlayList(context, gamingPlayList);
                 break;
             case "movies":
-                startPlayList( context, moviesPlayList);
+                startPlayList(context, moviesPlayList);
                 break;
             case "religion":
-                startPlayList( context, religionPlayList);
+                startPlayList(context, religionPlayList);
                 break;
             case "sports":
-                startPlayList( context, sportPlayList);
+                startPlayList(context, sportPlayList);
                 break;
             case "test":
             case "mix":
@@ -103,9 +113,8 @@ class AudioHandler {
             case "language":
             case "literature":
             default:
-                startPlayList( context, mixPlayList);
+                startPlayList(context, mixPlayList);
                 break;
-
         }
     }
 
@@ -125,7 +134,6 @@ class AudioHandler {
         addReligionSongs();
     }
 
-
     /**
      * Adds religion songs to religionPlaylist
      */
@@ -139,7 +147,6 @@ class AudioHandler {
 
     }
 
-
     /**
      * Adds gaming songs to gamingPlayList
      */
@@ -150,7 +157,6 @@ class AudioHandler {
         gamingPlayList.add(R.raw.gaming4);
         gamingPlayList.add(R.raw.gaming5);
     }
-
 
     /**
      * Adds movies songs to moviesPlayList
@@ -254,17 +260,6 @@ class AudioHandler {
         sciencePlayList.add(R.raw.science2);
         sciencePlayList.add(R.raw.science3);
         sciencePlayList.add(R.raw.science4);
-
-    }
-
-
-    /**
-     * Changes the state of the music
-     *
-     * @param state music state
-     */
-    void setMusicState(boolean state) {
-        this.musicState = state;
     }
 
     /**
@@ -274,6 +269,14 @@ class AudioHandler {
         return musicState;
     }
 
+    /**
+     * Changes the state of the music
+     *
+     * @param state music state
+     */
+    void setMusicState(boolean state) {
+        this.musicState = state;
+    }
 
     private void startMusic() {
         musicService.startMusic();
@@ -291,77 +294,39 @@ class AudioHandler {
         musicService.pauseMusic();
     }
 
-
-    public MusicService getMusicService() {
-        return musicService;
-    }
-
     private void setMusicService(MusicService musicService) {
         this.musicService = musicService;
     }
 
-
-    public List<Integer> getMixPlayList() {
+    List<Integer> getMixPlayList() {
         return mixPlayList;
     }
 
-    public void setMixPlayList(List<Integer> mixPlayList) {
-        this.mixPlayList = mixPlayList;
-    }
-
-    public List<Integer> getHistoryPlayList() {
+    List<Integer> getHistoryPlayList() {
         return historyPlayList;
     }
 
-    public void setHistoryPlayList(List<Integer> historyPlayList) {
-        this.historyPlayList = historyPlayList;
-    }
-
-    public List<Integer> getNaturePlayList() {
+    List<Integer> getNaturePlayList() {
         return naturePlayList;
     }
 
-    public void setNaturePlayList(List<Integer> naturePlayList) {
-        this.naturePlayList = naturePlayList;
-    }
-
-    public List<Integer> getSciencePlayList() {
+    List<Integer> getSciencePlayList() {
         return sciencePlayList;
-    }
-
-    public void setSciencePlayList(List<Integer> sciencePlayList) {
-        this.sciencePlayList = sciencePlayList;
     }
 
     List<Integer> getPreGamePlayList() {
         return preGamePlayList;
     }
 
-    public void setPreGamePlayList(List<Integer> preGamePlayList) {
-        this.preGamePlayList = preGamePlayList;
-    }
-
-    public List<Integer> getSportPlayList() {
+    List<Integer> getSportPlayList() {
         return sportPlayList;
     }
 
-    public void setSportPlayList(List<Integer> sportPlayList) {
-        this.sportPlayList = sportPlayList;
-    }
-
-    public List<Integer> getCelebritiesPlayList() {
+    List<Integer> getCelebritiesPlayList() {
         return celebritiesPlayList;
     }
 
-    public void setCelebritiesPlayList(List<Integer> celebritiesPlayList) {
-        this.celebritiesPlayList = celebritiesPlayList;
-    }
-
-    public List<Integer> getMoviesPlayList() {
+    List<Integer> getMoviesPlayList() {
         return moviesPlayList;
-    }
-
-    public void setMoviesPlayList(List<Integer> moviesPlayList) {
-        this.moviesPlayList = moviesPlayList;
     }
 }
