@@ -1,11 +1,14 @@
 package com.god.kahit.model;
 
+import com.god.kahit.EventBussMock;
 import com.god.kahit.ItemDataLoaderMock;
+import com.god.kahit.applicationEvents.EventBusGreenRobot;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class StoreTest {
     private Store store;
@@ -15,7 +18,7 @@ public class StoreTest {
     @Before
     public void setup(){
         ItemFactory.setDataLoader(new ItemDataLoaderMock());
-        store = new Store();
+        store = new Store(new EventBussMock());
         player = new Player("player","p");
     }
 

@@ -23,7 +23,7 @@ public class ItemFactory {
      */
     static List<Item> createStoreItems(int size) {
         if(dataLoader == null){
-            return new ArrayList<>();
+            return null;
         }
         ArrayList<Item> itemList = new ArrayList<>();
         itemList.addAll(loadBuffs(size));
