@@ -409,6 +409,7 @@ public class QuestionView extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (isMoveOn) {
+                                model.incrementCurrentPlayer();
                                 launchAfterQuestionScorePageClass();
                             } else {
                                 model.repeatQuestion();
