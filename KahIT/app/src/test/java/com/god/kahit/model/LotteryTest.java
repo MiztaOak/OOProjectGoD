@@ -15,7 +15,7 @@ public class LotteryTest {
 
 
     @Before
-    public void setup(){
+    public void setup() {
         ItemFactory.setDataLoader(new ItemDataLoaderMock());
         lottery = new Lottery();
     }
@@ -24,12 +24,12 @@ public class LotteryTest {
     public void drawItem() {
         List<Player> players = new ArrayList<>();
 
-        for(int i = 0; i < 20; i++){
-            players.add(new Player("player "+i,"p"+i));
+        for (int i = 0; i < 20; i++) {
+            players.add(new Player("player " + i, "p" + i));
         }
 
-        Map<Player,Item> drawnItems = lottery.drawItem(players);
-        for(Player p: players){
+        Map<Player, Item> drawnItems = lottery.drawItem(players);
+        for (Player p : players) {
             Assert.assertNotNull(drawnItems.get(p));
         }
     }

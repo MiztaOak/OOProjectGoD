@@ -351,4 +351,15 @@ public class QuizGame {
     public boolean isHotSwap() {
         return gameMode.equals(GameMode.HOT_SWAP);
     }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public Lottery getLottery() {
+        return lottery;
+    }
+    public boolean isGameIsStarted() {
+        return gameIsStarted;
+    }
 }

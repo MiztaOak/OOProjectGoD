@@ -20,7 +20,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
 
     public MusicService(){ //Fixes lint error //todo Is this the only way?
 
-
     }
 
     public MusicService(MediaPlayer mPlayer) {

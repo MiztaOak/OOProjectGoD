@@ -80,9 +80,16 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     public void setupAudioHandler(Context context) {
         if (audioHandler == null) {
             audioHandler = new AudioHandler();
-            audioHandler.startPlayList(context, audioHandler.getPreGamePlayList()); // playing preGamePlaylist when app starts
+            audioHandler.startPlayList(context, audioHandler.getPreGamePlayList()); // playing preGamePlaylist when the app starts
         }
     }
+
+
+    public void startPlayList(Context context, String categoryNam){
+        audioHandler.startPlayList(context,categoryNam);
+
+    }
+
 
     public void resumeMusic() {
         audioHandler.resumeMusic();

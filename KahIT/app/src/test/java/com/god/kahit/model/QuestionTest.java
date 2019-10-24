@@ -20,21 +20,21 @@ public class QuestionTest {
         stringList.add("JOKE");
         Question question = new Question(category, "2", "3", stringList, 10);
         List<String> scram;
-        do{
+        do {
             scram = question.scrambleAlternatives(stringList);
-        }while (!scram.equals(stringList));
+        } while (!scram.equals(stringList));
         assertTrue(true);
     }
 
     @Test
-    public void isCorrectAnswer(){
+    public void isCorrectAnswer() {
         Category category = Category.Gaming;
         String questionText = "Test";
 
         String wrongAnswer = "WrongAnswer";
         String correctAnswer = "CorrectAnswer";
 
-        Question question = new Question(category,questionText,correctAnswer,new ArrayList<String>(),1);
+        Question question = new Question(category, questionText, correctAnswer, new ArrayList<String>(), 1);
 
         Assert.assertFalse(question.isCorrectAnswer(wrongAnswer));
         Assert.assertTrue(question.isCorrectAnswer(correctAnswer));

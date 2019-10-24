@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.GameLostConnectionEvent;
@@ -108,6 +109,8 @@ public class CategoryView extends AppCompatActivity {
     }
 
     public void launchQuestionClass() {
+        //get current category
+        Repository.getInstance().startPlayList(this,Repository.getInstance().getCurrentCategory().toString());
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, QuestionView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -164,12 +167,14 @@ public class CategoryView extends AppCompatActivity {
         colorResultCategoryButton(event.getCategoryId());
         int categoryIndex = model.getCategoryIndex(event.getCategoryId());
         categoryInfoTextView.setText(String.format("Next category is: '%s'", model.getCategories()[categoryIndex].toString()));
+        Repository.getInstance().startPlayList(this,Repository.getInstance().getCurrentCategory().toString());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 model.sendIsReady();
             }
         }, 2000);
+
     }
 
     @Subscribe

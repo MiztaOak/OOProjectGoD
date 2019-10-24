@@ -13,9 +13,9 @@ public class QuestionDataLoaderMock implements IQuestionDataLoader {
     public List<Question> getQuestionList(Category category) {
         List<Question> questions = new ArrayList<>();
 
-        for(int i = 0; i < 10; i++){
-            String[] alts = {"answer" + i, "alt1","alt2","alt3"};
-            questions.add(new Question(category ,"Question text "+ i, "answer " + i,new ArrayList<>(Arrays.asList(alts)),10));
+        for (int i = 0; i < 10; i++) {
+            String[] alts = {"answer" + i, "alt1", "alt2", "alt3"};
+            questions.add(new Question(category, "Question text " + i, "answer " + i, new ArrayList<>(Arrays.asList(alts)), 10));
         }
 
         return questions;
