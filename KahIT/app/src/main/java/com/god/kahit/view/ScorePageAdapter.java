@@ -18,13 +18,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.ViewHolder> {
+    private Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
     private List<Player> playerList;
     private String myPlayerId;
-    Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
+    private boolean isHotSwap;
 
-    public ScorePageAdapter(List<Player> playerList, String myPlayerId) {
+    ScorePageAdapter(List<Player> playerList, String myPlayerId, boolean isHotSwap) {
         this.playerList = playerList;
         this.myPlayerId = myPlayerId;
+        this.isHotSwap = isHotSwap;
     }
 
     @NonNull
@@ -42,16 +44,27 @@ public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         TextView nameView = viewHolder.name;
         TextView scoreDelta = viewHolder.score;
-        ImageView playerImg= viewHolder.img;
+        ImageView playerImg = viewHolder.img;
 
         Player player = playerList.get(i);
 
-        nameView.setText(String.format(player.getId().equals(myPlayerId) ? "ME:%s" : "%s", player.getName()));
+        //Set player name
+        String nameString;
+        if (!isHotSwap && player.getId().equals(myPlayerId)) {
+            nameString = String.format("ME:%s", player.getName());
+        } else {
+            nameString = String.format("%s", player.getName());
+        }
+        nameView.setText(nameString);
+
+        //Set player score
         scoreDelta.setText(String.format("%d", playerList.get(i).getScore()));
-        if(player.getVanityItem()!=null) {
+
+        //Set player image
+        if (player.getVanityItem() != null) {
             int resId = 0;
             try {
-                resId = R.drawable.class.getField( imageNameMap.get(player.getVanityItem().getName())).getInt(null);
+                resId = R.drawable.class.getField(imageNameMap.get(player.getVanityItem().getName())).getInt(null);
             } catch (IllegalAccessException | NoSuchFieldException e) {
                 e.printStackTrace();
             }
@@ -68,12 +81,12 @@ public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.View
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView score;
         private ImageView img;
 
-        public ViewHolder(@NonNull View view) {
+        ViewHolder(@NonNull View view) {
             super(view);
             name = view.findViewById(R.id.ssrPlayerName);
             score = view.findViewById(R.id.ssrScoreDelta);

@@ -587,7 +587,6 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         } else {
             return false;
         }
-//        return getHostPlayerId().equals(getClientPlayerId());
     }
 
     public boolean isHotSwap() {
