@@ -20,11 +20,11 @@ public class Store { //todo implement a method to restock store?
     private List<Item> boughtItems;
     private IEventBus bus;
 
-    Store(IEventBus bua) {
+    Store(IEventBus bus) {
         this.storeItems = ItemFactory.createStoreItems(3);
         boughtItems = new ArrayList<>();
 
-        this.bus = bua;
+        this.bus = bus;
     }
 
     /**
