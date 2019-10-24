@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 
-import java.util.List;
-
 /**
  * @responsibility: A ViewModel class that handles the information needed for the view.
  * It handles the connection to the Repository which has connection to its  model Store.

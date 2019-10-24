@@ -20,6 +20,14 @@ import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * responsibility: The viewModel for the HotSwapAddPlayersView
+ * Fetches and handles the data needed for the view such as teams and players.
+ *
+ * used-by: HotSwapAddPlayersView
+ *
+ * @author Jakob Ewerstrand
+ */
 public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleObserver {
 
     private static final String TAG = HotSwapAddPlayersViewModel.class.getSimpleName();
@@ -37,11 +45,21 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
         return playerListForView;
     }
 
+    /**
+     * Prepares the layerList by calling addNewPlayer twice.
+     */
     public void loadPlayerList() {
         addNewPlayer();
         addNewPlayer();
     }
 
+    /**
+     * Method that receives a TeamChangeEvent ans sorts through it placing the players in oder by playerId.
+     * When a player is found it matches the player and the team number i in a Pair.
+     * When all players are sorted it sets the value in the mutableLiveData.
+     *
+     * @param event - event containing Teams which in turn hold players.
+     */
     @Subscribe
     public void onTeamChangeEvent(TeamChangeEvent event) {
         List<Pair<Player, Integer>> sortedPlayerList = new ArrayList<>();
@@ -49,11 +67,11 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
         String playerIdPrefix = "Player ";
         int playerSuffix = 1;
 
-        while(sortedPlayerList.size() != Repository.getInstance().getPlayers().size()) {
+        while (sortedPlayerList.size() != Repository.getInstance().getPlayers().size()) {
             outerLabel:
-            for (int i =0; i < event.getTeams().size(); i++) {
-                for(Player player : event.getTeams().get(i).getTeamMembers()) {
-                    if(player.getId().equals(playerIdPrefix + playerSuffix)) {
+            for (int i = 0; i < event.getTeams().size(); i++) {
+                for (Player player : event.getTeams().get(i).getTeamMembers()) {
+                    if (player.getId().equals(playerIdPrefix + playerSuffix)) {
                         sortedPlayerList.add(new Pair<>(player, Integer.valueOf(event.getTeams().get(i).getId())));
                         break outerLabel;
                     }
@@ -64,14 +82,28 @@ public class HotSwapAddPlayersViewModel extends ViewModel implements LifecycleOb
         playerListForView.setValue(sortedPlayerList);
     }
 
+    /**
+     * Adds a new player by calling repository.
+     */
     public void addNewPlayer() {
         Repository.getInstance().addNewPlayerToEmptyTeam();
     }
 
+    /**
+     * Removes a specific player by calling the repository
+     *
+     * @param position - index of the player to be removed.
+     */
     public void removePlayer(int position) {
         Repository.getInstance().removePlayer(Objects.requireNonNull(playerListForView.getValue()).get(position).first);
     }
 
+    /**
+     * Method that changes the current team of a player by calling the repository.
+     *
+     * @param position -index of the player that wants to change team.
+     * @param newTeamId -index of the new team.
+     */
     public void onTeamChange(int position, int newTeamId) {
         Repository.getInstance().changeTeam(Objects.requireNonNull(playerListForView.getValue()).get(position).first, String.valueOf(newTeamId + 1));
     }

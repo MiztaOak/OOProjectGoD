@@ -5,7 +5,7 @@
     android:id="@+id/settingsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_stripes"
+    android:background="@drawable/custom_background_stripes"
     tools:context=".view.SettingsView">
 
     <TextView

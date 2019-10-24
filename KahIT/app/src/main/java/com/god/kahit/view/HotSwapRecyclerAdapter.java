@@ -33,7 +33,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Helper class for the HotSwapAddPlayerView it works as a recyclerAdapter for the RecyclerView.
+ * responsibility: Helper class for the HotSwapAddPlayerView it functions as a recyclerAdapter for the RecyclerView.
+ * <p>
+ * used-by: HotSwapAddPlayersView
+ *
+ * @author Jakob Ewerstrand
  */
 public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -71,6 +75,13 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    /**
+     * Adjusts the colors brightness based on param.
+     *
+     * @param color  The color to be adjusted.
+     * @param factor - the factor that you want to change the color with e.g. 1.1f brightens, 0.9f darkens.
+     * @return - The adjusted value as an int.
+     */
     private int manipulateColor(int color, float factor) {
         int a = Color.alpha(color);
         int r = Math.round(Color.red(color) * factor);
@@ -132,6 +143,11 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    /**
+     * Method that sets the rows & spinners corners and it's color.
+     *
+     * @param itemViewHolder - the row to be adjusted.
+     */
     private void setRowLayout(ItemViewHolder itemViewHolder) {
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(30);
@@ -150,12 +166,13 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if (position == Objects.requireNonNull(playerList.getValue()).size()) {
-            return FOOTER_VIEW;
-        }
-        return super.getItemViewType(position);
+        return (position == playerList.getValue().size()) ? 1 : 0;
     }
 
+
+    /**
+     * Inner class that functions as the primary row type in the recyclerView.
+     */
     public class ItemViewHolder extends RecyclerView.ViewHolder implements AdapterView.OnItemSelectedListener {
 
         ConstraintLayout row;
@@ -199,7 +216,11 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    /**
+     * Inner class that functions as a footer for the recyclerView.
+     */
     private class FooterViewHolder extends RecyclerView.ViewHolder {
+
         IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
 
         public FooterViewHolder(View view, final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {

@@ -30,7 +30,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  * <p>
  * used by: QuestionView, QuestionViewModel_LifecycleAdapter
  *
- * @author Johan EK
+ * @author Johan EK, Anas Alkotli, Jakob Ewerstrand
  */
 public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();

@@ -21,6 +21,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * responsibility: Class responsible for the HotSwap "lobby" view.
+ * Along with it's helper classes it displays the players name, picture and team in a row format.
+ * <p>
+ * used-by: HotSwapGameModeView.
+ *
+ * @author Jakob Ewerstrand
+ */
 public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwapViewHolderClickListener {
 
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
@@ -29,7 +37,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
 
     HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
     HotSwapTouchHelper simpleItemTouchCallback;
-    private RecyclerView.Adapter recyclerAdapter;
+    RecyclerView.Adapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +68,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
     }
 
     /**
-     * Sets up the recyclerView with it's adaptor HotSwapRecyclerAdapter.
+     * Sets up the View with it's helper class HotSwapRecyclerAdapter.
      */
     private void setupRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
@@ -77,8 +85,8 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
     }
 
     @Override
-    public void onTeamSelected(int position, int newTeamId) {
-        hotSwapAddPlayersViewModel.onTeamChange(position, newTeamId);
+    public void onTeamSelected(int position, int newTeamNum) {
+        hotSwapAddPlayersViewModel.onTeamChange(position, newTeamNum);
     }
 
     public void launchBackHotSwapGameModeClass(View view) {

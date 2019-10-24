@@ -10,6 +10,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
+/**
+ * responsibility: A helper class for the different RecyclerAdapters. Functions as a custom "team-spinner/selector" in the lobby.
+ * <p>
+ * used-by: HotSwapRecyclerAdapter, LobbyNetView.
+ *
+ * @author Jakob Ewerstrand
+ */
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
     private List<Integer> mColors;
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_stripes"
+    android:background="@drawable/custom_background_stripes"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:ignore="MissingDefaultResource">
@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/custom_stripes" />
+        app:srcCompat="@drawable/custom_background_stripes" />
 
     <TextView
         android:id="@+id/textView14"
@@ -183,7 +183,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginBottom="5dp"
         android:textColor="@color/white"
-        android:background="@drawable/play_button_selector"
+        android:background="@drawable/custom_button_selector"
         android:backgroundTint="#00CBF8"
         android:fontFamily="@font/bevietnamextrabolditalic"
         android:textSize="15sp"

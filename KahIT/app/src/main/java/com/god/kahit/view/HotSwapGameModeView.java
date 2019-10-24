@@ -7,19 +7,23 @@ import android.view.View;
 import android.widget.Button;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
-import com.god.kahit.model.GameMode;
 import com.god.kahit.viewModel.HotSwapGameModeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+/**
+ * responsibility: No real responsibility now since implementation is not completed.
+ * Class only visually presents three dummy buttons.
+ * <p>
+ * used-by: ChooseGameView
+ *
+ * @author Jakob Ewerstrand &
+ */
 public class HotSwapGameModeView extends AppCompatActivity {
 
     private static final String LOG_TAG = HotSwapGameModeView.class.getSimpleName();
@@ -71,6 +75,11 @@ public class HotSwapGameModeView extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method that sets a different background resource for the param compared to the other buttons in the list.
+     *
+     * @param - the view that gets a "selected" different background.
+     */
     private void onSelected(View v) {
         for (Button button : buttons) {
             if (button == v) {
@@ -97,6 +106,6 @@ public class HotSwapGameModeView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Repository.getInstance().setupNewGameInstance(GameMode.HOT_SWAP);
+       hotSwapGameModeViewModel.setUpNewGameInstance();
     }
 }

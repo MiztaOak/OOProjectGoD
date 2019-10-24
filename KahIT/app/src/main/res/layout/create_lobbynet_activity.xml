@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_stripes"
+    android:background="@drawable/custom_background_stripes"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:ignore="MissingDefaultResource">
@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/hostActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/custom_stripes" />
+        app:srcCompat="@drawable/custom_background_stripes" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/hostActivity"
@@ -278,7 +278,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/white"
-            android:background="@drawable/play_button_selector"
+            android:background="@drawable/custom_button_selector"
             android:backgroundTint="#00CBF8"
             android:fontFamily="@font/bevietnamextrabolditalic"
             android:textSize="17sp"
@@ -296,7 +296,7 @@
             android:backgroundTint="#00CBF8"
             android:textColor="@color/white"
             android:fontFamily="@font/bevietnamextrabolditalic"
-            android:background="@drawable/play_button_selector"
+            android:background="@drawable/custom_button_selector"
             android:onClick="launchLobbyNetActivity"
             android:text="Create"
             app:layout_constraintBottom_toBottomOf="parent"

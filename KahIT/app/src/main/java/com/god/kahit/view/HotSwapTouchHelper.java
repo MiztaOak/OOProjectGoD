@@ -15,6 +15,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * responsibility: ItemTouchHelper class for the HotSwapAddPlayersView.
+ * Handles the touch event and it's visual presentation.
+ *
+ * used-by: HotSwapAddPlayersView
+ *
+ * @author Jakob Ewerstrand
+ */
 abstract public class HotSwapTouchHelper extends ItemTouchHelper.Callback {
 
     Context mContext;
