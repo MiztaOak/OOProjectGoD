@@ -278,4 +278,8 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver{
     public void setCurrentQuestion(Question currentQuestion) {
         this.currentQuestion = currentQuestion;
     }
+
+    public void incrementCurrentPlayer(){
+        repository.incrementCurrentPlayer();
+    }
 }
