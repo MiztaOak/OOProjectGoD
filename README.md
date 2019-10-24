@@ -57,19 +57,19 @@ Add the following to the file:
 Restart Android Studio.
 
 #### About
-KahIt is a quiz-game app with a twist that was developed by 5 IT students of Chalmers university during the course TDA367 Object-oriented programming projekt.
+KahIt is a quiz-game app with a twist that was developed by 5 IT students of Chalmers university during the course TDA367 Object-oriented programming projekt.\
 How to setup a game: First you need to choose between host, join or hotswap game. The game allows a maximum of 8 players.
 - To Host: You have to fill in your info and create a game lobby then let other players join you.
 - To Join: You have to fill in your info and join a game someone is hosting.
 - To use HotSwap: You play localy so you only have to choose a game mode and then add players in the lobby.
-How to play:
+How to play:\
 The game consists of rounds. A round is as follows: A vote for the next theme/category of that round. A series of questions, each followed by a quick score update. When x-amount of questions have been answered a lottery is run where random items are distributed. After x-amout of rounds the final score page will show up.
 - If in HotSwap: every player has his/her turn to answer/vote then you pass on the device.
 - If in multiplayer: everyone answers/votes at the same time. 
-Score is based on answering right and also on speed.
-Items can either be a buff, debuff or a Vanity item. Buff -positive item, Debuff -negative item, Vanity -only cosmetic. Items can be aquired through the lottery(unlimited supply) or purchased in the store(limited supply).
-During the course of the game you have the option to spend credit(score) in the store where you can buy all items. Beware the supply is limited and shared by all players. Be quick!
-Good luck and have fun!
+Score is based on answering right and also on speed.\
+Items can either be a buff, debuff or a Vanity item. Buff -positive item, Debuff -negative item, Vanity -only cosmetic. Items can be aquired through the lottery(unlimited supply) or purchased in the store(limited supply).\
+During the course of the game you have the option to spend credit(score) in the store where you can buy all items. Beware the supply is limited and shared by all players. Be quick!\
+Good luck and have fun!\
 
 #### Contributors
 - Anas Alkoutli, @anasqw
