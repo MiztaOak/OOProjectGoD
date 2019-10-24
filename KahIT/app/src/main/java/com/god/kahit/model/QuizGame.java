@@ -42,7 +42,7 @@ public class QuizGame {
         this.playerManager = playerManager;
         this.gameMode = gameMode;
 
-        numOfQuestions = 1; //TODO replace with more "dynamic" way to set thisg
+        numOfQuestions = 2; //TODO replace with more "dynamic" way to set this
         gameIsStarted = false;
     }
 

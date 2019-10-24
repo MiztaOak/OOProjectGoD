@@ -85,6 +85,8 @@ public class QuestionView extends AppCompatActivity {
 
         model.nextQuestion();
         startTimer(progressBar, questionDuration);
+
+        model.startCategoryPlaylist(this);
     }
 
     private void initLayoutViews() {

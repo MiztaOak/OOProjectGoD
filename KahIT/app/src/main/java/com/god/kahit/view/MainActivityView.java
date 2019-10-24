@@ -63,7 +63,7 @@ public class MainActivityView extends AppCompatActivity {
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
-        Repository.getInstance().resetApp();
+        Repository.getInstance().resetApp(this);
     }
 
     /**

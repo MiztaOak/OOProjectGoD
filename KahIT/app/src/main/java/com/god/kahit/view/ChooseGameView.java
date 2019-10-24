@@ -29,7 +29,7 @@ public class ChooseGameView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        model.resetApp();
+        model.resetApp(this);
     }
     
     public void launchBackMainActivityClass(View view) {
