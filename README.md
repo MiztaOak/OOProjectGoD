@@ -40,10 +40,26 @@
 	</a>
 </p>
 
+#### How to use
+Due to the size of the app one must increase the amount of memory Android Studio can use.
+This is because of the large amount of images and soundtracks that the app holds.
+
+##### How to increase Android Studio memory
+Goto Android studio -> Help -> Edit Custom VM Options...
+Add the following to the file:
+
+`-Xms128m
+-Xmx4096m
+-XX:MaxPermSize=1024m
+-XX:ReservedCodeCacheSize=200m
+-XX:+UseCompressedOops`
+
+Restart Android Studio.
+
 #### About
 To be continued..
 
-#### Medverkande
+#### Contributors
 - Anas Alkoutli, @anasqw
 - Oussama Anadani, @ousama123
 - Mats Cedervall, @maatss
