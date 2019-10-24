@@ -90,17 +90,13 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void setupAudioHandler(Context context) {
         if (audioHandler == null) {
-            audioHandler = new AudioHandler();
-            audioHandler.startPlayList(context, audioHandler.getPreGamePlayList()); // playing preGamePlaylist when the app starts
+            audioHandler = new AudioHandler(context);
         }
     }
 
-
-    public void startPlayList(Context context, String categoryNam) {
-        audioHandler.startPlayList(context, categoryNam);
-
+    public void startPlaylist(Context context, String categoryNam) {
+        audioHandler.startPlaylist(context, categoryNam);
     }
-
 
     public void resumeMusic() {
         audioHandler.resumeMusic();
@@ -814,7 +810,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
-    public void resetApp() {
+    public void resetApp(Context context) {
         Log.i(TAG, "resetApp: performing a reset of playerManager, quizGame, networkManager and packetHandler");
         appLifecycleHandler.setActive(false);
 
@@ -828,6 +824,10 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
         quizGame = null;
         playerManager = null;
+
+        if (audioHandler.getMusicState()) {
+            audioHandler.startPlaylist(context, audioHandler.getPreGamePlayList());
+        }
     }
 
     /**

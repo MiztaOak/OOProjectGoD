@@ -1,7 +1,9 @@
 package com.god.kahit.Repository;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.god.kahit.R;
 import com.god.kahit.backgroundMusicService.MusicService;
@@ -13,9 +15,11 @@ import java.util.Random;
 /**
  * @responsibility: This class is responsible for the Audio in the game.
  * @used-by: Repository.
- * @author: Oussama Anadani
+ * @author: Oussama Anadani, Mats Cedervall
  */
 class AudioHandler {
+    private static final String TAG = AudioHandler.class.getSimpleName();
+
     private List<Integer> historyPlayList;
     private List<Integer> naturePlayList;
     private List<Integer> sciencePlayList;
@@ -28,11 +32,11 @@ class AudioHandler {
     private List<Integer> religionPlayList;
 
     private MusicService musicService;
+    private List<Integer> currentPlaylist;
     private boolean musicState; // to know the current state of the musicState
     private Random random = new Random(); // to randomize the songs every time the app starts
 
-
-    AudioHandler() {
+    AudioHandler(Context context) {
         historyPlayList = new ArrayList<>();
         naturePlayList = new ArrayList<>();
         sciencePlayList = new ArrayList<>();
@@ -47,55 +51,93 @@ class AudioHandler {
 
         //Adding all songs to their related list
         addSongsToList();
-        musicState = true; // default musicState
-        //todo reading musicState state from database
+
+        setupMusicState(context);
+
+        if (musicState) {
+            startPlaylist(context, preGamePlayList);
+        } else {
+            setPlaylist(context, preGamePlayList);
+        }
     }
 
-
     /**
-     * Creates songs in MediaPlayer
+     * A method used to set a different playlist of songs.
      *
-     * @param list    of songs you want to create in MediaPlayer
-     * @param context Context of which class
+     * @param playlist playlist of songs you want to prepare
+     * @param context  Context used to create a new MediaPlayer
      */
-    void startPlayList(Context context, List<Integer> list) {
-        stopMusic();
-        int rand = random.nextInt(list.size());//getting a random number in range list size
-        musicService = new MusicService(MediaPlayer.create(context, list.get(rand)));
-        musicService.musicSettings(); // to get song settings(looping, volume..)
-        setMusicService(musicService); // to set the current song
-        startMusic();
+    private void setPlaylist(Context context, List<Integer> playlist) {
+        if (currentPlaylist != playlist) {
+            currentPlaylist = playlist;
+            int rand = random.nextInt(playlist.size());//getting a random number in range list size
+            musicService = new MusicService(MediaPlayer.create(context, playlist.get(rand)));
+            musicService.musicSettings(); // to get song settings(looping, volume..)
+            setMusicService(musicService); // to set the current song
+        } else {
+            Log.i(TAG, "setPlaylist: called. currentPlaylist is the same as the new one, skipping call.");
+        }
+    }
+
+    /**
+     * A method used to start playing different playlists of songs.
+     * Will not start another playlist if it is the same as the currently playing playlist.
+     * Stops the currently playing music automatically.
+     *
+     * @param playlist playlist of songs you want to play
+     * @param context  Context used to create a new MediaPlayer
+     */
+    void startPlaylist(Context context, List<Integer> playlist) {
+        if (currentPlaylist != playlist) {
+            if (musicService != null) {
+                stopMusic();
+            }
+            setPlaylist(context, playlist);
+            startMusic();
+        } else {
+            Log.i(TAG, "startPlaylist: called. currentPlaylist is the same as the new one, skipping call.");
+        }
+    }
+
+
+    /***
+     * A method used to load the stored music state from SharedPreferences.
+     * @param context context used to get sharedPreferences
+     */
+    private void setupMusicState(Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences("kahit", Context.MODE_PRIVATE);  // getting the last state of the switchButton
+        musicState = sharedpreferences.getBoolean("musicOn", true);  //set checked(on) as a default case for the switchButton
     }
 
 
     /**
-     *  A method that starts music depending on the category name
-     * @param context of the current class
+     * A method that starts music depending on the category name
+     *
+     * @param context      of the current class
      * @param categoryName name of the category that relates the the playlist
      */
-    void startPlayList(Context context, String categoryName)
-    {
+    void startPlaylist(Context context, String categoryName) {
         switch (categoryName) {
             case "science":
-                startPlayList( context, sciencePlayList);
+                startPlaylist(context, sciencePlayList);
                 break;
             case "history":
-                startPlayList( context, historyPlayList);
+                startPlaylist(context, historyPlayList);
                 break;
             case "nature":
-                startPlayList( context, naturePlayList);
+                startPlaylist(context, naturePlayList);
                 break;
             case "gaming":
-                startPlayList( context, gamingPlayList);
+                startPlaylist(context, gamingPlayList);
                 break;
             case "movies":
-                startPlayList( context, moviesPlayList);
+                startPlaylist(context, moviesPlayList);
                 break;
             case "religion":
-                startPlayList( context, religionPlayList);
+                startPlaylist(context, religionPlayList);
                 break;
             case "sports":
-                startPlayList( context, sportPlayList);
+                startPlaylist(context, sportPlayList);
                 break;
             case "test":
             case "mix":
@@ -103,9 +145,8 @@ class AudioHandler {
             case "language":
             case "literature":
             default:
-                startPlayList( context, mixPlayList);
+                startPlaylist(context, mixPlayList);
                 break;
-
         }
     }
 
@@ -125,7 +166,6 @@ class AudioHandler {
         addReligionSongs();
     }
 
-
     /**
      * Adds religion songs to religionPlaylist
      */
@@ -139,7 +179,6 @@ class AudioHandler {
 
     }
 
-
     /**
      * Adds gaming songs to gamingPlayList
      */
@@ -150,7 +189,6 @@ class AudioHandler {
         gamingPlayList.add(R.raw.gaming4);
         gamingPlayList.add(R.raw.gaming5);
     }
-
 
     /**
      * Adds movies songs to moviesPlayList
@@ -254,9 +292,14 @@ class AudioHandler {
         sciencePlayList.add(R.raw.science2);
         sciencePlayList.add(R.raw.science3);
         sciencePlayList.add(R.raw.science4);
-
     }
 
+    /**
+     * @return music state
+     */
+    boolean getMusicState() {
+        return musicState;
+    }
 
     /**
      * Changes the state of the music
@@ -267,101 +310,71 @@ class AudioHandler {
         this.musicState = state;
     }
 
-    /**
-     * @return music state
-     */
-    boolean getMusicState() {
-        return musicState;
-    }
-
-
     private void startMusic() {
-        musicService.startMusic();
+        if (musicService != null) {
+            musicService.startMusic();
+        } else {
+            Log.i(TAG, "startMusic: attempt to call startMusic on null musicService, ignoring call");
+        }
     }
 
     private void stopMusic() {
-        musicService.stopMusic();
+        if (musicService != null) {
+            musicService.stopMusic();
+        } else {
+            Log.i(TAG, "stopMusic: attempt to call stopMusic on null musicService, ignoring call");
+        }
     }
 
     void resumeMusic() {
-        musicService.resumeMusic();
+        if (musicService != null) {
+            musicService.resumeMusic();
+        } else {
+            Log.i(TAG, "resumeMusic: attempt to call resumeMusic on null musicService, ignoring call");
+        }
     }
 
     void pauseMusic() {
-        musicService.pauseMusic();
-    }
-
-
-    public MusicService getMusicService() {
-        return musicService;
+        if (musicService != null) {
+            musicService.pauseMusic();
+        } else {
+            Log.i(TAG, "pauseMusic: attempt to call pauseMusic on null musicService, ignoring call");
+        }
     }
 
     private void setMusicService(MusicService musicService) {
         this.musicService = musicService;
     }
 
-
-    public List<Integer> getMixPlayList() {
+    List<Integer> getMixPlayList() {
         return mixPlayList;
     }
 
-    public void setMixPlayList(List<Integer> mixPlayList) {
-        this.mixPlayList = mixPlayList;
-    }
-
-    public List<Integer> getHistoryPlayList() {
+    List<Integer> getHistoryPlayList() {
         return historyPlayList;
     }
 
-    public void setHistoryPlayList(List<Integer> historyPlayList) {
-        this.historyPlayList = historyPlayList;
-    }
-
-    public List<Integer> getNaturePlayList() {
+    List<Integer> getNaturePlayList() {
         return naturePlayList;
     }
 
-    public void setNaturePlayList(List<Integer> naturePlayList) {
-        this.naturePlayList = naturePlayList;
-    }
-
-    public List<Integer> getSciencePlayList() {
+    List<Integer> getSciencePlayList() {
         return sciencePlayList;
-    }
-
-    public void setSciencePlayList(List<Integer> sciencePlayList) {
-        this.sciencePlayList = sciencePlayList;
     }
 
     List<Integer> getPreGamePlayList() {
         return preGamePlayList;
     }
 
-    public void setPreGamePlayList(List<Integer> preGamePlayList) {
-        this.preGamePlayList = preGamePlayList;
-    }
-
-    public List<Integer> getSportPlayList() {
+    List<Integer> getSportPlayList() {
         return sportPlayList;
     }
 
-    public void setSportPlayList(List<Integer> sportPlayList) {
-        this.sportPlayList = sportPlayList;
-    }
-
-    public List<Integer> getCelebritiesPlayList() {
+    List<Integer> getCelebritiesPlayList() {
         return celebritiesPlayList;
     }
 
-    public void setCelebritiesPlayList(List<Integer> celebritiesPlayList) {
-        this.celebritiesPlayList = celebritiesPlayList;
-    }
-
-    public List<Integer> getMoviesPlayList() {
+    List<Integer> getMoviesPlayList() {
         return moviesPlayList;
-    }
-
-    public void setMoviesPlayList(List<Integer> moviesPlayList) {
-        this.moviesPlayList = moviesPlayList;
     }
 }

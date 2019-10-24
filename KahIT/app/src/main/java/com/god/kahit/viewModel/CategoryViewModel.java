@@ -1,12 +1,13 @@
 package com.god.kahit.viewModel;
 
 
+import android.content.Context;
 import android.util.Log;
 
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.applicationEvents.PlayerVotedCategoryEvent;
-import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Player;
 import com.god.kahit.view.QuestionView;
@@ -24,7 +25,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 /**
  * The viewModel for the CategoryView, the class handles the fetching of data for the
  * view.
- *
+ * <p>
  * used by: CategoryView
  *
  * @author Johan EK
@@ -65,6 +66,10 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     public void sendIsReady() {
         Log.d(LOG_TAG, "sendIsReady: called. Now waiting for server..");
         repository.setMyReadyStatus(true);
+    }
+
+    public void startCategoryPlaylist(Context context) {
+        repository.startPlaylist(context, repository.getCurrentCategory().toString());
     }
 
     public String getMyPlayerId() {

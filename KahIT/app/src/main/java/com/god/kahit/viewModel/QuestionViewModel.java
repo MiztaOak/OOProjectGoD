@@ -1,6 +1,7 @@
 package com.god.kahit.viewModel;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
@@ -272,6 +273,10 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
             Log.i(LOG_TAG, "autoChooseAnswer: Attempt to call size on null questionAlts.getValue(), returning 0");
             return 0;
         }
+    }
+
+    public void startCategoryPlaylist(Context context) {
+        repository.startPlaylist(context, repository.getCurrentCategory().toString());
     }
 
     public void setNumOfRepeats(int numOfRepeats) {
