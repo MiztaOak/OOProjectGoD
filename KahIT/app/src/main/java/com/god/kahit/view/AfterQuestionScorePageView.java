@@ -12,10 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.god.kahit.R;
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.GameLostConnectionEvent;
 import com.god.kahit.applicationEvents.NewViewEvent;
-import com.god.kahit.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -28,7 +28,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * The view class for AfterQuestionScorePage, displaying a leaderboard
- *
+ * <p>
  * used by: CategoryView, QuestionViewModel, Repository
  *
  * @author Johan Ek &
@@ -61,7 +61,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         super.onStart();
         if (model.isHotSwap()) {
             sessionTypeTextView.setText("Hotswap mode");
-        }else {
+        } else {
             sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
         }
 
@@ -95,7 +95,7 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents(), model.getMyPlayerId());
+        recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents(), model.getMyPlayerId(), model.isHotSwap());
         recyclerView.setAdapter(recyclerAdapter);
     }
 

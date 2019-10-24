@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -42,7 +43,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * The view class for the view where the user can answer questions and by items
- *
+ * <p>
  * used by: AfterQuestionScorePageView, AfterQuestionScorePageViewModel, CategoryView,
  * CategoryViewModel, ChooseGameView, HotSwapAddPlayerView, PreGameCountdownViewModel,
  * Repository
@@ -79,7 +80,7 @@ public class QuestionView extends AppCompatActivity {
         getLifecycle().addObserver(model);
 
         initLayoutViews();
-        setupListeners(savedInstanceState);
+        setupListeners();
         setupStore(savedInstanceState);
 
         model.nextQuestion();
@@ -107,7 +108,7 @@ public class QuestionView extends AppCompatActivity {
         addActionToAnswers();
     }
 
-    private void setupListeners(final Bundle savedInstanceState) {
+    private void setupListeners() {
         model.getQuestionText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -144,13 +145,6 @@ public class QuestionView extends AppCompatActivity {
         initStore(savedInstanceState);
         addDrawerListener();
         addStoreImageAction();
-    }
-
-    private void launchScorePageClass() {
-        Log.d(LOG_TAG, "Button clicked!");
-        Intent intent = new Intent(this, ScorePageView.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 
     private void launchAfterQuestionScorePageClass() {
@@ -231,17 +225,17 @@ public class QuestionView extends AppCompatActivity {
     private void addDrawerListener() {
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onDrawerSlide(View view, float v) {
+            public void onDrawerSlide(@NonNull View view, float v) {
             }
 
             @Override
-            public void onDrawerOpened(View view) {
+            public void onDrawerOpened(@NonNull View view) {
                 navigationView.bringToFront();
                 storeImage.setX(0);
             }
 
             @Override
-            public void onDrawerClosed(View view) {
+            public void onDrawerClosed(@NonNull View view) {
                 navigationView.bringToFront();
                 storeImage.setX(Resources.getSystem().getDisplayMetrics().widthPixels - 190);
             }
@@ -277,22 +271,22 @@ public class QuestionView extends AppCompatActivity {
     private void greyOutNonSelectedAnswers() {
         if (indexOfClickedView < 0) {
             for (int i = 0; i < answers.size(); i++) {
+                answers.get(i).setEnabled(false);
                 Drawable answerDrawable = answers.get(i).getBackground();
                 answerDrawable = DrawableCompat.wrap(answerDrawable);
                 DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.light_grey));
 
                 answers.get(i).setBackground(answerDrawable);
-                answers.get(i).setEnabled(false);
             }
         } else {
             for (int i = 0; i < answers.size(); i++) {
+                answers.get(i).setEnabled(false);
                 if (!(answers.get(i) == (answers.get(indexOfClickedView)))) {
                     Drawable answerDrawable = answers.get(i).getBackground();
                     answerDrawable = DrawableCompat.wrap(answerDrawable);
                     DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.light_grey));
 
                     answers.get(i).setBackground(answerDrawable);
-                    answers.get(i).setEnabled(false);
                 }
             }
         }
@@ -344,7 +338,7 @@ public class QuestionView extends AppCompatActivity {
      */
     private List<Integer> getAnswerColors() {
         List<Integer> answerColors = new ArrayList<>();
-        int retrieve[] = this.getResources().getIntArray(R.array.answerColors);
+        int[] retrieve = this.getResources().getIntArray(R.array.answerColors);
         for (int re : retrieve) {
             answerColors.add(re);
         }
@@ -376,9 +370,9 @@ public class QuestionView extends AppCompatActivity {
     }
 
     /**
-     * Sets the current player1 name in "hotswap/hot seat" mode.
+     * Sets the playerNameTextView text into the current player's name
      *
-     * @param name
+     * @param name is a String containing the current player's name
      */
     private void populatePlayerName(String name) {
         playerNameTextView.setText(name);
@@ -452,7 +446,6 @@ public class QuestionView extends AppCompatActivity {
 
     @Subscribe
     public void onAllPlayersReadyEvent(AllPlayersReadyEvent event) {
-//        countdownTextView.setText("All players ready!"); //todo show waiting for server etc
         if (!hasQuestionBeenShown && !answers.get(0).isEnabled()) {
             animator.cancel();
             updateViewAfterAnimation();
@@ -507,11 +500,12 @@ public class QuestionView extends AppCompatActivity {
             answer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    model.onAnswerClicked(answers.indexOf(answer), animator);
-                    indexOfClickedView = answers.indexOf(view);
+                    TextView textView = (TextView) view;
+                    indexOfClickedView = answers.indexOf(textView);
                     if (model.isHotSwap() || model.isHost()) {
                         greyOutNonSelectedAnswers();
                     }
+                    model.onAnswerClicked(indexOfClickedView, animator);
                 }
             });
         }
