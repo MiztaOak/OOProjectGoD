@@ -16,11 +16,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.god.kahit.R;
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.GameLostConnectionEvent;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.applicationEvents.PlayerAnsweredQuestionEvent;
-import com.god.kahit.R;
 import com.god.kahit.viewModel.QuestionViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -211,6 +211,7 @@ public class QuestionView extends AppCompatActivity {
         super.onStop();
         BUS.unregister(this);
     }
+
     /**
      * A method that initiates the store by getting its layout and pasting it inside the side
      * navigation
@@ -273,7 +274,7 @@ public class QuestionView extends AppCompatActivity {
     /**
      * sets a new backgroundColor for the non-selected answers.
      */
-    private void greyOutAnswers() {
+    private void greyOutNonSelectedAnswers() {
         if (indexOfClickedView < 0) {
             for (int i = 0; i < answers.size(); i++) {
                 Drawable answerDrawable = answers.get(i).getBackground();
@@ -281,6 +282,7 @@ public class QuestionView extends AppCompatActivity {
                 DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.light_grey));
 
                 answers.get(i).setBackground(answerDrawable);
+                answers.get(i).setEnabled(false);
             }
         } else {
             for (int i = 0; i < answers.size(); i++) {
@@ -290,6 +292,7 @@ public class QuestionView extends AppCompatActivity {
                     DrawableCompat.setTint(answerDrawable, ContextCompat.getColor(this, R.color.light_grey));
 
                     answers.get(i).setBackground(answerDrawable);
+                    answers.get(i).setEnabled(false);
                 }
             }
         }
@@ -298,10 +301,9 @@ public class QuestionView extends AppCompatActivity {
     /**
      * Updates the view after the animation has finished. Showing a green color if the answer was right, red if not.
      * If no action has been taken all answers are grayed out.
-     *
      */
     private void updateViewAfterAnimation() {
-        greyOutAnswers();
+        greyOutNonSelectedAnswers();
         if (indexOfClickedView >= 0) {
             Drawable answerDrawable = answers.get(indexOfClickedView).getBackground();
             answerDrawable = DrawableCompat.wrap(answerDrawable);
@@ -318,15 +320,14 @@ public class QuestionView extends AppCompatActivity {
 
     /**
      * Resets the color of the textViews.
-     *
      */
-    private void resetColorOfTextViews() {
+    private void resetAnswerTextViews() {
         Drawable answerDrawable;
         List<Integer> colors = getAnswerColors();
 
         Collections.shuffle(colors);
         for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setClickable(true);
+            answers.get(i).setEnabled(true);
 
             answerDrawable = answers.get(i).getBackground();
             answerDrawable = DrawableCompat.wrap(answerDrawable);
@@ -417,14 +418,14 @@ public class QuestionView extends AppCompatActivity {
                                 launchAfterQuestionScorePageClass();
                             } else {
                                 model.repeatQuestion();
-                                resetColorOfTextViews();
+                                resetAnswerTextViews();
                                 animation.start();
                             }
 
                         }
                     }, 1000);
                 } else if (answers.get(0).isEnabled()) {
-                    greyOutAnswers();
+                    greyOutNonSelectedAnswers();
                     model.sendIsReady();
                 }
             }
@@ -435,8 +436,8 @@ public class QuestionView extends AppCompatActivity {
     @Subscribe
     public void onPlayerAnsweredQuestionEvent(PlayerAnsweredQuestionEvent event) {
         if (model.isMe(event.getPlayer())) {
-            greyOutAnswers();
-            updateViewAfterAnimation();
+            greyOutNonSelectedAnswers();
+
             model.sendIsReady();
         }
     }
@@ -485,32 +486,37 @@ public class QuestionView extends AppCompatActivity {
             Log.d(LOG_TAG, "onGameLostConnectionEvent: event triggered, but I am host - skipping");
         }
     }
+
     /**
      * A method that checks for buffs and debuffs to run their visual effects.
      */
-    private void checkForEffects(){
-        if (model.isHalfTheAlternatives()){
+    private void checkForEffects() {
+        if (model.isHalfTheAlternatives()) {
             halfTheAlternativesEffect(answers.size());
-        }else if(model.isAutoAnswer()){
+        } else if (model.isAutoAnswer()) {
             runAutoAnswer();
         }
     }
+
     /**
      * A method that sets an action to the text views that hold alternatives for the question.
      * Calls for the answer method in the model view.
      */
-    private void addActionToAnswers(){
-        for (final TextView answer: answers) {
+    private void addActionToAnswers() {
+        for (final TextView answer : answers) {
             answer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     model.onAnswerClicked(answers.indexOf(answer), animator);
                     indexOfClickedView = answers.indexOf(view);
-                    greyOutAnswers();
+                    if (model.isHotSwap() || model.isHost()) {
+                        greyOutNonSelectedAnswers();
+                    }
                 }
             });
         }
     }
+
     /**
      * A method that starts the effect of the Fifty fifty buff,
      * which is to hide two answers out of 4.
@@ -518,7 +524,7 @@ public class QuestionView extends AppCompatActivity {
      *
      * @param size: The size of the list of strings which are the alternatives
      */
-    private void halfTheAlternativesEffect(int size){
+    private void halfTheAlternativesEffect(int size) {
         answers.get(model.getTwoIndexes(size).first).setVisibility(View.INVISIBLE);
         answers.get(model.getTwoIndexes(size).second).setVisibility(View.INVISIBLE);
     }
@@ -526,7 +532,7 @@ public class QuestionView extends AppCompatActivity {
     /**
      * A method that runs the autoAnswer debuff effect.
      */
-    public void runAutoAnswer(){
+    public void runAutoAnswer() {
         answers.get(model.autoChooseAnswer()).performClick();
 
     }
