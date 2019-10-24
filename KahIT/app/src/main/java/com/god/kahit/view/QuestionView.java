@@ -48,7 +48,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  * CategoryViewModel, ChooseGameView, HotSwapAddPlayerView, PreGameCountdownViewModel,
  * Repository
  *
- * @author Johan Ek &
+ * @author Johan Ek & Jakob Ewerstrand
  */
 public class QuestionView extends AppCompatActivity {
     private static final String LOG_TAG = QuestionView.class.getSimpleName();
@@ -64,7 +64,7 @@ public class QuestionView extends AppCompatActivity {
     private ObjectAnimator animator;
 
     //TODO FOLLOWING is ALL TEMPORARY and will be replaced by variables from Question.class. FROM:
-    private int questionDuration = 2000; //The total time the player1 has to answer.
+    private int questionDuration = 2000; //The total time the player has to answer.
     private int questionNmb = 1;  //The number of the question if in a sequence.
     private int totNmbQuestions = 3; //The total number of questions if in a sequence.
 
@@ -255,7 +255,7 @@ public class QuestionView extends AppCompatActivity {
     }
 
     /**
-     * A method that adds action to the store image  which makes the store slides out when clicking
+     * A method that adds action to the store image which makes the store slides out when clicking
      * on it
      */
     private void addStoreImageAction() {
@@ -268,7 +268,7 @@ public class QuestionView extends AppCompatActivity {
     }
 
     /**
-     * sets a new backgroundColor for the non-selected answers.
+     * sets a new background color for the non-selected answers.
      */
     private void greyOutNonSelectedAnswers() {
         if (indexOfClickedView < 0) {

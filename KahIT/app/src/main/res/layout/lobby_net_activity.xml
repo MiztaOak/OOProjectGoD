@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_stripes"
+    android:background="@drawable/custom_background_stripes"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:ignore="MissingDefaultResource">
@@ -184,7 +184,7 @@
             android:backgroundTint="#00CBF8"
             android:textColor="@color/white"
             android:fontFamily="@font/bevietnamextrabolditalic"
-            android:background="@drawable/play_button_selector"
+            android:background="@drawable/custom_button_selector"
             android:text="@string/start_game"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

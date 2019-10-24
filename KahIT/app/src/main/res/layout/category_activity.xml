@@ -4,7 +4,7 @@
     android:id="@+id/categoryActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_stripes">
+    android:background="@drawable/custom_background_stripes">
 
     <TextView
         android:id="@+id/c_SessionType_textView"

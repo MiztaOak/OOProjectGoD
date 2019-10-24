@@ -55,6 +55,17 @@ import androidx.annotation.NonNull;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+
+/**
+ * responsibility: Functions as a connection point between the network, the model, and the visual presentation of the data.
+ * <p>
+ *
+ * used-by: CategoryView, CategoryViewModel, ChooseGameViewModel, CreateLobbyNetView, CreateLobbyNetViewModel,
+ * HotSwapAddPlayersViewModel, HotSwapGameModeViewModel, JoinLobbyNetView, JoinLobbyViewModel, LotteryViewModel,
+ * MainActivityView, PreGameCountdownView, QuestionViewModel, SettingsView, StoreViewModel.
+ *
+ * @author Anas Alkoutli & Ousama Anadani & Mats CederVall & Johan Ek & Jakob Ewerstrand
+ */
 public class Repository { //todo implement a strategy pattern, as we got two different states, host & non-host
     private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
@@ -79,13 +90,17 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
     public void setupAudioHandler(Context context) {
         if (audioHandler == null) {
-            audioHandler = new AudioHandler(context);
+            audioHandler = new AudioHandler();
+            audioHandler.startPlayList(context, audioHandler.getPreGamePlayList()); // playing preGamePlaylist when the app starts
         }
     }
 
-    public void startPlaylist(Context context, String categoryNam) {
-        audioHandler.startPlaylist(context, categoryNam);
+
+    public void startPlayList(Context context, String categoryNam) {
+        audioHandler.startPlayList(context, categoryNam);
+
     }
+
 
     public void resumeMusic() {
         audioHandler.resumeMusic();
@@ -799,7 +814,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
-    public void resetApp(Context context) {
+    public void resetApp() {
         Log.i(TAG, "resetApp: performing a reset of playerManager, quizGame, networkManager and packetHandler");
         appLifecycleHandler.setActive(false);
 
@@ -813,12 +828,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
         quizGame = null;
         playerManager = null;
-
-        if (audioHandler.getMusicState()) {
-            audioHandler.startPlaylist(context, audioHandler.getPreGamePlayList());
-        }
     }
 
+    /**
+     * Forwards a request to add a new player to the playerManager.
+     */
     public void addNewPlayerToEmptyTeam() {
         playerManager.addNewPlayerToEmptyTeam();
     }
@@ -858,6 +872,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         BUS.post(new RoomChangeEvent(rooms));
     }
 
+    /**
+     * Forwards a player that is to be removed to the playerManager.
+     *
+     * @param player - to be removed.
+     */
     public void removePlayer(Player player) {
         playerManager.removePlayer(player);
         if (networkManager != null) {
@@ -900,6 +919,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         return null;
     }
 
+    /**
+     * Forwards a player and a new teamId to the playerManager
+     *
+     * @param player    -the player to have his team changed.
+     * @param newTeamId -the id of the new team.
+     */
     public void changeTeam(Player player, String newTeamId) {
         playerManager.changeTeam(player, newTeamId);
     }

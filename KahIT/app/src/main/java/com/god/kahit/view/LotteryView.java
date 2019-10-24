@@ -33,9 +33,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 /**
- * @responsibility: Lottery page that shows up players' name and the randomized item(Buff or Debuff) that they get.
- * @used-by: AfterQuestionScorePageView, ChooseGameView, Repository.
- * @author: Oussama Anadani, Jakob Ewerstrand
+ * responsibility: Lottery page that shows up players' name and the randomized item(Buff or Debuff) that they get.
+ * used-by: AfterQuestionScorePageView, ChooseGameView, Repository.
+ * @author Oussama Anadani, Jakob Ewerstrand
  */
 public class LotteryView extends AppCompatActivity {
     private static final String LOG_TAG = LotteryView.class.getSimpleName();
@@ -192,13 +192,13 @@ public class LotteryView extends AppCompatActivity {
 
 
     /**
-     * To check if the counter is done after maxCount times
+     * To check if the counter is done after maximum of amount of times.
      *
      * @return the state of the counter
      */
     private boolean isDone() {
-        int maxCount = 20;
-        return count >= maxCount;
+        int MAX_IMAGE_SWAPS = 20;
+        return count >= MAX_IMAGE_SWAPS;
     }
 
 

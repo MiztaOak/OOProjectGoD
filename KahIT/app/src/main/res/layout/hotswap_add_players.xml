@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_stripes"
+    android:background="@drawable/custom_background_stripes"
     tools:ignore="MissingDefaultResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/play_button_selector"
+            android:background="@drawable/custom_button_selector"
             android:backgroundTint="#00CBF8"
             android:fontFamily="@font/bevietnamextrabolditalic"
             android:onClick="launchQuestionClass"
@@ -40,7 +40,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/play_button_selector"
+            android:background="@drawable/custom_button_selector"
             android:backgroundTint="#00CBF8"
             android:fontFamily="@font/bevietnamextrabolditalic"
             android:onClick="launchBackHotSwapGameModeClass"

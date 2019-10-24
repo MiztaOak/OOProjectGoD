@@ -21,9 +21,10 @@ import androidx.lifecycle.ViewModel;
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
- * @responsibility: This class is responsible for the LiveData of lottery in the game.
- * @used-by: LotteryView
- * @author: Mats Cedervall, Jakob Ewerstrand
+ * responsibility: This class is responsible for the LiveData of lottery in the game.
+ * used-by: LotteryView
+ *
+ * @author Mats Cedervall, Jakob Ewerstrand
  */
 public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = LotteryViewModel.class.getSimpleName();
@@ -84,6 +85,12 @@ public class LotteryViewModel extends ViewModel implements LifecycleObserver {
     private void loadPlayerListLiveData() {
         playerListLiveData.setValue(Repository.getInstance().getPlayers());
     }
+
+    /**
+     * recieves a LotteryDrawEvent containing the winnings to be displayed.
+     *
+     * @param event LotteryDrawEvent containing a map with players and items.
+     */
     @Subscribe
     public void onLotteryDrawEvent(LotteryDrawEvent event) {
         Log.d(TAG, "onLotteryDrawEvent: triggered");
