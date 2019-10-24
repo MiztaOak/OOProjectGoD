@@ -84,7 +84,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     public void startPlaylist(Context context, String categoryNam) {
-        audioHandler.startPlayList(context, categoryNam);
+        audioHandler.startPlaylist(context, categoryNam);
     }
 
     public void resumeMusic() {
@@ -815,7 +815,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         playerManager = null;
 
         if (audioHandler.getMusicState()) {
-            audioHandler.startPlayList(context, audioHandler.getPreGamePlayList());
+            audioHandler.startPlaylist(context, audioHandler.getPreGamePlayList());
         }
     }
 
