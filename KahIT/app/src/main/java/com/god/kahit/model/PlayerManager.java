@@ -117,7 +117,7 @@ public class PlayerManager {
         return playerList;
     }
 
-    public List<Team> getTeams() {
+    List<Team> getTeams() {
         return teamList;
     }
 
@@ -149,7 +149,7 @@ public class PlayerManager {
     /**
      * Resets the entire teams.
      */
-    public void resetPlayerData() {
+    void resetPlayerData() {
         teamList.clear();
         playerList.clear();
         currentHotSwapPlayer = null;
@@ -236,7 +236,7 @@ public class PlayerManager {
      *
      * @return true if no empty team, false if there is one of more empty teams.
      */
-    public boolean noEmptyTeamExists() {
+    boolean noEmptyTeamExists() {
         for (Team team : teamList) {
             if (team.getTeamMembers().size() == 0) {
                 return false;
@@ -250,7 +250,7 @@ public class PlayerManager {
      *
      * @return the empty team.
      */
-    public Team getEmptyTeam() {
+    Team getEmptyTeam() {
         int j = 0;
         for (int i = 0; i < teamList.size(); i++) {
             if (teamList.get(i).getTeamMembers().size() == 0) {
@@ -263,7 +263,7 @@ public class PlayerManager {
     /**
      * Creates a new empty team with default settings.
      */
-    public void createNewTeam(int teamNumber) {
+    private void createNewTeam(int teamNumber) {
         List<Player> players = new ArrayList<>();
         String teamName = "Team " + (teamNumber + 1);
         String id = Integer.toString(teamNumber + 1);
@@ -276,7 +276,7 @@ public class PlayerManager {
      *
      * @param id for the team.
      */
-    public void createNewTeam(String id) {
+    private void createNewTeam(String id) {
         List<Player> players = new ArrayList<>();
         String teamName = "Team " + id;
         Team team = new Team(players, teamName, id);
@@ -375,7 +375,7 @@ public class PlayerManager {
      *
      * @param team the team to be removed.
      */
-    public void removeTeamIfEmpty(Team team) {
+    void removeTeamIfEmpty(Team team) {
         if (team.getTeamMembers().size() == 0) {
             teamList.remove(team);
         }
@@ -387,7 +387,7 @@ public class PlayerManager {
      * @param team     team that changes name.
      * @param teamName The team name that the team changes to.
      */
-    public void changeTeamName(Team team, String teamName) {
+    void changeTeamName(Team team, String teamName) {
         int index = teamList.indexOf(team);
         if (index >= 0) {
             teamList.get(index).setTeamName(teamName);
@@ -401,7 +401,7 @@ public class PlayerManager {
      * @param player the player to have his name changed.
      * @param name   the new name for the player.
      */
-    public void changePlayerName(Player player, String name) {
+    void changePlayerName(Player player, String name) {
         if (!player.isReady()) {
             for (Player player1 : playerList) {
                 if (player1.equals(player)) {
