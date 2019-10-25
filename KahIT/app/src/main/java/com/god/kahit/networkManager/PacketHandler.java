@@ -60,9 +60,9 @@ public class PacketHandler {
     }
 
     /***
-     * Update this accordingly to represent all implemented packets.
+     * Method used to handle an incoming byte[] payload
      * @param id connection id of sender
-     * @param payload received payload
+     * @param payload received byte[] payload
      */
     public void handleReceivedPayload(String id, byte[] payload) {
         int receivedPacketID = Integer.valueOf(Byte.toString(payload[0]));
@@ -443,46 +443,91 @@ public class PacketHandler {
 
     // ====================== Send methods ======================
 
+    /**
+     * Method to send a PlayerIdPacket to a given connection
+     *
+     * @param connection Connection to send the packet to
+     * @param playerId   String playerId
+     */
     public void sendPlayerId(Connection connection, String playerId) {
         Log.i(TAG, String.format("sendPlayerId: sending PlayerIdPacket to '%s'", playerId));
         Packet packet = new PlayerIdPacket(playerId);
         networkManager.sendBytePayload(connection, packet.getBuiltPacket());
     }
 
+    /**
+     * Method to send a RequestPlayerNameChangePacket to host
+     *
+     * @param newName String newName
+     */
     public void sendRequestPlayerNameChange(String newName) {
         Log.i(TAG, String.format("sendRequestPlayerNameChange: sending RequestPlayerNameChangePacket to host: '%s'", networkManager.getConnectionHost().getId()));
         Packet packet = new RequestPlayerNameChangePacket(newName);
         networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
+    /**
+     * Method to send a RequestPlayerReadyChangePacket to host
+     *
+     * @param newState boolean new ready state
+     */
     public void sendRequestReadyStatus(boolean newState) {
         Log.i(TAG, String.format("sendRequestReadyStatus: sending RequestPlayerReadyChangePacket to host: '%s'", networkManager.getConnectionHost().getId()));
         Packet packet = new RequestPlayerReadyChangePacket(newState);
         networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
+    /**
+     * Method to send a RequestTeamNameChangePacket to host
+     *
+     * @param teamId      String teamId of affected team
+     * @param newTeamName String new team name
+     */
     public void sendRequestTeamNameChange(String teamId, String newTeamName) {
         Log.i(TAG, String.format("sendRequestTeamNameChange: sending RequestTeamNameChangePacket to host: '%s'", networkManager.getConnectionHost().getId()));
         Packet packet = new RequestTeamNameChangePacket(teamId, newTeamName);
         networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
+    /**
+     * Method to send a RequestPlayerChangeTeamPacket to host
+     *
+     * @param newTeamID String teamId of the new team
+     */
     public void sendRequestTeamChange(String newTeamID) {
         Log.i(TAG, String.format("sendRequestTeamChange: sending RequestPlayerChangeTeamPacket to host: '%s'", networkManager.getConnectionHost().getId()));
         Packet packet = new RequestPlayerChangeTeamPacket(newTeamID);
         networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
+    /**
+     * Method to send a RequestPlayerBuyItemPacket to host
+     *
+     * @param itemID String item id
+     */
     public void sendRequestBuyItem(String itemID) {
         //todo implement
     }
 
+    /**
+     * Method to send a RequestPlayerAnswerQuestionPacket to host
+     *
+     * @param categoryId  String categoryId of answered question
+     * @param questionId  String questionId of answered question
+     * @param givenAnswer String answer text
+     * @param timeLeft    String long of time left converted to a string
+     */
     public void sendRequestAnswerQuestion(String categoryId, String questionId, String givenAnswer, String timeLeft) {
         Log.i(TAG, String.format("sendRequestAnswerQuestion: sending RequestPlayerAnswerQuestionPacket to host: '%s'", networkManager.getConnectionHost().getId()));
         Packet packet = new RequestPlayerAnswerQuestionPacket(categoryId, questionId, givenAnswer, timeLeft);
         networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
 
+    /**
+     * Method to send a RequestCategoryPlayerVotePacket to host
+     *
+     * @param categoryId String category id of the voted for category
+     */
     public void sendRequestCategoryVote(String categoryId) {
         Log.i(TAG, String.format("sendRequestCategoryVote: sending RequestCategoryPlayerVotePacket to host: '%s'", networkManager.getConnectionHost().getId()));
         Packet packet = new RequestCategoryPlayerVotePacket(categoryId);
@@ -491,20 +536,30 @@ public class PacketHandler {
 
     // ====================== Broadcast methods ======================
 
-    public void broadcastLobbySyncStartPacket(String targetPlayerId, String roomName,
+    /**
+     * Method used to broadcast a EventLobbySyncStartPacket to all connected endpoints
+     *
+     * @param targetPlayerId String affected player's id
+     * @param lobbyName      String lobby name
+     * @param gameModeId     String lobby game mode id
+     */
+    public void broadcastLobbySyncStartPacket(String targetPlayerId, String lobbyName,
                                               String gameModeId) {
         Log.i(TAG, String.format("broadcastLobbySyncStartPacket: broadcasting " +
                 "EventLobbySyncStartPacket. targetPlayerId: '%s', roomName: '%s', " +
-                "gameModeId: '%s'", targetPlayerId, roomName, gameModeId));
+                "gameModeId: '%s'", targetPlayerId, lobbyName, gameModeId));
 
         //Start queuing incoming payloads
         networkManager.setQueueIncomingPayloads(true);
 
         //Send packet
-        Packet packet = new EventLobbySyncStartPacket(targetPlayerId, roomName, gameModeId);
+        Packet packet = new EventLobbySyncStartPacket(targetPlayerId, lobbyName, gameModeId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventLobbySyncEndPacket to all connected endpoints
+     */
     public void broadcastLobbySyncEndPacket() {
         Log.i(TAG, "broadcastLobbySyncEndPacket: broadcasting EventLobbySyncEndPacket.");
         Packet packet = new EventLobbySyncEndPacket();
@@ -514,6 +569,12 @@ public class PacketHandler {
         networkManager.processPayloadQueue();
     }
 
+    /**
+     * Method used to broadcast a EventPlayerNameChangePacket to all connected endpoints
+     *
+     * @param targetPlayerId String affected player's id
+     * @param newName        String new player name
+     */
     public void broadcastPlayerNameChange(String targetPlayerId, String newName) {
         Log.i(TAG, String.format("broadcastPlayerNameChange: broadcasting" +
                 " EventPlayerNameChangePacket. targetPlayerId: '%s', " +
@@ -522,96 +583,181 @@ public class PacketHandler {
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventPlayerReadyChangePacket to all connected endpoints
+     *
+     * @param targetPlayerId String affected player's id
+     * @param newState       boolean new player ready state
+     */
     public void broadcastPlayerReadyChange(String targetPlayerId, boolean newState) {
         Log.i(TAG, String.format("broadcastPlayerReadyChange: broadcasting EventPlayerReadyChangePacket. targetPlayerId: '%s', newState: '%s'", targetPlayerId, newState));
         Packet packet = new EventPlayerReadyChangePacket(targetPlayerId, newState);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventTeamNameChangePacket to all connected endpoints
+     *
+     * @param teamId      String affected team's id
+     * @param newTeamName String new team name
+     */
     public void broadcastTeamNameChange(String teamId, String newTeamName) {
         Log.i(TAG, String.format("broadcastTeamNameChange: broadcasting EventTeamNameChangePacket. teamId: '%s', newTeamName: '%s'", teamId, newTeamName));
         Packet packet = new EventTeamNameChangePacket(teamId, newTeamName);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventPlayerJoinedPacket to all connected endpoints
+     *
+     * @param playerId   String affected player's id
+     * @param playerName String new player name
+     */
     public void broadcastPlayerJoined(String playerId, String playerName) {
         Log.i(TAG, String.format("broadcastPlayerJoined: broadcasting EventPlayerJoinedPacket. playerId: '%s', playerName: '%s'", playerId, playerName));
         Packet packet = new EventPlayerJoinedPacket(playerId, playerName);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventPlayerLeftPacket to all connected endpoints
+     *
+     * @param playerId String affected player's id
+     */
     public void broadcastPlayerLeft(String playerId) {
         Log.i(TAG, String.format("broadcastPlayerLeft: broadcasting EventPlayerLeftPacket. playerId: '%s'", playerId));
         Packet packet = new EventPlayerLeftPacket(playerId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventPlayerChangeTeamPacket to all connected endpoints
+     *
+     * @param targetPlayerId String affected player's id
+     * @param newTeamId      String new team's id
+     */
     public void broadcastPlayerChangeTeam(String targetPlayerId, String newTeamId) {
         Log.i(TAG, String.format("broadcastPlayerTeamChange: broadcasting EventPlayerChangeTeamPacket. targetPlayerId: '%s', newTeamId: '%s'", targetPlayerId, newTeamId));
         Packet packet = new EventPlayerChangeTeamPacket(targetPlayerId, newTeamId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventTeamCreatedPacket to all connected endpoints
+     *
+     * @param newTeamId   String created team's id
+     * @param newTeamName String created team's name
+     */
     public void broadcastTeamCreated(String newTeamId, String newTeamName) {
         Log.i(TAG, String.format("broadcastTeamCreated: broadcasting EventTeamCreatedPacket. newTeamId: '%s', newTeamName: '%s'", newTeamId, newTeamName));
         Packet packet = new EventTeamCreatedPacket(newTeamId, newTeamName);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventTeamDeletedPacket to all connected endpoints
+     *
+     * @param teamId String affected team's id
+     */
     public void broadcastTeamDeleted(String teamId) {
         Log.i(TAG, String.format("broadcastTeamDeleted: broadcasting EventTeamDeletedPacket. teamId: '%s'", teamId));
         Packet packet = new EventTeamDeletedPacket(teamId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventGameStartedPacket to all connected endpoints
+     */
     public void broadcastGameStarted() {
         Log.i(TAG, "broadcastGameStarted: broadcasting EventGameStartedPacket.");
         Packet packet = new EventGameStartedPacket();
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventShowQuestionPacket to all connected endpoints
+     *
+     * @param categoryId String category id of the question to be shown
+     * @param questionId String question id of the question to be shown
+     */
     public void broadcastShowQuestion(String categoryId, String questionId) {
         Log.i(TAG, String.format("broadcastShowQuestion: broadcasting EventShowQuestionPacket. categoryId: '%s', questionId: '%s'", categoryId, questionId));
         Packet packet = new EventShowQuestionPacket(categoryId, questionId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventShowRoundStatsPacket to all connected endpoints
+     */
     public void broadcastShowRoundStats() {
         Log.i(TAG, "broadcastShowRoundStats: broadcasting EventShowRoundStatsPacket.");
         Packet packet = new EventShowRoundStatsPacket();
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventShowCategorySelectionPacket to all connected endpoints
+     *
+     * @param categoryIds String category id of selected category
+     */
     public void broadcastShowCategorySelection(String[] categoryIds) {
         Log.i(TAG, String.format("broadcastShowCategorySelection: broadcasting EventShowCategorySelectionPacket. categoryIds: '%s'", Arrays.toString(categoryIds)));
         Packet packet = new EventShowCategorySelectionPacket(categoryIds);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventShowLotteryPacket to all connected endpoints
+     *
+     * @param playersWonItemsMatrix String[][] containing each player and what item it has won
+     */
     public void broadcastShowLottery(String[][] playersWonItemsMatrix) {
         Log.i(TAG, String.format("broadcastShowLottery: broadcasting EventShowLotteryPacket. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix))); //todo show actual values inside matrix?
         Packet packet = new EventShowLotteryPacket(playersWonItemsMatrix);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventShowGameResultsPacket to all connected endpoints
+     */
     public void broadcastShowGameResults() {
         Log.i(TAG, "broadcastShowGameResults: broadcasting EventShowGameResultsPacket.");
         Packet packet = new EventShowGameResultsPacket();
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventCategoryPlayerVotePacket to all connected endpoints
+     *
+     * @param targetPlayerId String of affected player's id
+     * @param categoryId     String voted category id
+     */
     public void broadcastCategoryPlayerVote(String targetPlayerId, String categoryId) {
         Log.i(TAG, String.format("broadcastCategoryPlayerVote: broadcasting EventCategoryPlayerVotePacket. targetPlayerId: '%s', categoryId: '%s'", targetPlayerId, categoryId));
         Packet packet = new EventCategoryPlayerVotePacket(targetPlayerId, categoryId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventCategoryVoteResultPacket to all connected endpoints
+     *
+     * @param categoryId String category id of the category vote result
+     */
     public void broadcastCategoryVoteResult(String categoryId) {
         Log.i(TAG, String.format("broadcastCategoryVoteResult: broadcasting EventCategoryVoteResultPacket. categoryId: '%s'", categoryId));
         Packet packet = new EventCategoryVoteResultPacket(categoryId);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }
 
+    /**
+     * Method used to broadcast a EventPlayerAnsweredQuestionPacket to all connected endpoints
+     *
+     * @param targetPlayerId String the affected player's id
+     * @param categoryId     String the answered question's category id
+     * @param questionId     String the answered questions's id
+     * @param givenAnswer    String the answered answer text
+     * @param timeLeft       String containing the timeLeft of type long converted to a string
+     */
     public void broadcastPlayerAnsweredQuestion(String targetPlayerId, String categoryId,
                                                 String questionId, String givenAnswer,
                                                 String timeLeft) {
