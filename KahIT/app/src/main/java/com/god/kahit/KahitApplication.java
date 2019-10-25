@@ -8,7 +8,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * Class that currently only exists so that the setPersistenceEnabled call is called first to prevent
  * a crash from happening.
  */
-class KahitApplication extends Application {
+public class KahitApplication extends Application {
 
     @Override
     public void onCreate() {

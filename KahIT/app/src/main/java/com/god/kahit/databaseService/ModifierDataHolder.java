@@ -8,7 +8,7 @@ package com.god.kahit.databaseService;
  *
  * @author Johan Ek
  */
-abstract class ModifierDataHolder extends ItemDataHolder {
+public abstract class ModifierDataHolder extends ItemDataHolder {
     private double scoreMultiplier;
     private int timeHeadstart;
 
@@ -16,11 +16,11 @@ abstract class ModifierDataHolder extends ItemDataHolder {
         super();
     }
 
-    double getScoreMultiplier() {
+    public double getScoreMultiplier() {
         return scoreMultiplier;
     }
 
-    int getTimeHeadstart() {
+    public int getTimeHeadstart() {
         return timeHeadstart;
     }
 }

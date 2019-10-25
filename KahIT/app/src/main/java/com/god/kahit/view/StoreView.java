@@ -32,7 +32,7 @@ import java.util.Objects;
  *
  * @author Anas Alkoutli
  */
-class StoreView extends Fragment {
+public class StoreView extends Fragment {
     private StoreViewModel storeViewModel = new StoreViewModel();
     private final ArrayList<ImageView> itemsIcons = new ArrayList<>();
     private final List<Button> itemButtons = new ArrayList<>();
