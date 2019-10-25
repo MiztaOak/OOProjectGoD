@@ -3,9 +3,10 @@ package com.god.kahit.applicationEvents;
  * @responsibility: This class is responsible the players state.
  * This event is fired when all players are ready for the host to start the game
  * @used-by: This class is used in the following classes:
- * Repository, AfterQuestionScorePageView, CategoryView,
+ * Repository, AfterQuestionScorePageView, CategoryView, PreGameCountdownView and QuestionView
  * @author: Anas Alkoutli
  */
+
 import com.god.kahit.model.IEvent;
 
 public class AllPlayersReadyEvent implements IEvent {
