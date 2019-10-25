@@ -54,7 +54,7 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
 
     private void initTeamColors() {
         teamColors = new ArrayList<>();
-        int retrieve[] = context.getResources().getIntArray(R.array.androidcolors);
+        int[] retrieve = context.getResources().getIntArray(R.array.androidcolors);
         for (int re : retrieve) {
             teamColors.add(re);
         }

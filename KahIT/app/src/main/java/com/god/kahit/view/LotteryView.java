@@ -211,11 +211,7 @@ public class LotteryView extends AppCompatActivity {
                         setWonItemName(playerIndex);
                     }
                     for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
-                        try {
-                            imageAnimation(playerIndex);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        imageAnimation(playerIndex);
                     }
                     //Again small delay before next View is launched.
                     handler.postDelayed(new Runnable() {
@@ -292,11 +288,9 @@ public class LotteryView extends AppCompatActivity {
      * Animates the images when lottery has finished
      *
      * @param index player index
-     * @throws InterruptedException
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void imageAnimation(int index)
-            throws InterruptedException {
+    public void imageAnimation(int index) {
         ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleX", 1.6f);
         ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleY", 1.6f);
         scaleDownX.setDuration(200);

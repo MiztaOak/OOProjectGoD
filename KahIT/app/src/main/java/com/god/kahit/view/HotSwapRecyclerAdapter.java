@@ -69,7 +69,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void initTeamColors() {
         teamColors = new ArrayList<>();
-        int retrieve[] = context.getResources().getIntArray(R.array.androidcolors);
+        int[] retrieve = context.getResources().getIntArray(R.array.androidcolors);
         for (int re : retrieve) {
             teamColors.add(re);
         }
