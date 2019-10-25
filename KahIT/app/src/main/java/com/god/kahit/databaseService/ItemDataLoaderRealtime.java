@@ -98,7 +98,7 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
      * @return the item that the data was converted into
      */
     private Item getItem(DataSnapshot itemData, String key) {
-        ItemDataHolder itemDataHolder = null;
+        ItemDataHolder itemDataHolder;
         switch (key) {
             case "buffs":
                 itemDataHolder = itemData.getValue(BuffDataHolder.class);
