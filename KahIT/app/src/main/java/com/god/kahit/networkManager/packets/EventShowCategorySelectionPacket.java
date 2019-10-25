@@ -26,8 +26,7 @@ public class EventShowCategorySelectionPacket extends Packet {
      */
     public static String[] getCategoryIds(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String[] categoryIds = content.split(";");
-        return categoryIds;
+        return content.split(";");
     }
 
     /**

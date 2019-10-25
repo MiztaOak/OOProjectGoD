@@ -22,7 +22,6 @@ import androidx.test.runner.AndroidJUnit4;
 /**
  * A test class testing QuestionFactory and its helper class QuestionDataLoader
  */
-@RunWith(AndroidJUnit4.class)
 public class QuestionFactoryTest {
 
     @Before

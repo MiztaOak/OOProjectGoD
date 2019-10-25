@@ -30,7 +30,6 @@ public class HotSwapGameModeView extends AppCompatActivity {
 
     HotSwapGameModeViewModel hotSwapGameModeViewModel;
 
-    private MutableLiveData<List<String>> gameModes;
     private List<Button> buttons;
 
     @Override
@@ -39,7 +38,7 @@ public class HotSwapGameModeView extends AppCompatActivity {
         setContentView(R.layout.hotswap_game_mode);
 
         hotSwapGameModeViewModel = ViewModelProviders.of(this).get(HotSwapGameModeViewModel.class);
-        gameModes = hotSwapGameModeViewModel.getGameModes();
+        MutableLiveData<List<String>> gameModes = hotSwapGameModeViewModel.getGameModes();
         initGameModeButtons();
     }
 

@@ -33,7 +33,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  */
 public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
-    QuestionEvent questionEvent;
+    private QuestionEvent questionEvent;
     private Repository repository;
     private MutableLiveData<String> questionText;
     private MutableLiveData<List<String>> questionAlts;

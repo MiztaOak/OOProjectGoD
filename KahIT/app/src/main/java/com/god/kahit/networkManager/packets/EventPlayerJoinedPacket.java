@@ -24,8 +24,7 @@ public class EventPlayerJoinedPacket extends Packet {
      */
     public static String getPlayerId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String playerId = content.split(";")[0];
-        return playerId;
+        return content.split(";")[0];
     }
 
     /**
@@ -37,8 +36,7 @@ public class EventPlayerJoinedPacket extends Packet {
      */
     public static String getPlayerName(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String playerName = content.split(";")[1];
-        return playerName;
+        return content.split(";")[1];
     }
 
     /**

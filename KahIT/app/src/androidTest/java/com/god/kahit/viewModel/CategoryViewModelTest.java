@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CategoryViewModelTest {
-    CategoryViewModel categoryViewModel;
+    private CategoryViewModel categoryViewModel;
 
     @Before
     public void setup(){

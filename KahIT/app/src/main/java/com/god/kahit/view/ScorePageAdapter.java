@@ -35,8 +35,7 @@ public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.View
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.score_screen_row, parent, false);
 
-        ScorePageAdapter.ViewHolder viewHolder = new ScorePageAdapter.ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @SuppressLint("DefaultLocale")

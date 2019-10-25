@@ -42,7 +42,6 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     private static final int READY_COLOR_RED = 0xABd61313;
     private Context context;
     private Team team;
-    private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
     private MutableLiveData<String> myPlayerId;
     private List<Integer> teamColors;
     private IOnClickPlayerListener iOnClickPlayerListener;
@@ -51,7 +50,6 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, MutableLiveData<String> myPlayerId, boolean isHost, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = context;
         this.team = team;
-        this.playerConPairList = playerConPairList;
         this.myPlayerId = myPlayerId;
         this.iOnClickPlayerListener = iOnClickPlayerListener;
         this.isHost = isHost;

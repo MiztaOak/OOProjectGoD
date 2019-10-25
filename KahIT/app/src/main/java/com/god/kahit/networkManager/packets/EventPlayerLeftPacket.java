@@ -22,7 +22,6 @@ public class EventPlayerLeftPacket extends Packet {
      * @return string playerId
      */
     public static String getPlayerId(byte[] rawPayload) {
-        String playerId = new String(getPayloadContent(rawPayload));
-        return playerId;
+        return new String(getPayloadContent(rawPayload));
     }
 }

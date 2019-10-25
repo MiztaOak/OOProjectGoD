@@ -110,7 +110,7 @@ public class Repository {
         audioHandler.pauseMusic();
     }
 
-    public boolean getMusicState() {
+    private boolean getMusicState() {
         return audioHandler.getMusicState();
     }
 
@@ -843,7 +843,7 @@ public class Repository {
         addNewPlayerToTeam("Im the host", playerManager.getLocalPlayerId(), true, "1");
     }
 
-    public void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {
+    private void addNewPlayerToTeam(String playerName, String playerId, boolean readyStatus, String teamId) {
         playerManager.addNewPlayerToTeam(playerName, playerId, readyStatus, teamId);
     }
 
@@ -855,7 +855,7 @@ public class Repository {
         }
     }
 
-    public void fireRoomChangeEvent() {
+    private void fireRoomChangeEvent() {
         //Get all connections
         Connection[] roomsArr = networkManager.getConnections();
         List<Connection> rooms = new ArrayList<>(Arrays.asList(roomsArr));
