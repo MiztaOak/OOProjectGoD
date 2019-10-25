@@ -1,5 +1,12 @@
 package com.god.kahit.networkManager;
 
+/**
+ * Interface used as a facade pattern for the networkModule
+ * <p>
+ * used by: NetworkModule, PacketHandler, Repository
+ *
+ * @author Mats Cedervall
+ */
 public interface NetworkManager {
 
     void startScan();
