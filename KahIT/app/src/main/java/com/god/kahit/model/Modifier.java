@@ -9,8 +9,8 @@ package com.god.kahit.model;
  * @author Anas Alkoutli
  */
 abstract class Modifier extends Item {
-    private double scoreMultiplier;
-    private int amountOfTime;
+    private final double scoreMultiplier;
+    private final int amountOfTime;
 
     Modifier(int price, String name, double scoreMultiplier, int amountOfTime, String id) {
         super(price, name, id);

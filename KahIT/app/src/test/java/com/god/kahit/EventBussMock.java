@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EventBussMock implements IEventBus {
 
-    private static List<IEvent> eventList = new ArrayList<>();
+    private static final List<IEvent> eventList = new ArrayList<>();
 
     @Override
     public void post(IEvent event) {

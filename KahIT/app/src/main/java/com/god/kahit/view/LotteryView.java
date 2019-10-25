@@ -39,13 +39,13 @@ import java.util.Random;
  */
 public class LotteryView extends AppCompatActivity {
     private static final String LOG_TAG = LotteryView.class.getSimpleName();
-    LotteryViewModel lotteryViewModel;
-    ConstraintLayout constraintLayout;
+    private LotteryViewModel lotteryViewModel;
+    private ConstraintLayout constraintLayout;
 
     private List<TextView> textViewList;
     private List<ImageView> imageViewList;
-    private List<ImageView> playerImageViews = new ArrayList<>();
-    private List<TextView> playerNameTextViews = new ArrayList<>();
+    private final List<ImageView> playerImageViews = new ArrayList<>();
+    private final List<TextView> playerNameTextViews = new ArrayList<>();
 
     private int count;
 
@@ -126,7 +126,7 @@ public class LotteryView extends AppCompatActivity {
      * @param index player index.
      * @param angle the angle of the circle. In other words, the space between the players in a circular shape.
      */
-    public void setUpPlayerViews(int index, int angle) {
+    private void setUpPlayerViews(int index, int angle) {
 
         ConstraintLayout.LayoutParams layoutParams;
         layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -149,7 +149,7 @@ public class LotteryView extends AppCompatActivity {
      * @param xImageCoordinates x coordinate of the image
      * @param yImageCoordinates y coordinate of the image
      */
-    public void setUpTextViewList(int index, int xImageCoordinates, int yImageCoordinates) {
+    private void setUpTextViewList(int index, int xImageCoordinates, int yImageCoordinates) {
         ConstraintLayout.LayoutParams layoutParams;
         // getting same layoutParams of imageViewList and using it for textViewList
         layoutParams = (ConstraintLayout.LayoutParams) imageViewList.get(index).getLayoutParams();
@@ -178,7 +178,7 @@ public class LotteryView extends AppCompatActivity {
      * @param id A random number to get a random image id
      * @return the randomized image
      */
-    public int getImageId(int id) {
+    private int getImageId(int id) {
         Map<String, String> map = ItemDataLoaderRealtime.getItemImageNameMap();
         String string = map.get(Objects.requireNonNull(itemListLiveData.getValue()).get(id).getName());
         return getResources().getIdentifier(string, "drawable", getPackageName());
@@ -187,7 +187,7 @@ public class LotteryView extends AppCompatActivity {
     /**
      * Displays the lottery using Handler object, with delay X ms.
      */
-    public void displayLottery() {
+    private void displayLottery() {
         final Handler handler = new Handler();
         final int delay = 200;
         count = 0;
@@ -295,7 +295,7 @@ public class LotteryView extends AppCompatActivity {
      * @throws InterruptedException
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void imageAnimation(int index)
+    private void imageAnimation(int index)
             throws InterruptedException {
         ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleX", 1.6f);
         ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(playerImageViews.get(index), "scaleY", 1.6f);
@@ -312,7 +312,7 @@ public class LotteryView extends AppCompatActivity {
     /**
      * Launching the categories page when lottery has finished
      */
-    public void launchCategoryView() {
+    private void launchCategoryView() {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, CategoryView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

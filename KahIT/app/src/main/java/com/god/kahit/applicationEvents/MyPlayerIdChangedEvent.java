@@ -11,7 +11,7 @@ import com.god.kahit.model.IEvent;
  * @author Mats Cedervall
  */
 public class MyPlayerIdChangedEvent implements IEvent {
-    private String newPlayerId;
+    private final String newPlayerId;
 
     public MyPlayerIdChangedEvent(String newPlayerId) {
         this.newPlayerId = newPlayerId;

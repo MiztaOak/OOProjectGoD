@@ -16,15 +16,15 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
 
-public class AppLifecycleHandler implements LifecycleEventObserver {
+class AppLifecycleHandler implements LifecycleEventObserver {
     private static final String TAG = AppLifecycleHandler.class.getSimpleName();
     private static final long MAX_BACKGROUND_TIME = 10000; //10 sec
 
     private Timer onAppBackground_timer;
     private TimerTask onAppBackground_task;
 
-    private AppLifecycleCallback appLifecycleCallback;
-    private Context context;
+    private final AppLifecycleCallback appLifecycleCallback;
+    private final Context context;
     private boolean isActive;
 
     public AppLifecycleHandler(Context context, AppLifecycleCallback appLifecycleCallback) {

@@ -66,7 +66,7 @@ public class QuestionView extends AppCompatActivity {
     private int questionDuration = 2000; //The total time the player has to answer.
     private int questionNmb = 1;  //The number of the question if in a sequence.
 
-    private ArrayList<TextView> answers = new ArrayList<>();
+    private final ArrayList<TextView> answers = new ArrayList<>();
     private boolean hasQuestionBeenShown;
     private int indexOfClickedView = -1;
 
@@ -375,7 +375,7 @@ public class QuestionView extends AppCompatActivity {
      *
      * @param question The question to be asked as a String.
      */
-    public void populateQuestionTextView(String question) {
+    private void populateQuestionTextView(String question) {
         TextView questionTextView = findViewById(R.id.qQuestionTextView);
         questionTextView.setText(question);
     }
@@ -552,7 +552,7 @@ public class QuestionView extends AppCompatActivity {
     /**
      * A method that runs the autoAnswer debuff effect.
      */
-    public void runAutoAnswer() {
+    private void runAutoAnswer() {
         answers.get(model.autoChooseAnswer()).performClick();
 
     }

@@ -8,12 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -25,6 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
  * responsibility: Helper class responsible for the recyclerView inside the TeamContainerRecyclerAdapter.
  * used-by: LobbyNetView.
@@ -33,13 +33,13 @@ import java.util.Objects;
  */
 public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecyclerAdapter.ItemViewHolder> {
     private static final String LOG_TAG = LobbyNetRecyclerAdapter.class.getSimpleName();
-    private MutableLiveData<List<Team>> teamList;
-    private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
-    private MutableLiveData<String> myPlayerId;
+    private final MutableLiveData<List<Team>> teamList;
+    private final MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
+    private final MutableLiveData<String> myPlayerId;
+    private final boolean isHost;
+    private final IOnClickPlayerListener iOnClickPlayerListener;
+    private final Context context;
     private List<Integer> teamColors;
-    private boolean isHost;
-    private IOnClickPlayerListener iOnClickPlayerListener;
-    private Context context;
 
     public LobbyNetRecyclerAdapter(Context c, MutableLiveData<List<Team>> teamList, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, MutableLiveData<String> myPlayerId, boolean isHost, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = c;
@@ -107,10 +107,12 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
      *
      */
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private ConstraintLayout teamHeaderConstraintLayout;
-        private TextView teamNameTextView;
-        private TextInputLayout teamNameTextInputLayout;
-        private RecyclerView teamPlayersRecyclerView;
+        private final ConstraintLayout teamHeaderConstraintLayout;
+        private final TextView teamNameTextView;
+        private final TextInputLayout teamNameTextInputLayout;
+        private final RecyclerView teamPlayersRecyclerView;
+        private IOnClickPlayerListener iOnClickPlayerListener;
+        private TextInputEditText teamNameTextInputEditText;
 
         ItemViewHolder(@NonNull View itemView, IOnClickPlayerListener iOnClickPlayerListener) {
             super(itemView);

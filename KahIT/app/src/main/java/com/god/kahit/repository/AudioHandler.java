@@ -15,26 +15,26 @@ import java.util.Random;
 /**
  * responsibility: This class is responsible for the Audio in the game.
  * used-by: Repository.
+ *
  * @author: Oussama Anadani, Mats Cedervall
  */
 class AudioHandler {
     private static final String TAG = AudioHandler.class.getSimpleName();
 
-    private List<Integer> historyPlayList;
-    private List<Integer> naturePlayList;
-    private List<Integer> sciencePlayList;
-    private List<Integer> preGamePlayList;
-    private List<Integer> mixPlayList;
-    private List<Integer> sportPlayList;
-    private List<Integer> celebritiesPlayList;
-    private List<Integer> moviesPlayList;
-    private List<Integer> gamingPlayList;
-    private List<Integer> religionPlayList;
-
+    private final List<Integer> historyPlayList;
+    private final List<Integer> naturePlayList;
+    private final List<Integer> sciencePlayList;
+    private final List<Integer> preGamePlayList;
+    private final List<Integer> mixPlayList;
+    private final List<Integer> sportPlayList;
+    private final List<Integer> celebritiesPlayList;
+    private final List<Integer> moviesPlayList;
+    private final List<Integer> gamingPlayList;
+    private final List<Integer> religionPlayList;
+    private final Random random = new Random(); // to randomize the songs every time the app starts
     private MusicService musicService;
     private List<Integer> currentPlaylist;
     private boolean musicState; // to know the current state of the musicState
-    private Random random = new Random(); // to randomize the songs every time the app starts
 
     AudioHandler(Context context) {
         historyPlayList = new ArrayList<>();
@@ -346,35 +346,8 @@ class AudioHandler {
         this.musicService = musicService;
     }
 
-    List<Integer> getMixPlayList() {
-        return mixPlayList;
-    }
-
-    List<Integer> getHistoryPlayList() {
-        return historyPlayList;
-    }
-
-    List<Integer> getNaturePlayList() {
-        return naturePlayList;
-    }
-
-    List<Integer> getSciencePlayList() {
-        return sciencePlayList;
-    }
-
     List<Integer> getPreGamePlayList() {
         return preGamePlayList;
     }
 
-    List<Integer> getSportPlayList() {
-        return sportPlayList;
-    }
-
-    List<Integer> getCelebritiesPlayList() {
-        return celebritiesPlayList;
-    }
-
-    List<Integer> getMoviesPlayList() {
-        return moviesPlayList;
-    }
 }

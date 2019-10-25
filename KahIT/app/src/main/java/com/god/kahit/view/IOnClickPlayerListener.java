@@ -10,6 +10,6 @@ import com.god.kahit.model.Player;
  * @author Mats Cedervall
  */
 
-public interface IOnClickPlayerListener {
+interface IOnClickPlayerListener {
     void onClick(Player player);
 }

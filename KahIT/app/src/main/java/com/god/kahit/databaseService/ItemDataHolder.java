@@ -11,7 +11,7 @@ import com.god.kahit.model.Item;
  *
  * @author Johan Ek
  */
-public abstract class ItemDataHolder {
+abstract class ItemDataHolder {
     private int price;
     private String type;
     private String name;
@@ -37,7 +37,7 @@ public abstract class ItemDataHolder {
         return img_name;
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 

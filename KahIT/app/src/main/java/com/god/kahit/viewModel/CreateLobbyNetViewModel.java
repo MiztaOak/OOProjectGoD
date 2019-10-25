@@ -19,7 +19,7 @@ import com.god.kahit.model.GameMode;
  */
 public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = CreateLobbyNetViewModel.class.getSimpleName();
-    private Repository repository;
+    private final Repository repository;
 
     public CreateLobbyNetViewModel() {
         repository = Repository.getInstance();

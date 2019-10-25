@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Johan Ek
  */
-public class QuestionDataHolder {
+class QuestionDataHolder {
     private List<String> alts;
     private String answer;
     private String question;

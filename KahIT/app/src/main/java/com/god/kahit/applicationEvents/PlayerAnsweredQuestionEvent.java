@@ -12,8 +12,8 @@ import com.god.kahit.model.Player;
  * @author Mats Cedervall
  */
 public class PlayerAnsweredQuestionEvent implements IEvent {
-    private Player player;
-    private String givenAnswer;
+    private final Player player;
+    private final String givenAnswer;
 
     public PlayerAnsweredQuestionEvent(Player player, String givenAnswer) {
         this.player = player;

@@ -10,7 +10,7 @@ import com.god.kahit.model.IEvent;
  * @author Johan Ek
  */
 public class LobbyNameChangeEvent implements IEvent {
-    private String lobbyName;
+    private final String lobbyName;
 
     public LobbyNameChangeEvent(String lobbyName) {
         this.lobbyName = lobbyName;

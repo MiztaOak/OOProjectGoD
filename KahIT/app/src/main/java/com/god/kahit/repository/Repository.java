@@ -71,7 +71,7 @@ public class Repository {
     private static Repository instance;
     private QuizGame quizGame;
     private PlayerManager playerManager;
-    private EventBusGreenRobot eventBusGreenRobot;
+    private final EventBusGreenRobot eventBusGreenRobot;
     private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;

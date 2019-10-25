@@ -19,8 +19,8 @@ public class PlayerManager {
     private static final int MAX_ALLOWED_PLAYERS = 8;
     private final ArrayList<Team> teamList;
     private final List<Player> playerList;
-    private IEventBus IEventBus;
-    private GameMode gameMode;
+    private final IEventBus IEventBus;
+    private final GameMode gameMode;
     private Player currentHotSwapPlayer;
     private String localPlayerId;
 

@@ -12,7 +12,7 @@ import com.god.kahit.model.IEvent;
  * @author Mats Cedervall
  */
 public class NewViewEvent implements IEvent {
-    private Class<?> newViewClass;
+    private final Class<?> newViewClass;
 
     public NewViewEvent(Class<?> newViewClass) {
         this.newViewClass = newViewClass;

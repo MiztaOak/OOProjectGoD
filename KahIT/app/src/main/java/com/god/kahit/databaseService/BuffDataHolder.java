@@ -23,7 +23,7 @@ public  class BuffDataHolder extends ModifierDataHolder{
         return new Buff(getName(),getPrice(),getScoreMultiplier(),getTimeHeadstart(),getAmountOfAlternatives(),getId());
     }
 
-    public int getAmountOfAlternatives() {
+    private int getAmountOfAlternatives() {
         return amountOfAlternatives;
     }
 }

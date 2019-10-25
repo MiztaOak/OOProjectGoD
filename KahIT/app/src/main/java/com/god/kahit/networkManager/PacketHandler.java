@@ -44,7 +44,7 @@ import java.util.Arrays;
 public class PacketHandler {
     private static final String TAG = "PacketHandler";
 
-    private NetworkManager networkManager;
+    private final NetworkManager networkManager;
 
     private HostEventCallback hostEventCallback;
     private ClientRequestsCallback clientRequestsCallback;
@@ -499,13 +499,6 @@ public class PacketHandler {
         Packet packet = new RequestPlayerChangeTeamPacket(newTeamID);
         networkManager.sendBytePayload(networkManager.getConnectionHost(), packet.getBuiltPacket());
     }
-
-    /**
-     * Method to send a RequestPlayerBuyItemPacket to host
-     *
-     * @param itemID String item id
-     */
-    public void sendRequestBuyItem(String itemID) { }
 
     /**
      * Method to send a RequestPlayerAnswerQuestionPacket to host

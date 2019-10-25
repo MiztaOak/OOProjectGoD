@@ -23,15 +23,16 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  * @author Jakob Ewerstrand
  */
-abstract public class HotSwapTouchHelper extends ItemTouchHelper.Callback {
 
-    private Paint mClearPaint;
-    private ColorDrawable mBackground;
-    private int backgroundColor;
-    private Drawable deleteDrawable;
-    private int intrinsicWidth;
-    private int intrinsicHeight;
+abstract class HotSwapTouchHelper extends ItemTouchHelper.Callback {
 
+    private final Paint mClearPaint;
+    private final ColorDrawable mBackground;
+    private final int backgroundColor;
+    private final Drawable deleteDrawable;
+    private final int intrinsicWidth;
+    private final int intrinsicHeight;
+    private Context mContext;
 
     HotSwapTouchHelper(Context context) {
         mBackground = new ColorDrawable();
@@ -42,7 +43,6 @@ abstract public class HotSwapTouchHelper extends ItemTouchHelper.Callback {
         intrinsicWidth = deleteDrawable.getIntrinsicWidth();
         intrinsicHeight = deleteDrawable.getIntrinsicHeight();
     }
-
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {

@@ -10,7 +10,7 @@ import com.god.kahit.model.IEvent;
  * @author Johan Ek
  */
 public class DebuffPlayerEvent implements IEvent {
-    private Debuff debuff;
+    private final Debuff debuff;
 
     public DebuffPlayerEvent(Debuff debuff) {
         this.debuff = debuff;

@@ -19,7 +19,7 @@ public class Question {
     private final String questionText;
     private final String answer;
     private final List<String> alternatives;
-    private int time;
+    private final int time;
 
     public Question(Category category, String question, String answer, List<String> alternatives, int time) {
         this.category = category;

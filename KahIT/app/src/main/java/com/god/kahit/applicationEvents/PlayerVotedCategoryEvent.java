@@ -11,8 +11,8 @@ import com.god.kahit.model.Player;
  * @author Mats Cedervall
  */
 public class PlayerVotedCategoryEvent implements IEvent {
-    private Player player;
-    private String categoryId;
+    private final Player player;
+    private final String categoryId;
 
     public PlayerVotedCategoryEvent(Player player, String categoryId) {
         this.player = player;

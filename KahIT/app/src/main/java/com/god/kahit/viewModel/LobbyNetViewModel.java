@@ -36,7 +36,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = LobbyNetViewModel.class.getSimpleName();
     private static final int MINIMUM_PLAYERS_FOR_GAME = 0; //set to 1 to disable solo-game
-    private Repository repository;
+    private final Repository repository;
     private MutableLiveData<List<Pair<Player, Connection>>> playerListForView;
     private MutableLiveData<List<Team>> teamListForView;
     private MutableLiveData<String> myPlayerId;

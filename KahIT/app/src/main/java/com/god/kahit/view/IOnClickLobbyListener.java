@@ -9,6 +9,6 @@ import com.god.kahit.networkManager.Connection;
  *
  * @author Mats Cedervall
  */
-public interface IOnClickLobbyListener {
+interface IOnClickLobbyListener {
     void onClick(Connection roomConnection);
 }

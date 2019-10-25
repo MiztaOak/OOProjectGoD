@@ -21,7 +21,7 @@ import com.god.kahit.viewModel.SettingsViewModel;
  */
 public class SettingsView extends AppCompatActivity {
 
-    SettingsViewModel settingsViewModel;
+    private SettingsViewModel settingsViewModel;
 
     @SuppressLint("StaticFieldLeak")
     private Switch musicSwitch; // using a switchButton(toggle) to turn on/off music

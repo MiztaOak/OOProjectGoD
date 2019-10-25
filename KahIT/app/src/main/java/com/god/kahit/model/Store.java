@@ -15,9 +15,9 @@ import java.util.List;
  * @author: Anas Alkoutli & Johan Ek
  */
 public class Store {
-    private List<Item> storeItems;
-    private List<Item> boughtItems;
-    private IEventBus bus;
+    private final List<Item> storeItems;
+    private final List<Item> boughtItems;
+    private final IEventBus bus;
 
     Store(IEventBus bus) {
         this.storeItems = ItemFactory.createStoreItems(3);

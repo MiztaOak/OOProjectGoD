@@ -32,7 +32,7 @@ public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = JoinLobbyViewModel.class.getSimpleName();
 
     private MutableLiveData<List<Connection>> roomListForView;
-    private Repository repository;
+    private final Repository repository;
 
     public JoinLobbyViewModel() {
         repository = Repository.getInstance();

@@ -28,7 +28,7 @@ public class HotSwapGameModeView extends AppCompatActivity {
 
     private static final String LOG_TAG = HotSwapGameModeView.class.getSimpleName();
 
-    HotSwapGameModeViewModel hotSwapGameModeViewModel;
+    private HotSwapGameModeViewModel hotSwapGameModeViewModel;
 
     private List<Button> buttons;
 

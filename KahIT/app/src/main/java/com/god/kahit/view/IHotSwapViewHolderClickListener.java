@@ -7,7 +7,7 @@ package com.god.kahit.view;
  *
  * @author Jakob Ewerstrand
  */
-public interface IHotSwapViewHolderClickListener {
+interface IHotSwapViewHolderClickListener {
 
     /**
      * When adding a new player.
