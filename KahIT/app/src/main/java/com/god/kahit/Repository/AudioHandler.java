@@ -88,7 +88,7 @@ class AudioHandler {
      * @param context  Context used to create a new MediaPlayer
      */
     void startPlaylist(Context context, List<Integer> playlist) {
-        if (currentPlaylist != playlist) {
+        if (currentPlaylist != playlist && musicState) {
             if (musicService != null) {
                 stopMusic();
             }
