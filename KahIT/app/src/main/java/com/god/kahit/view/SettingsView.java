@@ -45,7 +45,7 @@ public class SettingsView extends AppCompatActivity {
     }
 
     /**
-     * Switch listener method that does things depending of switchButton case
+     * Switch listener method that does things depending on switchButton case
      */
     private void switchCheckListener() {
         musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

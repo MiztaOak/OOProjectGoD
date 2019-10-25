@@ -22,6 +22,7 @@ import java.util.Objects;
 
 public class QuizGame {
     private IEventBus eventBus;
+
     private PlayerManager playerManager;
     private GameMode gameMode;
 
@@ -71,7 +72,7 @@ public class QuizGame {
      * Method that fills the map of questionIndexes that is used to determine the order in which questions
      * are asked
      */
-    private void loadIndexMap() {
+    public void loadIndexMap() {
         for (Category category : questionMap.keySet()) {
             loadIndexList(category);
         }
@@ -82,7 +83,7 @@ public class QuizGame {
      *
      * @param category - the category serves as the key for the list in the map and is used to get the correct amount of indexes in the list
      */
-    private void loadIndexList(Category category) {
+    public void loadIndexList(Category category) {
         List<Integer> indexes = new ArrayList<>();
         for (int i = 0; i < Objects.requireNonNull(questionMap.get(category)).size(); i++) {
             indexes.add(i);
@@ -107,7 +108,7 @@ public class QuizGame {
     /**
      * Method that loads questions from all categories and puts them into the que
      */
-    private void loadMixQuestions() {
+    public void loadMixQuestions() {
         int i = 0;
         List<Category> categories = new ArrayList<>(questionMap.keySet());
         Collections.shuffle(categories);
@@ -125,7 +126,7 @@ public class QuizGame {
     /**
      * Method that load questions into the que based on the current category
      */
-    private void loadRoundQuestion() {
+    public void loadRoundQuestion() {
         for (int i = 0; i < numOfQuestions; i++) {
             addQuestion(currentCategory);
         }
@@ -138,7 +139,7 @@ public class QuizGame {
      *
      * @param category the category of the added question
      */
-    private void addQuestion(Category category) {
+    public void addQuestion(Category category) {
         if (Objects.requireNonNull(indexMap.get(category)).size() == 0) {
             loadIndexList(category);
         }
@@ -159,6 +160,7 @@ public class QuizGame {
         }
     }
 
+
     /**
      * Method that returns a new question if there is questions left in the question que otherwise it
      * starts a new round
@@ -172,7 +174,7 @@ public class QuizGame {
     }
 
     public String getNextQuestionCategoryId() {
-        if (!roundQuestions.isEmpty()) {
+        if (roundQuestions != null && !roundQuestions.isEmpty()) {
             return roundQuestions.peek().getCategory().getId();
         } else {
             startRound(); //TODO is this expected?
@@ -230,7 +232,7 @@ public class QuizGame {
      *
      * @param question the question that is being broadcast
      */
-    private void broadCastQuestion(Question question) {
+    public void broadCastQuestion(Question question) {
         if (gameMode.equals(GameMode.HOT_SWAP)) {
             eventBus.post(new QuestionEvent(question, playerManager.getTotalAmountOfPlayers()));
         } else {
@@ -269,7 +271,7 @@ public class QuizGame {
         return currentCategory;
     }
 
-    private void setCurrentCategory(String categoryId) {
+     void setCurrentCategory(String categoryId) {
         Category category = getCategory(categoryId);
         if (category != null) {
             setCurrentCategory(category);
@@ -283,7 +285,7 @@ public class QuizGame {
         this.currentCategory = currentCategory;
     }
 
-    private Category getCategory(String categoryId) {
+    public Category getCategory(String categoryId) {
         for (Category category : Category.values()) {
             if (category.getId().equals(categoryId)) {
                 return category;
@@ -314,14 +316,16 @@ public class QuizGame {
         categorySelectionArray = categories;
     }
 
-    public void setNumOfQuestions(int numOfQuestions) {
-        this.numOfQuestions = numOfQuestions;
-    }
 
     public void drawLottery() {
         Map<Player, Item> winnings = lottery.drawItem(playerManager.getPlayers());
         eventBus.post(new LotteryDrawEvent(winnings));
     }
+
+    public PlayerManager getPlayerManager() {
+        return playerManager;
+    }
+
 
     /**
      * Method returns all items available in the game.
@@ -362,5 +366,11 @@ public class QuizGame {
 
     boolean isGameIsStarted() {
         return gameIsStarted;
+
     }
+
+     Deque<Question> getRoundQuestions() {
+        return roundQuestions;
+    }
+
 }

@@ -117,6 +117,7 @@ public class PlayerManager {
         return playerList;
     }
 
+
     List<Team> getTeams() {
         return teamList;
     }
@@ -428,4 +429,5 @@ public class PlayerManager {
         }
         return null;
     }
+
 }
