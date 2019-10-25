@@ -5,7 +5,8 @@ package com.god.kahit.model;
  * between Buffs and Debuffs.
  * used-by: This class is used in the following classes:
  * Buffs and Debuffs.
- * @author: Anas Alkoutli
+ *
+ * @author Anas Alkoutli
  */
 abstract class Modifier extends Item {
     private double scoreMultiplier;

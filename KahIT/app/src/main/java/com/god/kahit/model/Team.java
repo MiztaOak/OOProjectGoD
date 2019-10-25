@@ -10,18 +10,16 @@ import java.util.List;
  * used-by: This class is used in the following classes:
  * QuizGame, PlayerManager, LobbyNetRecyclerAdapter, LobbyNetView,
  * LobbyNetViewModel, TeamContainerRecyclerAdapter and TeamContainerRecyclerAdapter
- * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ *
+ * @author Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
  */
-public class Team { //todo use package-private instead of public on many of the methods
+public class Team {
     private final List<Player> teamMembers;
     private final String id;
-    private int teamScore; //todo replace with a method that calc average player score
     private String teamName;
-    //todo add method to set/get teamId
 
     public Team(List<Player> teamMembers, String teamName, String id) {
         this.teamMembers = teamMembers;
-        this.teamScore = 0;
         this.teamName = teamName;
         this.id = id;
     }
@@ -30,27 +28,19 @@ public class Team { //todo use package-private instead of public on many of the 
         return teamMembers;
     }
 
-    public int getTeamScore() {
-        return teamScore;
-    }
-
-    public void setTeamScore(int teamScore) {
-        this.teamScore = teamScore;
-    }
-
     public String getTeamName() {
         return this.teamName;
     }
 
-    public void setTeamName(String teamName) {
+    void setTeamName(String teamName) {
         this.teamName = teamName;
     }
 
-    public void addPlayer(Player player) {
+    void addPlayer(Player player) {
         teamMembers.add(player);
     }
 
-    public void removePlayer(Player player) {
+    void removePlayer(Player player) {
         teamMembers.remove(player);
     }
 

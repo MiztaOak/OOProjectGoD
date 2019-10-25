@@ -11,6 +11,7 @@ import java.util.List;
  * <p>
  * used-by: This class is used in the following classes:
  * QuizGame.
+ *
  * @author: Anas Alkoutli & Johan Ek
  */
 public class Store {
@@ -33,8 +34,7 @@ public class Store {
      * @return returns if the player's score is enough to buyItem the item and if the player
      * doesn't have an item
      */
-//TODO uncomment this when done testing
-    public boolean isItemBuyable(int i, Player player) {
+    boolean isItemBuyable(int i, Player player) {
         if (storeItems.get(i) instanceof Buff) {
             return (player.getScore() >= storeItems.get(i).getPrice() && player.getScoreMultiplier() == 1
                     && player.getAmountOfTime() == 0 && player.getAmountOfAlternatives() == 0);
@@ -48,7 +48,7 @@ public class Store {
      * @param i: the index of an item.
      * @return : boolean that indicates if an item is bought an the list of bought items contains it.
      */
-    public boolean isItemBought(int i) {
+    boolean isItemBought(int i) {
         return boughtItems.contains(storeItems.get(i));
     }
 
@@ -58,7 +58,7 @@ public class Store {
      * @param i:      the index of an item the player wishes to buyItem.
      * @param player: the player wishing to buyItem in item.
      */
-    public void buyItem(int i, Player player) {
+    void buyItem(int i, Player player) {
         Item item = storeItems.get(i);
         boughtItems.add(item);
         setItemToPlayer(i, player);
@@ -71,7 +71,7 @@ public class Store {
      * @param i:      the index of the item which will be set to the player.
      * @param player: which player the item will be set to.
      */
-    public void setItemToPlayer(int i, Player player) {
+    void setItemToPlayer(int i, Player player) {
         Item item = storeItems.get(i);
         if (item instanceof Buff) {
             player.setBuff((Buff) item);
@@ -85,7 +85,7 @@ public class Store {
     /**
      * A method that clears all the bought items so store gets re-stocked and players can buyItem again.
      */
-    public void restockStore() {
+    private void restockStore() {
         if (boughtItems.size() == storeItems.size()) {
             boughtItems.clear();
         }
@@ -96,7 +96,7 @@ public class Store {
      *
      * @return List of items.
      */
-    public List<Item> getStoreItems() {
+    List<Item> getStoreItems() {
         restockStore();
         return storeItems;
     }
@@ -106,7 +106,7 @@ public class Store {
      *
      * @return List of items.
      */
-    public List<Item> getBoughtItems() {
+    List<Item> getBoughtItems() {
         return boughtItems;
     }
 }

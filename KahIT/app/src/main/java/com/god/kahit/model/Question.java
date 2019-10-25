@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * A class that represents a questionText. The class holds all data that a questionText needs and methods
  * for scrambling the alternatives and telling if the answer that was given is correct
- *
+ * <p>
  * used by: IQuestionDataLoader, QuestionDataLoaderRealtime, QuestionFactory, QuestionViewModel,
  * QuizGame, QuestionEvent, Repository
  *
@@ -63,6 +63,7 @@ public class Question {
 
     /**
      * A method that checks if the given answer is right.
+     *
      * @param givenAnswer: the given answer to be checked is it is the right one.
      * @return : A boolean that indicates if the given
      */
