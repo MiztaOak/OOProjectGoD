@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.model.Player;
 import com.god.kahit.view.CategoryView;
@@ -81,7 +81,7 @@ public class AfterQuestionScorePageViewModel extends ViewModel implements Lifecy
     public void showNextView() {
         Class<?> newViewClass;
 
-        if (isRoundOver()) { //todo implement lottery
+        if (isRoundOver()) {
             newViewClass = CategoryView.class;
         } else {
             newViewClass = QuestionView.class;

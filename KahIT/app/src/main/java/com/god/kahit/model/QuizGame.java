@@ -32,7 +32,7 @@ public class QuizGame {
     private Deque<Question> roundQuestions;
     private int numOfQuestions;
     private Category currentCategory;
-    private Category[] categorySelectionArray; //todo find a better way
+    private Category[] categorySelectionArray;
 
     private Store store;
     private Lottery lottery;
@@ -44,7 +44,7 @@ public class QuizGame {
         this.playerManager = playerManager;
         this.gameMode = gameMode;
 
-        numOfQuestions = 2; //TODO replace with more "dynamic" way to set this
+        numOfQuestions = 2;
         gameIsStarted = false;
     }
 
@@ -153,11 +153,11 @@ public class QuizGame {
                 roundQuestions.add(questionList.get(indexOfQuestion));
                 indexList.remove(0);
             } else {
-                System.out.println("Quizgame - addQuestion: indexList is empty");
+                System.out.println("QuizGame - addQuestion: indexList is empty");
             }
 
         } else {
-            System.out.println("Quizgame - addQuestion: Either indexMap or QuestionMap are null");
+            System.out.println("QuizGame - addQuestion: Either indexMap or QuestionMap are null");
         }
     }
 
@@ -170,7 +170,7 @@ public class QuizGame {
         if (!roundQuestions.isEmpty()) {
             broadCastQuestion(roundQuestions.pop());
         } else {
-            startRound(); //TODO is this expected?
+            startRound();
         }
     }
 
@@ -178,7 +178,7 @@ public class QuizGame {
         if (roundQuestions != null && !roundQuestions.isEmpty()) {
             return roundQuestions.peek().getCategory().getId();
         } else {
-            startRound(); //TODO is this expected?
+            startRound();
             assert roundQuestions.peek() != null;
             return roundQuestions.peek().getCategory().getId();
         }
@@ -188,7 +188,7 @@ public class QuizGame {
         if (!roundQuestions.isEmpty()) {
             return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
         } else {
-            startRound(); //TODO is this expected?
+            startRound();
             assert roundQuestions.peek() != null;
             return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
         }
@@ -204,7 +204,7 @@ public class QuizGame {
     public int getQuestionIndex(Category category, Question question) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
-            System.out.println("Quizgame - getQuestionIndex: questionList == null, unable to " +
+            System.out.println("QuizGame - getQuestionIndex: questionList == null, unable to " +
                     "find sought question. returning -1.");
             return -1;
         }
@@ -215,13 +215,13 @@ public class QuizGame {
     public Question getQuestion(Category category, int questionIndex) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
-            System.out.println(String.format("Quizgame - getQuestionText: questionList == null, unable to " +
+            System.out.println(String.format("QuizGame - getQuestionText: questionList == null, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }
 
         if (questionList.size() < questionIndex) {
-            System.out.println(String.format("Quizgame - getQuestionText: questionList.size < questionIndex, unable to " +
+            System.out.println(String.format("QuizGame - getQuestionText: questionList.size < questionIndex, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }
@@ -279,7 +279,7 @@ public class QuizGame {
         if (category != null) {
             setCurrentCategory(category);
         } else {
-            System.out.println("Quizgame - setCurrentCategory: found no match to categoryId, " +
+            System.out.println("QuizGame - setCurrentCategory: found no match to categoryId, " +
                     "unable to set current category, skipping call");
         }
     }

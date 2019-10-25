@@ -66,7 +66,6 @@ public class QuizGameTest {
 
     }
 
-    //todo roundIsOver is still false after endGame
     @Test
     public void nextQuestion() {
         quizGame.startGame();
@@ -87,7 +86,6 @@ public class QuizGameTest {
     }
 
 
-    // todo can start round even without starting the game/
     @Test
     public void enterAnswer() {
         // quizGame.startGame();
@@ -103,7 +101,6 @@ public class QuizGameTest {
         //wrong answer
         quizGame.enterAnswer(player, "hi", question, 10);
         assertEquals(0, player.getAmountOfTime());
-        // todo assertEquals(1, player.getScoreMultiplier());
         assertEquals(0, player.getAmountOfAlternatives());
         assertFalse(player.isAutoAnswer());
         assertEquals(0, player.getScore());
@@ -123,8 +120,6 @@ public class QuizGameTest {
         assertFalse(quizGame.isRoundOver());
     }
 
-
-    //todo is it needed?
     @Test
     public void getAllItems() {
         List<Item> item;
@@ -148,7 +143,6 @@ public class QuizGameTest {
     @Test
     public void buyItem() {
 
-        //todo does setBuff and setDebuff work only on one method?. And why not buff and debuff list and effects happen specifically?
         startGame();
         startRound();
         Player player = new Player("yo", "1");
@@ -161,7 +155,6 @@ public class QuizGameTest {
         assertTrue(quizGame.isStoreItemBought(1));
 
         assertEquals(1, quizGame.getStore().getBoughtItems().size());
-        //todo assertEquals(8,quizGame.getStore().getStoreItems().size());
 
         // assertEquals(,player.getAmountOfAlternatives());
         // assertEquals(25,player.getScoreMultiplier());

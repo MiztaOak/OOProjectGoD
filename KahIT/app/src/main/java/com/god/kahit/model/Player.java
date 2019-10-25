@@ -12,7 +12,7 @@ package com.god.kahit.model;
  *
  * @author Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
  */
-public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
+public class Player {
     private String id;
     private String name;
     private int score;
@@ -21,7 +21,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
     private int amountOfAlternatives;
     private boolean autoAnswer;
     private VanityItem vanityItem;
-    private boolean isReady; //TODO check if this really is needed in the model since it should prob be in lobby
+    private boolean isReady;
 
 
     public Player(String name, String id) {

@@ -2,7 +2,7 @@ package com.god.kahit.networkManager;
 
 import android.content.Context;
 
-import com.god.kahit.networkManager.Callbacks.NetworkCallback;
+import com.god.kahit.networkManager.callbacks.NetworkCallback;
 
 import org.junit.After;
 import org.junit.Before;

@@ -8,8 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Repository.NameGenerator;
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.NameGenerator;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.RoomChangeEvent;
 import com.god.kahit.model.GameMode;
 import com.god.kahit.networkManager.Connection;

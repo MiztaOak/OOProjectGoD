@@ -2,42 +2,42 @@ package com.god.kahit.networkManager;
 
 import android.util.Log;
 
-import com.god.kahit.networkManager.Callbacks.ClientRequestsCallback;
-import com.god.kahit.networkManager.Callbacks.HostEventCallback;
-import com.god.kahit.networkManager.Packets.EventCategoryPlayerVotePacket;
-import com.god.kahit.networkManager.Packets.EventCategoryVoteResultPacket;
-import com.god.kahit.networkManager.Packets.EventGameStartedPacket;
-import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
-import com.god.kahit.networkManager.Packets.EventLobbySyncStartPacket;
-import com.god.kahit.networkManager.Packets.EventPlayerAnsweredQuestionPacket;
-import com.god.kahit.networkManager.Packets.EventPlayerChangeTeamPacket;
-import com.god.kahit.networkManager.Packets.EventPlayerJoinedPacket;
-import com.god.kahit.networkManager.Packets.EventPlayerLeftPacket;
-import com.god.kahit.networkManager.Packets.EventPlayerNameChangePacket;
-import com.god.kahit.networkManager.Packets.EventPlayerReadyChangePacket;
-import com.god.kahit.networkManager.Packets.EventShowCategorySelectionPacket;
-import com.god.kahit.networkManager.Packets.EventShowGameResultsPacket;
-import com.god.kahit.networkManager.Packets.EventShowLotteryPacket;
-import com.god.kahit.networkManager.Packets.EventShowQuestionPacket;
-import com.god.kahit.networkManager.Packets.EventShowRoundStatsPacket;
-import com.god.kahit.networkManager.Packets.EventTeamCreatedPacket;
-import com.god.kahit.networkManager.Packets.EventTeamDeletedPacket;
-import com.god.kahit.networkManager.Packets.EventTeamNameChangePacket;
-import com.god.kahit.networkManager.Packets.Packet;
-import com.god.kahit.networkManager.Packets.PlayerIdPacket;
-import com.god.kahit.networkManager.Packets.RequestCategoryPlayerVotePacket;
-import com.god.kahit.networkManager.Packets.RequestPlayerAnswerQuestionPacket;
-import com.god.kahit.networkManager.Packets.RequestPlayerChangeTeamPacket;
-import com.god.kahit.networkManager.Packets.RequestPlayerNameChangePacket;
-import com.god.kahit.networkManager.Packets.RequestPlayerReadyChangePacket;
-import com.god.kahit.networkManager.Packets.RequestTeamNameChangePacket;
+import com.god.kahit.networkManager.callbacks.ClientRequestsCallback;
+import com.god.kahit.networkManager.callbacks.HostEventCallback;
+import com.god.kahit.networkManager.packets.EventCategoryPlayerVotePacket;
+import com.god.kahit.networkManager.packets.EventCategoryVoteResultPacket;
+import com.god.kahit.networkManager.packets.EventGameStartedPacket;
+import com.god.kahit.networkManager.packets.EventLobbySyncEndPacket;
+import com.god.kahit.networkManager.packets.EventLobbySyncStartPacket;
+import com.god.kahit.networkManager.packets.EventPlayerAnsweredQuestionPacket;
+import com.god.kahit.networkManager.packets.EventPlayerChangeTeamPacket;
+import com.god.kahit.networkManager.packets.EventPlayerJoinedPacket;
+import com.god.kahit.networkManager.packets.EventPlayerLeftPacket;
+import com.god.kahit.networkManager.packets.EventPlayerNameChangePacket;
+import com.god.kahit.networkManager.packets.EventPlayerReadyChangePacket;
+import com.god.kahit.networkManager.packets.EventShowCategorySelectionPacket;
+import com.god.kahit.networkManager.packets.EventShowGameResultsPacket;
+import com.god.kahit.networkManager.packets.EventShowLotteryPacket;
+import com.god.kahit.networkManager.packets.EventShowQuestionPacket;
+import com.god.kahit.networkManager.packets.EventShowRoundStatsPacket;
+import com.god.kahit.networkManager.packets.EventTeamCreatedPacket;
+import com.god.kahit.networkManager.packets.EventTeamDeletedPacket;
+import com.god.kahit.networkManager.packets.EventTeamNameChangePacket;
+import com.god.kahit.networkManager.packets.Packet;
+import com.god.kahit.networkManager.packets.PlayerIdPacket;
+import com.god.kahit.networkManager.packets.RequestCategoryPlayerVotePacket;
+import com.god.kahit.networkManager.packets.RequestPlayerAnswerQuestionPacket;
+import com.god.kahit.networkManager.packets.RequestPlayerChangeTeamPacket;
+import com.god.kahit.networkManager.packets.RequestPlayerNameChangePacket;
+import com.god.kahit.networkManager.packets.RequestPlayerReadyChangePacket;
+import com.god.kahit.networkManager.packets.RequestTeamNameChangePacket;
 
 import java.util.Arrays;
 
 /**
- * @responsibility: This class is responsible for the construction, deconstruction and sending of
+ * responsibility: This class is responsible for the construction, deconstruction and sending of
  * network packets. It also provides callbacks for all types of packets.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * Repository
  * @author: Mats Cedervall
  */
@@ -365,7 +365,7 @@ public class PacketHandler {
 
     private void handleEventShowLotteryPacket(byte[] payload) {
         String[][] playersWonItemsMatrix = EventShowLotteryPacket.getPlayersWonItemsMatrix(payload);
-        Log.i(TAG, String.format("handleEventShowLotteryPacket: Received EventShowLotteryPacket. playersWonItemsMatrix: %s", Arrays.toString(playersWonItemsMatrix))); //todo print actual values?
+        Log.i(TAG, String.format("handleEventShowLotteryPacket: Received EventShowLotteryPacket. playersWonItemsMatrix: %s", Arrays.toString(playersWonItemsMatrix)));
 
         if (hostEventCallback != null) {
             hostEventCallback.onShowLotteryEvent(playersWonItemsMatrix);
@@ -505,9 +505,7 @@ public class PacketHandler {
      *
      * @param itemID String item id
      */
-    public void sendRequestBuyItem(String itemID) {
-        //todo implement
-    }
+    public void sendRequestBuyItem(String itemID) { }
 
     /**
      * Method to send a RequestPlayerAnswerQuestionPacket to host
@@ -712,7 +710,7 @@ public class PacketHandler {
      * @param playersWonItemsMatrix String[][] containing each player and what item it has won
      */
     public void broadcastShowLottery(String[][] playersWonItemsMatrix) {
-        Log.i(TAG, String.format("broadcastShowLottery: broadcasting EventShowLotteryPacket. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix))); //todo show actual values inside matrix?
+        Log.i(TAG, String.format("broadcastShowLottery: broadcasting EventShowLotteryPacket. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix)));
         Packet packet = new EventShowLotteryPacket(playersWonItemsMatrix);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }

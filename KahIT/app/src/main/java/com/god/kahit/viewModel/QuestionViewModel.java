@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.modelEvents.QuestionEvent;
@@ -142,7 +142,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public void showNextView() {
-        Class<?> newViewClass = AfterQuestionScorePageView.class; //todo get actual next view, it's not always AfterQuestionScorePageView
+        Class<?> newViewClass = AfterQuestionScorePageView.class;
         repository.broadcastShowNewView(newViewClass);
         BUS.post(new NewViewEvent(newViewClass));
     }

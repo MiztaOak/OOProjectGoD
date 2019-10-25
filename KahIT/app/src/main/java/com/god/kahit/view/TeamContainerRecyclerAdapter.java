@@ -37,7 +37,7 @@ import java.util.List;
  * @author Mats Cedervall
  */
 public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamContainerRecyclerAdapter.ItemViewHolder> {
-    private static final String LOG_TAG = TeamContainerRecyclerAdapter.class.getSimpleName(); //todo use same tag name in all classes
+    private static final String LOG_TAG = TeamContainerRecyclerAdapter.class.getSimpleName();
     private static final int READY_COLOR_GREEN = 0xAB48D613;
     private static final int READY_COLOR_RED = 0xABd61313;
     private Context context;
@@ -120,7 +120,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
 
         //Set player image
         Resources res = context.getResources();
-        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1); //TODO more pictures.
+        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1);
         RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
         roundedBitmapDrawable.setCircular(true);
         holder.playerImageView.setImageDrawable(roundedBitmapDrawable);

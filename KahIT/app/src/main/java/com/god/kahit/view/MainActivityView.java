@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 
 /**
  * responsibility: The main view that launches when the app starts.

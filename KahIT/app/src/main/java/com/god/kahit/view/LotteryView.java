@@ -109,7 +109,7 @@ public class LotteryView extends AppCompatActivity {
      * @return a list of images for players
      */
     private List<ImageView> setupPlayerImageViews() {
-        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.test5); //TODO later, more pictures
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.test5);
         final int numOfPlayers = Objects.requireNonNull(playerListLiveData.getValue()).size();
 
         for (int playerIndex = 0; playerIndex < numOfPlayers; playerIndex++) {
@@ -193,7 +193,7 @@ public class LotteryView extends AppCompatActivity {
         count = 0;
         final int numOfPlayers = Objects.requireNonNull(playerListLiveData.getValue()).size();
         handler.postDelayed(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O) //todo Hmm..? Results in crash with api 24?
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
                 //Checks if the lottery is done after maxCount times.

@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * responsibility: This class is responsible for the Lottery in the game.
  * used-by: QuizGame.
+ *
  * @author Oussama Anadani & Jakob Ewerstrand
  */
 class Lottery {
@@ -43,7 +44,7 @@ class Lottery {
         return winnings;
     }
 
-    //TODO is this needed?
+
     Map<Player, Item> getWinnings() {
         return winnings;
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * used-by: This class is used in the following classes:
  * QuizGame.
  *
- * @author: Anas Alkoutli & Johan Ek
+ * @author Anas Alkoutli & Johan Ek
  */
 public class Store {
     private List<Item> storeItems;

@@ -7,7 +7,7 @@ import android.util.Log;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.applicationEvents.PlayerVotedCategoryEvent;
@@ -84,7 +84,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public void showNextView() {
-        Class<?> newViewClass = QuestionView.class; //todo get actual next view, it's not always QuestionView
+        Class<?> newViewClass = QuestionView.class;
         repository.broadcastShowNewView(newViewClass);
         BUS.post(new NewViewEvent(newViewClass));
     }

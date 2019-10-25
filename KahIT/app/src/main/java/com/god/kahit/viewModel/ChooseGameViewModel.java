@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 
 /**
  * responsibility: ViewModel for the ChooseGameView.

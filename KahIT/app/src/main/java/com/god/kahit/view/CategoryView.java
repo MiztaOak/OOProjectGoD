@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.GameLostConnectionEvent;
@@ -187,7 +187,6 @@ public class CategoryView extends AppCompatActivity {
 
     @Subscribe
     public void onAllPlayersReadyEvent(AllPlayersReadyEvent event) {
-//        countdownTextView.setText("All players ready!"); //todo show waiting for server etc
         if (model.isHost()) {
             Log.d(LOG_TAG, "onAllPlayersReadyEvent: event triggered, showing next view.");
             model.showNextView();
