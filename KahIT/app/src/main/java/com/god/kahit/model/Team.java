@@ -12,12 +12,11 @@ import java.util.List;
  * LobbyNetViewModel, TeamContainerRecyclerAdapter and TeamContainerRecyclerAdapter
  * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
  */
-public class Team { //todo use package-private instead of public on many of the methods
+public class Team {
     private final List<Player> teamMembers;
     private final String id;
-    private int teamScore; //todo replace with a method that calc average player score
+    private int teamScore;
     private String teamName;
-    //todo add method to set/get teamId
 
     public Team(List<Player> teamMembers, String teamName, String id) {
         this.teamMembers = teamMembers;

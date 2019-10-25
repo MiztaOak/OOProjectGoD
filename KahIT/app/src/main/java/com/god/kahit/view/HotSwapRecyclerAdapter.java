@@ -129,7 +129,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                 textView.setText(playerList.getValue().get(i).first.getName());
 
-                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1); //TODO more pictures.
+                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.player1);
                 imageView.setImageDrawable(drawable);
                 Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.player1);
                 RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);

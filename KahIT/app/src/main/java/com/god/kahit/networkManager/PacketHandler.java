@@ -35,9 +35,9 @@ import com.god.kahit.networkManager.packets.RequestTeamNameChangePacket;
 import java.util.Arrays;
 
 /**
- * @responsibility: This class is responsible for the construction, deconstruction and sending of
+ * responsibility: This class is responsible for the construction, deconstruction and sending of
  * network packets. It also provides callbacks for all types of packets.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * Repository
  * @author: Mats Cedervall
  */
@@ -365,7 +365,7 @@ public class PacketHandler {
 
     private void handleEventShowLotteryPacket(byte[] payload) {
         String[][] playersWonItemsMatrix = EventShowLotteryPacket.getPlayersWonItemsMatrix(payload);
-        Log.i(TAG, String.format("handleEventShowLotteryPacket: Received EventShowLotteryPacket. playersWonItemsMatrix: %s", Arrays.toString(playersWonItemsMatrix))); //todo print actual values?
+        Log.i(TAG, String.format("handleEventShowLotteryPacket: Received EventShowLotteryPacket. playersWonItemsMatrix: %s", Arrays.toString(playersWonItemsMatrix)));
 
         if (hostEventCallback != null) {
             hostEventCallback.onShowLotteryEvent(playersWonItemsMatrix);
@@ -505,9 +505,7 @@ public class PacketHandler {
      *
      * @param itemID String item id
      */
-    public void sendRequestBuyItem(String itemID) {
-        //todo implement
-    }
+    public void sendRequestBuyItem(String itemID) { }
 
     /**
      * Method to send a RequestPlayerAnswerQuestionPacket to host
@@ -712,7 +710,7 @@ public class PacketHandler {
      * @param playersWonItemsMatrix String[][] containing each player and what item it has won
      */
     public void broadcastShowLottery(String[][] playersWonItemsMatrix) {
-        Log.i(TAG, String.format("broadcastShowLottery: broadcasting EventShowLotteryPacket. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix))); //todo show actual values inside matrix?
+        Log.i(TAG, String.format("broadcastShowLottery: broadcasting EventShowLotteryPacket. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix)));
         Packet packet = new EventShowLotteryPacket(playersWonItemsMatrix);
         networkManager.broadcastBytePayload(packet.getBuiltPacket());
     }

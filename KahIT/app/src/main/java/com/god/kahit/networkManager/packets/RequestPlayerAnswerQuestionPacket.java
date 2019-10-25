@@ -76,7 +76,7 @@ public class RequestPlayerAnswerQuestionPacket extends Packet {
      * @param timeLeft    String containing the timeLeft of type long parsed to a string
      * @return byte[] packet content
      */
-    private byte[] createContent(String categoryId, String questionId, String givenAnswer, String timeLeft) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String categoryId, String questionId, String givenAnswer, String timeLeft) {
         if (categoryId.contains(";")) { //If categoryId contains illegal characters throw error, as any modification to categoryId makes it useless
             throw new RuntimeException("categoryId contains illegal characters: " + categoryId);
         }

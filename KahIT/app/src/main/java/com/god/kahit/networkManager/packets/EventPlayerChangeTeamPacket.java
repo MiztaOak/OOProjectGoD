@@ -48,7 +48,7 @@ public class EventPlayerChangeTeamPacket extends Packet {
      * @param newTeamId      String containing the newTeamId
      * @return byte[] packet content
      */
-    private byte[] createContent(String targetPlayerId, String newTeamId) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String targetPlayerId, String newTeamId) {
         if (targetPlayerId.contains(";")) { //If targetPlayerId contains illegal characters throw error, as any modification to targetPlayerId makes it useless
             throw new RuntimeException("targetPlayerId contains illegal characters: " + targetPlayerId);
         }

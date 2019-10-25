@@ -43,8 +43,7 @@ public class Lottery {
         return winnings;
     }
 
-    //TODO is this needed?
-    public Map<Player, Item> getWinnings() {
+    Map<Player, Item> getWinnings() {
         return winnings;
     }
 }

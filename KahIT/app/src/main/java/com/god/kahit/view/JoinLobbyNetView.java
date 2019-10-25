@@ -168,7 +168,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
     }
 
     public void launchLobbyNetActivity(View view) { //otherwise remove whole method
-        joinLobbyViewModel.stopScan(); //todo change behaviour to select a server then press this?
+        joinLobbyViewModel.stopScan();
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, LobbyNetView.class);
         intent.putExtra("isHostBoolean", false);

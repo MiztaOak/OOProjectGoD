@@ -142,7 +142,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public void showNextView() {
-        Class<?> newViewClass = AfterQuestionScorePageView.class; //todo get actual next view, it's not always AfterQuestionScorePageView
+        Class<?> newViewClass = AfterQuestionScorePageView.class;
         repository.broadcastShowNewView(newViewClass);
         BUS.post(new NewViewEvent(newViewClass));
     }

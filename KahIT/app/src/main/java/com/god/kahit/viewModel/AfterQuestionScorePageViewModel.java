@@ -81,7 +81,7 @@ public class AfterQuestionScorePageViewModel extends ViewModel implements Lifecy
     public void showNextView() {
         Class<?> newViewClass;
 
-        if (isRoundOver()) { //todo implement lottery
+        if (isRoundOver()) {
             newViewClass = CategoryView.class;
         } else {
             newViewClass = QuestionView.class;

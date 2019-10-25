@@ -187,7 +187,6 @@ public class CategoryView extends AppCompatActivity {
 
     @Subscribe
     public void onAllPlayersReadyEvent(AllPlayersReadyEvent event) {
-//        countdownTextView.setText("All players ready!"); //todo show waiting for server etc
         if (model.isHost()) {
             Log.d(LOG_TAG, "onAllPlayersReadyEvent: event triggered, showing next view.");
             model.showNextView();
