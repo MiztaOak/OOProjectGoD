@@ -6,15 +6,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.god.kahit.R;
 import com.god.kahit.viewModel.HotSwapGameModeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProviders;
 
 /**
  * responsibility: No real responsibility now since implementation is not completed.
@@ -106,6 +106,6 @@ public class HotSwapGameModeView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       hotSwapGameModeViewModel.setUpNewGameInstance();
+        hotSwapGameModeViewModel.setUpNewGameInstance();
     }
 }

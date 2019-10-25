@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * responsibility: ItemTouchHelper class for the HotSwapAddPlayersView.
  * Handles the touch event and it's visual presentation.
- *
+ * <p>
  * used-by: HotSwapAddPlayersView
  *
  * @author Jakob Ewerstrand

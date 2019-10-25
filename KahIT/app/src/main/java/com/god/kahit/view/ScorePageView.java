@@ -10,9 +10,9 @@ import com.god.kahit.R;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * responsibility: ViewModel for the LobbyNetView
+ * responsibility:
  * <p>
- * used-by: LobbyNetView.
+ * used-by: Repository
  *
  * @author Mats Cedervall
  */
