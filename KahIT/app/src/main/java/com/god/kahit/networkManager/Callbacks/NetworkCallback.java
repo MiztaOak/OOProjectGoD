@@ -5,25 +5,31 @@ import com.god.kahit.networkManager.ConnectionState;
 
 import androidx.annotation.NonNull;
 
-public abstract class NetworkCallback {
-    public NetworkCallback() {
-    }
+/**
+ * Interface used to create callback methods for network connection and communication events
+ * <p>
+ * used by: NetworkManager, Repository
+ *
+ * @author Mats Cedervall
+ */
+public interface NetworkCallback {
 
-    public abstract void onBytePayloadReceived(@NonNull String id, @NonNull byte[] receivedBytes);
+    void onBytePayloadReceived(@NonNull String id, @NonNull byte[] receivedBytes);
 
-//    public abstract void onFilePayloadReceived(@NonNull String id, @NonNull File receivedFile); //Not implemented //todo implement?
+//    void onFilePayloadReceived(@NonNull String id, @NonNull File receivedFile); //Not implemented
 
-    public abstract void onHostFound(@NonNull String id, @NonNull Connection connection);
+    void onHostFound(@NonNull String id, @NonNull Connection connection);
 
-    public abstract void onHostLost(@NonNull String id);
+    void onHostLost(@NonNull String id);
 
-    public abstract void onClientFound(@NonNull String id, @NonNull Connection connection);
+    void onClientFound(@NonNull String id, @NonNull Connection connection);
 
-    public abstract void onConnectionEstablished(@NonNull String id, @NonNull Connection connection);
+    void onConnectionEstablished(@NonNull String id, @NonNull Connection connection);
 
-    public abstract void onConnectionLost(@NonNull String id);
+    void onConnectionLost(@NonNull String id);
 
-    public abstract void onConnectionChanged(@NonNull Connection connection, @NonNull ConnectionState oldState, @NonNull ConnectionState newState);
+    void onConnectionChanged(@NonNull Connection connection, @NonNull ConnectionState oldState,
+                             @NonNull ConnectionState newState);
 
-//    public abstract void onDisconnected(@NonNull String id); //Not used, use onConnectionLost instead
+//    void onDisconnected(@NonNull String id); //Not used, use onConnectionLost instead
 }

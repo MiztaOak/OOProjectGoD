@@ -2,31 +2,36 @@ package com.god.kahit.networkManager.Callbacks;
 
 import androidx.annotation.NonNull;
 
-public abstract class ClientRequestsCallback {
-    public ClientRequestsCallback() {
-    }
+/**
+ * Interface used to create callback methods for each of the packets that the host expects
+ * <p>
+ * used by: PacketHandler, Repository
+ *
+ * @author Mats Cedervall
+ */
+public interface ClientRequestsCallback {
 
-    public abstract void onReceivedMyConnectionId(@NonNull String senderId,
-                                                  @NonNull String playerId);
+    void onReceivedMyConnectionId(@NonNull String senderId,
+                                  @NonNull String playerId);
 
-    public abstract void onPlayerNameChangeRequest(@NonNull String targetPlayerId,
-                                                   @NonNull String newName);
+    void onPlayerNameChangeRequest(@NonNull String targetPlayerId,
+                                   @NonNull String newName);
 
-    public abstract void onPlayerReadyChangeRequest(@NonNull String targetPlayerId,
-                                                    boolean newState);
+    void onPlayerReadyChangeRequest(@NonNull String targetPlayerId,
+                                    boolean newState);
 
-    public abstract void onTeamNameChangeRequest(@NonNull String teamId,
-                                                 @NonNull String newTeamName);
+    void onTeamNameChangeRequest(@NonNull String teamId,
+                                 @NonNull String newTeamName);
 
-    public abstract void onPlayerTeamChangeRequest(@NonNull String targetPlayerId,
-                                                   @NonNull String newTeamId);
+    void onPlayerTeamChangeRequest(@NonNull String targetPlayerId,
+                                   @NonNull String newTeamId);
 
-    public abstract void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId,
-                                                     @NonNull String categoryId);
+    void onCategoryPlayerVoteRequest(@NonNull String targetPlayerId,
+                                     @NonNull String categoryId);
 
-    public abstract void onPlayerAnsweredQuestionRequest(@NonNull String targetPlayerId,
-                                                         @NonNull String categoryId,
-                                                         @NonNull String questionId,
-                                                         @NonNull String givenAnswer,
-                                                         long timeLeft);
+    void onPlayerAnsweredQuestionRequest(@NonNull String targetPlayerId,
+                                         @NonNull String categoryId,
+                                         @NonNull String questionId,
+                                         @NonNull String givenAnswer,
+                                         long timeLeft);
 }
