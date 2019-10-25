@@ -1,11 +1,4 @@
 package com.god.kahit.model;
-/**
- * @responsibility: This class is responsible for the managing the player. It includes
- * adding player to team, adding new players, removing players, changing teams, etc.
- * @used-by: This class is used in the following classes:
- * QuizGame, Repository.
- * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
- */
 
 import com.god.kahit.model.modelEvents.TeamChangeEvent;
 
@@ -14,6 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * responsibility: This class is responsible for the managing the player. It includes
+ * adding player to team, adding new players, removing players, changing teams, etc.
+ * used-by: This class is used in the following classes:
+ * QuizGame, Repository.
+ * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ */
 public class PlayerManager {
     private static final int MAX_ALLOWED_PLAYERS = 8;
     private final ArrayList<Team> teamList;

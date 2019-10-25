@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @responsibility: A class that is responsible for creating a list of items
+ * @esponsibility: A class that is responsible for creating a list of items
  * which are used in Lottery and Store.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * Lottery, Store and Repository.
  * @author: Anas Alkoutli & Johan Ek
  */

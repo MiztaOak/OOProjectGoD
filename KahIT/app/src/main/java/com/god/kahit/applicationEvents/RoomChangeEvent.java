@@ -5,6 +5,13 @@ import com.god.kahit.networkManager.Connection;
 
 import java.util.List;
 
+/**
+ * Event used to notify a observer that the room connection has changed
+ *
+ * used by: JoinLobbyViewModel, Repository
+ *
+ * @author Mats Cedervall
+ */
 public class RoomChangeEvent implements IEvent {
     private List<Connection> roomsConnection;
 

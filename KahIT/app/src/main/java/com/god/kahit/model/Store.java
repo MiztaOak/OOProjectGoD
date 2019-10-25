@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @responsibility: This class is responsible for the store in the game. It handles the
+ * responsibility: This class is responsible for the store in the game. It handles the
  * information need to buyItem items for different players.
  * <p>
  * used-by: This class is used in the following classes:

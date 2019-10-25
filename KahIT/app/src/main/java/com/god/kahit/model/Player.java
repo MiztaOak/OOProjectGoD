@@ -1,10 +1,10 @@
 package com.god.kahit.model;
 
 /**
- * @responsibility: This class is responsible for the player.
+ * responsibility: This class is responsible for the player.
  * It holds all the information a player needs such as score and name.
  * It holds information that the host and network manager needs such as id and ready state.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * QuizGame, PlayerManager, Repository, AfterQuestionScorePageViewModel, CategoryViewModel,
  * HotSwapAddPlayersView, HotSwapAddPlayersViewModel, HotSwapRecyclerAdapter,
  * LobbyNetRecyclerAdapter, LobbyNetView, LobbyNetViewModel, LotteryDrawEvent LotteryView,

@@ -7,8 +7,8 @@ import java.util.Map;
 
 
 /**
- * @responsibility: This class is responsible for the Lottery in the game.
- * @used-by: QuizGame.
+ * responsibility: This class is responsible for the Lottery in the game.
+ * used-by: QuizGame.
  * @author: Oussama Anadani & Jakob Ewerstrand
  */
 public class Lottery {

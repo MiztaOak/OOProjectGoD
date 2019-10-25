@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+
 public class AppLifecycleHandler implements LifecycleEventObserver {
     private static final String TAG = AppLifecycleHandler.class.getSimpleName();
     private static final long MAX_BACKGROUND_TIME = 10000; //10 sec

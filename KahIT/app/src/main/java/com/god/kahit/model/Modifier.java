@@ -1,9 +1,9 @@
 package com.god.kahit.model;
 
 /**
- * @responsibility: This is an abstract class used to group up the shared values
+ * responsibility: This is an abstract class used to group up the shared values
  * between Buffs and Debuffs.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * Buffs and Debuffs.
  * @author: Anas Alkoutli
  */

@@ -1,10 +1,10 @@
 package com.god.kahit.model;
 
 /**
- * @responsibility: This class is responsible for all items which can be bought by players.
+ * responsibility: This class is responsible for all items which can be bought by players.
  * This class holds all the common values between different items like buffs,
  * debuffs and vanity items
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * QuizGame, Store, ItemFactory, ItemDataLoaderRealTime, Lottery, LotteryViewModel, LotteryView
  * Modifier, Repository, VanityItem, StoreViewModel.
  * @author: Anas Alkoutli
