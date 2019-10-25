@@ -5,7 +5,8 @@ package com.god.kahit.model;
  * the player's stats.
  * used-by: This class is used in the following classes:
  * Player, QuizGame, ItemFactory, Store, ItemDataLoaderRealtime and IItemDataLoader.
- * @author: Anas Alkoutli
+ *
+ * @author Anas Alkoutli
  */
 
 public class Buff extends Modifier {

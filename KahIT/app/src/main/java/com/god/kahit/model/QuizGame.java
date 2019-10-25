@@ -18,7 +18,7 @@ import java.util.Objects;
  * used-by: This class is used in the following classes:
  * Repository
  *
- * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ * @author Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall.
  */
 
 public class QuizGame {
@@ -32,7 +32,7 @@ public class QuizGame {
     private Deque<Question> roundQuestions;
     private int numOfQuestions;
     private Category currentCategory;
-    private Category[] categorySelectionArray;
+    private Category[] categorySelectionArray; //todo find a better way
 
     private Store store;
     private Lottery lottery;
@@ -44,7 +44,7 @@ public class QuizGame {
         this.playerManager = playerManager;
         this.gameMode = gameMode;
 
-        numOfQuestions = 2;
+        numOfQuestions = 2; //TODO replace with more "dynamic" way to set this
         gameIsStarted = false;
     }
 
@@ -61,11 +61,11 @@ public class QuizGame {
         }
     }
 
-    public void endGame() {
+    void endGame() {
         gameIsStarted = false;
     }
 
-    public boolean hasGameStarted() {
+    boolean hasGameStarted() {
         return gameIsStarted;
     }
 
@@ -73,7 +73,7 @@ public class QuizGame {
      * Method that fills the map of questionIndexes that is used to determine the order in which questions
      * are asked
      */
-    public void loadIndexMap() {
+    private void loadIndexMap() {
         for (Category category : questionMap.keySet()) {
             loadIndexList(category);
         }
@@ -84,7 +84,7 @@ public class QuizGame {
      *
      * @param category - the category serves as the key for the list in the map and is used to get the correct amount of indexes in the list
      */
-    public void loadIndexList(Category category) {
+    private void loadIndexList(Category category) {
         List<Integer> indexes = new ArrayList<>();
         for (int i = 0; i < Objects.requireNonNull(questionMap.get(category)).size(); i++) {
             indexes.add(i);
@@ -109,7 +109,7 @@ public class QuizGame {
     /**
      * Method that loads questions from all categories and puts them into the que
      */
-    public void loadMixQuestions() {
+    private void loadMixQuestions() {
         int i = 0;
         List<Category> categories = new ArrayList<>(questionMap.keySet());
         Collections.shuffle(categories);
@@ -127,7 +127,7 @@ public class QuizGame {
     /**
      * Method that load questions into the que based on the current category
      */
-    public void loadRoundQuestion() {
+    private void loadRoundQuestion() {
         for (int i = 0; i < numOfQuestions; i++) {
             addQuestion(currentCategory);
         }
@@ -140,7 +140,7 @@ public class QuizGame {
      *
      * @param category the category of the added question
      */
-    public void addQuestion(Category category) {
+    void addQuestion(Category category) {
         if (Objects.requireNonNull(indexMap.get(category)).size() == 0) {
             loadIndexList(category);
         }
@@ -153,11 +153,11 @@ public class QuizGame {
                 roundQuestions.add(questionList.get(indexOfQuestion));
                 indexList.remove(0);
             } else {
-                System.out.println("QuizGame - addQuestion: indexList is empty");
+                System.out.println("Quizgame - addQuestion: indexList is empty");
             }
 
         } else {
-            System.out.println("QuizGame - addQuestion: Either indexMap or QuestionMap are null");
+            System.out.println("Quizgame - addQuestion: Either indexMap or QuestionMap are null");
         }
     }
 
@@ -170,7 +170,7 @@ public class QuizGame {
         if (!roundQuestions.isEmpty()) {
             broadCastQuestion(roundQuestions.pop());
         } else {
-            startRound();
+            startRound(); //TODO is this expected?
         }
     }
 
@@ -178,11 +178,9 @@ public class QuizGame {
         if (roundQuestions != null && !roundQuestions.isEmpty()) {
             return roundQuestions.peek().getCategory().getId();
         } else {
-            startRound();
-            if(roundQuestions.peek() != null){
-                return roundQuestions.peek().getCategory().getId();
-            }
-            return "";
+            startRound(); //TODO is this expected?
+            assert roundQuestions.peek() != null;
+            return roundQuestions.peek().getCategory().getId();
         }
     }
 
@@ -190,11 +188,9 @@ public class QuizGame {
         if (!roundQuestions.isEmpty()) {
             return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
         } else {
-            startRound();
-            if(roundQuestions.peek() != null){
-                return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
-            }
-            return "";
+            startRound(); //TODO is this expected?
+            assert roundQuestions.peek() != null;
+            return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
         }
     }
 
@@ -208,7 +204,7 @@ public class QuizGame {
     public int getQuestionIndex(Category category, Question question) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
-            System.out.println("QuizGame - getQuestionIndex: questionList == null, unable to " +
+            System.out.println("Quizgame - getQuestionIndex: questionList == null, unable to " +
                     "find sought question. returning -1.");
             return -1;
         }
@@ -219,13 +215,13 @@ public class QuizGame {
     public Question getQuestion(Category category, int questionIndex) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
-            System.out.println(String.format("QuizGame - getQuestionText: questionList == null, unable to " +
+            System.out.println(String.format("Quizgame - getQuestionText: questionList == null, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }
 
         if (questionList.size() < questionIndex) {
-            System.out.println(String.format("QuizGame - getQuestionText: questionList.size < questionIndex, unable to " +
+            System.out.println(String.format("Quizgame - getQuestionText: questionList.size < questionIndex, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }
@@ -239,7 +235,7 @@ public class QuizGame {
      *
      * @param question the question that is being broadcast
      */
-    public void broadCastQuestion(Question question) {
+    void broadCastQuestion(Question question) {
         if (gameMode.equals(GameMode.HOT_SWAP)) {
             eventBus.post(new QuestionEvent(question, playerManager.getTotalAmountOfPlayers()));
         } else {
@@ -278,12 +274,12 @@ public class QuizGame {
         return currentCategory;
     }
 
-    public void setCurrentCategory(String categoryId) {
+    void setCurrentCategory(String categoryId) {
         Category category = Category.getCategoryById(categoryId);
         if (category != null) {
             setCurrentCategory(category);
         } else {
-            System.out.println("QuizGame - setCurrentCategory: found no match to categoryId, " +
+            System.out.println("Quizgame - setCurrentCategory: found no match to categoryId, " +
                     "unable to set current category, skipping call");
         }
     }
@@ -319,7 +315,7 @@ public class QuizGame {
         eventBus.post(new LotteryDrawEvent(winnings));
     }
 
-    public PlayerManager getPlayerManager() {
+    PlayerManager getPlayerManager() {
         return playerManager;
     }
 
@@ -327,7 +323,7 @@ public class QuizGame {
     /**
      * Method returns all items available in the game.
      *
-     * @return
+     * @return - all items
      */
     public List<Item> getAllItems() {
         return lottery.getItemList();

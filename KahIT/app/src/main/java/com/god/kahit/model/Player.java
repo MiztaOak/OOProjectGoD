@@ -9,7 +9,8 @@ package com.god.kahit.model;
  * HotSwapAddPlayersView, HotSwapAddPlayersViewModel, HotSwapRecyclerAdapter,
  * LobbyNetRecyclerAdapter, LobbyNetView, LobbyNetViewModel, LotteryDrawEvent LotteryView,
  * QuestionViewModel, ScorePageAdapter, Team and TeamContainerRecyclerAdapter
- * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ *
+ * @author Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
  */
 public class Player {
     private String id;
@@ -72,8 +73,8 @@ public class Player {
      * @param questionTime: How much time each question has.
      */
     void updateScore(long time, int questionTime) {
-        double playerTime = (((double)time) +((double)amountOfTime))/((double)questionTime);
-        if (playerTime > 1){ //Prevents the player from getting more score that they should had they answered instantly
+        double playerTime = (((double) time) + ((double) amountOfTime)) / ((double) questionTime);
+        if (playerTime > 1) { //Prevents the player from getting more score that they should had they answered instantly
             playerTime = (double) 1;
         }
         this.score += (500 * (playerTime) * scoreMultiplier);

@@ -1,11 +1,12 @@
 package com.god.kahit.model;
 
 /**
- * @esponsibility: This class is responsible for the debuff items which have negative effect on
+ * esponsibility: This class is responsible for the debuff items which have negative effect on
  * the player's stats.
  * used-by: This class is used in the following classes:
  * Player, QuizGame, ItemFactory, Store, ItemDataLoaderRealtime and IItemDataLoader.
- * @author: Anas Alkoutli
+ *
+ * @author Anas Alkoutli
  */
 public class Debuff extends Modifier {
     private Boolean autoAnswer;

@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * A factory class used to create questions
- *
+ * <p>
  * Used by: Repository, QuizGame
  *
  * @author Johan Ek
@@ -18,7 +18,8 @@ public class QuestionFactory {
      */
     private static IQuestionDataLoader dataLoader;
 
-    private QuestionFactory(){}
+    private QuestionFactory() {
+    }
 
     /**
      * A method that creates Map of questions with category as the key and a list of questions as the values
@@ -55,7 +56,7 @@ public class QuestionFactory {
         return createdQuestions;
     }
 
-    private static Question copyQuestion(Question q){
+    private static Question copyQuestion(Question q) {
         return new Question(q.getCategory(), q.getQuestionText(), q.getAnswer(), new ArrayList<>(q.getAlternatives()), q.getTime());
     }
 

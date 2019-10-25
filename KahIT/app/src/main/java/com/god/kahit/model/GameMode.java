@@ -6,7 +6,8 @@ package com.god.kahit.model;
  * used-by: This class is used in the following classes:
  * CreateLobbyNetView, Repository, Quizgame, HotSwapGameModeModelView,
  * JoinLobbyNetView and playerManager
- * @author: Anas Alkoutli
+ *
+ * @author Anas Alkoutli
  */
 
 public enum GameMode {

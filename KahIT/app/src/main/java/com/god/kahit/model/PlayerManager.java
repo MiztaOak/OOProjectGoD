@@ -12,6 +12,7 @@ import java.util.Objects;
  * adding player to team, adding new players, removing players, changing teams, etc.
  * used-by: This class is used in the following classes:
  * QuizGame, Repository.
+ *
  * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
  */
 public class PlayerManager {
@@ -291,7 +292,7 @@ public class PlayerManager {
      *
      * @param name the name for the player.
      * @param id   the id for the player.
-     * @return
+     * @return the new player.
      */
     private Player createNewPlayer(String name, String id) {
         int i = 1;
