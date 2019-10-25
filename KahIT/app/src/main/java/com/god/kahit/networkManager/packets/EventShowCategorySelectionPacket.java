@@ -36,7 +36,7 @@ public class EventShowCategorySelectionPacket extends Packet {
      * @param categoryIds String containing the targetPlayerId
      * @return byte[] packet content
      */
-    private byte[] createContent(String[] categoryIds) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String[] categoryIds) {
         verifyContent(categoryIds);
         String extractedCategoryIds = TextUtils.join(";", categoryIds); //Use semi-colon as separator
         return extractedCategoryIds.getBytes();

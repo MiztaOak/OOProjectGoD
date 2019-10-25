@@ -33,7 +33,6 @@ public class Store {
      * @return returns if the player's score is enough to buyItem the item and if the player
      * doesn't have an item
      */
-//TODO uncomment this when done testing
     public boolean isItemBuyable(int i, Player player) {
         if (storeItems.get(i) instanceof Buff) {
             return (player.getScore() >= storeItems.get(i).getPrice() && player.getScoreMultiplier() == 1

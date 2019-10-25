@@ -82,7 +82,7 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
         myPlayerId = lobbyNetViewModel.getMyPlayerId();
         lobbyName = lobbyNetViewModel.getLobbyName();
 
-        playerList.observe(this, new Observer<List<Pair<Player, Connection>>>() { //todo remove?
+        playerList.observe(this, new Observer<List<Pair<Player, Connection>>>() {
             @Override
             public void onChanged(@Nullable List<Pair<Player, Connection>> integerStringMap) {
                 recyclerAdapter.notifyDataSetChanged();
@@ -165,13 +165,13 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
             lobbyNameTextView.setText("Default name");
         }
 
-        gameModeTextView.setText(String.format("Standard")); //todo use actual current gamemode
+        gameModeTextView.setText(String.format("Standard"));
 
         int nmbPlayers = 0;
         if (playerList.getValue() != null) {
             nmbPlayers = playerList.getValue().size();
         }
-        nmbPlayersTextView.setText(String.format("Players: %s/%s", nmbPlayers, "8")); //todo get max players from quizGame
+        nmbPlayersTextView.setText(String.format("Players: %s/%s", nmbPlayers, "8"));
 
         String readyButtonText;
         if (lobbyNetViewModel.isHost()) {

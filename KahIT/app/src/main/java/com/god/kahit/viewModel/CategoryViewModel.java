@@ -84,7 +84,7 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public void showNextView() {
-        Class<?> newViewClass = QuestionView.class; //todo get actual next view, it's not always QuestionView
+        Class<?> newViewClass = QuestionView.class;
         repository.broadcastShowNewView(newViewClass);
         BUS.post(new NewViewEvent(newViewClass));
     }

@@ -66,7 +66,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  *
  * @author Anas Alkoutli & Ousama Anadani & Mats CederVall & Johan Ek & Jakob Ewerstrand
  */
-public class Repository { //todo implement a strategy pattern, as we got two different states, host & non-host
+public class Repository {
     private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
     private QuizGame quizGame;
@@ -224,7 +224,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onPlayerNameChangeRequest(@NonNull String targetPlayerId, @NonNull String newName) {
                     Log.i(TAG, String.format("onPlayerNameChangeRequest: event triggered. callback from: '%s', new name: '%s'", targetPlayerId, newName));
-                    packetHandler.broadcastPlayerNameChange(targetPlayerId, newName); //todo only pass to quizgame, let it trigger a broadcast
+                    packetHandler.broadcastPlayerNameChange(targetPlayerId, newName);
                 }
 
                 @Override
@@ -232,7 +232,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                     Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: event triggered. callback from: '%s', new state: '%s'", targetPlayerId, String.valueOf(newState)));
                     Player targetPlayer = playerManager.getPlayer(targetPlayerId);
                     if (targetPlayer != null) {
-                        packetHandler.broadcastPlayerReadyChange(targetPlayerId, newState);  //todo only pass to quizGame, let it trigger a broadcast
+                        packetHandler.broadcastPlayerReadyChange(targetPlayerId, newState);
                         setPlayerReady(targetPlayer, newState);
                     } else {
                         Log.i(TAG, String.format("onPlayerReadyStateChangeRequest: targetPlayer was not found. targetPlayerId: '%s', new state: '%s' - ignoring request", targetPlayerId, newState));
@@ -242,7 +242,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onTeamNameChangeRequest(@NonNull String teamId, @NonNull String newTeamName) {
                     Log.i(TAG, String.format("onTeamNameChangeRequest: event triggered. teamId: '%s', new team name: '%s'", teamId, newTeamName));
-                    packetHandler.broadcastTeamNameChange(teamId, newTeamName);  //todo only pass to quizGame, let it trigger a broadcast
+                    packetHandler.broadcastTeamNameChange(teamId, newTeamName);
                 }
 
                 @Override
@@ -319,7 +319,6 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onTeamNameChangeEvent(@NonNull String teamId, @NonNull String newTeamName) {
                     Log.i(TAG, String.format("onTeamNameChangeEvent: event triggered. teamId: '%s', new team name: '%s'", teamId, newTeamName));
-                    //todo implement onTeamNameChangeEvent
                 }
 
                 @Override
@@ -343,13 +342,11 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
                 @Override
                 public void onTeamCreatedEvent(@NonNull String newTeamId, @NonNull String newTeamName) {
                     Log.i(TAG, String.format("onTeamCreatedEvent: event triggered. newTeamId: '%s', newTeamName: %s", newTeamId, newTeamName));
-                    //todo implement onTeamCreatedEvent
                 }
 
                 @Override
                 public void onTeamDeletedEvent(@NonNull String teamId) {
                     Log.i(TAG, String.format("onTeamDeletedEvent: event triggered. teamId: '%s'", teamId));
-                    //todo implement onTeamDeletedEvent
                 }
 
                 @Override
@@ -399,16 +396,14 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
 
                 @Override
                 public void onShowLotteryEvent(@NonNull String[][] playersWonItemsMatrix) {
-                    Log.i(TAG, String.format("onShowLotteryEvent: event triggered. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix))); //todo show actual values of matrix
+                    Log.i(TAG, String.format("onShowLotteryEvent: event triggered. playersWonItemsMatrix: '%s'", Arrays.toString(playersWonItemsMatrix)));
                     BUS.post(new NewViewEvent(LotteryView.class));
-                    //todo implement onShowLotteryEvent
                 }
 
                 @Override
                 public void onShowGameResultsEvent() {
                     Log.i(TAG, "onShowGameResultsEvent: event triggered.");
                     BUS.post(new NewViewEvent(ScorePageView.class));
-                    //todo implement onShowGameResultsEvent
                 }
 
                 @Override
@@ -476,7 +471,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         }
     }
 
-    public void broadcastShowNewView(Class<?> newViewClass) { //todo Figure out next view some other way, a more general way
+    public void broadcastShowNewView(Class<?> newViewClass) {
         String newViewClassName = newViewClass.getSimpleName();
         Log.i(TAG, String.format("broadcastShowNewView: called. newViewClass: '%s'", newViewClassName));
 
@@ -728,7 +723,7 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
     }
 
     private void handleLobbySyncProcedure(String senderId) {
-        packetHandler.broadcastLobbySyncStartPacket(senderId, networkManager.getMyConnectionName(), "epic"); //todo lobbySync replace with actual gameModeId value
+        packetHandler.broadcastLobbySyncStartPacket(senderId, networkManager.getMyConnectionName(), "epic");
         for (Player player : playerManager.getPlayers()) {
             //Sync players
             if (!player.getId().equals(senderId)) { //The joining player has already been notified of their own arrival, skip that

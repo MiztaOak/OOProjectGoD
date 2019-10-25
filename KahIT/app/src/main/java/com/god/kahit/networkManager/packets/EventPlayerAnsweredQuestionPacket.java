@@ -90,7 +90,7 @@ public class EventPlayerAnsweredQuestionPacket extends Packet {
      * @param timeLeft       String containing the timeLeft of type long parsed to a string
      * @return byte[] packet content
      */
-    private byte[] createContent(String targetPlayerId, String categoryId, String questionId, String givenAnswer, String timeLeft) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String targetPlayerId, String categoryId, String questionId, String givenAnswer, String timeLeft) {
         if (targetPlayerId.contains(";")) { //If targetPlayerId contains illegal characters throw error, as any modification to targetPlayerId makes it useless
             throw new RuntimeException("targetPlayerId contains illegal characters: " + targetPlayerId);
         }

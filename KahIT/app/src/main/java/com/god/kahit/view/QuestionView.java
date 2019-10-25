@@ -63,7 +63,6 @@ public class QuestionView extends AppCompatActivity {
     private ProgressBar progressBar;
     private ObjectAnimator animator;
 
-    //TODO FOLLOWING is ALL TEMPORARY and will be replaced by variables from Question.class. FROM:
     private int questionDuration = 2000; //The total time the player has to answer.
     private int questionNmb = 1;  //The number of the question if in a sequence.
     private int totNmbQuestions = 3; //The total number of questions if in a sequence.
@@ -219,7 +218,7 @@ public class QuestionView extends AppCompatActivity {
             sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
         }
 
-        updateQuestionNmbTextView(questionNmb++, totNmbQuestions); //todo implement real values
+        updateQuestionNmbTextView(questionNmb++, totNmbQuestions);
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }

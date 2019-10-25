@@ -12,7 +12,7 @@ import android.text.TextUtils;
 public class EventShowLotteryPacket extends Packet {
     public static final int PACKET_ID = 19;
 
-    public EventShowLotteryPacket(String[][] playersWonItemsMatrix) { //todo expected to contain playerWonItemsMatrix[1] = {playerId, wonItemId}
+    public EventShowLotteryPacket(String[][] playersWonItemsMatrix) {
         super(PACKET_ID, null);
         setPacketContent(createContent(playersWonItemsMatrix)); //Super constructor must be called before anything else
     }
@@ -43,7 +43,7 @@ public class EventShowLotteryPacket extends Packet {
      * @param playersWonItemsMatrix String[][] containing each player and what item it has won
      * @return byte[] packet content
      */
-    private byte[] createContent(String[][] playersWonItemsMatrix) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String[][] playersWonItemsMatrix) {
         verifyContent(playersWonItemsMatrix);
         String[] playersWonItemsArr = new String[playersWonItemsMatrix.length];
         for (int i = 0; i < playersWonItemsMatrix.length; i++) {

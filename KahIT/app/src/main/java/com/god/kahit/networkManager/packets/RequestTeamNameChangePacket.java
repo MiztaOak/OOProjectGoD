@@ -48,7 +48,7 @@ public class RequestTeamNameChangePacket extends Packet {
      * @param newTeamName String containing the newTeamName
      * @return
      */
-    private byte[] createContent(String teamId, String newTeamName) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String teamId, String newTeamName) {
         if (teamId.contains(";")) { //If teamId contains illegal characters throw error, as any modification to teamId makes it useless
             throw new RuntimeException("TeamId contains illegal characters: " + teamId);
         }

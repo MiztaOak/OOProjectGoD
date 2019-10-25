@@ -62,7 +62,7 @@ public class EventLobbySyncStartPacket extends Packet {
      * @param gameModeId     String containing the gameModeId
      * @return byte[] packet content
      */
-    private byte[] createContent(String targetPlayerId, String roomName, String gameModeId) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String targetPlayerId, String roomName, String gameModeId) {
         if (targetPlayerId.contains(";")) { //If targetPlayerId contains illegal characters throw error, as any modification to targetPlayerId makes it useless
             throw new RuntimeException("targetPlayerId contains illegal characters: " + targetPlayerId);
         }

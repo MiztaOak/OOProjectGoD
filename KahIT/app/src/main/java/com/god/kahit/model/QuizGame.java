@@ -32,7 +32,7 @@ public class QuizGame {
     private Deque<Question> roundQuestions;
     private int numOfQuestions;
     private Category currentCategory;
-    private Category[] categorySelectionArray; //todo find a better way
+    private Category[] categorySelectionArray;
 
     private Store store;
     private Lottery lottery;
@@ -44,7 +44,7 @@ public class QuizGame {
         this.playerManager = playerManager;
         this.gameMode = gameMode;
 
-        numOfQuestions = 2; //TODO replace with more "dynamic" way to set this
+        numOfQuestions = 2;
         gameIsStarted = false;
     }
 
@@ -170,7 +170,7 @@ public class QuizGame {
         if (!roundQuestions.isEmpty()) {
             broadCastQuestion(roundQuestions.pop());
         } else {
-            startRound(); //TODO is this expected?
+            startRound();
         }
     }
 
@@ -178,8 +178,11 @@ public class QuizGame {
         if (roundQuestions != null && !roundQuestions.isEmpty()) {
             return roundQuestions.peek().getCategory().getId();
         } else {
-            startRound(); //TODO is this expected?
-            return roundQuestions.peek().getCategory().getId();
+            startRound();
+            if(roundQuestions.peek() != null){
+                return roundQuestions.peek().getCategory().getId();
+            }
+            return "";
         }
     }
 
@@ -187,8 +190,11 @@ public class QuizGame {
         if (!roundQuestions.isEmpty()) {
             return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
         } else {
-            startRound(); //TODO is this expected?
-            return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
+            startRound();
+            if(roundQuestions.peek() != null){
+                return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
+            }
+            return "";
         }
     }
 

@@ -154,7 +154,7 @@ public class NetworkModule implements NetworkManager {
                             connectionInfo.isIncomingConnection() + "'.");
 
                     //Store connection details if new connection, else connectToHost() has been called, and state already been updated.
-                    if (connection == null) { //todo as connection is initially marked a 'client' inside host at first connection, a potential re-connection can easily be distinguished (if re-connecting then type must be PEER)
+                    if (connection == null) {
                         connection = new Connection(s,
                                 connectionInfo.getEndpointName(), ConnectionType.CLIENT,
                                 ConnectionState.CONNECTING);
@@ -242,7 +242,7 @@ public class NetworkModule implements NetworkManager {
                 Log.i(TAG, "onDisconnected: a connection was disconnected: " + s);
                 Connection connection = connectionLinkedHashMap.get(s);
                 if (connection != null) {
-                    //Update stored connection status //todo create method for this and callback? frequently used..
+                    //Update stored connection status
                     ConnectionState oldState = connection.getState();
                     connection.setState(ConnectionState.DISCONNECTED);
 
@@ -257,7 +257,7 @@ public class NetworkModule implements NetworkManager {
 
         payloadCallback = new PayloadCallback() {
             @Override
-            public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) { //todo store payloads for debugging reasons?
+            public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {
                 if (payload.getType() == Payload.Type.BYTES) {
                     byte[] receivedBytes = payload.asBytes(); // This always gets the full data of the payload. Bytes are always sent in one-go. Will be null if it's not a BYTES.
 
@@ -276,7 +276,6 @@ public class NetworkModule implements NetworkManager {
                         Log.i(TAG, String.format("onPayloadReceived: ERROR received payload from unknown connection. ignoring: '%s'. Payload: '%s'", s, payload.toString()));
                     }
                 } else if (payload.getType() == Payload.Type.FILE) {
-                    //todo implement file transfer? https://developers.google.com/nearby/connections/android/exchange-data
                     Log.i(TAG, "onPayloadReceived: ERROR received file payload, unfortunately" +
                             " support is not implemented so cant handle it. File will be saved in player's download folder");
                 } else {
@@ -291,7 +290,6 @@ public class NetworkModule implements NetworkManager {
                 // after the call to onPayloadReceived().
                 // When file transfers are completed you will also receive a SUCCESS update,
                 // but content must be saved from onPayloadReceived. See URL in to-do above
-                //todo implement file transfer?
             }
         };
     }
@@ -318,9 +316,9 @@ public class NetworkModule implements NetworkManager {
     }
 
     private void determineQueueOrHandle(@NonNull String s, @NonNull byte[] receivedBytes) {
-        int receivedPacketID = Integer.valueOf(Byte.toString(receivedBytes[0])); //todo figure if it can be done without dependency
+        int receivedPacketID = Integer.valueOf(Byte.toString(receivedBytes[0]));
 
-        if (isQueuingIncomingPayloads && receivedPacketID != EventLobbySyncEndPacket.PACKET_ID) { //todo figure if it can be done without dependency
+        if (isQueuingIncomingPayloads && receivedPacketID != EventLobbySyncEndPacket.PACKET_ID) {
             //Add payload data to payloadQueueList, remove oldest entry if max payload queue size has been reached
             if (payloadQueueList.size() > MAX_PAYLOAD_QUEUE_SIZE) {
                 Log.i(TAG, String.format("determineQueueOrHandle: ERROR maximum queue size reached: '%s', removing oldest payload.", MAX_PAYLOAD_QUEUE_SIZE));
@@ -353,7 +351,7 @@ public class NetworkModule implements NetworkManager {
         }
 
         //Reset do queue boolean when empty
-        isQueuingIncomingPayloads = false; //todo a tiny risk of a race condition. i.e incoming payload just after while-loop is complete
+        isQueuingIncomingPayloads = false;
         Log.i(TAG, "processPayloadQueue: set isQueueIncomingPayloads to false");
     }
 
@@ -435,7 +433,7 @@ public class NetworkModule implements NetworkManager {
 
         if (oldConnection != null) {
             Log.i(TAG, "connectToHost: ERROR was already connected to: '" + connection.getId() + "'. Disconnecting this old connection");
-            disconnect(oldConnection); //todo might cause a race condition, resulting in two connections at the same time - might crash with STAR-strategy?
+            disconnect(oldConnection);
         }
 
         Log.i(TAG, "connectToHost: connecting to: " + connection.getId());
@@ -583,7 +581,7 @@ public class NetworkModule implements NetworkManager {
      * the hosting beacon.
      */
     @Override
-    public void stopAllConnections() { //todo implement a 'reset'-method and let this method leave ad/dis state alone?
+    public void stopAllConnections() {
         Log.i(TAG, "stopAllConnections: terminated all connections");
         for (Connection connection : connectionLinkedHashMap.values()) {
             disconnect(connection);

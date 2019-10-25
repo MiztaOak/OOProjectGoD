@@ -357,7 +357,7 @@ public class PlayerManager {
      * @param player the player to bew removed.
      */
     public void removePlayer(Player player) {
-        if (playerList.size() > 1) { //TODO should we not instead check if player is current player, or is it wrong to have no players
+        if (playerList.size() > 1) {
             for (int i = 0; i < teamList.size(); i++) {
                 teamList.get(i).getTeamMembers().remove(player);
             }

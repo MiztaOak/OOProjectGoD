@@ -48,7 +48,7 @@ public class EventPlayerJoinedPacket extends Packet {
      * @param playerName String containing the playerName
      * @return byte[] packet content
      */
-    private byte[] createContent(String playerId, String playerName) { //todo maybe change to another separator than a semi-colon? \n?
+    private byte[] createContent(String playerId, String playerName) {
         if (playerId.contains(";")) { //If playerId contains illegal characters throw error, as any modification to playerId makes it useless
             throw new RuntimeException("playerId contains illegal characters: " + playerId);
         }

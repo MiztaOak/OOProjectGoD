@@ -159,7 +159,7 @@ public class PlayerManagerTest {
             playerManagerClient.addNewPlayerToEmptyTeam("Player" + i, "p" + i);
         }
         assertTrue(playerManagerClient.noEmptyTeamExists());
-        assertEquals(playerManagerClient.getEmptyTeam(),playerManagerClient.getTeams().get(0)); //TODO check if this makes sense
+        assertEquals(playerManagerClient.getEmptyTeam(),playerManagerClient.getTeams().get(0));
         playerManagerClient.removePlayer("p1");
         assertFalse(playerManagerClient.noEmptyTeamExists());
         assertNotNull(playerManagerClient.getEmptyTeam());
