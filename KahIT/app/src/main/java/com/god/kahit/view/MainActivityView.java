@@ -21,7 +21,6 @@ import com.god.kahit.Repository.Repository;
 public class MainActivityView extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityView.class.getSimpleName();
 
-    //  HomeButtonClickedListener mHomeWatcher;
 
     private static final String[] REQUIRED_PERMISSIONS =
             new String[]{

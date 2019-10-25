@@ -12,10 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.god.kahit.applicationEvents.GameJoinedLobbyEvent;
-import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
-import com.god.kahit.model.GameMode;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.viewModel.JoinLobbyViewModel;
 import com.google.android.material.textfield.TextInputEditText;
@@ -66,7 +63,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
 
         setupViewContent();
         setupRecyclerView();
-        Repository.getInstance().setupNewGameInstance(GameMode.CLIENT);
+        joinLobbyViewModel.setupNewGameInstance();
         joinLobbyViewModel.setupNetwork(getApplicationContext());
 
         //Force set player name
@@ -80,7 +77,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        Repository.getInstance().setupNewGameInstance(GameMode.CLIENT);
+        joinLobbyViewModel.setupNewGameInstance();
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
         }

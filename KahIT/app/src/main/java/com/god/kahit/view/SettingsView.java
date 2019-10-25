@@ -8,9 +8,10 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.viewModel.SettingsViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 /**
  * @responsibility: A class that is responsible about settings in the game
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class SettingsView extends AppCompatActivity {
 
+    SettingsViewModel settingsViewModel;
 
     @SuppressLint("StaticFieldLeak")
     private Switch musicSwitch; // using a switchButton(toggle) to turn on/off music
@@ -28,6 +30,8 @@ public class SettingsView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
 
         defineInstanceVariables();
         SharedPreferences sharedpreferences = getSharedPreferences("kahit", MODE_PRIVATE);  // getting the last state of the switchButton
@@ -78,15 +82,13 @@ public class SettingsView extends AppCompatActivity {
     }
 
     private void turnMusicOff() {
-        Repository.getInstance().pauseMusic();
-        Repository.getInstance().setMusicState(false);
+        settingsViewModel.turnOffMusic();
         Toast.makeText(getApplicationContext(), "Music off", Toast.LENGTH_SHORT).show();
 
     }
 
     private void turnMusicOn() {
-        Repository.getInstance().resumeMusic();
-        Repository.getInstance().setMusicState(true);
+        settingsViewModel.turnOnMusic();
         Toast.makeText(getApplicationContext(), "Music on", Toast.LENGTH_SHORT).show();
 
     }
