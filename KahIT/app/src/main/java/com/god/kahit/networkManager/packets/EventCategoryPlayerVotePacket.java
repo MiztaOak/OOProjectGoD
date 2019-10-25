@@ -38,8 +38,7 @@ public class EventCategoryPlayerVotePacket extends Packet {
      */
     public static String getCategoryId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String categoryId = content.split(";")[1];
-        return categoryId;
+        return content.split(";")[1];
     }
 
     /**

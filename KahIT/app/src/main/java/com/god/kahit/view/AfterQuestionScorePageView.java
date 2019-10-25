@@ -39,9 +39,6 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
     private ObjectAnimator animator;
 
     private TextView sessionTypeTextView;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter recyclerAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +86,13 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
     }
 
     private void setupRecycler() {
-        recyclerView = findViewById(R.id.aqspScoreRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.aqspScoreRecyclerView);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents(), model.getMyPlayerId(), model.isHotSwap());
+        RecyclerView.Adapter recyclerAdapter = new ScorePageAdapter(model.getScoreScreenContents(), model.getMyPlayerId(), model.isHotSwap());
         recyclerView.setAdapter(recyclerAdapter);
     }
 

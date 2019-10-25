@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 
-@RunWith(AndroidJUnit4.class)
+
 public class NetworkManagerTest {
 
     private Context appContext;

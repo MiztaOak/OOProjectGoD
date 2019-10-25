@@ -24,8 +24,7 @@ public class EventPlayerChangeTeamPacket extends Packet {
      */
     public static String getTargetPlayerId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String targetPlayerId = content.split(";")[0];
-        return targetPlayerId;
+        return content.split(";")[0];
     }
 
     /**
@@ -37,8 +36,7 @@ public class EventPlayerChangeTeamPacket extends Packet {
      */
     public static String getNewTeamId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String newTeamId = content.split(";")[1];
-        return newTeamId;
+        return content.split(";")[1];
     }
 
     /**

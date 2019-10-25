@@ -18,10 +18,10 @@ public abstract class ItemDataHolder {
     private String img_name;
     private String id;
 
-    public ItemDataHolder() {
+    ItemDataHolder() {
     }
 
-    public int getPrice() {
+    int getPrice() {
         return price;
     }
 
@@ -33,7 +33,7 @@ public abstract class ItemDataHolder {
         return name;
     }
 
-    public String getImg_name() {
+    String getImg_name() {
         return img_name;
     }
 

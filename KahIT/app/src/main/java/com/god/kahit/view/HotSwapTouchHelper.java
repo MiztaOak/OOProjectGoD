@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 abstract public class HotSwapTouchHelper extends ItemTouchHelper.Callback {
 
-    Context mContext;
     private Paint mClearPaint;
     private ColorDrawable mBackground;
     private int backgroundColor;
@@ -35,12 +34,11 @@ abstract public class HotSwapTouchHelper extends ItemTouchHelper.Callback {
 
 
     HotSwapTouchHelper(Context context) {
-        mContext = context;
         mBackground = new ColorDrawable();
         backgroundColor = Color.parseColor("#FF0000");
         mClearPaint = new Paint();
         mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        deleteDrawable = ContextCompat.getDrawable(mContext, android.R.drawable.ic_menu_delete);
+        deleteDrawable = ContextCompat.getDrawable(context, android.R.drawable.ic_menu_delete);
         intrinsicWidth = deleteDrawable.getIntrinsicWidth();
         intrinsicHeight = deleteDrawable.getIntrinsicHeight();
     }

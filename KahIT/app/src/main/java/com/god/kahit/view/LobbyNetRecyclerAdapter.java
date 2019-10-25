@@ -107,21 +107,18 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
      *
      */
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private IOnClickPlayerListener iOnClickPlayerListener;
         private ConstraintLayout teamHeaderConstraintLayout;
         private TextView teamNameTextView;
         private TextInputLayout teamNameTextInputLayout;
-        private TextInputEditText teamNameTextInputEditText;
         private RecyclerView teamPlayersRecyclerView;
 
-        public ItemViewHolder(@NonNull View itemView, IOnClickPlayerListener iOnClickPlayerListener) {
+        ItemViewHolder(@NonNull View itemView, IOnClickPlayerListener iOnClickPlayerListener) {
             super(itemView);
-            this.iOnClickPlayerListener = iOnClickPlayerListener;
 
             teamHeaderConstraintLayout = itemView.findViewById(R.id.constraintLayout_teamHeader);
             teamNameTextView = itemView.findViewById(R.id.textView_teamName);
             teamNameTextInputLayout = itemView.findViewById(R.id.textInput_teamName);
-            teamNameTextInputEditText = itemView.findViewById(R.id.textInputEditText_teamName);
+            TextInputEditText teamNameTextInputEditText = itemView.findViewById(R.id.textInputEditText_teamName);
             teamPlayersRecyclerView = itemView.findViewById(R.id.teamContainer_PlayerRecyclerView);
         }
     }

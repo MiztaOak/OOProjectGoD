@@ -26,8 +26,7 @@ public class EventPlayerReadyChangePacket extends Packet {
      */
     public static String getTargetPlayerId(byte[] rawPayload) {
         byte[] rawContent = getPayloadContent(rawPayload);
-        String playerId = new String(Arrays.copyOfRange(rawContent, 1, rawContent.length)); //Leave out newState-byte, copy rest to another array. Convert this new array to string, return
-        return playerId;
+        return new String(Arrays.copyOfRange(rawContent, 1, rawContent.length));
     }
 
     /**

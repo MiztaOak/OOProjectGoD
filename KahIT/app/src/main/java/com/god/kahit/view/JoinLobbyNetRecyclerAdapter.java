@@ -67,16 +67,15 @@ public class JoinLobbyNetRecyclerAdapter extends RecyclerView.Adapter<JoinLobbyN
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private IOnClickLobbyListener iOnClickListener;
-        private ConstraintLayout constraintLayout;
         private TextView lobbyIdTextView;
         private TextView lobbyNameTextView;
         private TextView lobbyStatusTextView;
 
-        public ItemViewHolder(@NonNull View itemView, IOnClickLobbyListener iOnClickListener) {
+        ItemViewHolder(@NonNull View itemView, IOnClickLobbyListener iOnClickListener) {
             super(itemView);
             this.iOnClickListener = iOnClickListener;
 
-            constraintLayout = itemView.findViewById(R.id.lobby_row_constraintLayout);
+            ConstraintLayout constraintLayout = itemView.findViewById(R.id.lobby_row_constraintLayout);
             lobbyIdTextView = itemView.findViewById(R.id.lobby_row_id);
             lobbyNameTextView = itemView.findViewById(R.id.lobby_row_name);
             lobbyStatusTextView = itemView.findViewById(R.id.lobby_row_status);

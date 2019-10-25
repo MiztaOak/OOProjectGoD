@@ -42,12 +42,11 @@ public class MainActivityView extends AppCompatActivity {
      * Returns true if the app was granted all the permissions. Otherwise, returns false.
      */
     private static boolean hasPermissions(Context context, String... permissions) {
-        for (String permission : permissions) {
+        for (String permission : permissions)
             if (ContextCompat.checkSelfPermission(context, permission)
                     != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
-        }
         return true;
     }
 

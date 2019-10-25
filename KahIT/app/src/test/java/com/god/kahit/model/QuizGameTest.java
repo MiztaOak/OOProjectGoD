@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class QuizGameTest {
-    EventBussMock eventBuss = new EventBussMock();
+    private EventBussMock eventBuss = new EventBussMock();
     private QuizGame quizGame = new QuizGame(eventBuss, new PlayerManager(eventBuss, GameMode.HOT_SWAP), GameMode.HOT_SWAP);
 
 

@@ -21,7 +21,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
     private List<Integer> mColors;
 
 
-    public CustomSpinnerAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<String> objects, List<Integer> mColors) {
+    CustomSpinnerAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<String> objects, List<Integer> mColors) {
         super(context, resource, textViewResourceId, objects);
         this.mColors = mColors;
     }

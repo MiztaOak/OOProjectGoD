@@ -79,14 +79,13 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      * Adjusts the colors brightness based on param.
      *
      * @param color  The color to be adjusted.
-     * @param factor - the factor that you want to change the color with e.g. 1.1f brightens, 0.9f darkens.
      * @return - The adjusted value as an int.
      */
-    private int manipulateColor(int color, float factor) {
+    private int manipulateColor(int color) {
         int a = Color.alpha(color);
-        int r = Math.round(Color.red(color) * factor);
-        int g = Math.round(Color.green(color) * factor);
-        int b = Math.round(Color.blue(color) * factor);
+        int r = Math.round(Color.red(color) * (float) 0.8);
+        int g = Math.round(Color.green(color) * (float) 0.8);
+        int b = Math.round(Color.blue(color) * (float) 0.8);
         return Color.argb(a,
                 Math.min(r, 255),
                 Math.min(g, 255),
@@ -149,7 +148,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private void setRowLayout(ItemViewHolder itemViewHolder) {
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(30);
-        gd.setColor(manipulateColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition()), 0.8f));
+        gd.setColor(manipulateColor(teamColors.get(itemViewHolder.spin.getSelectedItemPosition())));
         itemViewHolder.row.setBackground(gd);
         itemViewHolder.spin.setBackground(gd);
     }

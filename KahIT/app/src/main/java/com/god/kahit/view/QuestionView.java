@@ -65,7 +65,6 @@ public class QuestionView extends AppCompatActivity {
 
     private int questionDuration = 2000; //The total time the player has to answer.
     private int questionNmb = 1;  //The number of the question if in a sequence.
-    private int totNmbQuestions = 3; //The total number of questions if in a sequence.
 
     private ArrayList<TextView> answers = new ArrayList<>();
     private boolean hasQuestionBeenShown;
@@ -218,6 +217,8 @@ public class QuestionView extends AppCompatActivity {
             sessionTypeTextView.setText(String.format("%s - id: '%s'", model.isHost() ? "Host" : "Client", model.getMyPlayerId()));
         }
 
+        //The total number of questions if in a sequence.
+        int totNmbQuestions = 3;
         updateQuestionNmbTextView(questionNmb++, totNmbQuestions);
         if (!BUS.isRegistered(this)) {
             BUS.register(this);

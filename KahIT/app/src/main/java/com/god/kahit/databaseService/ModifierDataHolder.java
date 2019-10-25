@@ -12,7 +12,7 @@ public abstract class ModifierDataHolder extends ItemDataHolder {
     private double scoreMultiplier;
     private int timeHeadstart;
 
-    public ModifierDataHolder() {
+    ModifierDataHolder() {
         super();
     }
 
@@ -20,7 +20,7 @@ public abstract class ModifierDataHolder extends ItemDataHolder {
         return scoreMultiplier;
     }
 
-    public int getTimeHeadstart() {
+    int getTimeHeadstart() {
         return timeHeadstart;
     }
 }
