@@ -33,7 +33,7 @@ abstract class ItemDataHolder {
         return name;
     }
 
-    String getImg_name() {
+    public String getImg_name() {
         return img_name;
     }
 
