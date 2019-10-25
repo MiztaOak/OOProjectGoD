@@ -28,17 +28,14 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-/*
-Notes:
--Connection ID is completely random, a new id is assigned every time app/nearby-api  restarts
-
-Bugs: //todo
--Restart host during connecting to a client, and starting a new host session results in a duplicate connection the same device.
- Possible due to how Nearby-API works, maybe implement a fixed playerID to make sure same device always shows up the same?
-
-
+/**
+ * @responsibility: This class is responsible for handling the low level network implementation
+ * details and communication with the Nearby Connections API. The class is built to support
+ * a facade pattern by implementing the NetworkManager interface.
+ * @used-by: This class is used in the following classes:
+ * Repository
+ * @author: Mats Cedervall
  */
-
 public class NetworkModule implements NetworkManager {
     private static final String TAG = "NetworkModule";
     private static final int MAX_NMB_CONNECTIONS = 99;
@@ -48,7 +45,7 @@ public class NetworkModule implements NetworkManager {
     private static final Strategy STRATEGY = Strategy.P2P_STAR;
     private static NetworkModule networkModule;
     private ConnectionsClient connectionsClient;     // Our handle to Nearby Connections
-    private String playerName;
+    private String connectionName;
     private String playerId;
 
     private boolean isHost;
@@ -78,7 +75,7 @@ public class NetworkModule implements NetworkManager {
     private void init(Context context, NetworkCallback networkCallback) {
         this.context = context;
         this.networkCallback = networkCallback;
-        playerName = "Default name";
+        connectionName = "Default name";
         connectionLinkedHashMap = new LinkedHashMap<>();
         payloadQueueList = new ArrayList<>();
         isHost = false;
@@ -337,6 +334,11 @@ public class NetworkModule implements NetworkManager {
         }
     }
 
+    /**
+     * Method that loops through the payloadQueueList and triggers a onBytePayloadReceived
+     * callback on each one and then removes it. When completed it sets isQueuingIncomingPayloads
+     * to false
+     */
     @Override
     public void processPayloadQueue() {
         Log.i(TAG, String.format("processPayloadQueue: processing queued payloads." +
@@ -355,6 +357,9 @@ public class NetworkModule implements NetworkManager {
         Log.i(TAG, "processPayloadQueue: set isQueueIncomingPayloads to false");
     }
 
+    /**
+     * Method that clears the payloadQueueList and sets isQueuingIncomingPayloads to false
+     */
     @Override
     public void clearPayloadQueue() {
         Log.i(TAG, String.format("clearPayloadQueue: cleared queued payloads. " +
@@ -366,7 +371,7 @@ public class NetworkModule implements NetworkManager {
     private void startAdvertising() {
         connectionsClient.stopAdvertising();
         connectionsClient.startAdvertising(
-                playerName, context.getPackageName(), connectionLifecycleCallback,
+                connectionName, context.getPackageName(), connectionLifecycleCallback,
                 new AdvertisingOptions.Builder().setStrategy(STRATEGY).build());
     }
 
@@ -377,9 +382,9 @@ public class NetworkModule implements NetworkManager {
                 new DiscoveryOptions.Builder().setStrategy(STRATEGY).build());
     }
 
-    /***
-     * Does not allow discovery and advertising at the same time due to
-     * risk of communication interference.
+    /**
+     * Method that starts the discovering process of other Nearby Connection endpoints in the
+     * close proximity. Stops any ongoing advertising.
      */
     @Override
     public void startScan() {
@@ -390,6 +395,9 @@ public class NetworkModule implements NetworkManager {
         isScanning = true;
     }
 
+    /**
+     * Method that stops the discovering process of other Nearby Connection endpoints
+     */
     @Override
     public void stopScan() {
         Log.i(TAG, "stopScan: stopped scanning for hosts");
@@ -406,6 +414,11 @@ public class NetworkModule implements NetworkManager {
         return null;
     }
 
+    /**
+     * Method used to connect to an advertising device
+     *
+     * @param connection Connection that holds the details of the endpoint
+     */
     @Override
     public void connectToHost(Connection connection) {
         if (isHost) {
@@ -426,7 +439,7 @@ public class NetworkModule implements NetworkManager {
         }
 
         Log.i(TAG, "connectToHost: connecting to: " + connection.getId());
-        connectionsClient.requestConnection(playerName, connection.getId(), connectionLifecycleCallback);
+        connectionsClient.requestConnection(connectionName, connection.getId(), connectionLifecycleCallback);
 
         //Update stored state
         ConnectionState oldState = connection.getState();
@@ -437,9 +450,9 @@ public class NetworkModule implements NetworkManager {
     }
 
     /***
-     * Marks session as host! Call stopAllConnections() to reset
-     * Does not allow discovery and advertising at the same time due to
-     * risk of communication interference.
+     * Method used to start advertising your host endpoint to other devices in the close proximity.
+     * Will mark the session as host, call stopAllConnection() to reset this.
+     * During a host session any discovering is not allowed due to risk communication interference.
      */
     @Override
     public void startHostBeacon() {
@@ -451,6 +464,10 @@ public class NetworkModule implements NetworkManager {
         startAdvertising();
     }
 
+    /**
+     * Method used to stop an ongoing endpoint advertising. Does not allow any clients to connect
+     * when host beacon is off
+     */
     @Override
     public void stopHostBeacon() {
         Log.i(TAG, "stopHostBeacon: stopped host beacon");
@@ -458,6 +475,12 @@ public class NetworkModule implements NetworkManager {
         connectionsClient.stopAdvertising();
     }
 
+    /**
+     * Method used to send a byte[] payload to a given connection
+     *
+     * @param connection Connection with the details of the target endpoint
+     * @param payload    byte[] with the content to send
+     */
     @Override
     public void sendBytePayload(Connection connection, byte[] payload) {
         if (connection == null) {
@@ -491,6 +514,11 @@ public class NetworkModule implements NetworkManager {
         }
     }
 
+    /**
+     * Method used to send a byte[] payload to all connected endpoints
+     *
+     * @param payload byte[] with the content to send
+     */
     @Override
     public void broadcastBytePayload(byte[] payload) {
         if (payload != null) {
@@ -505,21 +533,42 @@ public class NetworkModule implements NetworkManager {
         }
     }
 
+    /**
+     * A getter for isScanning
+     *
+     * @return boolean isScanning
+     */
     @Override
     public boolean isScanning() {
         return isScanning;
     }
 
+    /**
+     * A getter for isHostBeaconActive
+     *
+     * @return boolean isHostBeaconActive
+     */
     @Override
     public boolean isHostBeaconActive() {
         return isHostBeaconActive;
     }
 
+    /**
+     * A getter for isHost
+     *
+     * @return boolean isHost
+     */
     @Override
     public boolean isHost() {
         return isHost;
     }
 
+    /**
+     * Method used to determine if a given id string is equal to the local endpoint id
+     *
+     * @param id String endpointId
+     * @return boolean string is equal to local endpoint id
+     */
     @Override
     public boolean isMe(String id) {
         if (playerId == null) {
@@ -529,6 +578,10 @@ public class NetworkModule implements NetworkManager {
         return playerId.equals(id);
     }
 
+    /**
+     * Method to disconnect with every connected endpoint and also stops endpoint scanning and
+     * the hosting beacon.
+     */
     @Override
     public void stopAllConnections() { //todo implement a 'reset'-method and let this method leave ad/dis state alone?
         Log.i(TAG, "stopAllConnections: terminated all connections");
@@ -545,6 +598,10 @@ public class NetworkModule implements NetworkManager {
         isHost = false;
     }
 
+    /**
+     * Method used to clean up and release network resources. Intended to be called upon
+     * when resetting the networkModule as well as when the service is no longer needed
+     */
     @Override
     public void cleanStop() {
         if (networkModule == null) {
@@ -564,11 +621,21 @@ public class NetworkModule implements NetworkManager {
         }
     }
 
+    /**
+     * Get the number of discovered endpoints
+     *
+     * @return int number of discovered endpoints
+     */
     @Override
     public int getConnectionsCount() {
         return connectionLinkedHashMap.size();
     }
 
+    /**
+     * Method used by clients to retrieve the connection of the host
+     *
+     * @return Connection the connection of the host
+     */
     @Override
     public Connection getConnectionHost() {
         if (!isHost) {
@@ -584,18 +651,33 @@ public class NetworkModule implements NetworkManager {
         return null;
     }
 
+    /**
+     * Method used to retrieve the connection of a given endpoint id
+     *
+     * @param id String endpointId
+     * @return Connection of endpoint
+     */
     @Override
     public Connection getConnection(String id) {
         return connectionLinkedHashMap.get(id);
     }
 
+    /**
+     * Method used to retrieve all of the discovered connections
+     *
+     * @return Connection[] all discovered connections
+     */
     @Override
     public Connection[] getConnections() {
         Collection<Connection> connections = connectionLinkedHashMap.values();
         return connectionLinkedHashMap.values().toArray(new Connection[connections.size()]);
     }
 
-
+    /**
+     * Method used to disconnect from a endpoint with the given endpoint id
+     *
+     * @param id String endpoint id of the connection to disconnect from.
+     */
     @Override
     public void disconnect(String id) {
         Log.i(TAG, "disconnect: disconnecting: " + id);
@@ -635,6 +717,11 @@ public class NetworkModule implements NetworkManager {
 
     }
 
+    /**
+     * Method used to disconnect from a given connection
+     *
+     * @param connection Connection to disconnect from
+     */
     @Override
     public void disconnect(Connection connection) {
         if (connection != null) {
@@ -644,11 +731,21 @@ public class NetworkModule implements NetworkManager {
         }
     }
 
+    /**
+     * Getter for the local connection name
+     *
+     * @return String local connection name
+     */
     @Override
     public String getMyConnectionName() {
-        return playerName;
+        return connectionName;
     }
 
+    /**
+     * Setter for the local connection name
+     *
+     * @param name String new local connection name
+     */
     @Override
     public void setMyConnectionName(String name) {
         if (name == null) {
@@ -672,25 +769,45 @@ public class NetworkModule implements NetworkManager {
         }
 
         Log.i(TAG, "setMyConnectionName: setting playername: '" + name + "'");
-        playerName = name;
+        connectionName = name;
     }
 
+    /**
+     * Getter of the local connection id
+     *
+     * @return String local connection id
+     */
     @Override
     public String getMyConnectionId() {
         return playerId;
     }
 
+    /**
+     * Setter for the local connection id
+     *
+     * @param id String local connection id
+     */
     @Override
     public void setMyConnectionId(String id) {
         Log.i(TAG, "setMyConnectionId: : setting playerId: '" + id + "'");
         this.playerId = id;
     }
 
+    /**
+     * Getter for isQueuingIncomingPayloads
+     *
+     * @return boolean value of isQueuingIncomingPayloads
+     */
     @Override
     public boolean isQueuingIncomingPayloads() {
         return isQueuingIncomingPayloads;
     }
 
+    /**
+     * Setter for isQueuingIncomingPayloads
+     *
+     * @param doQueue boolean value to set isQueuingIncomingPayloads to
+     */
     @Override
     public void setQueueIncomingPayloads(boolean doQueue) {
         isQueuingIncomingPayloads = doQueue;

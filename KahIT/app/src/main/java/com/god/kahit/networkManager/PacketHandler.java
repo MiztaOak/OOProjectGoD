@@ -34,6 +34,13 @@ import com.god.kahit.networkManager.Packets.RequestTeamNameChangePacket;
 
 import java.util.Arrays;
 
+/**
+ * @responsibility: This class is responsible for the construction, deconstruction and sending of
+ * network packets. It also provides callbacks for all types of packets.
+ * @used-by: This class is used in the following classes:
+ * Repository
+ * @author: Mats Cedervall
+ */
 public class PacketHandler {
     private static final String TAG = "PacketHandler";
 
