@@ -107,15 +107,15 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         return scoreMultiplier;
     }
 
-    public void setScoreMultiplier(double scoreMultiplier) {
+    void setScoreMultiplier(double scoreMultiplier) {
         this.scoreMultiplier = scoreMultiplier;
     }
 
-    public int getAmountOfTime() {
+    int getAmountOfTime() {
         return amountOfTime;
     }
 
-    public void setAmountOfTime(int amountOfTime) {
+    void setAmountOfTime(int amountOfTime) {
         this.amountOfTime = amountOfTime;
     }
 
@@ -123,7 +123,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         return amountOfAlternatives;
     }
 
-    public void setAmountOfAlternatives(int amountOfAlternatives) {
+    void setAmountOfAlternatives(int amountOfAlternatives) {
         this.amountOfAlternatives = amountOfAlternatives;
     }
 
@@ -131,7 +131,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         return autoAnswer;
     }
 
-    public void setAutoAnswer(boolean autoAnswer) {
+    void setAutoAnswer(boolean autoAnswer) {
         this.autoAnswer = autoAnswer;
     }
 
@@ -139,7 +139,7 @@ public class Player { //todo revise with better use of access-modifiers. e.i not
         return vanityItem;
     }
 
-    public void setVanityItem(VanityItem vanityItem) {
+    void setVanityItem(VanityItem vanityItem) {
         this.vanityItem = vanityItem;
     }
 
