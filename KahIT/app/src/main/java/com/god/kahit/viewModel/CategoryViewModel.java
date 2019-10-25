@@ -4,6 +4,9 @@ package com.god.kahit.viewModel;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.NewViewEvent;
@@ -16,9 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -42,6 +42,9 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
         repository = Repository.getInstance();
     }
 
+    /**
+     * Generates four random categories.
+     */
     public void generateCategories() {
         repository.generateRandomCategoryArray(4);
         updateCategories();
@@ -81,7 +84,6 @@ public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     }
 
     public void showNextView() {
-
         Class<?> newViewClass = QuestionView.class; //todo get actual next view, it's not always QuestionView
         repository.broadcastShowNewView(newViewClass);
         BUS.post(new NewViewEvent(newViewClass));

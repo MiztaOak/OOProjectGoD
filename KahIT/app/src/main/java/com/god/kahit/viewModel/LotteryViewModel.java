@@ -2,6 +2,12 @@ package com.god.kahit.ViewModel;
 
 import android.util.Log;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 import com.god.kahit.model.Player;
@@ -12,17 +18,11 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 import java.util.Map;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * responsibility: This class is responsible for the LiveData of lottery in the game.
- * used-by: LotteryView
+ * used-by: LotteryView.
  *
  * @author Mats Cedervall, Jakob Ewerstrand
  */

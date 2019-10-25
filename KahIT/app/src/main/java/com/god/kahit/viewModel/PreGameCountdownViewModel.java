@@ -11,16 +11,17 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.view.QuestionView;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
- * @responsibility: A class that places a countdown timer in center of the layout
- * @used-by: PreGameCountdownView.
- * @author: Oussama Anadani, Mats Cedervall
+ * responsibility: A class that places a countdown timer in center of the layout
+ * used-by: PreGameCountdownView.
+ *
+ * @author Oussama Anadani, Mats Cedervall
  */
 public class PreGameCountdownViewModel extends ViewModel {
     private static final int TOAST_MESSAGE_TEXT_SIZE = 60;
@@ -89,6 +90,9 @@ public class PreGameCountdownViewModel extends ViewModel {
         this.context = context;
     }
 
+    /**
+     * Initiates the questionView.
+     */
     public void showNextView() {
         Class<?> newViewClass = QuestionView.class;
         repository.broadcastShowNewView(newViewClass);

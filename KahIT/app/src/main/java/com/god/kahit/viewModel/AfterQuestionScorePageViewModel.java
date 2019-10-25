@@ -3,8 +3,11 @@ package com.god.kahit.viewModel;
 
 import android.util.Log;
 
-import com.god.kahit.applicationEvents.NewViewEvent;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.model.Player;
 import com.god.kahit.view.CategoryView;
 import com.god.kahit.view.QuestionView;
@@ -14,15 +17,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
  * The viewModel for the AfterQuestionScorePageView, the class handles the fetching of data for the
  * view.
- *
+ * <p>
  * used by: AfterQuestionScorePageView
  *
  * @author Johan EK

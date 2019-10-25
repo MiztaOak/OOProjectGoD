@@ -25,11 +25,12 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @responsibility: a fragment class for the view of the store where players can buyItem items.
+ * responsibility: a fragment class for the view of the store where players can buyItem items.
  * This fragment class is included in the QuestionView class.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * QuestionView.
- * @author: Anas Alkoutli
+ *
+ * @author Anas Alkoutli
  */
 public class StoreView extends Fragment {
     private StoreViewModel storeViewModel = new StoreViewModel();
@@ -77,7 +78,7 @@ public class StoreView extends Fragment {
     }
 
     /**
-     * A method that iterates through the list of items and get their names and their image source to set them correctly in the view
+     * A method that iterates through the list of items and get their names and their image source to set them correctly in the view.
      */
     private void populateItemIcons() {
         Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
@@ -88,7 +89,7 @@ public class StoreView extends Fragment {
     }
 
     /**
-     * A method that finds all the imageViews and adds them to a list of imageViews
+     * A method that finds all the imageViews and adds them to a list of imageViews.
      */
     private void findItemIcons() {
         itemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon));
@@ -104,7 +105,7 @@ public class StoreView extends Fragment {
     }
 
     /**
-     * A method that finds all the buttons and adds them to a list of buttons
+     * A method that finds all the buttons and adds them to a list of buttons.
      */
     private void findItemButtons() {
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton));
@@ -119,8 +120,8 @@ public class StoreView extends Fragment {
     }
 
     /**
-     * A method that finds all the image views to add an image (sold)
-     * when they item is bought later
+     * A method that finds all the ImageViews to add an image (sold)
+     * when they item is bought later.
      */
     private void findBoughtItemIcons() {
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon10));

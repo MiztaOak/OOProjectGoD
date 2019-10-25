@@ -3,7 +3,11 @@ package com.god.kahit.Repository;
 import java.util.Random;
 
 /**
- * Utility class to generate random Android names
+ * responsibility: Utility class to generate random Android names
+ * <p>
+ * used-by: JoinLobbyViewModel, CreateLobbyNetViewModel.
+ *
+ * @author Mats Cedervall
  */
 public final class NameGenerator {
     private static final String[] COLORS =

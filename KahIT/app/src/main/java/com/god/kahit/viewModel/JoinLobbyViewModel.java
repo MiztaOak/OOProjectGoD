@@ -2,6 +2,12 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.RoomChangeEvent;
@@ -12,14 +18,16 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * responsibility: ViewModel for the JoinLobbyView.
+ * Handles the clients request to join a lobby and calls the repository to instantiate a new Player.
+ * <p>
+ * used-by: LobbyNetView.
+ *
+ * @author Mats Cedervall
+ */
 public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = JoinLobbyViewModel.class.getSimpleName();
 

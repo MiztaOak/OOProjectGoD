@@ -9,6 +9,13 @@ import com.god.kahit.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * responsibility: ViewModel for the LobbyNetView
+ * <p>
+ * used-by: LobbyNetView.
+ *
+ * @author Mats Cedervall
+ */
 public class ScorePageView extends AppCompatActivity {
 
     private static final String LOG_TAG = ScorePageView.class.getSimpleName();
