@@ -1,10 +1,12 @@
 package com.god.kahit.applicationEvents;
 /**
- * @responsibility: This class is responsible for handling information when joining a lobby.
+ * This class is responsible for handling information when joining a lobby.
  * The event is fired when a player has joined a lobby and is not a host.
- * @used-by: This class is used in the following classes:
+ *
+ * used-by: This class is used in the following classes:
  * Repository and JoinLobbyNetView
- * @author: Anas Alkoutli
+ *
+ * @author: Mats Cedervall
  */
 
 import com.god.kahit.model.IEvent;
