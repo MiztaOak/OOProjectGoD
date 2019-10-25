@@ -10,13 +10,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.GameLostConnectionEvent;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.applicationEvents.PlayerVotedCategoryEvent;
-import com.god.kahit.R;
 import com.god.kahit.viewModel.CategoryViewModel;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -24,14 +27,11 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 /**
- *The view class for the categoryView, allowing the user to pick one out of four different categories
- *
+ * The view class for the categoryView, allowing the user to pick one out of four different categories
+ * <p>
  * used by: AfterQuestionScorePageViewModel, LotteryView, Repository
  *
  * @author Johan EK
@@ -110,7 +110,7 @@ public class CategoryView extends AppCompatActivity {
 
     public void launchQuestionClass() {
         //get current category
-        Repository.getInstance().startPlaylist(this,Repository.getInstance().getCurrentCategory().toString());
+        Repository.getInstance().startPlaylist(this, Repository.getInstance().getCurrentCategory().toString());
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, QuestionView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -37,6 +37,15 @@ public class StoreView extends Fragment {
     private List<Button> itemButtons = new ArrayList<>();
     private ArrayList<ImageView> boughtItemsIcons = new ArrayList<>();
 
+    /**
+     * A method that returns a creates a new StoreView object and returns it.
+     *
+     * @return : A StoreView that the method created.
+     */
+    static StoreView newInstance() {
+        return new StoreView();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -49,15 +58,6 @@ public class StoreView extends Fragment {
         super.onActivityCreated(savedInstanceState);
         storeViewModel = ViewModelProviders.of(this).get(StoreViewModel.class);
         initializeStoreView();
-    }
-
-    /**
-     * A method that returns a creates a new StoreView object and returns it.
-     *
-     * @return : A StoreView that the method created.
-     */
-    static StoreView newInstance() {
-        return new StoreView();
     }
 
     /**
@@ -118,6 +118,10 @@ public class StoreView extends Fragment {
         itemButtons.add((Button) Objects.requireNonNull(getView()).findViewById(R.id.itemButton9));
     }
 
+    /**
+     * A method that finds all the image views to add an image (sold)
+     * when they item is bought later
+     */
     private void findBoughtItemIcons() {
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon10));
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon11));
@@ -128,8 +132,6 @@ public class StoreView extends Fragment {
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon16));
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon17));
         boughtItemsIcons.add((ImageView) Objects.requireNonNull(getView()).findViewById(R.id.itemIcon18));
-
-
     }
 
     /**
