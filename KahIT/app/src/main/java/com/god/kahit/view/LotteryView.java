@@ -12,6 +12,13 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.god.kahit.R;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.model.Item;
@@ -24,17 +31,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 /**
  * responsibility: Lottery page that shows up players' name and the randomized item(Buff or Debuff) that they get.
- * used-by: AfterQuestionScorePageView, ChooseGameView, Repository.
+ * used-by: AfterQuestionScorePageView, LotteryView, Repository.
+ *
  * @author Oussama Anadani, Jakob Ewerstrand
  */
 public class LotteryView extends AppCompatActivity {
@@ -61,7 +61,6 @@ public class LotteryView extends AppCompatActivity {
         initInstanceVariables();
         getLifecycle().addObserver(lotteryViewModel);
 
-        setupLiveData();
         populateLayoutViewDynamically();
         displayLottery();
     }
@@ -73,34 +72,6 @@ public class LotteryView extends AppCompatActivity {
         itemListLiveData = lotteryViewModel.getItemListLiveData();
         playerListLiveData = lotteryViewModel.getPlayerListLiveData();
     }
-
-    /**
-     * LiveData observer method that has onChanged method inside, which in its turn notify viewModel when
-     * anything is changed.
-     */
-    private void setupLiveData() {
-        lotteryViewModel.getMapWinningsLiveData().observe(this, new Observer<Map<Player, Item>>() {
-            @Override
-            public void onChanged(Map<Player, Item> playerItemMap) {
-
-            }
-        });
-
-        lotteryViewModel.getItemListLiveData().observe(this, new Observer<List<Item>>() {
-            @Override
-            public void onChanged(List<Item> items) {
-
-            }
-        });
-
-        lotteryViewModel.getPlayerListLiveData().observe(this, new Observer<List<Player>>() {
-            @Override
-            public void onChanged(List<Player> playerList) {
-
-            }
-        });
-    }
-
 
     /**
      * Populates the Layout with playerNames and PlayerImages in a circle.
@@ -117,9 +88,9 @@ public class LotteryView extends AppCompatActivity {
     }
 
     /**
-     * Initiates default names.
+     * Sets the players name below the picture.
      *
-     * @return list of players' names
+     * @return list of players' names.
      */
     private List<TextView> setupPlayerTextViews() {
         for (int playerIndex = 0; playerIndex < Objects.requireNonNull(playerListLiveData.getValue()).size(); playerIndex++) {
@@ -132,9 +103,8 @@ public class LotteryView extends AppCompatActivity {
         return playerNameTextViews;
     }
 
-
     /**
-     * Initiates default images.
+     * Sets the players images.
      *
      * @return a list of images for players
      */
@@ -203,7 +173,7 @@ public class LotteryView extends AppCompatActivity {
 
 
     /**
-     * A method to get a random image
+     * A method to get a random image id.
      *
      * @param id A random number to get a random image id
      * @return the randomized image
@@ -215,7 +185,7 @@ public class LotteryView extends AppCompatActivity {
     }
 
     /**
-     * Displays the lottery using Handler object, with delay X ms
+     * Displays the lottery using Handler object, with delay X ms.
      */
     public void displayLottery() {
         final Handler handler = new Handler();
@@ -257,7 +227,6 @@ public class LotteryView extends AppCompatActivity {
                 }
             }
         }, delay);
-
     }
 
     /**

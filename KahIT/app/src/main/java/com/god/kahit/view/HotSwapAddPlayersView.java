@@ -6,12 +6,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
-import com.god.kahit.R;
-import com.god.kahit.model.Player;
-import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -20,6 +14,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.god.kahit.R;
+import com.god.kahit.model.Player;
+import com.god.kahit.viewModel.HotSwapAddPlayersViewModel;
+
+import java.util.List;
 
 /**
  * responsibility: Class responsible for the HotSwap "lobby" view.

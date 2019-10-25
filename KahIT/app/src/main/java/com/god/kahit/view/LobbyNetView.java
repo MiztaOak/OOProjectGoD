@@ -13,21 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.god.kahit.applicationEvents.GameLostConnectionEvent;
-import com.god.kahit.applicationEvents.GameStartedEvent;
-import com.god.kahit.model.modelEvents.TeamChangeEvent;
-import com.god.kahit.applicationEvents.TimedOutEvent;
-import com.god.kahit.R;
-import com.god.kahit.model.Player;
-import com.god.kahit.model.Team;
-import com.god.kahit.networkManager.Connection;
-import com.god.kahit.viewModel.LobbyNetViewModel;
-
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -36,8 +21,29 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.god.kahit.R;
+import com.god.kahit.applicationEvents.GameLostConnectionEvent;
+import com.god.kahit.applicationEvents.GameStartedEvent;
+import com.god.kahit.applicationEvents.TimedOutEvent;
+import com.god.kahit.model.Player;
+import com.god.kahit.model.Team;
+import com.god.kahit.model.modelEvents.TeamChangeEvent;
+import com.god.kahit.networkManager.Connection;
+import com.god.kahit.viewModel.LobbyNetViewModel;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * responsibility: Class that is responsible for the multiplayer lobby.
+ * used-by: AfterQuestionScorePageView, ChooseGameView, Repository.
+ *
+ * @author Oussama Anadani, Jakob Ewerstrand
+ */
 public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerListener, AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = LobbyNetView.class.getSimpleName();
     private static final String START_GAME_BUTTON_COLOR = "#00CBF8";

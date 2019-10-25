@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * responsibility: Helper class for.
+ * responsibility: Helper class for LobbyNetView that eventually have LobbyNetRecyclerAdapter in it's recyclerView.
  * <p>
  * used-by: LobbyNetView.
  *

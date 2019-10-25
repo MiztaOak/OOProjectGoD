@@ -11,8 +11,15 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.god.kahit.applicationEvents.GameJoinedLobbyEvent;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.god.kahit.R;
+import com.god.kahit.applicationEvents.GameJoinedLobbyEvent;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.viewModel.JoinLobbyViewModel;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,24 +28,21 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * responsibility: Class is responsible for the Join View in the multiplayer lobby.
+ * used-by: AfterQuestionScorePageView, ChooseGameView.
+ *
+ * @author Mats Cedervall
+ */
 public class JoinLobbyNetView extends AppCompatActivity {
     private static final String LOG_TAG = JoinLobbyNetView.class.getSimpleName();
     private MutableLiveData<List<Connection>> roomList;
     private JoinLobbyViewModel joinLobbyViewModel;
-    private RecyclerView recyclerView;
 
     private TextInputEditText playerNameTextInputEditText;
     private RecyclerView.Adapter recyclerAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     private String prevPlayerName;
 
@@ -141,19 +145,15 @@ public class JoinLobbyNetView extends AppCompatActivity {
         }
     }
 
-    private void updateViewContent() {
-        playerNameTextInputEditText.setText(joinLobbyViewModel.getPlayerName());
-    }
-
     private void setupRecyclerView() {
-        recyclerView = findViewById(R.id.jChooseRoomRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.jChooseRoomRecyclerView);
         recyclerAdapter = new JoinLobbyNetRecyclerAdapter(roomList, new IOnClickLobbyListener() {
             @Override
             public void onClick(Connection roomConnection) {
                 joinLobbyViewModel.joinRoom(roomConnection);
             }
         });
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
     }

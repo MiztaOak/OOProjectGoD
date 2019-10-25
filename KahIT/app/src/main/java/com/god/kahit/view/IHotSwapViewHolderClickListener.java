@@ -16,7 +16,8 @@ public interface IHotSwapViewHolderClickListener {
 
     /**
      * When a player wants to change team.
-     * @param position -the players position(index) in the recyclerView.
+     *
+     * @param position   -the players position(index) in the recyclerView.
      * @param newTeamNum -the new teamNumber.
      */
     void onTeamSelected(int position, int newTeamNum);

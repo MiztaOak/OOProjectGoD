@@ -17,13 +17,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.god.kahit.R;
-import com.god.kahit.model.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -31,6 +24,13 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.god.kahit.R;
+import com.god.kahit.model.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * responsibility: Helper class for the HotSwapAddPlayerView it functions as a recyclerAdapter for the RecyclerView.
@@ -54,7 +54,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private Context context;
 
-    public HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
+    HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
         this.context = c;
         this.playerList = playerList;
         this.iHotSwapViewHolderClickListener = iHotSwapViewHolderClickListener;
