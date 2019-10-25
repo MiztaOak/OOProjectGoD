@@ -2,7 +2,7 @@ package com.god.kahit.viewModel;
 
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.model.Item;
 
 /**
