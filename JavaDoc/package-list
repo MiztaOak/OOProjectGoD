@@ -1,0 +1,12 @@
+com.god.kahit
+com.god.kahit.Repository
+com.god.kahit.applicationEvents
+com.god.kahit.backgroundMusicService
+com.god.kahit.databaseService
+com.god.kahit.model
+com.god.kahit.model.modelEvents
+com.god.kahit.networkManager
+com.god.kahit.networkManager.Callbacks
+com.god.kahit.networkManager.Packets
+com.god.kahit.view
+com.god.kahit.viewModel

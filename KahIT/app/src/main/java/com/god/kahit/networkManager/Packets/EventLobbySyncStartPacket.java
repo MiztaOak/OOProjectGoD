@@ -1,0 +1,77 @@
+package com.god.kahit.networkManager.Packets;
+
+/**
+ * @responsibility: This class is responsible for building and parsing the necessary contents
+ * to convey a lobby sync start event.
+ * @used-by: This class is used in the following classes:
+ * PacketHandler
+ * @author: Mats Cedervall
+ */
+public class EventLobbySyncStartPacket extends Packet {
+    public static final int PACKET_ID = 1;
+
+    public EventLobbySyncStartPacket(String targetPlayerId, String roomName, String gameModeId) {
+        super(PACKET_ID, null);
+        setPacketContent(createContent(targetPlayerId, roomName, gameModeId)); //Super constructor must be called before anything else
+    }
+
+    /**
+     * Method used to parse the targetPlayerId of a built EventLobbySyncStartPacket
+     *
+     * @param rawPayload byte[] containing the packetID and the packet specific content of
+     *                   a EventLobbySyncStartPacket
+     * @return targetPlayerId string
+     */
+    public static String getTargetPlayerId(byte[] rawPayload) {
+        String content = new String(getPayloadContent(rawPayload));
+        String targetPlayerId = content.split(";")[0];
+        return targetPlayerId;
+    }
+
+    /**
+     * Method used to parse the roomName of a built EventLobbySyncStartPacket
+     *
+     * @param rawPayload byte[] containing the packetID and the packet specific content of
+     *                   a EventLobbySyncStartPacket
+     * @return roomName string
+     */
+    public static String getRoomName(byte[] rawPayload) {
+        String content = new String(getPayloadContent(rawPayload));
+        String roomName = content.split(";")[1];
+        return roomName;
+    }
+
+    /**
+     * Method used to parse the gameModeId of a built EventLobbySyncStartPacket
+     *
+     * @param rawPayload byte[] containing the packetID and the packet specific content of
+     *                   a EventLobbySyncStartPacket
+     * @return gameModeId string
+     */
+    public static String getGameModeId(byte[] rawPayload) {
+        String content = new String(getPayloadContent(rawPayload));
+        String gameModeId = content.split(";")[2];
+        return gameModeId;
+    }
+
+    /**
+     * Method used to create the packet specific byte[] content
+     *
+     * @param targetPlayerId String containing the targetPlayerId
+     * @param roomName       String containing the roomName
+     * @param gameModeId     String containing the gameModeId
+     * @return byte[] packet content
+     */
+    private byte[] createContent(String targetPlayerId, String roomName, String gameModeId) { //todo maybe change to another separator than a semi-colon? \n?
+        if (targetPlayerId.contains(";")) { //If targetPlayerId contains illegal characters throw error, as any modification to targetPlayerId makes it useless
+            throw new RuntimeException("targetPlayerId contains illegal characters: " + targetPlayerId);
+        }
+
+        if (gameModeId.contains(";")) { //If gameModeId contains illegal characters throw error, as any modification to gameModeId makes it useless
+            throw new RuntimeException("gameModeId contains illegal characters: " + gameModeId);
+        }
+
+        roomName = roomName.replace(";", ""); //Ensures no semi-colons in roomName
+        return (targetPlayerId + ";" + roomName + ";" + gameModeId).getBytes(); //Use semi-colon as separator
+    }
+}

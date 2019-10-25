@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">KahIT</string>
+    <string name="textview">TextView</string>
+    <string name="item_icon">item icon</string>
+    <string name="sidenav_test">sidenav test</string>
+    <string name="logo_description">The logo for KahIt</string>
+    <string name="buffs">Buffs</string>
+    <string name="debuffs">DeBuffs</string>
+    <string name="storeimage">storeImage</string>
+    <string name="cosmetic_items">Cosmetic Items</string>
+    <string name="aboutKahitText">
+        Welcome To KahIt! \nKahIt is a quiz-game app that developed by 5 IT students of Chalmers university.\n\n
+        How to play: \n\nFirst you need to choose between host, join or hotswap game.\n\n
+        To Host \nYou need to fill in your info and create a game then let other players join you.\n\n
+        To Join \nYou need to fill in your info and join a game.\n\n
+        To use HotSwap \nHotswap is a mode where many players can play on the same phone.
+        Every player has its own turn to answer the question and the result will be shown at the end of every question.\n\n
+        When the game starts: \nYou have many rounds that have 2 questions in each.
+        After each round you are will get a randomized item(Buff or Debuff) of the wheel of fortune(i.e lottery).\n
+        Debuffs are the items that the player can send to other players and negatively affect them.\n
+        While Buffs are the items that players positively can affect themselves.\n
+        On the other hand, players can buy those items from the store. Store cart is always available during the game.\n\n
+        Note that the items are shared with all players, that means when any player buys an item, it is no longer available for any other player. Be quick!\n
+        Vanity item is a picture you can buy to change your own profile picture.\n
+        After the game has finished, score page will show up.\n\n
+        Good luck and remember, be quick!\n
+        Best regards,\n
+        /KahIt team.
+            </string>
+    <string name="databaseError">An error has occurred when attempting to connect to the database.
+        Please restart the application to retry the connection. Local data will be used if present.</string>
+    <string name="databaseConnect">The connection to the database has been regained</string>
+    <string name="HotSwap">Hot Swap</string>
+    <string name="add_new_player">Add new Player</string>
+    <string name="vote_category">Vote category</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="game_mode">Game mode</string>
+    <string name="fast">Fast</string>
+    <string name="standard">Standard</string>
+    <string name="hard">Hard</string>
+    <string name="choose_player">Choose Player</string>
+    <string name="question_1_of_10">question 1 of 10</string>
+    <string name="player_name">Player name</string>
+    <string name="text">text</string>
+    <string name="app_settings">App Settings</string>
+    <string name="play_again">Play again</string>
+    <string name="leave">Leave</string>
+    <string name="more_details">More details</string>
+    <string name="players_1_8">Players: 1/8</string>
+    <string name="wheel_of_fortune">Wheel of fortune</string>
+    <string name="loot_mansion">LOOT MANSION</string>
+    <string name="select_a_gamemode">Select game mode</string>
+    <string name="tap_to_choose_picture">Tap to choose picture</string>
+    <string name="lobby_settings">Lobby Settings</string>
+    <string name="enter_your_profile_name">Player name</string>
+    <string name="player_image">Player image</string>
+    <string name="my_profile">Create profile</string>
+    <string name="game_logo">Game logo</string>
+    <string name="billie">Billie</string>
+    <string name="mansion">Mansion</string>
+    <string name="enter_room_name">Enter room name</string>
+    <string name="pick_a_lobby">Pick a lobby</string>
+    <string name="looking_for_hosts">Looking for hosts....</string>
+    <string name="lobby">Lobby </string>
+    <string name="player_list">Player list</string>
+    <string name="team">Team</string>
+    <string name="start_game">start game</string>
+    <string name="vote_for_next_category">Vote for next category</string>
+    <string name="all_players_must_be_ready_to_start_the_game">All players must be ready to start the game</string>
+    <string name="perfect_meatballs">Perfect Meatballs</string>
+</resources>

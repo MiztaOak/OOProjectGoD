@@ -1,0 +1,73 @@
+language: android
+dist: trusty
+jdk:
+- oraclejdk8
+env:
+  global:
+  - ADB_INSTALL_TIMEOUT=8
+  - ABI=x86_64
+  - EMU_FLAVOR=default
+  - ANDROID_HOME=/usr/local/android-sdk
+  - TOOLS=${ANDROID_HOME}/tools
+  - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
+  - secure: H+VKyTazGHp92Jie8Ktbs67cwhRGIg/+llC/E2KrZ+NEK9c3t4kGapJ66AG56LokKmVbbvhtmhXKeLjqk0he+pp/cW2wdMKeTsWWuaiijKCdhaeLWzL0Aug5+YpzpnllIXDEuZ7KlBZTy+o5Ix/LE1MRYqH90U4sqZD5RaYGKPjFYqHJyM4+OOO/t/UraVu0JfZ62LWdnZMesiskaCTMBb2lijk6CSJ1DJgMlq1EEZ9Xge6dj+CNoRlJDnEfSopcKO/X+xo/ew/vJ3XwmiRQXTQCD6TKvVQyXkraN3Pp1+ZzHkWITdcAPKdtoNRm2VBcg3DyzbC7sdoSjNR/cX9goUqMujVX9Dw5Gj0i9V6aavW8u+4C5O8mElXxDHAiO/RkYPPwJRxeagNqXdCzD6Mxx7WTEqh3Y+SiIxjrayIPFjxlXCwCocW7GkUs2ctO8GIWV3dbpz1tGsdKhs92y6vglesDH4hg2upiIIfwbFXzjdJWw9lggoiVJhGlO1CnehyW+UZRc/BttQlKQJ57d1sQrroyoSky4iXe+WxeY6dkg3dgWqQHarhufhVP/5qLQhnDF+UAJRhgnkKfOg8iwCGYH/awOfEWqZYPpLfhs4+I5IE+4lssDgt9osTq9ovVta8ZHuqlR0HeDGNit9eGxj26nZGsRX2Xe5h2JNuNmwmu2Fc=
+  matrix:
+  - API=24
+  - API=25
+  
+android:
+  components:
+  - tools
+  
+licenses:
+- android-sdk-preview-license-.+
+- android-sdk-license-.+
+- google-gdk-license-.+
+
+before_install:
+- cd KahIT
+- chmod +x gradlew
+- chmod +x run_git_inspector.sh
+- chmod +x generate_javadoc.sh
+- sudo apt-get update
+- sudo apt-get install python3
+
+install:
+- echo 'count=0' > /home/travis/.android/repositories.cfg
+- echo y | sdkmanager "platform-tools" >/dev/null
+- echo y | sdkmanager "tools" >/dev/null
+- echo y | sdkmanager "build-tools;28.0.3" >/dev/null
+- echo y | sdkmanager "platforms;android-$API" >/dev/null
+- echo y | sdkmanager "platforms;android-28" >/dev/null
+- echo y | sdkmanager --channel=4 "emulator" >/dev/null
+- echo y | sdkmanager "extras;android;m2repository" >/dev/null
+- echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null
+- echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
+- emulator -verbose -avd test -no-accel -no-snapshot -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
+- android-wait-for-emulator
+- adb shell input keyevent 82 &
+
+script:
+- "./run_git_inspector.sh"
+- "./generate_javadoc.sh"
+- "./gradlew build"
+- "./gradlew check connectedCheck --stacktrace"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: false
+  file_glob: true
+  # file: "index.html" # Upload everything, as we want both javadoc and git inspector report
+  on:
+   branch: dev
+   # branch: master
+  
+before_cache:
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"

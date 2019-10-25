@@ -1,0 +1,321 @@
+{
+  "questions" : {
+    "history" : {
+      "q0" : {
+        "alts" : [
+          "Egyptian",
+          "Babylonian",
+          "Chinese"
+        ],
+        "answer" : "Mesopotamian",
+        "question" : "Which culture invented the plow?",
+        "time" : 7
+      },
+      "q1" : {
+        "alts" : [
+          "6 April 1453",
+          "14 October 1066",
+          "30 April 1450"
+        ],
+        "answer" : "29 May 1453",
+        "question" : "When was the city of Constatinople (Istanbul) conqured by Sultan Mehmed II?",
+        "time" : 12
+      }
+    },
+    "nature" : {
+      "q0" : {
+        "alts":[
+          "Pineapple",
+          "Papaya",
+          "Kiwi"
+        ],
+        "answer" : "Mango",
+        "question" : "Poison ivy belongs to a diverse botanical family that also includes the cashew and what tropical fruit?",
+        "time" : 12
+      }
+    },
+    "science" : {
+      "q0" : {
+        "alts":[
+          "Venus",
+          "Jupiter",
+          "Earth"
+        ],
+        "answer" : "Mars",
+        "question" : "Which planet is the 4th from the sun?",
+        "time" : 7
+      }
+    },
+    "celebrities" : {
+      "q0" : {
+        "alts":[
+          "Ryan Reynolds",
+          "Leonardo DiCaprio",
+          "Johnny Depp"
+        ],
+        "answer" : "Nicholas Cage",
+        "question" : "Known for his reckless spending, what movie star once paid $276,000 for a dinosaur skull?",
+        "time" : 7
+      }
+    },
+    "test" : {
+      "q0" : {
+        "alts" : [
+          "alla ostar",
+          "några ostar",
+          "många ostar"
+        ],
+        "answer" : "inga ostar",
+        "question" : "Hur många ostar har Johan hemma?",
+        "time" : 20
+      },
+      "q1" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      },
+      "q2" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      },
+      "q3" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      },
+      "q4" : {
+        "alts" : [
+          "Test2",
+          "Test3",
+          "Test4"
+        ],
+        "answer" : "Test1",
+        "question" : "Test",
+        "time" : 1
+      }
+    },
+    "literature" : {
+      "q0" : {
+        "alts" : [
+          "Natsume Sõseki",
+          "Junichirõ Tanizaki",
+          "Akutagawa Ryunosuke"
+        ],
+        "answer" : "Osamu Dazai",
+        "question" : "No longer human is one of Japans most populat novels and was writen shortly before it's authors suicide. Who was the author?",
+        "time" : 12
+      },
+      "q1" : {
+        "alts" : [
+          "The setting sun",
+          "Quicksand",
+          "Kõjin"
+        ],
+        "answer" : "Kokoro",
+        "question" : "Natsume Sõseki is often seen as on of Japans most influential authors becuase of one of hist works, What is the titel of this book?",
+        "time" : 12
+      }
+    },
+    "movies" : {
+      "q0" : {
+        "alts" : [
+          "Make the music happen, Sam",
+          "Music now, Sam",
+          "Once more, Sam"
+        ],
+        "answer" : "Play it, Sam.",
+        "question" : "What is the actual line of dialogue in “Casablanca”that is often misquoted as “Play it again, Sam”?",
+        "time" : 7
+      }
+    },
+    "music" : {
+
+    },
+    "sports" : {
+      "q0" : {
+        "alts" : [
+          "13 hours, 10 min",
+          "23 hours , 59 min",
+          "3 hours, 23 min"
+        ],
+        "answer" : "11 hours, 5 min",
+        "question" : "Played at Wimbledon in 2010, the longest match in tennis history lasted how long?",
+        "time" : 7
+      }
+    },
+    "geography" : {
+      "q0" : {
+        "alts" : [
+          "Holland",
+          "England",
+          "Spain"
+        ],
+        "answer" : "The Netherlands",
+        "question" : "New Zealand is named after a province in what nation?",
+        "time" : 7
+      }
+    },
+    "gaming" : {
+      "q0" : {
+        "alts" : [
+          "Bonneter",
+          "Cappers",
+          "Tiara"
+        ],
+        "answer" : "Cappy",
+        "question" : "In Mario Odyssey Mario is joined by a friendly hat. What is the name of this hat?",
+        "time" : 10
+      }
+    },
+    "religion" : {
+      "q0" : {
+        "alts" : [
+          "Hinduism",
+          "Taoism",
+          "Shintoism"
+        ],
+        "answer" : "Buddhism",
+        "question" : "In what religion is the Dhammapada a holy scripture?",
+        "time" : 10
+      }
+    },
+    "language" : {
+      "q0" : {
+        "alts" : [
+          "Squirrel",
+          "Man",
+          "Bourgeois dog"
+        ],
+        "answer" : "Lady",
+        "question" : "In a 1971 hit song,Tom Jones sings “Whoa!Whoa!Whoa! She’s a ” what?",
+        "time" : 10
+      }
+    }
+  },
+  "items" : {
+    "buffs" : {
+      "i0" : {
+        "price" : 150,
+        "type" : "Buff",
+        "name" : "Double Score",
+        "img_name" : "double_score",
+        "scoreMultiplier" : 2.0,
+        "timeHeadstart" : 0,
+        "amountOfAlternatives" : 0,
+        "id" : "i0"
+      },
+      "i1" : {
+        "price" : 120,
+        "type" : "Buff",
+        "name" : "Time Headstart",
+        "img_name" : "time_headstart",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : 5,
+        "amountOfAlternatives" : 0,
+        "id" : "i1"
+      },
+      "i2" : {
+        "price" : 100,
+        "type" : "Buff",
+        "name" : "Fifty Fifty",
+        "img_name" : "fifty_fifty",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : 0,
+        "amountOfAlternatives" : 2,
+        "id" : "i2"
+      }
+    }, 
+    "debuffs" : {
+      "i3" : {
+        "price" : 100,
+        "type" : "Debuff",
+        "name" : "Half Score",
+        "img_name" : "half_score",
+        "scoreMultiplier" : 0.5,
+        "timeHeadstart" : 0,
+        "autoAlt" : false,
+        "id" : "i3"
+      },
+      "i4" : {
+        "price" : 80,
+        "type" : "Debuff",
+        "name" : "Time is money",
+        "img_name" : "double_time",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : -5,
+        "autoAlt" : false,
+        "id" : "i4"
+      },
+      "i5" : {
+        "price" : 80,
+        "type" : "Debuff",
+        "name" : "Let the robot do it",
+        "img_name" : "binoculars",
+        "scoreMultiplier" : 1.0,
+        "timeHeadstart" : 0,
+        "autoAlt" : true,
+        "id" : "i5"
+      }
+    },
+    "vanityItems" :{
+      "i6" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Number One",
+        "img_name" : "glove",
+        "id" : "i6"
+      },
+      "i7" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Smart",
+        "img_name" : "knowledge",
+        "id" : "i7"
+      },
+      "i8" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Strong",
+        "img_name" : "strong",
+        "id" : "i8"
+      },
+      "i9" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Donkey",
+        "img_name" : "donkey",
+        "id" : "i9"
+      },
+      "i10" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Heart",
+        "img_name" : "heart",
+        "id" : "i10"
+      },
+      "i11" : {
+        "price" : 150,
+        "type" : "Cosmetic",
+        "name" : "Like",
+        "img_name" : "like",
+        "id" : "i11"
+      }
+    }
+  }
+}
