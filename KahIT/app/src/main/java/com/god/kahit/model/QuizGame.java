@@ -359,6 +359,7 @@ public class QuizGame {
     public Lottery getLottery() {
         return lottery;
     }
+
     public boolean isGameIsStarted() {
         return gameIsStarted;
     }
