@@ -14,6 +14,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -22,13 +29,13 @@ import com.god.kahit.networkManager.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.RecyclerView;
-
+/**
+ * responsibility: Helper class for.
+ * <p>
+ * used-by: LobbyNetView.
+ *
+ * @author Mats Cedervall
+ */
 public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamContainerRecyclerAdapter.ItemViewHolder> {
     private static final String LOG_TAG = TeamContainerRecyclerAdapter.class.getSimpleName(); //todo use same tag name in all classes
     private static final int READY_COLOR_GREEN = 0xAB48D613;
@@ -41,7 +48,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     private IOnClickPlayerListener iOnClickPlayerListener;
     private boolean isHost;
 
-    public TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, MutableLiveData<String> myPlayerId, boolean isHost, IOnClickPlayerListener iOnClickPlayerListener) {
+    TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, MutableLiveData<String> myPlayerId, boolean isHost, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = context;
         this.team = team;
         this.playerConPairList = playerConPairList;
@@ -52,9 +59,12 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
         initTeamColors();
     }
 
+    /**
+     * Initiates the teamColors.
+     */
     private void initTeamColors() {
         teamColors = new ArrayList<>();
-        int retrieve[] = context.getResources().getIntArray(R.array.androidcolors);
+        int[] retrieve = context.getResources().getIntArray(R.array.androidcolors);
         for (int re : retrieve) {
             teamColors.add(re);
         }
@@ -86,7 +96,7 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
         }
 
         //Set a less saturated tint of team color to player row
-        int teamColorRGB = getLessSaturatedColor(teamColors.get(Integer.valueOf(team.getId())-1));
+        int teamColorRGB = getLessSaturatedColor(teamColors.get(Integer.valueOf(team.getId()) - 1));
         holder.headerConstraintLayout.setBackgroundTintList(ColorStateList.valueOf(teamColorRGB));
 
         //Set player name, if local player also add additional string
@@ -124,6 +134,12 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
         return team.getTeamMembers().size();
     }
 
+    /**
+     * Changes the color saturation.
+     *
+     * @param teamColorRGB -the RGB color to be adjusted.
+     * @return -The int value of the new color.
+     */
     private int getLessSaturatedColor(int teamColorRGB) {
         float[] hsvArr = new float[3];
         Color.colorToHSV(teamColorRGB, hsvArr);
@@ -132,6 +148,9 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
         return teamColorRGB;
     }
 
+    /**
+     * Inner class that represent a player-row in the lobby.
+     */
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         IOnClickPlayerListener iOnClickPlayerListener;
 

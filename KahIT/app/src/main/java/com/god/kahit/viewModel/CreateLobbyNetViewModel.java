@@ -2,13 +2,21 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
+
 import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.GameMode;
 
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
-
+/**
+ * responsibility: ViewModel for the CreateLobbyNetView.
+ * Handles the whole setup of a multiplayer lobby.
+ * <p>
+ * used-by: LobbyNetView.
+ *
+ * @author Mats Cedervall
+ */
 public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = CreateLobbyNetViewModel.class.getSimpleName();
     private Repository repository;
@@ -17,7 +25,7 @@ public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObser
         repository = Repository.getInstance();
     }
 
-    public void setupNetwork(Context context) { //todo reset whole network, as much as possible
+    public void setupNetwork(Context context) {
         repository.createNewHostPlayer();
         repository.setupNetwork(context, true);
     }
@@ -37,9 +45,11 @@ public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObser
     public void setPlayerName(String newPlayerName) {
         repository.setHostPlayerName(newPlayerName);
     }
+
     public void setupNewGameInstance() {
         Repository.getInstance().setupNewGameInstance(GameMode.HOST);
     }
+
     public String generateNewPlayerName() {
         return NameGenerator.generatePlayerName();
     }

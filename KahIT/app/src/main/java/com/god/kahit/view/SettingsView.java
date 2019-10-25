@@ -7,16 +7,17 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.god.kahit.R;
-import com.god.kahit.viewModel.SettingsViewModel;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.god.kahit.R;
+import com.god.kahit.viewModel.SettingsViewModel;
+
 /**
- * @responsibility: A class that is responsible about settings in the game
- * @used-by: MainActivityView.
- * @author: Oussama Anadani
+ * responsibility: A class that is responsible of settings in the game
+ * used-by: MainActivityView.
+ *
+ * @author Oussama Anadani
  */
 public class SettingsView extends AppCompatActivity {
 
@@ -24,7 +25,6 @@ public class SettingsView extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private Switch musicSwitch; // using a switchButton(toggle) to turn on/off music
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class SettingsView extends AppCompatActivity {
                     saveSwitchButtonStateWhenOff();
                     //turn off music
                     turnMusicOff();
-
                 }
             }
         });

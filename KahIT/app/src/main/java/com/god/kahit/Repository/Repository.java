@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.EventBusGreenRobot;
@@ -51,15 +53,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
 
 /**
  * responsibility: Functions as a connection point between the network, the model, and the visual presentation of the data.
  * <p>
- *
+ * <p>
  * used-by: CategoryView, CategoryViewModel, ChooseGameViewModel, CreateLobbyNetViewModel,
  * HotSwapAddPlayersViewModel, HotSwapGameModeViewModel, JoinLobbyViewModel, LotteryViewModel,
  * MainActivityView, PreGameCountdownViewModel, QuestionViewModel, StoreViewModel.
@@ -531,6 +531,12 @@ public class Repository { //todo implement a strategy pattern, as we got two dif
         quizGame.nextQuestion();
     }
 
+    /**
+     * Send Answer
+     * @param givenAnswer
+     * @param question
+     * @param timeLeft
+     */
     public void sendAnswer(String givenAnswer, Question question, long timeLeft) {
         Player player = playerManager.getCurrentPlayer();
         if (quizGame.isHotSwap()) {
