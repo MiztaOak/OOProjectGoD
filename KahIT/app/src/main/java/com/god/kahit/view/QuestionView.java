@@ -16,6 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.god.kahit.R;
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.GameLostConnectionEvent;
@@ -29,15 +38,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -89,6 +89,10 @@ public class QuestionView extends AppCompatActivity {
         model.startCategoryPlaylist(this);
     }
 
+    /**
+     * A method that initiates the view. It finds the necessary views
+     * and calls the methods needed for the view to function
+     */
     private void initLayoutViews() {
         sessionTypeTextView = findViewById(R.id.q_SessionType_textView);
         questionNmbTextView = findViewById(R.id.qNumOfQuesTextView);
@@ -110,6 +114,9 @@ public class QuestionView extends AppCompatActivity {
         addActionToAnswers();
     }
 
+    /**
+     * A method that sets up listeners to the question value that are in the model.
+     */
     private void setupListeners() {
         model.getQuestionText().observe(this, new Observer<String>() {
             @Override
@@ -143,12 +150,20 @@ public class QuestionView extends AppCompatActivity {
         });
     }
 
+    /**
+     * A method that initiates the store and calls methods that are needed for the store.
+     *
+     * @param savedInstanceState: Bundle
+     */
     private void setupStore(final Bundle savedInstanceState) {
         initStore(savedInstanceState);
         addDrawerListener();
         addStoreImageAction();
     }
 
+    /**
+     * A method that launches the question score page
+     */
     private void launchAfterQuestionScorePageClass() {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, AfterQuestionScorePageView.class);
@@ -157,6 +172,11 @@ public class QuestionView extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * A method that launches the main activity. Acts as a back button.
+     *
+     * @param view: The view that is clicked.
+     */
     public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityView.class);
@@ -165,6 +185,9 @@ public class QuestionView extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * A method that launches main activity.
+     */
     public void onBackPressed() {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityView.class);
