@@ -135,8 +135,6 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(res, bitmap);
                 roundedBitmapDrawable.setCircular(true);
                 imageView.setImageDrawable(roundedBitmapDrawable);
-            } else if (viewHolder instanceof FooterViewHolder) {
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +164,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        return (position == playerList.getValue().size()) ? 1 : 0;
+        return (position == Objects.requireNonNull(playerList.getValue()).size()) ? 1 : 0;
     }
 
 
@@ -181,7 +179,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         Spinner spin;
         TextView spinnerText;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             row = itemView.findViewById(R.id.a_row);
@@ -205,7 +203,6 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            int i = getAdapterPosition();
             if (position != (Objects.requireNonNull(playerList.getValue()).get(getAdapterPosition()).second - 1)) {
                 iHotSwapViewHolderClickListener.onTeamSelected(getAdapterPosition(), position);
             }
@@ -223,11 +220,11 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
 
-        public FooterViewHolder(View view, final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
+        FooterViewHolder(View view, final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
             super(view);
             this.iHotSwapViewHolderClickListener = iHotSwapViewHolderClickListener;
 
-            Button addPlayer = (Button) view.findViewById(R.id.footerButton);
+            Button addPlayer = view.findViewById(R.id.footerButton);
             addPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

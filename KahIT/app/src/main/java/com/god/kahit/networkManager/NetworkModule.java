@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
-import com.god.kahit.networkManager.Callbacks.NetworkCallback;
-import com.god.kahit.networkManager.Packets.EventLobbySyncEndPacket;
+import com.god.kahit.networkManager.callbacks.NetworkCallback;
+import com.god.kahit.networkManager.packets.EventLobbySyncEndPacket;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
 import com.google.android.gms.nearby.connection.ConnectionInfo;
@@ -508,7 +508,7 @@ public class NetworkModule implements NetworkManager {
             connectionsClient.sendPayload(connection.getId(), Payload.fromBytes(payload));
         } else {
             Log.i(TAG, "sendBytePayload: ERROR unknown connection(id:" + connection.getId() + "), " +
-                    "failed to send payload(" + payload.toString() + "). Has the " +
+                    "failed to send payload(" + Arrays.toString(payload) + "). Has the " +
                     "maximum connections limit(" + connectionLinkedHashMap.size() + "/" +
                     MAX_NMB_CONNECTIONS + ") been reached?");
         }

@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
-import com.god.kahit.Repository.Repository;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.view.QuestionView;
 

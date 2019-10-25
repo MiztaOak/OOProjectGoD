@@ -17,6 +17,7 @@ import java.util.Objects;
  * handles everything model related apart from players and teams.
  * used-by: This class is used in the following classes:
  * Repository
+ *
  * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
  */
 
@@ -152,11 +153,11 @@ public class QuizGame {
                 roundQuestions.add(questionList.get(indexOfQuestion));
                 indexList.remove(0);
             } else {
-                System.out.println("Quizgame - addQuestion: indexList is empty");
+                System.out.println("QuizGame - addQuestion: indexList is empty");
             }
 
         } else {
-            System.out.println("Quizgame - addQuestion: Either indexMap or QuestionMap are null");
+            System.out.println("QuizGame - addQuestion: Either indexMap or QuestionMap are null");
         }
     }
 
@@ -201,7 +202,7 @@ public class QuizGame {
     public int getQuestionIndex(Category category, Question question) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
-            System.out.println("Quizgame - getQuestionIndex: questionList == null, unable to " +
+            System.out.println("QuizGame - getQuestionIndex: questionList == null, unable to " +
                     "find sought question. returning -1.");
             return -1;
         }
@@ -212,13 +213,13 @@ public class QuizGame {
     public Question getQuestion(Category category, int questionIndex) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
-            System.out.println(String.format("Quizgame - getQuestionText: questionList == null, unable to " +
+            System.out.println(String.format("QuizGame - getQuestionText: questionList == null, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }
 
         if (questionList.size() < questionIndex) {
-            System.out.println(String.format("Quizgame - getQuestionText: questionList.size < questionIndex, unable to " +
+            System.out.println(String.format("QuizGame - getQuestionText: questionList.size < questionIndex, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }
@@ -276,7 +277,7 @@ public class QuizGame {
         if (category != null) {
             setCurrentCategory(category);
         } else {
-            System.out.println("Quizgame - setCurrentCategory: found no match to categoryId, " +
+            System.out.println("QuizGame - setCurrentCategory: found no match to categoryId, " +
                     "unable to set current category, skipping call");
         }
     }
@@ -359,7 +360,7 @@ public class QuizGame {
 
     }
 
-     Deque<Question> getRoundQuestions() {
+    Deque<Question> getRoundQuestions() {
         return roundQuestions;
     }
 
