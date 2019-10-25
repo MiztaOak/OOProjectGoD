@@ -3,11 +3,11 @@ package com.god.kahit.networkManager.packets;
 import java.util.Arrays;
 
 /**
- * @responsibility: This class is responsible for building and parsing the necessary contents
+ * responsibility: This class is responsible for building and parsing the necessary contents
  * to convey a player ready change event.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * PacketHandler
- * @author: Mats Cedervall
+ * author: Mats Cedervall
  */
 public class EventPlayerReadyChangePacket extends Packet {
     public static final int PACKET_ID = 6;

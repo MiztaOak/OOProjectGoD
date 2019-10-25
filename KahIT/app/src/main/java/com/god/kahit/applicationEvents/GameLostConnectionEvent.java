@@ -1,4 +1,6 @@
 package com.god.kahit.applicationEvents;
+
+import com.god.kahit.model.IEvent;
 /**
  * This class is responsible for losing connection event.
  * This event is a player loses connection with the host or gets kicked from a lobby
@@ -10,8 +12,6 @@ package com.god.kahit.applicationEvents;
  *
  * @author: Mats Cedervall
  */
-import com.god.kahit.model.IEvent;
-
 public class GameLostConnectionEvent implements IEvent {
     public GameLostConnectionEvent() {
     }

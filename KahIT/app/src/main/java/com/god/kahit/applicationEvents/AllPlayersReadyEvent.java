@@ -1,4 +1,7 @@
 package com.god.kahit.applicationEvents;
+
+
+import com.god.kahit.model.IEvent;
 /**
  * This class is responsible the players state.
  * This event is fired when all players are ready for the host to start the game.
@@ -8,9 +11,6 @@ package com.god.kahit.applicationEvents;
  *
  * @author: Mats Cedervall
  */
-
-import com.god.kahit.model.IEvent;
-
 public class AllPlayersReadyEvent implements IEvent {
     public AllPlayersReadyEvent() {
     }

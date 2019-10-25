@@ -1,4 +1,6 @@
 package com.god.kahit.applicationEvents;
+
+import com.god.kahit.model.IEvent;
 /**
  * This class is responsible for handling information when joining a lobby.
  * The event is fired when a player has joined a lobby and is not a host.
@@ -8,9 +10,6 @@ package com.god.kahit.applicationEvents;
  *
  * @author: Mats Cedervall
  */
-
-import com.god.kahit.model.IEvent;
-
 public class GameJoinedLobbyEvent implements IEvent {
     public GameJoinedLobbyEvent() {
     }

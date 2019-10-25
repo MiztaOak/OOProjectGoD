@@ -1,9 +1,9 @@
 package com.god.kahit.networkManager.packets;
 
 /**
- * @responsibility: This class is responsible for building and parsing the necessary contents
+ * responsibility: This class is responsible for building and parsing the necessary contents
  * to convey a player category vote event.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * PacketHandler
  * @author: Mats Cedervall
  */

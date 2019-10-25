@@ -49,14 +49,19 @@ public class QuestionFactoryTest {
         Assert.assertEquals(list.get(1).getAnswer(), "Test1");
         Boolean[] tests = {false, false, false, false};
         for (String alt : list.get(1).getAlternatives()) {
-            if (alt.equals("Test1")) {
-                tests[0] = true;
-            } else if (alt.equals("Test2")) {
-                tests[1] = true;
-            } else if (alt.equals("Test3")) {
-                tests[2] = true;
-            } else if (alt.equals("Test4")) {
-                tests[3] = true;
+            switch (alt) {
+                case "Test1":
+                    tests[0] = true;
+                    break;
+                case "Test2":
+                    tests[1] = true;
+                    break;
+                case "Test3":
+                    tests[2] = true;
+                    break;
+                case "Test4":
+                    tests[3] = true;
+                    break;
             }
         }
         for (Boolean t : tests) {

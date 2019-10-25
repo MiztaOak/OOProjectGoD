@@ -1,9 +1,9 @@
 package com.god.kahit.networkManager;
 
 /**
- * @responsibility: Enum that represents the different states that a connection can be in.
+ * responsibility: Enum that represents the different states that a connection can be in.
  * Also provides a method to check if a given connectionState is considered to be disconnected
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * Connection, NetworkCallback, NetworkModule, Repository
  * @author: Mats Cedervall
  */
