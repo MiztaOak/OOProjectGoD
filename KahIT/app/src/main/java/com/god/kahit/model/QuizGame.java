@@ -269,7 +269,7 @@ public class QuizGame {
         return currentCategory;
     }
 
-    public void setCurrentCategory(String categoryId) {
+    private void setCurrentCategory(String categoryId) {
         Category category = getCategory(categoryId);
         if (category != null) {
             setCurrentCategory(category);
@@ -356,11 +356,11 @@ public class QuizGame {
         return store;
     }
 
-    public Lottery getLottery() {
+    Lottery getLottery() {
         return lottery;
     }
 
-    public boolean isGameIsStarted() {
+    boolean isGameIsStarted() {
         return gameIsStarted;
     }
 }
