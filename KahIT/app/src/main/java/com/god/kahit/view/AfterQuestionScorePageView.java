@@ -112,14 +112,14 @@ public class AfterQuestionScorePageView extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchQuestionClass() {
+    private void launchQuestionClass() {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, QuestionView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    public void launchLotteryView() {
+    private void launchLotteryView() {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, LotteryView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

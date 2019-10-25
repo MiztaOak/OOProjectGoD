@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.god.kahit.R;
 import com.god.kahit.networkManager.Connection;
 
 import java.util.List;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * responsibility: Helper class for the JoinLobbyNetView. Responsible for the recyclerView that displays the different lobbies.
@@ -25,8 +25,8 @@ import java.util.Objects;
  */
 public class JoinLobbyNetRecyclerAdapter extends RecyclerView.Adapter<JoinLobbyNetRecyclerAdapter.ItemViewHolder> {
     private static final String TAG = JoinLobbyNetRecyclerAdapter.class.getSimpleName();
-    private MutableLiveData<List<Connection>> lobbyList;
-    private IOnClickLobbyListener iOnClickListener;
+    private final MutableLiveData<List<Connection>> lobbyList;
+    private final IOnClickLobbyListener iOnClickListener;
 
     public JoinLobbyNetRecyclerAdapter(MutableLiveData<List<Connection>> lobbyList, IOnClickLobbyListener iOnClickListener) {
         this.lobbyList = lobbyList;
@@ -66,10 +66,10 @@ public class JoinLobbyNetRecyclerAdapter extends RecyclerView.Adapter<JoinLobbyN
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private IOnClickLobbyListener iOnClickListener;
-        private TextView lobbyIdTextView;
-        private TextView lobbyNameTextView;
-        private TextView lobbyStatusTextView;
+        private final IOnClickLobbyListener iOnClickListener;
+        private final TextView lobbyIdTextView;
+        private final TextView lobbyNameTextView;
+        private final TextView lobbyStatusTextView;
 
         ItemViewHolder(@NonNull View itemView, IOnClickLobbyListener iOnClickListener) {
             super(itemView);

@@ -119,7 +119,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     }
 
 
-    public class ServiceBinder extends Binder {
+    class ServiceBinder extends Binder {
         public MusicService getService() {
             return MusicService.this;
         }

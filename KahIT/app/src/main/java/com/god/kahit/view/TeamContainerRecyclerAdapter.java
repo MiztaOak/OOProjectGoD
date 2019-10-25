@@ -14,13 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -28,6 +21,13 @@ import com.god.kahit.networkManager.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * responsibility: Helper class for LobbyNetView that eventually have LobbyNetRecyclerAdapter in it's recyclerView.
@@ -40,12 +40,14 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
     private static final String LOG_TAG = TeamContainerRecyclerAdapter.class.getSimpleName();
     private static final int READY_COLOR_GREEN = 0xAB48D613;
     private static final int READY_COLOR_RED = 0xABd61313;
-    private Context context;
-    private Team team;
-    private MutableLiveData<String> myPlayerId;
+
+    private final Context context;
+    private final Team team;
+    private final MutableLiveData<String> myPlayerId;
+    private final IOnClickPlayerListener iOnClickPlayerListener;
+    private final boolean isHost;
+    private MutableLiveData<List<Pair<Player, Connection>>> playerConPairList;
     private List<Integer> teamColors;
-    private IOnClickPlayerListener iOnClickPlayerListener;
-    private boolean isHost;
 
     TeamContainerRecyclerAdapter(Context context, Team team, MutableLiveData<List<Pair<Player, Connection>>> playerConPairList, MutableLiveData<String> myPlayerId, boolean isHost, IOnClickPlayerListener iOnClickPlayerListener) {
         this.context = context;
@@ -150,15 +152,15 @@ public class TeamContainerRecyclerAdapter extends RecyclerView.Adapter<TeamConta
      * Inner class that represent a player-row in the lobby.
      */
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        IOnClickPlayerListener iOnClickPlayerListener;
+        final IOnClickPlayerListener iOnClickPlayerListener;
 
-        private ConstraintLayout headerConstraintLayout;
-        private ImageView playerImageView;
-        private TextView playerNameTextView;
-        private Button playerKickButton;
-        private TextView playerReadyTextView;
+        private final ConstraintLayout headerConstraintLayout;
+        private final ImageView playerImageView;
+        private final TextView playerNameTextView;
+        private final Button playerKickButton;
+        private final TextView playerReadyTextView;
 
-        public ItemViewHolder(@NonNull View itemView, IOnClickPlayerListener iOnClickPlayerListener) {
+        ItemViewHolder(@NonNull View itemView, IOnClickPlayerListener iOnClickPlayerListener) {
             super(itemView);
             this.iOnClickPlayerListener = iOnClickPlayerListener;
 

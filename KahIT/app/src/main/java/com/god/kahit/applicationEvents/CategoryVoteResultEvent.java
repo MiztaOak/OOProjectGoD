@@ -12,7 +12,7 @@ import com.god.kahit.model.IEvent;
  */
 
 public class CategoryVoteResultEvent implements IEvent {
-    private String categoryId;
+    private final String categoryId;
 
     public CategoryVoteResultEvent(String categoryId) {
         this.categoryId = categoryId;

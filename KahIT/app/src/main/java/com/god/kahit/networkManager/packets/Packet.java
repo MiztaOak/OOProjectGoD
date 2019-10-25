@@ -18,8 +18,8 @@ package com.god.kahit.networkManager.packets;
  */
 public abstract class Packet {
     private static final int MAX_ID_SIZE = 255;
+    private final byte packetID;
     private byte[] packetContent;
-    private byte packetID;
 
     Packet(int packetID, byte[] packetContent) {
         this.packetID = verifyID(packetID);
@@ -33,7 +33,7 @@ public abstract class Packet {
      * @param rawPayload the byte[] to be parsed.
      * @return
      */
-    public static byte[] getPayloadContent(byte[] rawPayload) {
+    static byte[] getPayloadContent(byte[] rawPayload) {
         byte[] contentArr = new byte[rawPayload.length - 1];
 
         //Extract all payload bytes, but leaving out packetID

@@ -32,7 +32,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  */
 public class CategoryViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = CategoryViewModel.class.getSimpleName();
-    private Repository repository;
+    private final Repository repository;
     private Category[] categories;
     private int[] votes;
     private int totNmbVotes;

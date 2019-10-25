@@ -22,15 +22,15 @@ import java.util.Objects;
  */
 
 public class QuizGame {
-    private IEventBus eventBus;
+    private final IEventBus eventBus;
 
-    private PlayerManager playerManager;
-    private GameMode gameMode;
+    private final PlayerManager playerManager;
+    private final GameMode gameMode;
 
     private Map<Category, List<Question>> questionMap;
     private Map<Category, List<Integer>> indexMap;
     private Deque<Question> roundQuestions;
-    private int numOfQuestions;
+    private final int numOfQuestions;
     private Category currentCategory;
     private Category[] categorySelectionArray;
 

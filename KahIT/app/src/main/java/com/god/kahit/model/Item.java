@@ -11,10 +11,10 @@ package com.god.kahit.model;
  */
 public abstract class Item {
     private final String id;
-    private int price;
-    private String name;
+    private final int price;
+    private final String name;
 
-    public Item(int price, String name, String id) {
+    Item(int price, String name, String id) {
         this.price = price;
         this.name = name;
         this.id = id;

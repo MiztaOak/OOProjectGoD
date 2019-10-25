@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.ViewHolder> {
-    private Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
-    private List<Player> playerList;
-    private String myPlayerId;
-    private boolean isHotSwap;
+    private final Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();
+    private final List<Player> playerList;
+    private final String myPlayerId;
+    private final boolean isHotSwap;
 
     ScorePageAdapter(List<Player> playerList, String myPlayerId, boolean isHotSwap) {
         this.playerList = playerList;
@@ -81,9 +81,9 @@ public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.View
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private TextView score;
-        private ImageView img;
+        private final TextView name;
+        private final TextView score;
+        private final ImageView img;
 
         ViewHolder(@NonNull View view) {
             super(view);

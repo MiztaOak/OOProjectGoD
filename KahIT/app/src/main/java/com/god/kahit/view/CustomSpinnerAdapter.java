@@ -17,8 +17,8 @@ import java.util.List;
  *
  * @author Jakob Ewerstrand
  */
-public class CustomSpinnerAdapter extends ArrayAdapter<String> {
-    private List<Integer> mColors;
+class CustomSpinnerAdapter extends ArrayAdapter<String> {
+    private final List<Integer> mColors;
 
 
     CustomSpinnerAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<String> objects, List<Integer> mColors) {

@@ -29,7 +29,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  */
 public class AfterQuestionScorePageViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = AfterQuestionScorePageViewModel.class.getSimpleName();
-    private Repository repository;
+    private final Repository repository;
 
     public AfterQuestionScorePageViewModel() {
         repository = Repository.getInstance();

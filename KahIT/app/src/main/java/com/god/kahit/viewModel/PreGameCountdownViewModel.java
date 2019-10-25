@@ -27,7 +27,7 @@ public class PreGameCountdownViewModel extends ViewModel {
     private static final int TOAST_MESSAGE_TEXT_SIZE = 60;
     private static final String TOAST_MESSAGE_TEXT_COLOR = "#00CBF8";
     private Context context;
-    private Repository repository;
+    private final Repository repository;
     private Toast toast;
 
     public PreGameCountdownViewModel() {

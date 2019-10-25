@@ -9,7 +9,7 @@ package com.god.kahit.model;
  * @author Anas Alkoutli
  */
 public class Debuff extends Modifier {
-    private Boolean autoAnswer;
+    private final Boolean autoAnswer;
 
     public Debuff(int price, String name, double scoreMultiplier, int timeHeadstart, boolean autoAnswer, String id) {
         super(price, name, scoreMultiplier, timeHeadstart, id);

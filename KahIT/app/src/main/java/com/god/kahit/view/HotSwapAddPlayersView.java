@@ -33,11 +33,11 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
 
     private static final String LOG_TAG = HotSwapAddPlayersView.class.getSimpleName();
 
-    MutableLiveData<List<Pair<Player, Integer>>> playerListMutableLiveData;
+    private MutableLiveData<List<Pair<Player, Integer>>> playerListMutableLiveData;
 
-    HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
-    HotSwapTouchHelper simpleItemTouchCallback;
-    RecyclerView.Adapter recyclerAdapter;
+    private HotSwapAddPlayersViewModel hotSwapAddPlayersViewModel;
+    private HotSwapTouchHelper simpleItemTouchCallback;
+    private RecyclerView.Adapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

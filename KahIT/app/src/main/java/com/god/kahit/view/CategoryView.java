@@ -108,7 +108,7 @@ public class CategoryView extends AppCompatActivity {
         categoryButtons.get(buttonIndex).setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.orange, null)));
     }
 
-    public void launchQuestionClass() {
+    private void launchQuestionClass() {
         //get current category
         Repository.getInstance().startPlaylist(this, Repository.getInstance().getCurrentCategory().toString());
         Log.d(LOG_TAG, "Button clicked!");

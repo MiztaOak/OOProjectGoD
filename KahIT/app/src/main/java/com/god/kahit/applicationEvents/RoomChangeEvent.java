@@ -13,7 +13,7 @@ import java.util.List;
  * @author Mats Cedervall
  */
 public class RoomChangeEvent implements IEvent {
-    private List<Connection> roomsConnection;
+    private final List<Connection> roomsConnection;
 
     public RoomChangeEvent(List<Connection> roomsConnection) {
         this.roomsConnection = roomsConnection;

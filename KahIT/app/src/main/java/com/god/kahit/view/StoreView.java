@@ -32,11 +32,11 @@ import java.util.Objects;
  *
  * @author Anas Alkoutli
  */
-public class StoreView extends Fragment {
+class StoreView extends Fragment {
     private StoreViewModel storeViewModel = new StoreViewModel();
-    private ArrayList<ImageView> itemsIcons = new ArrayList<>();
-    private List<Button> itemButtons = new ArrayList<>();
-    private ArrayList<ImageView> boughtItemsIcons = new ArrayList<>();
+    private final ArrayList<ImageView> itemsIcons = new ArrayList<>();
+    private final List<Button> itemButtons = new ArrayList<>();
+    private final ArrayList<ImageView> boughtItemsIcons = new ArrayList<>();
 
     /**
      * A method that returns a creates a new StoreView object and returns it.

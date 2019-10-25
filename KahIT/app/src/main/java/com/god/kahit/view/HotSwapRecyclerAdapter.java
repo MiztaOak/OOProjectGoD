@@ -39,20 +39,20 @@ import java.util.Objects;
  *
  * @author Jakob Ewerstrand
  */
-public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String LOG_TAG = HotSwapRecyclerAdapter.class.getSimpleName();
 
     private static final int FOOTER_VIEW = 1;
 
-    private IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
+    private final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
 
-    private MutableLiveData<List<Pair<Player, Integer>>> playerList;
+    private final MutableLiveData<List<Pair<Player, Integer>>> playerList;
 
     private List<Integer> teamColors;
     private List<String> teamNumbers;
 
-    private Context context;
+    private final Context context;
 
     HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
         this.context = c;
@@ -170,13 +170,13 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     /**
      * Inner class that functions as the primary row type in the recyclerView.
      */
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements AdapterView.OnItemSelectedListener {
+    class ItemViewHolder extends RecyclerView.ViewHolder implements AdapterView.OnItemSelectedListener {
 
-        ConstraintLayout row;
-        TextView textView;
-        ImageView img;
-        Spinner spin;
-        TextView spinnerText;
+        final ConstraintLayout row;
+        final TextView textView;
+        final ImageView img;
+        final Spinner spin;
+        final TextView spinnerText;
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -217,7 +217,7 @@ public class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      */
     private class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
+        final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
 
         FooterViewHolder(View view, final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
             super(view);

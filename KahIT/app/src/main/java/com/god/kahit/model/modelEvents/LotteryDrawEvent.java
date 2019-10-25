@@ -15,7 +15,7 @@ import java.util.Map;
  * @author Mats Cedervall
  */
 public class LotteryDrawEvent implements IEvent {
-    private Map<Player, Item> winnings;
+    private final Map<Player, Item> winnings;
 
     public LotteryDrawEvent(Map<Player, Item> winnings) {
         this.winnings = winnings;
