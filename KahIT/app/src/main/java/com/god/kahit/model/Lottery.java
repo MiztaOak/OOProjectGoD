@@ -35,6 +35,7 @@ public class Lottery {
             Collections.shuffle(this.itemList);
             winnings.put(player, itemList.get(0));
         }
+        itemList = ItemFactory.createStoreItems(3);
         return winnings;
     }
     //TODO is this needed?

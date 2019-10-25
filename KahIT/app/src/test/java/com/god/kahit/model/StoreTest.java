@@ -29,8 +29,10 @@ public class StoreTest {
     public void isItemBuyable() {
         player.setScore(0);
         assertFalse(store.isItemBuyable(0, player));
+        assertFalse(store.isItemBuyable(8, player));
         player.setScore(10000);
         assertTrue(store.isItemBuyable(0, player));
+        assertTrue(store.isItemBuyable(8, player));
     }
 
     @Test
