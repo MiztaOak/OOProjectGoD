@@ -83,7 +83,7 @@ public class Store {
     }
 
     /**
-     * A method that clears all the bought items so store gets restocked and players can buyItem again
+     * A method that clears all the bought items so store gets re-stocked and players can buyItem again.
      */
     public void restockStore() {
         if (boughtItems.size() == storeItems.size()) {
