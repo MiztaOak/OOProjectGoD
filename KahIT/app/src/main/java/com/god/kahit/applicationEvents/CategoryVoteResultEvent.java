@@ -1,4 +1,6 @@
 package com.god.kahit.applicationEvents;
+
+import com.god.kahit.model.IEvent;
 /**
  * This class is responsible for voting event.
  * This event is fired when players have voted for a category.
@@ -8,8 +10,6 @@ package com.god.kahit.applicationEvents;
  *
  * @author: Mats Cedervall
  */
-
-import com.god.kahit.model.IEvent;
 
 public class CategoryVoteResultEvent implements IEvent {
     private String categoryId;

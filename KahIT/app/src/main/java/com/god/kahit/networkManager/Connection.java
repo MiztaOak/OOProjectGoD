@@ -3,9 +3,9 @@ package com.god.kahit.networkManager;
 import androidx.annotation.Nullable;
 
 /**
- * @responsibility: This class is responsible for holding the connection details of a
+ * responsibility: This class is responsible for holding the connection details of a
  * network endpoint.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * IOnClickLobbyListener, JoinLobbyNetRecyclerAdapter, JoinLobbyNewView, JoinLobbyViewModel,
  * LobbyNetRecyclerAdapter, LobbyNetView, LobbyNetViewModel, NetworkCallback, NetworkManager,
  * NetworkModule, PacketHandler, Repository, RoomChangeEvent, TeamContainerRecyclerAdapter

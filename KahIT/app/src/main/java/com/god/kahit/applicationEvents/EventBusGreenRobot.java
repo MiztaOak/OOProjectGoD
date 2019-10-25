@@ -1,4 +1,7 @@
 package com.god.kahit.applicationEvents;
+
+import com.god.kahit.model.IEvent;
+import com.god.kahit.model.IEventBus;
 /**
  * This class is responsible for posting the different
  * events to the bus for the listeners to get notified.
@@ -11,10 +14,6 @@ package com.god.kahit.applicationEvents;
  *
  * @author: Mats Cedervall
  */
-
-import com.god.kahit.model.IEvent;
-import com.god.kahit.model.IEventBus;
-
 public class EventBusGreenRobot implements IEventBus {
     public static final org.greenrobot.eventbus.EventBus BUS = new org.greenrobot.eventbus.EventBus();
 
