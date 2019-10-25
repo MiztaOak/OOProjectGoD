@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.god.kahit.R;
 
 /**
- * @responsibility: This class shows a page that contains explanation about the app.
- * @used-by: MainActivityView.
- * @author: Oussama Anadani
+ * responsibility: This class shows a page that contains an explanation about the app.
+ * used-by: MainActivityView.
+ *
+ * @author Oussama Anadani
  */
 public class AboutKahitView extends AppCompatActivity {
 
@@ -18,5 +19,4 @@ public class AboutKahitView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_kahit);
     }
-
 }

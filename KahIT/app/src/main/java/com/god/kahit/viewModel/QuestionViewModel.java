@@ -14,14 +14,12 @@ import androidx.lifecycle.ViewModel;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.model.Player;
-import com.god.kahit.model.Question;
 import com.god.kahit.model.modelEvents.QuestionEvent;
 import com.god.kahit.view.AfterQuestionScorePageView;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -35,13 +33,12 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  */
 public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     private static final String LOG_TAG = QuestionViewModel.class.getSimpleName();
+    QuestionEvent questionEvent;
     private Repository repository;
     private MutableLiveData<String> questionText;
     private MutableLiveData<List<String>> questionAlts;
     private MutableLiveData<Integer> questionTime;
     private MutableLiveData<String> playerName;
-    QuestionEvent questionEvent;
-
     private boolean isCorrectAnswer = false;
 
     private int numOfRepeats = 0;
@@ -232,7 +229,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
      * @return : An int which is the index of the answer;
      */
     private int getAnswerIndex() {
-        if (questionAlts.getValue() != null){
+        if (questionAlts.getValue() != null) {
             return questionAlts.getValue().indexOf(questionEvent.getQuestion().getAnswer());
         }
         Log.i(LOG_TAG, "getAnswerIndex: Attempt to call size on null questionAlts.getValue(), returning 0");

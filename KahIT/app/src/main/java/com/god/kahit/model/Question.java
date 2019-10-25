@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * A class that represents a question. The class holds all data that a question needs and methods
+ * A class that represents a questionText. The class holds all data that a questionText needs and methods
  * for scrambling the alternatives and telling if the answer that was given is correct
  *
  * used by: IQuestionDataLoader, QuestionDataLoaderRealtime, QuestionFactory, QuestionViewModel,
@@ -16,14 +16,14 @@ import java.util.List;
  */
 public class Question {
     private final Category category;
-    private final String question;
+    private final String questionText;
     private final String answer;
     private final List<String> alternatives;
     private int time;
 
     public Question(Category category, String question, String answer, List<String> alternatives, int time) {
         this.category = category;
-        this.question = question;
+        this.questionText = question;
         this.answer = answer;
         this.alternatives = scrambleAlternatives(alternatives);
         this.time = time;
@@ -34,7 +34,7 @@ public class Question {
     }
 
     public String getQuestionText() {
-        return question;
+        return questionText;
     }
 
     public String getAnswer() {

@@ -2,10 +2,6 @@ package com.god.kahit;
 
 import android.app.Application;
 
-import com.god.kahit.databaseService.ItemDataLoaderRealtime;
-import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
-import com.god.kahit.model.ItemFactory;
-import com.god.kahit.model.QuestionFactory;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**

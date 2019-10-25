@@ -6,11 +6,12 @@ import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Item;
 
 /**
- * @responsibility: A ViewModel class that handles the information needed for the view.
+ * responsibility: A ViewModel class that handles the information needed for the view.
  * It handles the connection to the Repository which has connection to its  model Store.
- * @used-by: This class is used in the following classes:
+ * used-by: This class is used in the following classes:
  * StoreView.
- * @author: Anas Alkoutli
+ *
+ * @author Anas Alkoutli
  */
 public class StoreViewModel extends ViewModel {
     /**

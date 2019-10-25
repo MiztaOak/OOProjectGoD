@@ -263,7 +263,7 @@ public class LotteryView extends AppCompatActivity {
     /**
      * Method that sets a random items image on the ImageViews.
      *
-     * @param index
+     * @param index current image of player
      */
     private void setRandomItemImage(int index) {
         Random random = new Random();
@@ -275,7 +275,7 @@ public class LotteryView extends AppCompatActivity {
     /**
      * this method sets the image of the won item to the players
      *
-     * @param index
+     * @param index won item image index
      */
     private void setWonItemImage(int index) {
         Map<String, String> map = ItemDataLoaderRealtime.getItemImageNameMap();
@@ -289,7 +289,7 @@ public class LotteryView extends AppCompatActivity {
     /**
      * Set the won item name next to the players name.
      *
-     * @param index
+     * @param index player index
      */
     private void setWonItemName(int index) {
         String itemName = "Not found";

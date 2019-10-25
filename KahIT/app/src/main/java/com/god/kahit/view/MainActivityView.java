@@ -1,6 +1,5 @@
 package com.god.kahit.view;
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +17,12 @@ import androidx.core.content.ContextCompat;
 import com.god.kahit.R;
 import com.god.kahit.Repository.Repository;
 
+/**
+ * responsibility: The main view that launches when the app starts.
+ * used-by: AfterQuestionScorePageView, ScorePageView, ChooseGameVIew, QuestionView.
+ *
+ * @author Oussama Anadani, Mats Cedervall, Johan Ek
+ */
 public class MainActivityView extends AppCompatActivity {
     private static final String LOG_TAG = MainActivityView.class.getSimpleName();
 
@@ -33,16 +38,6 @@ public class MainActivityView extends AppCompatActivity {
 
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-        Repository.getInstance().setupDataBaseLoader(getApplicationContext());
-
-        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
-        Repository.getInstance().setupAudioHandler(getApplicationContext());
-    }
-
     /**
      * Returns true if the app was granted all the permissions. Otherwise, returns false.
      */
@@ -54,6 +49,16 @@ public class MainActivityView extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
+        Repository.getInstance().setupDataBaseLoader(getApplicationContext());
+
+        Repository.getInstance().setupAppLifecycleObserver(getApplicationContext());
+        Repository.getInstance().setupAudioHandler(getApplicationContext());
     }
 
     @Override

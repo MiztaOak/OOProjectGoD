@@ -3,12 +3,18 @@ package com.god.kahit.viewModel;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
+
+import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.LobbyNameChangeEvent;
 import com.god.kahit.applicationEvents.MyPlayerIdChangedEvent;
-import com.god.kahit.model.modelEvents.TeamChangeEvent;
-import com.god.kahit.Repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
+import com.god.kahit.model.modelEvents.TeamChangeEvent;
 import com.god.kahit.networkManager.Connection;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -18,14 +24,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
-
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
+/**
+ * responsibility: ViewModel for the LobbyNetView
+ * <p>
+ * used-by: LobbyNetView.
+ *
+ * @author Mats Cedervall
+ */
 public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = LobbyNetViewModel.class.getSimpleName();
     private static final int MINIMUM_PLAYERS_FOR_GAME = 0; //set to 1 to disable solo-game
@@ -120,6 +127,11 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         repository.restoreNetInCommunications();
     }
 
+    /**
+     * Method searches for the local player by matching Id's and returning the connectionPair.
+     *
+     * @return the connectionPair of the local player.
+     */
     public Pair<Player, Connection> getMe() {
         if (myPlayerId.getValue() == null) {
             Log.d(TAG, "getMe: myPlayerId.getValue() == null, could therefore not find me - returning null");
@@ -141,6 +153,11 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         return null;
     }
 
+    /**
+     * Method searches for the team the local player is currently in and returns said team.
+     *
+     * @return - the Team for the local player.
+     */
     public Team getMyTeam() {
         Pair<Player, Connection> myPlayerConnectionPair = getMe();
         if (myPlayerConnectionPair == null) {
@@ -259,6 +276,11 @@ public class LobbyNetViewModel extends ViewModel implements LifecycleObserver {
         repository.fireTeamChangeEvent();
     }
 
+    /**
+     * Method checks if all players are ready to start the game.
+     *
+     * @return -true if all players are ready.
+     */
     public boolean areAllPlayersReady() {
         boolean allAreReady = true;
         if (playerListForView.getValue() != null && playerListForView.getValue().size() > MINIMUM_PLAYERS_FOR_GAME) {
