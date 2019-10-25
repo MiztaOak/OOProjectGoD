@@ -71,7 +71,7 @@ public class HotSwapAddPlayersView extends AppCompatActivity implements IHotSwap
      * Sets up the View with it's helper class HotSwapRecyclerAdapter.
      */
     private void setupRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hsApPlayersRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.hsApPlayersRecyclerView);
         recyclerAdapter = new HotSwapRecyclerAdapter(this, playerListMutableLiveData, this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

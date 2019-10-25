@@ -1,5 +1,7 @@
 package com.god.kahit.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
  */
 public enum Category {
     Science {
+        @NonNull
         @Override
         public String toString() {
             return "science";
@@ -26,6 +29,7 @@ public enum Category {
             return "c1";
         }
     }, History {
+        @NonNull
         @Override
         public String toString() {
             return "history";
@@ -36,6 +40,7 @@ public enum Category {
             return "c2";
         }
     }, Nature {
+        @NonNull
         @Override
         public String toString() {
             return "nature";
@@ -46,6 +51,7 @@ public enum Category {
             return "c3";
         }
     }, Test {
+        @NonNull
         @Override
         public String toString() {
             return "test";
@@ -56,6 +62,7 @@ public enum Category {
             return "c4";
         }
     }, Mix {
+        @NonNull
         @Override
         public String toString() {
             return "mix";
@@ -66,6 +73,7 @@ public enum Category {
             return "c5";
         }
     }, Celebrities {
+        @NonNull
         @Override
         public String toString() {
             return "celebrities";
@@ -76,6 +84,7 @@ public enum Category {
             return "c6";
         }
     }, Gaming {
+        @NonNull
         @Override
         public String toString() {
             return "gaming";
@@ -86,6 +95,7 @@ public enum Category {
             return "c7";
         }
     }, Geography {
+        @NonNull
         @Override
         public String toString() {
             return "geography";
@@ -96,6 +106,7 @@ public enum Category {
             return "c8";
         }
     }, Language {
+        @NonNull
         @Override
         public String toString() {
             return "language";
@@ -106,6 +117,7 @@ public enum Category {
             return "c9";
         }
     }, Literature {
+        @NonNull
         @Override
         public String toString() {
             return "literature";
@@ -116,6 +128,7 @@ public enum Category {
             return "c10";
         }
     }, Movies {
+        @NonNull
         @Override
         public String toString() {
             return "movies";
@@ -126,6 +139,7 @@ public enum Category {
             return "c11";
         }
     }, Religion {
+        @NonNull
         @Override
         public String toString() {
             return "religion";
@@ -136,6 +150,7 @@ public enum Category {
             return "c12";
         }
     }, Sports {
+        @NonNull
         @Override
         public String toString() {
             return "sports";
