@@ -5,7 +5,7 @@ import com.god.kahit.model.IEvent;
 
 /** Event used to notify a observer of the fact that a debuff should be applied to a player
  *
- * used by: QuestionViewModel, QuizGame
+ * used by: Store, Repository
  *
  * @author Johan Ek
  */
