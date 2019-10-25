@@ -2,6 +2,13 @@ package com.god.kahit.networkManager.Packets;
 
 import android.text.TextUtils;
 
+/**
+ * @responsibility: This class is responsible for building and parsing the necessary contents
+ * to convey a category selection event.
+ * @used-by: This class is used in the following classes:
+ * PacketHandler
+ * @author: Mats Cedervall
+ */
 public class EventShowLotteryPacket extends Packet {
     public static final int PACKET_ID = 19;
 
@@ -10,6 +17,13 @@ public class EventShowLotteryPacket extends Packet {
         setPacketContent(createContent(playersWonItemsMatrix)); //Super constructor must be called before anything else
     }
 
+    /**
+     * Method used to parse the playersWonItemsMatrix of a built EventShowLotteryPacket
+     *
+     * @param rawPayload byte[] containing the packetID and the packet specific content of
+     *                   a EventShowLotteryPacket
+     * @return playersWonItemsMatrix String[][]
+     */
     public static String[][] getPlayersWonItemsMatrix(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
         String[] playersWonItems = content.split(";");
@@ -23,6 +37,12 @@ public class EventShowLotteryPacket extends Packet {
         return playerWonItemsMatrix;
     }
 
+    /**
+     * Method used to create the packet specific byte[] content
+     *
+     * @param playersWonItemsMatrix String[][] containing each player and what item it has won
+     * @return byte[] packet content
+     */
     private byte[] createContent(String[][] playersWonItemsMatrix) { //todo maybe change to another separator than a semi-colon? \n?
         verifyContent(playersWonItemsMatrix);
         String[] playersWonItemsArr = new String[playersWonItemsMatrix.length];
@@ -36,6 +56,12 @@ public class EventShowLotteryPacket extends Packet {
         return extractedPlayersWonItems.getBytes();
     }
 
+    /**
+     * Method to verify that the content does not contain semi-colons, as these are used
+     * as text separators. If any semi-colon is found, it throws a runtime exception.
+     *
+     * @param stringMatrixContent String[][] containing each player and what item it has won
+     */
     private void verifyContent(String[][] stringMatrixContent) {
         for (String[] strings : stringMatrixContent) {
             for (String string : strings) {

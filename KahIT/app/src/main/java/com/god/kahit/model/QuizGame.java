@@ -271,8 +271,8 @@ public class QuizGame {
         return currentCategory;
     }
 
-     void setCurrentCategory(String categoryId) {
-        Category category = getCategory(categoryId);
+    public void setCurrentCategory(String categoryId) {
+        Category category = Category.getCategoryById(categoryId);
         if (category != null) {
             setCurrentCategory(category);
         } else {
@@ -283,16 +283,6 @@ public class QuizGame {
 
     public void setCurrentCategory(Category currentCategory) {
         this.currentCategory = currentCategory;
-    }
-
-    public Category getCategory(String categoryId) {
-        for (Category category : Category.values()) {
-            if (category.getId().equals(categoryId)) {
-                return category;
-            }
-        }
-        System.out.println("Quizgame - getCategory: found no match to categoryId, returning null");
-        return null;
     }
 
     public void generateRandomCategoryArray(int arraySize) {
@@ -310,7 +300,7 @@ public class QuizGame {
     public void setCategorySelectionArray(String[] categoryIdSelectionArray) {
         Category[] categories = new Category[categoryIdSelectionArray.length];
         for (int i = 0; i < categoryIdSelectionArray.length; i++) {
-            categories[i] = getCategory(categoryIdSelectionArray[i]);
+            categories[i] = Category.getCategoryById(categoryIdSelectionArray[i]);
         }
 
         categorySelectionArray = categories;
