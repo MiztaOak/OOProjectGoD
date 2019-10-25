@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.god.kahit.R;
-import com.god.kahit.Repository.Repository;
-import com.god.kahit.viewModel.ChooseGameViewModel;
-import com.god.kahit.viewModel.QuestionViewModel;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.god.kahit.R;
+import com.god.kahit.viewModel.ChooseGameViewModel;
 
 public class ChooseGameView extends AppCompatActivity {
     private static final String LOG_TAG = ChooseGameView.class.getSimpleName();
@@ -31,7 +28,7 @@ public class ChooseGameView extends AppCompatActivity {
         super.onStart();
         model.resetApp(this);
     }
-    
+
     public void launchBackMainActivityClass(View view) {
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, MainActivityView.class);

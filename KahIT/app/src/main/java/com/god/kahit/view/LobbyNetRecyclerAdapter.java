@@ -8,6 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.god.kahit.R;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.Team;
@@ -19,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+/**
+ * responsibility: Helper class responsible for the recyclerView inside the TeamContainerRecyclerAdapter.
+ * used-by: LobbyNetView.
+ *
+ * @author Mats Cedervall.
+ */
 public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecyclerAdapter.ItemViewHolder> {
     private static final String LOG_TAG = LobbyNetRecyclerAdapter.class.getSimpleName();
     private MutableLiveData<List<Team>> teamList;
@@ -97,6 +103,9 @@ public class LobbyNetRecyclerAdapter extends RecyclerView.Adapter<LobbyNetRecycl
         return teamList.getValue().size();
     }
 
+    /**
+     *
+     */
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private IOnClickPlayerListener iOnClickPlayerListener;
         private ConstraintLayout teamHeaderConstraintLayout;
