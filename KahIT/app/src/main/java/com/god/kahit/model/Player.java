@@ -62,7 +62,7 @@ public class  Player { //todo revise with better use of access-modifiers. e.i no
      */
     void updateScore(long time, int questionTime) {
         double playerTime = (((double)time) +((double)amountOfTime))/((double)questionTime);
-        if (playerTime > 1){
+        if (playerTime > 1){ //Prevents the player from getting more score that they should had they answered instantly
             playerTime = (double) 1;
         }
         this.score += (500*(playerTime)*scoreMultiplier);

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +77,13 @@ public class PlayerManagerTest {
             playerManagerHotswap.addNewPlayerToTeam(p.getName(),p.getId(),false,"t1");
         }
         List<Player> playerList = playerManagerHotswap.getPlayers();
-        Map<Player, Item> playerItemMap = new Lottery().drawItem(playerList);
+        List<Item> itemList = ItemFactory.createStoreItems(3);
+        assertNotNull(itemList);
+        itemList.remove(itemList.size()-1);
+        Map<Player, Item> playerItemMap = new HashMap<>();
+        for(int i = 0; i < playerList.size(); i++){
+            playerItemMap.put(playerList.get(i),itemList.get(i));
+        }
         playerManagerHotswap.applyModifiers(playerItemMap);
         for(Player player: playerList){
             assertTrue(hasHadBuffApplied(player));
