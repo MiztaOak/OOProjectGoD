@@ -5,6 +5,7 @@ import android.content.Context;
 import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.Repository.Repository;
 import com.god.kahit.applicationEvents.RoomChangeEvent;
+import com.god.kahit.model.GameMode;
 import com.god.kahit.networkManager.Connection;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -90,5 +91,9 @@ public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
 
     public void setPlayerName(String newPlayerName) {
         repository.setMyConnectionName(newPlayerName);
+    }
+
+    public void setupNewGameInstance() {
+        Repository.getInstance().setupNewGameInstance(GameMode.CLIENT);
     }
 }

@@ -2,7 +2,9 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
+import com.god.kahit.Repository.NameGenerator;
 import com.god.kahit.Repository.Repository;
+import com.god.kahit.model.GameMode;
 
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
@@ -35,4 +37,11 @@ public class CreateLobbyNetViewModel extends ViewModel implements LifecycleObser
     public void setPlayerName(String newPlayerName) {
         repository.setHostPlayerName(newPlayerName);
     }
+    public void setupNewGameInstance() {
+        Repository.getInstance().setupNewGameInstance(GameMode.HOST);
+    }
+    public String generateNewPlayerName() {
+        return NameGenerator.generatePlayerName();
+    }
+
 }

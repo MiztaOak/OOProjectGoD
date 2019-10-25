@@ -60,9 +60,9 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  * responsibility: Functions as a connection point between the network, the model, and the visual presentation of the data.
  * <p>
  *
- * used-by: CategoryView, CategoryViewModel, ChooseGameViewModel, CreateLobbyNetView, CreateLobbyNetViewModel,
- * HotSwapAddPlayersViewModel, HotSwapGameModeViewModel, JoinLobbyNetView, JoinLobbyViewModel, LotteryViewModel,
- * MainActivityView, PreGameCountdownView, QuestionViewModel, SettingsView, StoreViewModel.
+ * used-by: CategoryView, CategoryViewModel, ChooseGameViewModel, CreateLobbyNetViewModel,
+ * HotSwapAddPlayersViewModel, HotSwapGameModeViewModel, JoinLobbyViewModel, LotteryViewModel,
+ * MainActivityView, PreGameCountdownViewModel, QuestionViewModel, StoreViewModel.
  *
  * @author Anas Alkoutli & Ousama Anadani & Mats CederVall & Johan Ek & Jakob Ewerstrand
  */

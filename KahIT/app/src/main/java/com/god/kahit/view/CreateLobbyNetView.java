@@ -13,9 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.god.kahit.R;
-import com.god.kahit.Repository.NameGenerator;
-import com.god.kahit.Repository.Repository;
-import com.god.kahit.model.GameMode;
 import com.god.kahit.viewModel.CreateLobbyNetViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -42,7 +39,7 @@ public class CreateLobbyNetView extends AppCompatActivity {
         setContentView(R.layout.create_lobbynet_activity);
 
         createLobbyNetViewModel = ViewModelProviders.of(this).get(CreateLobbyNetViewModel.class);
-        Repository.getInstance().setupNewGameInstance(GameMode.HOST);
+        createLobbyNetViewModel.setupNewGameInstance();
 
         createLobbyNetViewModel.setupNetwork(getApplicationContext());
 
@@ -50,8 +47,8 @@ public class CreateLobbyNetView extends AppCompatActivity {
         updateViewContent();
 
         //Force set room & player name
-        playerNameTextInputEditText.setText(NameGenerator.generatePlayerName());
-        roomNameTextInputEditText.setText(NameGenerator.generateLobbyName());
+        playerNameTextInputEditText.setText(createLobbyNetViewModel.generateNewPlayerName());
+        roomNameTextInputEditText.setText(createLobbyNetViewModel.generateNewPlayerName());
         playerNameTextInputEditText.requestFocus();
         roomNameTextInputEditText.requestFocus();
         roomNameTextInputEditText.clearFocus();
@@ -62,7 +59,7 @@ public class CreateLobbyNetView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Repository.getInstance().setupNewGameInstance(GameMode.HOST);
+        createLobbyNetViewModel.setupNewGameInstance();
     }
 
     private void initGameModeButtons() {
