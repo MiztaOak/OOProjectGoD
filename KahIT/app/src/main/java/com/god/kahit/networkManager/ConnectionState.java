@@ -5,6 +5,7 @@ package com.god.kahit.networkManager;
  * Also provides a method to check if a given connectionState is considered to be disconnected
  * used-by: This class is used in the following classes:
  * Connection, NetworkCallback, NetworkModule, Repository
+ *
  * @author: Mats Cedervall
  */
 public enum ConnectionState {

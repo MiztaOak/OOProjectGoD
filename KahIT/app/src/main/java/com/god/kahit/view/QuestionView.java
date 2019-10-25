@@ -16,15 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.god.kahit.R;
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.GameLostConnectionEvent;
@@ -38,6 +29,15 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -53,6 +53,7 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 public class QuestionView extends AppCompatActivity {
     private static final String LOG_TAG = QuestionView.class.getSimpleName();
     private final Handler h1 = new Handler();
+    private final ArrayList<TextView> answers = new ArrayList<>();
     private QuestionViewModel model;
     private NavigationView navigationView;
     private TextView sessionTypeTextView;
@@ -62,11 +63,8 @@ public class QuestionView extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ProgressBar progressBar;
     private ObjectAnimator animator;
-
     private int questionDuration = 2000; //The total time the player has to answer.
     private int questionNmb = 1;  //The number of the question if in a sequence.
-
-    private final ArrayList<TextView> answers = new ArrayList<>();
     private boolean hasQuestionBeenShown;
     private int indexOfClickedView = -1;
 

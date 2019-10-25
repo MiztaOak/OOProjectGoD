@@ -5,6 +5,7 @@ package com.god.kahit.networkManager.packets;
  * to convey a player category vote event.
  * used-by: This class is used in the following classes:
  * PacketHandler
+ *
  * @author: Mats Cedervall
  */
 public class EventCategoryPlayerVotePacket extends Packet {

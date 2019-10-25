@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Event used to notify a observer that the room connection has changed
- *
+ * <p>
  * used by: JoinLobbyViewModel, Repository
  *
  * @author Mats Cedervall

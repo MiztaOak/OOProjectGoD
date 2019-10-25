@@ -17,6 +17,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.god.kahit.R;
+import com.god.kahit.model.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -24,13 +31,6 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.god.kahit.R;
-import com.god.kahit.model.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * responsibility: Helper class for the HotSwapAddPlayerView it functions as a recyclerAdapter for the RecyclerView.
@@ -48,11 +48,9 @@ class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener;
 
     private final MutableLiveData<List<Pair<Player, Integer>>> playerList;
-
+    private final Context context;
     private List<Integer> teamColors;
     private List<String> teamNumbers;
-
-    private final Context context;
 
     HotSwapRecyclerAdapter(Context c, MutableLiveData<List<Pair<Player, Integer>>> playerList, IHotSwapViewHolderClickListener iHotSwapViewHolderClickListener) {
         this.context = c;
@@ -78,7 +76,7 @@ class HotSwapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     /**
      * Adjusts the colors brightness based on param.
      *
-     * @param color  The color to be adjusted.
+     * @param color The color to be adjusted.
      * @return - The adjusted value as an int.
      */
     private int manipulateColor(int color) {

@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.god.kahit.R;
 import com.god.kahit.viewModel.ChooseGameViewModel;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 public class ChooseGameView extends AppCompatActivity {
     private static final String LOG_TAG = ChooseGameView.class.getSimpleName();

@@ -6,7 +6,7 @@ import com.god.kahit.model.Item;
  * Abstract Class that holds the data that is common across all items, the data is is fetched from
  * the database, it also has a abstract method that will be used to creates a Item
  * based on it's data.
- *
+ * <p>
  * used by: ItemDataLoaderRealtime, ModifierDataHolder, VanityItemDataHolder
  *
  * @author Johan Ek
@@ -21,7 +21,7 @@ abstract class ItemDataHolder {
     ItemDataHolder() {
     }
 
-    int getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -37,7 +37,7 @@ abstract class ItemDataHolder {
         return img_name;
     }
 
-    String getId() {
+    public String getId() {
         return id;
     }
 

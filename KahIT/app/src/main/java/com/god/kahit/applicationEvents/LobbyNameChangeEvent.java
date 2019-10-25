@@ -4,7 +4,7 @@ import com.god.kahit.model.IEvent;
 
 /**
  * Event used to notify a observer that the name of the lobby has changed.
- *
+ * <p>
  * used by: LobbyNewViewModel, Repository
  *
  * @author Johan Ek

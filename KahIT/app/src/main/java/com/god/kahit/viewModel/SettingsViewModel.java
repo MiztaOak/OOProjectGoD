@@ -1,8 +1,8 @@
 package com.god.kahit.viewModel;
 
-import androidx.lifecycle.ViewModel;
-
 import com.god.kahit.repository.Repository;
+
+import androidx.lifecycle.ViewModel;
 
 /**
  * responsibility: ViewModel for the settingsView. Handles the communication with the repository.

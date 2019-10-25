@@ -35,37 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-<<<<<<< HEAD
-        <Button
-            android:id="@+id/mAboutKahitButton"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/play_button_selector"
-            android:backgroundTint="@color/white"
-            android:text="About KahIt"
-            android:onClick="launchAboutKahitView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-
-        <Button
-            android:id="@+id/mSettingsButton"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:typeface="normal"
-            android:background="@drawable/play_button_selector"
-            android:backgroundTint="@color/white"
-            android:text="SETTINGS"
-            android:onClick="launchSettingsView"
-=======
         <ImageView
             android:id="@+id/mLogoImageView"
             android:layout_width="wrap_content"
@@ -75,7 +44,6 @@
             android:nestedScrollingEnabled="false"
             android:scaleType="centerInside"
             android:scrollbarSize="5sp"
->>>>>>> dev
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

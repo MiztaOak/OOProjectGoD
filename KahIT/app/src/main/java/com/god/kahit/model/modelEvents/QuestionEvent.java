@@ -3,8 +3,9 @@ package com.god.kahit.model.modelEvents;
 import com.god.kahit.model.IEvent;
 import com.god.kahit.model.Question;
 
-/** Event used to send a question to a listener outside of the model
- *
+/**
+ * Event used to send a question to a listener outside of the model
+ * <p>
  * used by: QuestionViewModel, QuizGame
  *
  * @author Johan Ek

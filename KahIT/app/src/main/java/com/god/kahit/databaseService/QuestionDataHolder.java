@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Class that holds the data for a question that is fetched from the database, it also creates a Question
  * based on it's data.
- *
+ * <p>
  * used by: QuestionDataLoaderRealtime
  *
  * @author Johan Ek
@@ -20,7 +20,8 @@ class QuestionDataHolder {
     private String question;
     private int time;
 
-    public  QuestionDataHolder(){}
+    public QuestionDataHolder() {
+    }
 
     public QuestionDataHolder(List<String> alts, String answer, String question, int time) {
         this.alts = alts;
@@ -29,10 +30,10 @@ class QuestionDataHolder {
         this.time = time;
     }
 
-    Question createQuestion(Category category){
+    Question createQuestion(Category category) {
         List<String> newAlts = new ArrayList<>(alts);
         newAlts.add(answer);
-        return new Question(category,question,answer,newAlts,(int)time);
+        return new Question(category, question, answer, newAlts, time);
     }
 
     public List<String> getAlts() {

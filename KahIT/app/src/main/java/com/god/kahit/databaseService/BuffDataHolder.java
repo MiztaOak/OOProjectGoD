@@ -6,12 +6,12 @@ import com.god.kahit.model.Item;
 /**
  * Class that holds the data for a buff that is fetched from the database, it also creates a Buff
  * based on it's data.
- *
+ * <p>
  * used by: ItemDataLoaderRealtime
  *
  * @author Johan Ek
  */
-public  class BuffDataHolder extends ModifierDataHolder{
+public class BuffDataHolder extends ModifierDataHolder {
     private int amountOfAlternatives;
 
     public BuffDataHolder() {
@@ -20,10 +20,10 @@ public  class BuffDataHolder extends ModifierDataHolder{
 
     @Override
     public Item createItem() {
-        return new Buff(getName(),getPrice(),getScoreMultiplier(),getTimeHeadstart(),getAmountOfAlternatives(),getId());
+        return new Buff(getName(), getPrice(), getScoreMultiplier(), getTimeHeadstart(), getAmountOfAlternatives(), getId());
     }
 
-    private int getAmountOfAlternatives() {
+    public int getAmountOfAlternatives() {
         return amountOfAlternatives;
     }
 }

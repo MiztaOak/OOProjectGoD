@@ -35,9 +35,8 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
  * @author Johan Ek
  */
 public class ItemDataLoaderRealtime implements IItemDataLoader {
-    private final DatabaseReference databaseReference;
     private final static Map<String, String> itemImageNameMap = new HashMap<>();
-
+    private final DatabaseReference databaseReference;
     private List<Buff> buffList;
     private List<Debuff> debuffList;
     private List<VanityItem> vanityItemList;
@@ -52,6 +51,10 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
         vanityItemList = new ArrayList<>();
 
         loadData();
+    }
+
+    public static Map<String, String> getItemImageNameMap() {
+        return itemImageNameMap;
     }
 
     /**
@@ -114,15 +117,10 @@ public class ItemDataLoaderRealtime implements IItemDataLoader {
                 break;
         }
         if (itemDataHolder != null) {
-            itemImageNameMap.put(itemDataHolder.getName(),itemDataHolder.getImg_name());
+            itemImageNameMap.put(itemDataHolder.getName(), itemDataHolder.getImg_name());
             return itemDataHolder.createItem();
         }
         return null;
-    }
-
-
-    public static Map<String, String> getItemImageNameMap() {
-        return itemImageNameMap;
     }
 
     @Override

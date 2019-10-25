@@ -5,7 +5,7 @@ import com.god.kahit.model.IEvent;
 /**
  * Event used to notify a observer that the current view should be switched for an other, it also
  * provides which view it should be changed to.
- *
+ * <p>
  * used by: AfterQuestionScoreView, AfterQuestionScoreViewModel, CategoryView, CategoryViewModel,
  * PreGameCountDownView, PreGameCountDownViewModel, Repository
  *

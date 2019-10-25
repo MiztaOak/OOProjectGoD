@@ -2,12 +2,12 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
-
+import com.god.kahit.model.GameMode;
 import com.god.kahit.repository.NameGenerator;
 import com.god.kahit.repository.Repository;
-import com.god.kahit.model.GameMode;
+
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
 
 /**
  * responsibility: ViewModel for the CreateLobbyNetView.

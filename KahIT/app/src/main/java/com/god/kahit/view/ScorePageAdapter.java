@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.god.kahit.R;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.model.Player;
 
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ScorePageAdapter extends RecyclerView.Adapter<ScorePageAdapter.ViewHolder> {
     private final Map<String, String> imageNameMap = ItemDataLoaderRealtime.getItemImageNameMap();

@@ -2,21 +2,21 @@ package com.god.kahit.viewModel;
 
 import android.util.Pair;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.repository.Repository;
 import com.god.kahit.model.Player;
 import com.god.kahit.model.modelEvents.TeamChangeEvent;
+import com.god.kahit.repository.Repository;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 

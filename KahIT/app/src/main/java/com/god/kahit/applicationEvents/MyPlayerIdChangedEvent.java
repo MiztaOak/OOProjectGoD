@@ -5,7 +5,7 @@ import com.god.kahit.model.IEvent;
 /**
  * Event used to notify a observer that the local uses id changed, used to update liveData in the
  * viewModel layer.
- *
+ * <p>
  * used-by: LobbyViewModel, Repository
  *
  * @author Mats Cedervall

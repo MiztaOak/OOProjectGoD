@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
  * IOnClickLobbyListener, JoinLobbyNetRecyclerAdapter, JoinLobbyNewView, JoinLobbyViewModel,
  * LobbyNetRecyclerAdapter, LobbyNetView, LobbyNetViewModel, NetworkCallback, NetworkManager,
  * NetworkModule, PacketHandler, Repository, RoomChangeEvent, TeamContainerRecyclerAdapter
+ *
  * @author: Mats Cedervall
  */
 public class Connection {

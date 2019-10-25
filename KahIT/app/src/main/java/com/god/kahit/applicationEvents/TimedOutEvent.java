@@ -4,7 +4,7 @@ import com.god.kahit.model.IEvent;
 
 /**
  * Event used to notify a observer that the application has timed out
- *
+ * <p>
  * used by: LobbyNetView, Repository
  *
  * @author Mats Cedervall

@@ -1,9 +1,9 @@
 package com.god.kahit.model;
 
-import androidx.annotation.NonNull;
-
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Enum that represents the different categories that a questions can have, each enum values has a

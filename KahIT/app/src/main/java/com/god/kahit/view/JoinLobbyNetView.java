@@ -11,13 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.god.kahit.R;
 import com.god.kahit.applicationEvents.GameJoinedLobbyEvent;
 import com.god.kahit.networkManager.Connection;
@@ -27,6 +20,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -162,7 +162,7 @@ public class JoinLobbyNetView extends AppCompatActivity {
         Log.d(LOG_TAG, "Button clicked!");
         joinLobbyViewModel.stopScan();
         joinLobbyViewModel.clearConnections();
-        Intent intent = new Intent(this, ChooseGameClass.class);
+        Intent intent = new Intent(this, ChooseGameView.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

@@ -1,22 +1,22 @@
-package com.god.kahit.ViewModel;
+package com.god.kahit.viewModel;
 
 import android.util.Log;
+
+import com.god.kahit.model.Item;
+import com.god.kahit.model.Player;
+import com.god.kahit.model.modelEvents.LotteryDrawEvent;
+import com.god.kahit.repository.Repository;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
+import java.util.Map;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.repository.Repository;
-import com.god.kahit.model.Item;
-import com.god.kahit.model.Player;
-import com.god.kahit.model.modelEvents.LotteryDrawEvent;
-
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.List;
-import java.util.Map;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 

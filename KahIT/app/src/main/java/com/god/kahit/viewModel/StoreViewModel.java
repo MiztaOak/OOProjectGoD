@@ -1,9 +1,9 @@
 package com.god.kahit.viewModel;
 
-import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.repository.Repository;
 import com.god.kahit.model.Item;
+import com.god.kahit.repository.Repository;
+
+import androidx.lifecycle.ViewModel;
 
 /**
  * responsibility: A ViewModel class that handles the information needed for the view.

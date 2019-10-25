@@ -5,7 +5,7 @@ import com.god.kahit.model.Player;
 
 /**
  * Event used to notify a observer that a certain player has voted on a category
- *
+ * <p>
  * used by: CategoryView, CategoryViewModel, Repository
  *
  * @author Mats Cedervall

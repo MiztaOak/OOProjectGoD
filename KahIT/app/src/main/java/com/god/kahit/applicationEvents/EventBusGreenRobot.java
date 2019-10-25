@@ -2,10 +2,11 @@ package com.god.kahit.applicationEvents;
 
 import com.god.kahit.model.IEvent;
 import com.god.kahit.model.IEventBus;
+
 /**
  * This class is responsible for posting the different
  * events to the bus for the listeners to get notified.
- *
+ * <p>
  * used-by: This class is used in the following classes:
  * AfterQuestionScorePageView, AfterQuestionScorePageViewModel, CategoryView, CategoryViewModel
  * HotSwapAddPlayersViewModel, JoinLobbyNetView, JoinLobbyViewModel, LobbyNetView, LobbyNetViewModel

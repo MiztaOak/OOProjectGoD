@@ -7,6 +7,7 @@ package com.god.kahit.model;
  * used-by: This class is used in the following classes:
  * QuizGame, Store, ItemFactory, ItemDataLoaderRealTime, Lottery, LotteryViewModel, LotteryView
  * Modifier, Repository, VanityItem, StoreViewModel.
+ *
  * @author Anas Alkoutli
  */
 public abstract class Item {

@@ -10,11 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.god.kahit.R;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.viewModel.StoreViewModel;
@@ -24,6 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 /**
  * responsibility: a fragment class for the view of the store where players can buyItem items.
  * This fragment class is included in the QuestionView class.
@@ -32,11 +32,11 @@ import java.util.Objects;
  *
  * @author Anas Alkoutli
  */
-class StoreView extends Fragment {
-    private StoreViewModel storeViewModel = new StoreViewModel();
+public class StoreView extends Fragment {
     private final ArrayList<ImageView> itemsIcons = new ArrayList<>();
     private final List<Button> itemButtons = new ArrayList<>();
     private final ArrayList<ImageView> boughtItemsIcons = new ArrayList<>();
+    private StoreViewModel storeViewModel = new StoreViewModel();
 
     /**
      * A method that returns a creates a new StoreView object and returns it.

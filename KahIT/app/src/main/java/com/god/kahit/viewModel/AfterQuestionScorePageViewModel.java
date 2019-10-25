@@ -3,12 +3,9 @@ package com.god.kahit.viewModel;
 
 import android.util.Log;
 
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.model.Player;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.view.CategoryView;
 import com.god.kahit.view.QuestionView;
 
@@ -16,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 

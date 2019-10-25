@@ -39,6 +39,7 @@ import java.util.Arrays;
  * network packets. It also provides callbacks for all types of packets.
  * used-by: This class is used in the following classes:
  * Repository
+ *
  * @author: Mats Cedervall
  */
 public class PacketHandler {

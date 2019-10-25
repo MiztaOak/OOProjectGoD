@@ -9,13 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.god.kahit.R;
+import com.god.kahit.repository.Repository;
+
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
-import com.god.kahit.R;
-import com.god.kahit.repository.Repository;
 
 /**
  * responsibility: The main view that launches when the app starts.
@@ -66,7 +66,7 @@ public class MainActivityView extends AppCompatActivity {
         if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
         }
-        Repository.getInstance().resetApp(this);
+        Repository.getInstance().resetApp();
     }
 
     /**

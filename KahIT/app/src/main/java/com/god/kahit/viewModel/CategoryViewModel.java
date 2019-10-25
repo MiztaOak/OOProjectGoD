@@ -4,21 +4,21 @@ package com.god.kahit.viewModel;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.NewViewEvent;
 import com.god.kahit.applicationEvents.PlayerVotedCategoryEvent;
 import com.god.kahit.model.Category;
 import com.god.kahit.model.Player;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.view.QuestionView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 

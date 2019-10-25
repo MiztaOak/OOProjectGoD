@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Event used to notify a observer of the results of a lottery draw
- *
+ * <p>
  * used by: LotteryViewModel, QuizGame
  *
  * @author Mats Cedervall

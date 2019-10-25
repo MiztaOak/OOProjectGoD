@@ -5,6 +5,7 @@ package com.god.kahit.networkManager.packets;
  * to convey a lobby sync end event.
  * used-by: This class is used in the following classes:
  * NetworkModule, PacketHandler
+ *
  * @author: Mats Cedervall
  */
 public class EventLobbySyncEndPacket extends Packet {

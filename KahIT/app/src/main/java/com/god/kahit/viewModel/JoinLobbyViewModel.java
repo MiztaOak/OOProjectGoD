@@ -2,21 +2,21 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
+import com.god.kahit.applicationEvents.RoomChangeEvent;
+import com.god.kahit.model.GameMode;
+import com.god.kahit.networkManager.Connection;
+import com.god.kahit.repository.NameGenerator;
+import com.god.kahit.repository.Repository;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
+
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.repository.NameGenerator;
-import com.god.kahit.repository.Repository;
-import com.god.kahit.applicationEvents.RoomChangeEvent;
-import com.god.kahit.model.GameMode;
-import com.god.kahit.networkManager.Connection;
-
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.List;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -30,9 +30,8 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
  */
 public class JoinLobbyViewModel extends ViewModel implements LifecycleObserver {
     private static final String TAG = JoinLobbyViewModel.class.getSimpleName();
-
-    private MutableLiveData<List<Connection>> roomListForView;
     private final Repository repository;
+    private MutableLiveData<List<Connection>> roomListForView;
 
     public JoinLobbyViewModel() {
         repository = Repository.getInstance();

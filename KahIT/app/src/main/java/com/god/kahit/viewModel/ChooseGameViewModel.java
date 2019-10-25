@@ -2,9 +2,9 @@ package com.god.kahit.viewModel;
 
 import android.content.Context;
 
-import androidx.lifecycle.ViewModel;
-
 import com.god.kahit.repository.Repository;
+
+import androidx.lifecycle.ViewModel;
 
 /**
  * responsibility: ViewModel for the ChooseGameView.
@@ -24,6 +24,6 @@ public class ChooseGameViewModel extends ViewModel {
      * @param context - given context.
      */
     public void resetApp(Context context) {
-        Repository.getInstance().resetApp(context);
+        Repository.getInstance().resetApp();
     }
 }

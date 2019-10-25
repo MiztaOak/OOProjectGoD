@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * A event used to notify a observer when the team list in playerManager has changed
- *
+ * <p>
  * used by: HotSwapAddPlayersViewModel, LobbyNetView, LobbyNetViewModel, PlayerManager
  *
  * @author Jakob Ewerstrand & Mats Cedervall

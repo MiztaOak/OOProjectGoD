@@ -5,8 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.god.kahit.applicationEvents.AllPlayersReadyEvent;
 import com.god.kahit.applicationEvents.CategoryVoteResultEvent;
 import com.god.kahit.applicationEvents.EventBusGreenRobot;
@@ -32,15 +30,15 @@ import com.god.kahit.model.Question;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
 import com.god.kahit.model.modelEvents.DebuffPlayerEvent;
-import com.god.kahit.networkManager.callbacks.ClientRequestsCallback;
-import com.god.kahit.networkManager.callbacks.HostEventCallback;
-import com.god.kahit.networkManager.callbacks.NetworkCallback;
 import com.god.kahit.networkManager.Connection;
 import com.god.kahit.networkManager.ConnectionState;
 import com.god.kahit.networkManager.ConnectionType;
 import com.god.kahit.networkManager.NetworkManager;
 import com.god.kahit.networkManager.NetworkModule;
 import com.god.kahit.networkManager.PacketHandler;
+import com.god.kahit.networkManager.callbacks.ClientRequestsCallback;
+import com.god.kahit.networkManager.callbacks.HostEventCallback;
+import com.god.kahit.networkManager.callbacks.NetworkCallback;
 import com.god.kahit.view.AfterQuestionScorePageView;
 import com.god.kahit.view.CategoryView;
 import com.god.kahit.view.LotteryView;
@@ -52,6 +50,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -69,9 +69,9 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 public class Repository {
     private static final String TAG = Repository.class.getSimpleName();
     private static Repository instance;
+    private final EventBusGreenRobot eventBusGreenRobot;
     private QuizGame quizGame;
     private PlayerManager playerManager;
-    private final EventBusGreenRobot eventBusGreenRobot;
     private AppLifecycleHandler appLifecycleHandler;
     private NetworkManager networkManager;
     private PacketHandler packetHandler;
@@ -90,14 +90,14 @@ public class Repository {
 
     public void setupAudioHandler(Context context) {
         if (audioHandler == null) {
-            audioHandler = new AudioHandler();
-            audioHandler.startPlayList(context, audioHandler.getPreGamePlayList()); // playing preGamePlaylist when the app starts
+            audioHandler = new AudioHandler(context);
+            audioHandler.startPlaylist(context, audioHandler.getPreGamePlayList()); // playing preGamePlaylist when the app starts
         }
     }
 
 
-    public void startPlayList(Context context, String categoryNam) {
-        audioHandler.startPlayList(context, categoryNam);
+    public void startPlaylist(Context context, String categoryNam) {
+        audioHandler.startPlaylist(context, categoryNam);
 
     }
 
@@ -532,6 +532,7 @@ public class Repository {
 
     /**
      * Send Answer
+     *
      * @param givenAnswer
      * @param question
      * @param timeLeft

@@ -6,7 +6,7 @@ import com.god.kahit.model.Player;
 /**
  * Event used to notify a observer that a certain player has answered a questions and what the answer
  * was.
- *
+ * <p>
  * used by: QuestionView, Repository
  *
  * @author Mats Cedervall

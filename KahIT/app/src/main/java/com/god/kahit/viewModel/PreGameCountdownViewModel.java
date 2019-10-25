@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModel;
-
-import com.god.kahit.repository.Repository;
 import com.god.kahit.applicationEvents.NewViewEvent;
+import com.god.kahit.repository.Repository;
 import com.god.kahit.view.QuestionView;
+
+import androidx.lifecycle.ViewModel;
 
 import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 
@@ -26,8 +26,8 @@ import static com.god.kahit.applicationEvents.EventBusGreenRobot.BUS;
 public class PreGameCountdownViewModel extends ViewModel {
     private static final int TOAST_MESSAGE_TEXT_SIZE = 60;
     private static final String TOAST_MESSAGE_TEXT_COLOR = "#00CBF8";
-    private Context context;
     private final Repository repository;
+    private Context context;
     private Toast toast;
 
     public PreGameCountdownViewModel() {

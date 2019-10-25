@@ -2,9 +2,9 @@ package com.god.kahit.view;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.god.kahit.R;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * responsibility: This class shows a page that contains an explanation about the app.
