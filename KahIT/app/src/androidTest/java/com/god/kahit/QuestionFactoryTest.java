@@ -44,8 +44,8 @@ public class QuestionFactoryTest {
         List<Question> list = qMap.get(Category.Test);
         Assert.assertNotEquals(list.size(), 0);
         Assert.assertEquals(list.size(), 5);
-        Assert.assertEquals(list.get(0).getQuestion(), "Hur många ostar har Johan hemma?");
-        Assert.assertEquals(list.get(1).getQuestion(), "Test");
+        Assert.assertEquals(list.get(0).getQuestionText(), "Hur många ostar har Johan hemma?");
+        Assert.assertEquals(list.get(1).getQuestionText(), "Test");
         Assert.assertEquals(list.get(1).getAnswer(), "Test1");
         Boolean[] tests = {false, false, false, false};
         for (String alt : list.get(1).getAlternatives()) {

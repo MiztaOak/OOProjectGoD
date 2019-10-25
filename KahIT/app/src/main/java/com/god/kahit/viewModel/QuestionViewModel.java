@@ -40,24 +40,14 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     private MutableLiveData<List<String>> questionAlts;
     private MutableLiveData<Integer> questionTime;
     private MutableLiveData<String> playerName;
-    private Question currentQuestion;
+    QuestionEvent questionEvent;
 
     private boolean isCorrectAnswer = false;
 
     private int numOfRepeats = 0;
 
-    /**
-     * This constructor gets called by ViewModelProvider when the view needs it
-     */
     public QuestionViewModel() {
-        this(Repository.getInstance());
-    }
-
-    /**
-     * This constructor is used to test this class so it can pass a mocked version of the repository.
-     */
-    public QuestionViewModel(Repository repository) {
-        this.repository = repository;
+        this.repository = Repository.getInstance();
 
         if (!BUS.isRegistered(this)) {
             BUS.register(this);
@@ -65,6 +55,7 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
         if (repository.isRoundOver()) {
             repository.startGame();
         }
+
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -105,12 +96,12 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
      */
     @Subscribe
     public void receiveQuestion(QuestionEvent questionEvent) {
-        currentQuestion = questionEvent.getQuestion();
+        this.questionEvent = questionEvent;
         numOfRepeats = questionEvent.getNumOfRepeats();
         isCorrectAnswer = false;
-        questionText.setValue(currentQuestion.getQuestion());
-        questionAlts.setValue(currentQuestion.getAlternatives());
-        questionTime.setValue(currentQuestion.getTime());
+        questionText.setValue(questionEvent.getQuestion().getQuestionText());
+        questionAlts.setValue(questionEvent.getQuestion().getAlternatives());
+        questionTime.setValue(questionEvent.getQuestion().getTime());
 
         playerName.setValue(repository.getCurrentPlayerName());
     }
@@ -125,10 +116,10 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
         String alternative = getAnswerString(index);
         long timeLeft = animation.getDuration() - animation.getCurrentPlayTime();
 
-        if (currentQuestion.isCorrectAnswer(alternative)) {
+        if (questionEvent.getQuestion().isCorrectAnswer(alternative)) {
             isCorrectAnswer = true;
         }
-        repository.sendAnswer(alternative, currentQuestion, timeLeft / 1000);
+        repository.sendAnswer(alternative, questionEvent.getQuestion(), timeLeft / 1000);
     }
 
     private String getAnswerString(int index) {
@@ -241,11 +232,10 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
      * @return : An int which is the index of the answer;
      */
     private int getAnswerIndex() {
-        for (int i = 1; i < Objects.requireNonNull(questionAlts.getValue()).size(); i++) {
-            if (currentQuestion.getAnswer().equals(questionAlts.getValue().get(i))) {
-                return i;
-            }
+        if (questionAlts.getValue() != null){
+            return questionAlts.getValue().indexOf(questionEvent.getQuestion().getAnswer());
         }
+        Log.i(LOG_TAG, "getAnswerIndex: Attempt to call size on null questionAlts.getValue(), returning 0");
         return 0;
     }
 
@@ -269,10 +259,9 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
     public int autoChooseAnswer() {
         if (questionAlts.getValue() != null) {
             return (int) (Math.random() * (questionAlts.getValue()).size());
-        } else {
-            Log.i(LOG_TAG, "autoChooseAnswer: Attempt to call size on null questionAlts.getValue(), returning 0");
-            return 0;
         }
+        Log.i(LOG_TAG, "autoChooseAnswer: Attempt to call size on null questionAlts.getValue(), returning 0");
+        return 0;
     }
 
     public void startCategoryPlaylist(Context context) {
@@ -289,14 +278,6 @@ public class QuestionViewModel extends ViewModel implements LifecycleObserver {
 
     public void setRepository(Repository repository) {
         this.repository = repository;
-    }
-
-    public Question getCurrentQuestion() {
-        return currentQuestion;
-    }
-
-    public void setCurrentQuestion(Question currentQuestion) {
-        this.currentQuestion = currentQuestion;
     }
 
     public void incrementCurrentPlayer() {

@@ -1,4 +1,11 @@
 package com.god.kahit.model;
+/**
+ * @responsibility: This class is responsible for the managing the player. It includes
+ * adding player to team, adding new players, removing players, changing teams, etc.
+ * @used-by: This class is used in the following classes:
+ * QuizGame, Repository.
+ * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ */
 
 import com.god.kahit.model.modelEvents.TeamChangeEvent;
 
@@ -44,7 +51,7 @@ public class PlayerManager {
     /**
      * Checks if all players are ready by utilizing the players boolean.
      *
-     * @return
+     * @return : A boolean that indicates if all players are ready or not
      */
     public boolean checkAllPlayersReady() {
         for (Player player : playerList) {
@@ -89,6 +96,12 @@ public class PlayerManager {
         }
     }
 
+    /**
+     * A method that finds the team of a player.
+     *
+     * @param playerId: The given player's id to find the team of.
+     * @return : Team which is the team of the given player's id.
+     */
     public Team getPlayerTeam(String playerId) {
         for (Team team : teamList) {
             for (Player teamMember : team.getTeamMembers()) {
