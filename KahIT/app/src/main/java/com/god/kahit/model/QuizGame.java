@@ -210,13 +210,13 @@ public class QuizGame {
     public Question getQuestion(Category category, int questionIndex) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
-            System.out.println(String.format("Quizgame - getQuestion: questionList == null, unable to " +
+            System.out.println(String.format("Quizgame - getQuestionText: questionList == null, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }
 
         if (questionList.size() < questionIndex) {
-            System.out.println(String.format("Quizgame - getQuestion: questionList.size < questionIndex, unable to " +
+            System.out.println(String.format("Quizgame - getQuestionText: questionList.size < questionIndex, unable to " +
                     "return sought question. category.getId(): '%s', questionIndex: '%s'. returning null.", category.getId(), questionIndex));
             return null;
         }

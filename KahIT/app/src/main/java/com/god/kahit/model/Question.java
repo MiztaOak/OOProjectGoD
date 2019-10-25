@@ -33,7 +33,7 @@ public class Question {
         return category;
     }
 
-    public String getQuestion() {
+    public String getQuestionText() {
         return question;
     }
 
@@ -61,6 +61,11 @@ public class Question {
         return altCopy;
     }
 
+    /**
+     * A method that checks if the given answer is right.
+     * @param givenAnswer: the given answer to be checked is it is the right one.
+     * @return : A boolean that indicates if the given
+     */
     public boolean isCorrectAnswer(String givenAnswer) {
         return givenAnswer.equals(answer);
     }

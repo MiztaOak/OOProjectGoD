@@ -1,6 +1,17 @@
 package com.god.kahit.model;
 
-public class  Player { //todo revise with better use of access-modifiers. e.i not public everywhere
+/**
+ * @responsibility: This class is responsible for the player.
+ * It holds all the information a player needs such as score and name.
+ * It holds information that the host and network manager needs such as id and ready state.
+ * @used-by: This class is used in the following classes:
+ * QuizGame, PlayerManager, Repository, AfterQuestionScorePageViewModel, CategoryViewModel,
+ * HotSwapAddPlayersView, HotSwapAddPlayersViewModel, HotSwapRecyclerAdapter,
+ * LobbyNetRecyclerAdapter, LobbyNetView, LobbyNetViewModel, LotteryDrawEvent LotteryView,
+ * QuestionViewModel, ScorePageAdapter, Team and TeamContainerRecyclerAdapter
+ * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
+ */
+public class Player { //todo revise with better use of access-modifiers. e.i not public everywhere
     private String id;
     private String name;
     private int score;
@@ -20,32 +31,32 @@ public class  Player { //todo revise with better use of access-modifiers. e.i no
     }
 
 
-
     /**
      * A method that sets the values of effects of a Buff to players own values
      *
      * @param buff: Which buff to be set to the player.
      */
     public void setBuff(Buff buff) {
-        scoreMultiplier = buff.getScoreMultiplier() *scoreMultiplier;
+        scoreMultiplier = buff.getScoreMultiplier() * scoreMultiplier;
         amountOfTime = buff.getAmountOfTime() + amountOfTime;
         this.amountOfAlternatives = buff.getAmountOfAlternatives();
     }
+
     /**
      * A method that sets the values of effects of a Debuff to players own values
      *
      * @param debuff: Which buff to be set to the player.
      */
     public void setDebuff(Debuff debuff) {
-        scoreMultiplier = debuff.getScoreMultiplier() *scoreMultiplier;
+        scoreMultiplier = debuff.getScoreMultiplier() * scoreMultiplier;
         amountOfTime = debuff.getAmountOfTime() + amountOfTime;
-        autoAnswer= debuff.getAutoAnswer();
+        autoAnswer = debuff.getAutoAnswer();
     }
 
     /**
      * A method that clears the effect of a Modifier after  it has been used
      */
-    void clearModifier(){
+    void clearModifier() {
         this.scoreMultiplier = 1;
         this.amountOfTime = 0;
         this.amountOfAlternatives = 0;
@@ -57,7 +68,7 @@ public class  Player { //todo revise with better use of access-modifiers. e.i no
      * Each question can give 500 points as maximum points. This method calculates if the player
      * has buff which give extra time or extra points.
      *
-     * @param time: How mush time it took the player to answer.
+     * @param time:         How mush time it took the player to answer.
      * @param questionTime: How much time each question has.
      */
     void updateScore(long time, int questionTime) {
@@ -65,7 +76,7 @@ public class  Player { //todo revise with better use of access-modifiers. e.i no
         if (playerTime > 1){ //Prevents the player from getting more score that they should had they answered instantly
             playerTime = (double) 1;
         }
-        this.score += (500*(playerTime)*scoreMultiplier);
+        this.score += (500 * (playerTime) * scoreMultiplier);
     }
 
     public String getName() {

@@ -1,9 +1,6 @@
 package com.god.kahit.model;
 
 import com.god.kahit.QuestionDataLoaderMock;
-import com.god.kahit.model.Category;
-import com.god.kahit.model.Question;
-import com.god.kahit.model.QuestionFactory;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,7 +29,7 @@ public class QuestionFactoryTest {
             Assert.assertNotNull(questions);
             for(Question question: questions){
                 Assert.assertNotNull(question);
-                Assert.assertNotNull(question.getQuestion());
+                Assert.assertNotNull(question.getQuestionText());
                 Assert.assertNotNull(question.getAnswer());
                 Assert.assertNotNull(question.getCategory());
                 Assert.assertNotNull(question.getAlternatives());

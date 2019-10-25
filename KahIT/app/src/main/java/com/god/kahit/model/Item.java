@@ -10,9 +10,9 @@ package com.god.kahit.model;
  * @author: Anas Alkoutli
  */
 public abstract class Item {
+    private final String id;
     private int price;
     private String name;
-    private final String id;
 
     public Item(int price, String name, String id) {
         this.price = price;

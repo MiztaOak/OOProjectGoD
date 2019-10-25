@@ -38,6 +38,6 @@ public class QuestionDataLoaderRealtimeTest {
         Category category = Category.History;
         List<Question> questions = dataLoaderRealtime.getQuestionList(category);
         Assert.assertTrue(questions.size() > 0);
-        Assert.assertEquals(questions.get(0).getQuestion(),"Which culture invented the plow?");
+        Assert.assertEquals(questions.get(0).getQuestionText(),"Which culture invented the plow?");
     }
 }

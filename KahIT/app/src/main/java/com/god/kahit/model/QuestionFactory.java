@@ -56,7 +56,7 @@ public class QuestionFactory {
     }
 
     private static Question copyQuestion(Question q){
-        return new Question(q.getCategory(), q.getQuestion(), q.getAnswer(), new ArrayList<>(q.getAlternatives()), q.getTime());
+        return new Question(q.getCategory(), q.getQuestionText(), q.getAnswer(), new ArrayList<>(q.getAlternatives()), q.getTime());
     }
 
     /**
