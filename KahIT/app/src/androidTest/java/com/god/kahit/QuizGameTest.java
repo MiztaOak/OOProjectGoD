@@ -2,8 +2,9 @@ package com.god.kahit;
 
 import android.os.Looper;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import com.god.kahit.applicationEvents.EventBusGreenRobot;
-import com.god.kahit.model.modelEvents.QuestionEvent;
 import com.god.kahit.databaseService.ItemDataLoaderRealtime;
 import com.god.kahit.databaseService.QuestionDataLoaderRealtime;
 import com.god.kahit.model.Category;
@@ -12,28 +13,24 @@ import com.god.kahit.model.ItemFactory;
 import com.god.kahit.model.PlayerManager;
 import com.god.kahit.model.QuestionFactory;
 import com.god.kahit.model.QuizGame;
+import com.god.kahit.model.modelEvents.QuestionEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.runner.AndroidJUnit4;
 
 import java.util.concurrent.TimeUnit;
 
-@RunWith(AndroidJUnit4.class)
-public class QuizGameTest{
+public class QuizGameTest {
     private QuizGame quizGame;
 
     @Before
     public void setUp() throws InterruptedException {
-        try{
+        try {
             QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
             ItemFactory.setDataLoader(new ItemDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
-        }catch (Exception e){
+        } catch (Exception e) {
             Looper.prepare();
             QuestionFactory.setDataLoader(new QuestionDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));
             ItemFactory.setDataLoader(new ItemDataLoaderRealtime(InstrumentationRegistry.getInstrumentation().getTargetContext()));

@@ -49,7 +49,6 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     private static final String START_GAME_BUTTON_COLOR = "#00CBF8";
     private static final String START_GAME_BUTTON_COLOR_DISABLED = "#6A8990";
     private Spinner changeTeamSpinner;
-    private RecyclerView recyclerView;
     private TextView sessionTypeTextView;
     private TextView lobbyNameTextView;
     private TextView gameModeTextView;
@@ -57,7 +56,6 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     private Button startGameButton;
 
     private RecyclerView.Adapter recyclerAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private LobbyNetViewModel lobbyNetViewModel;
 
     private MutableLiveData<List<Pair<Player, Connection>>> playerList;
@@ -210,9 +208,9 @@ public class LobbyNetView extends AppCompatActivity implements IOnClickPlayerLis
     }
 
     private void setupRecyclerView() {
-        recyclerView = findViewById(R.id.lobbyNetTeamRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.lobbyNetTeamRecyclerView);
         recyclerAdapter = new LobbyNetRecyclerAdapter(this, teamList, playerList, myPlayerId, lobbyNetViewModel.isHost(), this);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
     }

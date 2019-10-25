@@ -24,8 +24,7 @@ public class RequestPlayerAnswerQuestionPacket extends Packet {
      */
     public static String getCategoryId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String categoryId = content.split(";")[0];
-        return categoryId;
+        return content.split(";")[0];
     }
 
     /**
@@ -37,8 +36,7 @@ public class RequestPlayerAnswerQuestionPacket extends Packet {
      */
     public static String getQuestionId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String questionId = content.split(";")[1];
-        return questionId;
+        return content.split(";")[1];
     }
 
     /**
@@ -50,8 +48,7 @@ public class RequestPlayerAnswerQuestionPacket extends Packet {
      */
     public static String getGivenAnswer(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String givenAnswer = content.split(";")[2];
-        return givenAnswer;
+        return content.split(";")[2];
     }
 
     /**
@@ -63,8 +60,7 @@ public class RequestPlayerAnswerQuestionPacket extends Packet {
      */
     public static String getTimeLeft(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String timeLeft = content.split(";")[3];
-        return timeLeft;
+        return content.split(";")[3];
     }
 
     /**

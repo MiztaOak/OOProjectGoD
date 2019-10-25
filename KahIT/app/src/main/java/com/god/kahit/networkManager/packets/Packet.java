@@ -18,7 +18,7 @@ package com.god.kahit.networkManager.packets;
  */
 public abstract class Packet {
     private static final int MAX_ID_SIZE = 255;
-    byte[] packetContent;
+    private byte[] packetContent;
     private byte packetID;
 
     Packet(int packetID, byte[] packetContent) {

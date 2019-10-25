@@ -317,9 +317,8 @@ public class PlayerManager {
      */
     private Player createNewPlayer() {
         String name = getNewPlayerName();
-        String id = name;
 
-        return createNewPlayer(name, id);
+        return createNewPlayer(name, name);
     }
 
 

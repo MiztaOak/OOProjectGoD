@@ -24,8 +24,7 @@ public class EventTeamCreatedPacket extends Packet {
      */
     public static String getNewTeamId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String newTeamId = content.split(";")[0];
-        return newTeamId;
+        return content.split(";")[0];
     }
 
     /**
@@ -37,8 +36,7 @@ public class EventTeamCreatedPacket extends Packet {
      */
     public static String getNewTeamName(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String newTeamName = content.split(";")[1];
-        return newTeamName;
+        return content.split(";")[1];
     }
 
     /**

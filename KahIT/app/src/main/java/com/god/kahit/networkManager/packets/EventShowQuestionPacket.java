@@ -24,8 +24,7 @@ public class EventShowQuestionPacket extends Packet {
      */
     public static String getCategoryId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String categoryId = content.split(";")[0];
-        return categoryId;
+        return content.split(";")[0];
     }
 
     /**
@@ -37,8 +36,7 @@ public class EventShowQuestionPacket extends Packet {
      */
     public static String getQuestionId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String questionId = content.split(";")[1];
-        return questionId;
+        return content.split(";")[1];
     }
 
     /**

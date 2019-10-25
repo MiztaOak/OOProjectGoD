@@ -24,8 +24,7 @@ public class EventLobbySyncStartPacket extends Packet {
      */
     public static String getTargetPlayerId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String targetPlayerId = content.split(";")[0];
-        return targetPlayerId;
+        return content.split(";")[0];
     }
 
     /**
@@ -37,8 +36,7 @@ public class EventLobbySyncStartPacket extends Packet {
      */
     public static String getRoomName(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String roomName = content.split(";")[1];
-        return roomName;
+        return content.split(";")[1];
     }
 
     /**
@@ -50,8 +48,7 @@ public class EventLobbySyncStartPacket extends Packet {
      */
     public static String getGameModeId(byte[] rawPayload) {
         String content = new String(getPayloadContent(rawPayload));
-        String gameModeId = content.split(";")[2];
-        return gameModeId;
+        return content.split(";")[2];
     }
 
     /**
