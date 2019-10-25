@@ -1,13 +1,15 @@
 package com.god.kahit.applicationEvents;
 /**
- * @responsibility: This class is responsible for posting the different
+ * This class is responsible for posting the different
  * events to the bus for the listeners to get notified.
- * @used-by: This class is used in the following classes:
+ *
+ * used-by: This class is used in the following classes:
  * AfterQuestionScorePageView, AfterQuestionScorePageViewModel, CategoryView, CategoryViewModel
  * HotSwapAddPlayersViewModel, JoinLobbyNetView, JoinLobbyViewModel, LobbyNetView, LobbyNetViewModel
  * QuestionView, PreGameCountdownView, PreGameCountdownViewModel, QuestionView, QuestionViewModel
  * and Repository.
- * @author: Anas Alkoutli
+ *
+ * @author: Mats Cedervall
  */
 
 import com.god.kahit.model.IEvent;
