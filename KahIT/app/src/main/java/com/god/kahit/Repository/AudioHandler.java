@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @responsibility: This class is responsible for the Audio in the game.
- * @used-by: Repository.
+ * responsibility: This class is responsible for the Audio in the game.
+ * used-by: Repository.
  * @author: Oussama Anadani, Mats Cedervall
  */
 class AudioHandler {

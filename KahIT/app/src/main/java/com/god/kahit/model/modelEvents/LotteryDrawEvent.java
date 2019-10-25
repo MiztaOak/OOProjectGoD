@@ -7,6 +7,13 @@ import com.god.kahit.model.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Event used to notify a observer of the results of a lottery draw
+ *
+ * used by: LotteryViewModel, QuizGame
+ *
+ * @author Mats Cedervall
+ */
 public class LotteryDrawEvent implements IEvent {
     private Map<Player, Item> winnings;
 
