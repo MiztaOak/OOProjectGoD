@@ -17,6 +17,7 @@ import java.util.Objects;
  * handles everything model related apart from players and teams.
  * used-by: This class is used in the following classes:
  * Repository
+ *
  * @author: Anas Alkoutli, Johan Ek, Oussama Anadani, Jakob Ewerstrand, Mats Cedervall
  */
 
@@ -47,6 +48,10 @@ public class QuizGame {
         gameIsStarted = false;
     }
 
+    /**
+     * A method that starts the game by setting values to the attribute and
+     * setting gameIsStarted to true which indicates that the game has started
+     */
     public void startGame() {
         if (!gameIsStarted) {
             questionMap = QuestionFactory.getFullQuestionMap();
@@ -60,10 +65,18 @@ public class QuizGame {
         }
     }
 
+    /**
+     * A method that ends the game by setting the gameIsStarted value to false
+     */
     public void endGame() {
         gameIsStarted = false;
     }
 
+    /**
+     * A method that checks if the game has started
+     *
+     * @return : boolean which is the value of gameIsStarted.
+     */
     public boolean hasGameStarted() {
         return gameIsStarted;
     }
@@ -173,6 +186,11 @@ public class QuizGame {
         }
     }
 
+    /**
+     * A method that gets the id of the category of next question
+     *
+     * @return : String that is the id of the next question's category.
+     */
     public String getNextQuestionCategoryId() {
         if (roundQuestions != null && !roundQuestions.isEmpty()) {
             return roundQuestions.peek().getCategory().getId();
@@ -182,6 +200,10 @@ public class QuizGame {
         }
     }
 
+    /**
+     * A methed that gets the id of the next question.
+     * @return : String which the id of the next question.
+     */
     public String getNextQuestionId() {
         if (!roundQuestions.isEmpty()) {
             return Integer.toString(getQuestionIndex(roundQuestions.peek().getCategory(), roundQuestions.peek()));
@@ -191,6 +213,11 @@ public class QuizGame {
         }
     }
 
+    /**
+     * A method that sets the next question
+     * @param categoryId: the id of the category of the question to be set.
+     * @param questionIndex: the index of the question to be set.
+     */
     public void setNextQuestion(String categoryId, String questionIndex) {
         Category category = Category.getCategoryById(categoryId);
         setCurrentCategory(categoryId);
@@ -198,6 +225,12 @@ public class QuizGame {
         roundQuestions.addFirst(question);
     }
 
+    /**
+     * A method that gets the index of a question
+     * @param category: the category of the question.
+     * @param question: the question to find the index of.
+     * @return : int which is the id of the question.
+     */
     public int getQuestionIndex(Category category, Question question) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
@@ -209,6 +242,12 @@ public class QuizGame {
         return questionList.indexOf(question);
     }
 
+    /**
+     * A method that finds a question.
+     * @param category: the category of the question to be find from.
+     * @param questionIndex: the index of a the question.
+     * @return : Question which is the question to be found
+     */
     public Question getQuestion(Category category, int questionIndex) {
         List<Question> questionList = questionMap.get(category);
         if (questionList == null) {
@@ -285,6 +324,20 @@ public class QuizGame {
         this.currentCategory = currentCategory;
     }
 
+    public Category getCategory(String categoryId) {
+        for (Category category : Category.values()) {
+            if (category.getId().equals(categoryId)) {
+                return category;
+            }
+        }
+        System.out.println("Quizgame - getCategory: found no match to categoryId, returning null");
+        return null;
+    }
+
+    /**
+     * A method used to generate random category vote entries.
+     * @param arraySize: int which is how many entries the array will be.
+     */
     public void generateRandomCategoryArray(int arraySize) {
         List<Category> categories = new ArrayList<>(Category.getRealCategories());
         categories.remove(currentCategory);
@@ -306,60 +359,96 @@ public class QuizGame {
         categorySelectionArray = categories;
     }
 
-
+    /**
+     * A method that calls for the lottery to draw items for the players
+     * and sends a lottery draw event when it is done.
+     */
     public void drawLottery() {
         Map<Player, Item> winnings = lottery.drawItem(playerManager.getPlayers());
         eventBus.post(new LotteryDrawEvent(winnings));
     }
-
+    /**
+     * A meathod that gets the player manager and is only used in tests.
+     * @return : PlayerManager.
+     */
     public PlayerManager getPlayerManager() {
         return playerManager;
     }
 
 
     /**
-     * Method returns all items available in the game.
+     * Method that returns all items in the lottery.
      *
-     * @return
+     * @return : List the holds items.
      */
     public List<Item> getAllItems() {
         return lottery.getItemList();
     }
 
+    /**
+     * A method that check if a player can buy an item.
+     * @param itemIndex: The index of the item.
+     * @param player: The player that wants to buy the item.
+     * @return : boolean the indicates if the user is able to buy or not.
+     */
     public boolean isStoreItemBuyable(int itemIndex, Player player) {
         return store.isItemBuyable(itemIndex, player);
     }
-
+    /**
+     * A method that lets a player buyItem an item.
+     *
+     * @param itemIndex: the index of an item the player wishes to buyItem.
+     * @param player: the player wishing to buyItem in item.
+     */
     public void buyItem(int itemIndex, Player player) {
         store.buyItem(itemIndex, player);
     }
-
+    /**
+     * A method that checks if an item is bought so players cannot buyItem the same item.
+     *
+     * @param itemIndex: the index of an item.
+     * @return : boolean that indicates if an item is bought an the list of bought items contains it.
+     */
     public boolean isStoreItemBought(int itemIndex) {
         return store.isItemBought(itemIndex);
     }
-
+    /**
+     * A method that returns the items in store that are available for the player to buyItem.
+     *
+     * @return List of items.
+     */
     public Item getStoreItem(int itemIndex) {
         return store.getStoreItems().get(itemIndex);
     }
 
+    /**
+     * A method that checks the game mode is hot swap.
+     * @return : boolean that indicates if it is hot swap mode or not
+     */
     public boolean isHotSwap() {
         return gameMode.equals(GameMode.HOT_SWAP);
     }
 
+    /**
+     * A method that gets the store and is only used in tests.
+     * @return : Store
+     */
     public Store getStore() {
         return store;
     }
-
+    /**
+     * A method that gets the lottery and is only used in tests.
+     * @return : Lottery
+     */
     Lottery getLottery() {
         return lottery;
     }
 
-    boolean isGameIsStarted() {
-        return gameIsStarted;
-
-    }
-
-     Deque<Question> getRoundQuestions() {
+    /**
+     * A method that gets the round questions and is only used in tests.
+     * @return : Deque that holds questions.
+     */
+    Deque<Question> getRoundQuestions() {
         return roundQuestions;
     }
 
